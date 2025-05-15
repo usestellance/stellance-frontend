@@ -1,7 +1,9 @@
-import React from 'react'
+import React from "react";
 
 export default function ForClient() {
   return (
-    <div>ForClient</div>
-  )
+    <section className="pt-14 pb-12 sm:pb-12">
+      {/* <div className="container">ddd</div> */}
+    </section>
+  );
 }
