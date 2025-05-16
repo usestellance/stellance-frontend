@@ -24,7 +24,7 @@ function Header() {
             isOpen ? "max-md:translate-0" : "max-md:-translate-y-[200%]"
           } `}
         >
-          <IoClose size={28} className={`fixed top-10 right-10 md:hidden  `} />
+          <IoClose size={28} className={`fixed top-10 right-10 md:hidden`} />
           <Link href="#" className="hover:scale-[1.1] duration-150">
             Solution
           </Link>
