@@ -27,7 +27,7 @@ const Button: FC<ButtonProps> = ({
       className={`${className} font-medium rounded-[34px] text-[18px] cursor-pointer hover:scale-[1.05] active:scale-[0.99] duration-150 ${
         style === "primary" && "bg-primary text-text-white"
       } ${style === "secondary" && "bg-secondary text-text-white"} ${
-        style === "tertiary" && "bg-white text-primary"
+        style === "tertiary" && " text-primary"
       }`}
     >
       {loading ? "loading" : children}
