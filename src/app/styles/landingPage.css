@@ -1,0 +1,14 @@
+@import "./globals.css";
+
+body {
+  @apply text-text-black;
+}
+
+section {
+  @apply pt-14 pb-12 sm:pb-12;
+}
+.myContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  @apply px-4 lg:px-8;
+}

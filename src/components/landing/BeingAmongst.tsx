@@ -1,11 +1,11 @@
 import Image from "next/image";
 import React from "react";
-import Button from "../ui/Button";
+import Button from "./ui/Button";
 
 export default function BeingAmongst() {
   return (
     <div className="pb-20 md:pt-28">
-      <div className="container flex flex-col md:flex-row pt-16 bg-[#f7f7f7] minh-[50vh] md:min-h-[559px] pb-14 rounded-b-2xl md:rounded-[36px] md:items-center">
+      <div className="myContainer flex flex-col md:flex-row pt-16 bg-[#f7f7f7] minh-[50vh] md:min-h-[559px] pb-14 rounded-b-2xl md:rounded-[36px] md:items-center">
         <div className="md:flex-1">
           <div className="px-8 flex flex-col justify-center max-md:items-center">
             <h2 className="text-2xl font-bold text-text-black max-md:text-center sm:text-[32px]">

@@ -1,11 +1,11 @@
 import React from "react";
-import Button from "../ui/Button";
+import Button from "./ui/Button";
 import Image from "next/image";
 
 export default function Hero() {
   return (
     <section className="pt-20 pb-12 sm:pb-28">
-      <div className="container">
+      <div className="myContainer">
         <div className="mt-10 sm:mt-20">
           <h1 className="font-bold text-4xl text-center sm:text-[64px]">
             Do business worldwide, receive money without restrictions

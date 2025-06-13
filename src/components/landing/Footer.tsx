@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../ui/Logo";
+import Logo from "./ui/Logo";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { CiLinkedin } from "react-icons/ci";
@@ -10,7 +10,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-primary pt-20 pb-10 min-h-[50vh]">
-      <div className="container text-text-white">
+      <div className="myContainer text-text-white">
         <div className="flex max-[390px]:justify-center items-center">
           <Logo type="secondary" />
         </div>

@@ -7,7 +7,7 @@ export default function ForClient() {
 
   return (
     <section className="pt-14 pb-12 sm:pb-20 px-4 sm:px-8">
-      <div className="container">
+      <div className="myContainer">
         <div className="flex justify-center mb-14">
           <div
             onClick={() => setActive(!active)}

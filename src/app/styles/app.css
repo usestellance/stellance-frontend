@@ -1,0 +1,35 @@
+@import "./globals.css";
+
+/* @custom-variant dark (&:where(.dark, .dark *)); */
+
+.body {
+  @apply text-[#14171f] dark:text-[#fff];
+}
+
+input {
+  @apply bg-red-400 dark:bg-blue-500;
+}
+
+/* Spinner */
+.svg-loader {
+  animation: rotate 1s linear infinite;
+}
+
+.svg-loader .outer-ring {
+  transform-origin: 50px 50px; /* Center of the 100x100 viewBox */
+  animation: rotate 2s linear infinite;
+}
+
+.svg-loader .inner-ring {
+  transform-origin: 50px 50px; /* Center of the 100x100 viewBox */
+  animation: rotate 0.5s linear infinite reverse;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

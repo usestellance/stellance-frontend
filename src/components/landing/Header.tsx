@@ -5,16 +5,27 @@ import { IoIosMenu } from "react-icons/io";
 import Button from "./ui/Button";
 import Link from "next/link";
 import { IoClose } from "react-icons/io5";
+import { useRouter } from "next/navigation";
+import { signInRoute, signUpRoute } from "../../../utils/route";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  const gotoSignIn = () => {
+    router.push(signInRoute);
+  };
+  const gotoSignUp = () => {
+    router.push(signUpRoute);
+  };
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#ffffff80] backdrop-blur">
-      <div className="container flex flex-row-reverse md:flex-row justify-between items-center py-4 sm:py-8 bgred-400">
+      <div className="myContainer flex flex-row-reverse md:flex-row justify-between items-center py-4 sm:py-8 bgred-400">
         <Logo type="primary" />
         <IoIosMenu size={28} className="md:hidden" onClick={toggleMenu} />
 
@@ -37,10 +48,20 @@ function Header() {
         </div>
 
         <div className="md:flex justify-center items-center hidden ">
-          <Button style="primary" type="button" className="py-2 px-6">
+          <Button
+            onClick={gotoSignUp}
+            style="primary"
+            type="button"
+            className="py-2 px-6"
+          >
             Sign up
           </Button>
-          <Button style="tertiary" type="button" className="py-2 px-6">
+          <Button
+            onClick={gotoSignIn}
+            style="tertiary"
+            type="button"
+            className="py-2 px-6"
+          >
             Login
           </Button>
         </div>
