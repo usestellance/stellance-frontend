@@ -1,9 +1,9 @@
 @import "./globals.css";
 
-/* @custom-variant dark (&:where(.dark, .dark *)); */
+@custom-variant dark (&:where(.dark, .dark *));
 
 .body {
-  @apply text-[#14171f] dark:text-[#fff];
+  @apply text-[#14171f] bg-white dark:text-[#fff] dark:bg-primary;
 }
 
 input {

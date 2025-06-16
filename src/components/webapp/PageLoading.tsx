@@ -1,4 +1,4 @@
-import React from "react";
+import Logo from "./ui/Logo";
 
 export default function PageLoading({
   showLogo = true,
@@ -6,8 +6,8 @@ export default function PageLoading({
   showLogo: boolean;
 }) {
   return (
-    <div className=" absolute top-0 bottom-0 left-0 right-0 bg-white dark:bg-primary">
-      {showLogo && <div>logo</div>}
+    <div className=" absolute top-0 bottom-0 left-0 right-0 bg-white dark:bg-primary p-[30px]">
+      {showLogo && <Logo />}
       <div className="flex justify-center items-center h-full">
         <svg
           className="svg-loader"
