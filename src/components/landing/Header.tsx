@@ -6,7 +6,7 @@ import Button from "./ui/Button";
 import Link from "next/link";
 import { IoClose } from "react-icons/io5";
 import { useRouter } from "next/navigation";
-import { signInRoute, signUpRoute } from "../../../utils/route";
+import { signInRoute, signUpRoute } from "../../utils/route";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);

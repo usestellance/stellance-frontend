@@ -31,6 +31,7 @@ const AppButton: React.FC<ButtonProps> = ({
   download,
   className,
   disabled,
+  onClick,
   loading,
 }) => {
   const themeMap = {
@@ -91,7 +92,12 @@ const AppButton: React.FC<ButtonProps> = ({
 
   // Render as button
   return (
-    <button disabled={disabled} type={type} className={finalClass}>
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      type={type}
+      className={finalClass}
+    >
       {loading ? <BtnLoader /> : children}
     </button>
   );

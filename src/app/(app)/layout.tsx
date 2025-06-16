@@ -14,7 +14,7 @@ export default function Layout({
 }>) {
   return (
     <div className="body dak ">
-      <div className="min-h-screen relative pb-10">{children}</div>
+      <div className="min-h-screen relative">{children}</div>
       <Toaster position="top-right" richColors theme="system" />
     </div>
   );

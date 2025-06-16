@@ -1,22 +1,19 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
-import { signUpValidation } from "../../../lib/validations/userValidations";
+import { signInValidation } from "../../../lib/validations/userValidations";
 import InputField from "../ui/InputField";
 import AppButton from "../ui/AppButton";
-import Link from "next/link";
-import { getPasswordStrength } from "../../../utils/helpers/passwordStrength";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { verificationRoute } from "../../../utils/route";
 
 interface ILogin {
   email: string;
   password: string;
 }
 
-export default function SignUpForm() {
+export default function SignInForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const formik = useFormik<ILogin>({
@@ -24,25 +21,18 @@ export default function SignUpForm() {
       email: "",
       password: "",
     },
-    validationSchema: signUpValidation,
+    validationSchema: signInValidation,
     onSubmit: (values) => {
       setLoading(true);
       console.log(values);
-      router.push(verificationRoute(values.email));
+      router.push("#");
 
       setTimeout(() => {
         setLoading(false);
-        toast.success("Verification Sent");
+        toast.success("Login Successful");
       }, 1000);
     },
   });
-
-  const strength = useMemo(
-    () => getPasswordStrength(formik.values.password),
-    [formik.values.password]
-  );
-
-  // console.log(formik.isValid);
 
   return (
     <div>
@@ -74,27 +64,7 @@ export default function SignUpForm() {
               formik.touched.password ? formik.errors.password || null : null
             }
           />
-
-          {/* Password Strength Meter */}
-          {formik.values.password.length > 0 && (
-            <div className="mt-2">
-              <div className="w-full h-2 bg-[#cccccc] rounded-[6px] overflow-hidden">
-                <div
-                  className={`h-full ${strength.color}`}
-                  style={{ width: `${(strength.score / 4) * 100}%` }}
-                />
-              </div>
-              <p className="mt-1 text-xs font-medium ">{strength.label}</p>
-            </div>
-          )}
         </div>
-
-        <p className="text-center text-xs text-primary dark:text-secondary mt-4 sm:text-lg sm:text-white">
-          By creating an account you agree to all of our <br />
-          <Link href="#" className="font-bold underline underline-offset-3">
-            Terms and Conditions
-          </Link>
-        </p>
 
         <AppButton
           type="submit"

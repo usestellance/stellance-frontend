@@ -2,13 +2,21 @@ import Logo from "./ui/Logo";
 
 export default function PageLoading({
   showLogo = true,
+  style = "fixed h-screen",
 }: {
-  showLogo: boolean;
+  showLogo?: boolean;
+  style?: string;
 }) {
   return (
-    <div className=" absolute top-0 bottom-0 left-0 right-0 bg-white dark:bg-primary p-[30px]">
+    <div
+      className={` ${style} top-0 bottom-0 left-0 right-0 bg-white dark:bg-primary p-[30px] overflow-hidden`}
+    >
       {showLogo && <Logo />}
-      <div className="flex justify-center items-center h-full">
+      <div
+        className={` ${
+          showLogo && "-mt-10"
+        } flex justify-center items-center h-full `}
+      >
         <svg
           className="svg-loader"
           width="100"

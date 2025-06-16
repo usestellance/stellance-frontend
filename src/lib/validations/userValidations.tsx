@@ -8,7 +8,7 @@ export const isStrongPassword = (password: string) => {
   );
 };
 
-export const loginValidation = Yup.object().shape({
+export const signUpValidation = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
@@ -28,4 +28,11 @@ export const loginValidation = Yup.object().shape({
       return value ? isStrongPassword(value) : false;
     })
     .required("Password is required"),
+});
+
+export const signInValidation = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: Yup.string().required("Password is required"),
 });

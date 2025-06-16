@@ -3,7 +3,7 @@ import React from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import Cards from "./Cards";
-import { aboutStellance } from "../../../../utils/contents";
+import { aboutStellance } from "../../../utils/contents";
 
 const SplideSlider = () => {
   return (

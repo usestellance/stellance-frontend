@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import SignUpForm from "../../../../components/webapp/forms/SignUpForm";
-import { signInRoute } from "../../../../../utils/route";
+import { signInRoute } from "../../../../utils/route";
 // import Logo from "../../../../components/webapp/ui/Logo";
 
 export default function Page() {

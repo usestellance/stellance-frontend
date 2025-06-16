@@ -1,30 +1,24 @@
-import React from "react";
-// import "@/app/styles/app.css";
+"use client";
 
-export default function page() {
+import Link from "next/link";
+import { signUpRoute } from "../../../../utils/route";
+import SignInForm from "../../../../components/webapp/forms/SignInForm";
+// import Logo from "../../../../components/webapp/ui/Logo";
+
+export default function Page() {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5">
-      <div>
-        <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 shadow-lg">
-          <svg className="h-6 w-6 stroke-white"></svg>
-        </span>
-      </div>
-      <h3 className=" mt-5 text-base font-medium tracking-tight ">
-        Writes upside-down
-      </h3>
-      <p className=" mt-2 text-sm ">
-        The Zero Gravity Pen can be used to write in any orientation, including
-        upside-down. It even works in outer space.
+    <section className=" sm:bg-primary sm:shadow sm:rounded-[10px] sm:px-[60px] sm:py-[78px] sm:text-white dark:sm:bg-white sm:dark:text-[#14171F]">
+      <h2 className="auth-title">Welcome Back!</h2>
+      <p className="auth-subtitle mb-[30px]">
+        Don&apos;t have an account?{" "}
+        <Link
+          className="font-bold sm:text-white dark:sm:text-secondary"
+          href={signUpRoute}
+        >
+          Sign up
+        </Link>
       </p>
-
-      <input type="text" />
-      <div>
-        <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 shadow-lg">
-          <svg className="h-6 w-6 stroke-white"></svg>
-        </span>
-      </div>
-
-     
-    </div>
+      <SignInForm />
+    </section>
   );
 }

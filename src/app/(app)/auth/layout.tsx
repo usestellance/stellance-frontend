@@ -1,3 +1,4 @@
+// import PageLoading from "../../../components/webapp/PageLoading";
 import Logo from "../../../components/webapp/ui/Logo";
 
 export default function Layout({
@@ -6,9 +7,10 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="px-5 pt-7 md:py-[60px] max-w-[1500px] mx-auto">
+    <div className="px-5 pt-7 pb-16 lg:py-[60px] max-w-[1500px] mx-auto relative min-h-screen">
       <Logo />
-      <div className="mt-[46px] relative max-w-[620px] mx-auto">{children}</div>
+      {/* <PageLoading showLogo /> */}
+      <div className="mt-10 relative max-w-[620px] mx-auto">{children}</div>
     </div>
   );
 }
