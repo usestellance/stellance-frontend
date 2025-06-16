@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/app/styles/app.css";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Stellance - App",
@@ -13,7 +14,8 @@ export default function Layout({
 }>) {
   return (
     <div className="body dak ">
-      <div className="min-h-screen relative">{children}</div>
+      <div className="min-h-screen relative pb-10">{children}</div>
+      <Toaster position="top-right" richColors theme="system" />
     </div>
   );
 }

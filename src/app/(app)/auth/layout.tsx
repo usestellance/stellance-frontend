@@ -6,9 +6,9 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="px-4 pt-4">
-        <Logo  />
-      <div>{children}</div>
+    <div className="px-5 pt-7 md:py-[60px] max-w-[1500px] mx-auto">
+      <Logo />
+      <div className="mt-[46px] relative max-w-[620px] mx-auto">{children}</div>
     </div>
   );
 }

@@ -1,17 +1,24 @@
-import React from "react";
-import AppButton from "../../../../components/webapp/ui/AppButton";
-import PageLoading from "../../../../components/webapp/PageLoading";
+"use client";
+
+import Link from "next/link";
+import SignUpForm from "../../../../components/webapp/forms/SignUpForm";
+import { signInRoute } from "../../../../../utils/route";
+// import Logo from "../../../../components/webapp/ui/Logo";
 
 export default function Page() {
   return (
-    <section className="bg-primay  p-5 bg-primar ">
-      <div className="bgsecondary">dddd</div>
-      <AppButton disabled={true} theme="primary">
-        Clllllllllllllllllllick me
-      </AppButton>
-      <div className="h-[500px] relative">
-        <PageLoading showLogo={false} />
-      </div>
+    <section className=" sm:bg-primary sm:shadow sm:rounded-[10px] sm:px-[60px] sm:py-[78px] sm:text-white dark:sm:bg-white sm:dark:text-[#14171F]">
+      <h2 className="auth-title">Get Started</h2>
+      <p className="auth-subtitle mb-[30px]">
+        Already using Stellance?{" "}
+        <Link
+          className="font-bold sm:text-white dark:sm:text-secondary"
+          href={signInRoute}
+        >
+          Sign in
+        </Link>
+      </p>
+      <SignUpForm />
     </section>
   );
 }
