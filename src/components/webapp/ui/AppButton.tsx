@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import BtnLoader from "./BtnLoader";
 
 export interface ButtonProps {
   type?: "button" | "submit" | "reset";
@@ -15,6 +16,7 @@ export interface ButtonProps {
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   id?: string;
+  loading?: boolean;
   className?: string;
 }
 
@@ -29,11 +31,12 @@ const AppButton: React.FC<ButtonProps> = ({
   download,
   className,
   disabled,
+  loading,
 }) => {
   const themeMap = {
     primary: `text-white ${
       disabled
-        ? "bg-primary-disabled dark:bg-secondary-disabled cursor-not-allowed"
+        ? "bg-primary-disabled dark:bg-secondary-disabled"
         : "bg-primary dark:bg-secondary"
     }`,
     secondary: `text-primary bg-white`,
@@ -41,13 +44,17 @@ const AppButton: React.FC<ButtonProps> = ({
   };
 
   const sizeMap = {
-    sm: "text-sm font-bold h-[42px] lg:h-[60px] lg:text-lg",
-    lg: "text-base font-medium h-[43px] lg:h-[60px] lg:text-lg lg:font-bold",
+    sm: "text-sm font-bold h-[42px] sm:h-[50px] sm:text-base lg:h-[60px] lg:text-lg",
+    lg: "text-base font-medium h-[43px] sm:h-[50px] sm:text-base lg:h-[60px] lg:text-lg lg:font-bold",
   };
 
   const sizeClasses = sizeMap[size];
   const finalClass =
-    `cursor-pointer whitespace-nowrap inline-block text-center rounded-[24px] no-underline hover:scale-102 duration-150 active:scale-100 min-w-[119px] px-8 py-3  ${
+    `whitespace-nowrap block text-center rounded-[24px] no-underline ${
+      disabled
+        ? " cursor-not-allowed"
+        : "cursor-pointer hover:scale-102 duration-150 active:scale-100"
+    } min-w-[119px] px-8 py-3  ${
       !customTheme && themeMap[theme]
     } ${sizeClasses} ${customTheme} ${className || ""}`.trim();
 
@@ -85,7 +92,7 @@ const AppButton: React.FC<ButtonProps> = ({
   // Render as button
   return (
     <button disabled={disabled} type={type} className={finalClass}>
-      {children}
+      {loading ? <BtnLoader /> : children}
     </button>
   );
 };

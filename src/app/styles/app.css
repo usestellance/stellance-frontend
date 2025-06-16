@@ -1,13 +1,20 @@
 @import "./globals.css";
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* @custom-variant dark (&:where(.dark, .dark *)); */
 
 .body {
   @apply text-[#14171f] bg-white dark:text-[#fff] dark:bg-primary;
 }
 
-input {
-  @apply bg-red-400 dark:bg-blue-500;
+.input-class {
+  @apply w-full border px-[10px] text-sm font-medium py-3 h-[43px] rounded-md placeholder:text-[#BFBFBF] focus:border-primary  focus:dark:border-secondary focus:outline-none caret-primary dark:caret-secondary sm:h-[60px] sm:text-base sm:py-4;
+}
+
+.auth-title {
+  @apply text-[28px] font-bold tracking-[-1px] leading-[44px] sm:text-[34px];
+}
+.auth-subtitle {
+  @apply text-sm tracking-[0.15px] leading-[24px] sm:text-base sm:mt-2;
 }
 
 /* Spinner */
