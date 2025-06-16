@@ -3,13 +3,13 @@ import React, { useMemo, useState } from "react";
 import { useFormik } from "formik";
 import { signUpValidation } from "../../../lib/validations/userValidations";
 import InputField from "../ui/InputField";
-import AppButton from "../ui/AppButton";
 import Link from "next/link";
 import { getPasswordStrength } from "../../../utils/helpers/passwordStrength";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { verificationRoute } from "../../../utils/route";
+import AppButton from "../ui/AppButton";
 
 interface ILogin {
   email: string;
