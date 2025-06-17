@@ -1,6 +1,7 @@
 import React from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
 import { invoiceRoute } from "../../../../utils/route";
+import InvoiceList from "../../../../components/webapp/InvoiceList";
 
 const StatsCard = () => {
   return (
@@ -54,6 +55,11 @@ export default function Page() {
 
       <section className="mt-[47px] lg:text-[60px]">
         <h4 className="section-subtitle">Latest Invoices</h4>
+        <div className="flex flex-col gap-[15px] mt-3">
+          <InvoiceList />
+          <InvoiceList />
+          <InvoiceList />
+        </div>
       </section>
     </div>
   );
