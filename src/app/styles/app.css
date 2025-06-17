@@ -1,6 +1,6 @@
 @import "./globals.css";
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* @custom-variant dark (&:where(.dark, .dark *)); */
 
 .body {
   @apply text-[#14171f] bg-white dark:text-[#fff] dark:bg-primary;
@@ -18,6 +18,24 @@
 }
 .auth-subtitle {
   @apply text-sm tracking-[0.15px] leading-[24px] sm:text-base sm:mt-2;
+}
+
+.section-title {
+  @apply text-[22px] font-bold leading-[25px] sm:text-3xl lg:text-4xl;
+}
+.section-subtitle {
+  @apply text-sm font-bold leading-[25px] sm:text-2xl;
+}
+
+.myContainer {
+  @apply px-4 sm:px-[30px] md:px-[40px] xl:px-[60px];
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+  scrollbar-width: 1px;
+  scroll-behavior: smooth;
+  scrollbar-color: black;
 }
 
 /* Spinner */

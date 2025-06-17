@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 
 const Logo = ({
-  height = "h-[34px] md:h-[80px] lg:h-[113px]",
+  height = "h-[34px] sm:h-10 md:h-[80px] lg:h-[113px]",
 }: {
   height?: string;
 }) => {

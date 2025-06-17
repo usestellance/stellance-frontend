@@ -97,6 +97,7 @@ export default function SignUpForm() {
         </p>
 
         <AppButton
+          size="lg"
           type="submit"
           className="w-full mt-5 sm:hidden"
           disabled={!(formik.isValid && formik.dirty)}
@@ -105,6 +106,7 @@ export default function SignUpForm() {
           Sign in
         </AppButton>
         <AppButton
+          size="lg"
           loading={loading}
           type="submit"
           className="w-full mt-5"
@@ -118,6 +120,7 @@ export default function SignUpForm() {
       <div className="text-center text-xs my-5">OR</div>
 
       <AppButton
+        size="lg"
         customTheme="border border-[#aaaaaa]"
         className="flex justify-center w-full items-center font-medium text-base gap-2"
       >

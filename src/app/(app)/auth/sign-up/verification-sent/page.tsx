@@ -49,6 +49,7 @@ export default function Page() {
       </div>
 
       <AppButton
+        size="lg"
         onClick={resend}
         className="mx-auto w-full mt-10 sm:hidden"
         loading={loading}
@@ -56,6 +57,7 @@ export default function Page() {
         Resend Verification Email
       </AppButton>
       <AppButton
+        size="lg"
         onClick={resend}
         loading={loading}
         customTheme="mx-auto w-full mt-10 bg-white text-primary max-sm:hidden dark:text-white dark:bg-secondary"

@@ -5,3 +5,7 @@ export const verificationRoute = (email: string) =>
 export const signInRoute = "/auth/sign-in";
 export const accountSetUpRoute = "/auth/account-setup";
 export const createFirstInvoiceRoute = "/auth/create-first-invoice";
+
+// DashBoard Routes
+export const dashboardRoute = "/dashboard";
+export const invoiceRoute = "/invoice";

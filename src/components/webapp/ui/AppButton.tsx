@@ -4,7 +4,7 @@ import BtnLoader from "./BtnLoader";
 
 export interface ButtonProps {
   type?: "button" | "submit" | "reset";
-  size?: "sm";
+  size: "sm" | "lg";
   theme?: "primary" | "secondary" | "tetiary";
   customTheme?: string;
   children: React.ReactNode;
@@ -45,8 +45,8 @@ const AppButton: React.FC<ButtonProps> = ({
   };
 
   const sizeMap = {
-    sm: "text-sm font-bold h-[42px] sm:h-[50px] sm:text-base lg:h-[60px] lg:text-lg",
-    lg: "text-base font-medium h-[43px] sm:h-[50px] sm:text-base lg:h-[60px] lg:text-lg lg:font-bold",
+    sm: "text-sm px-[18px] font-bold h-[42px] sm:h-[50px] sm:text-base lg:h-[60px] lg:text-lg",
+    lg: "text-base px-8 font-medium h-[43px] sm:h-[50px] sm:text-base lg:h-[60px] lg:text-lg lg:font-bold",
   };
 
   const sizeClasses = sizeMap[size];
@@ -55,7 +55,7 @@ const AppButton: React.FC<ButtonProps> = ({
       disabled
         ? " cursor-not-allowed"
         : "cursor-pointer hover:scale-102 duration-150 active:scale-100"
-    } min-w-[119px] px-8 py-3  ${
+    } min-w-[119px]  py-3  ${
       !customTheme && themeMap[theme]
     } ${sizeClasses} ${customTheme} ${className || ""}`.trim();
 

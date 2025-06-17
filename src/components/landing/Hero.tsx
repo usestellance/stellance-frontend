@@ -1,9 +1,9 @@
-"use client"
+'use client'
 import React from "react";
 import Button from "./ui/Button";
 import Image from "next/image";
-import { useRouter } from "next/navigation";  
 import { signInRoute } from "../../utils/route";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
   const router = useRouter();
