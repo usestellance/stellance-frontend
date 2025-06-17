@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { countryCodes } from "../../../utils/contents/countryCodes";
 import ComboboxField from "../ui/ComboboxField";
 import { Description, Field, Input, Label } from "@headlessui/react";
+import { createFirstInvoiceRoute } from "../../../utils/route";
 
 interface IAccountSetUp {
   firstName: string;
@@ -56,7 +57,7 @@ export default function AccountSetupForm() {
 
       // const phone = countryCode.code + phoneNumber;
 
-      router.push("#");
+      router.push(createFirstInvoiceRoute);
 
       setTimeout(() => {
         setLoading(false);
@@ -133,12 +134,12 @@ export default function AccountSetupForm() {
 
           <div className="relative flex gap-2">
             {/* Country Code Input */}
-            <div className="basis-1/4">
+            <div className="basis-1/5">
               <Input
                 id="countryCode"
                 name="countryCode"
-                type="text"
-                placeholder="+234"
+                type="number"
+                placeholder="234"
                 value={formik.values.countryCode}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
