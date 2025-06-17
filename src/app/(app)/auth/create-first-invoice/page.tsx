@@ -5,7 +5,7 @@ import { LuCircleCheckBig } from "react-icons/lu";
 
 export default function Page() {
   return (
-    <section className=" sm:bg-primary sm:shadow sm:rounded-[10px] sm:px-[60px] sm:py-[78px] sm:text-white dark:sm:bg-white sm:dark:text-[#14171F] mb-20 flex items-center justify-center sm:min-h-[800px] sm:mb-0">
+    <section className="sm:bg-primary sm:shadow sm:rounded-[10px] sm:px-[60px] sm:py-[78px] sm:text-white dark:sm:bg-white sm:dark:text-[#14171F] mb-20 flex items-center justify-center sm:min-h-[800px] sm:mb-0">
       <div className="mt-[50px] sm:mt-0 w-full flex flex-col items-center">
         <LuCircleCheckBig className="text-[150px] mx-auto stroke-1 sm:text-[210px]" />
         <p className="text-xl font-bold mt-5">Account Created Successfully!</p>
