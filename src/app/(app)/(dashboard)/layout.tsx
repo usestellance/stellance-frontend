@@ -12,7 +12,7 @@ export default function Layout({
       <AppHeader />
       <div className="md:h-screen flex justify-between">
         <AppSideBar />
-        <div className="min-h-screen flex-1 relative pt-20 pb-20">
+        <div className="min-h-screen flex-1 relative pt-20 md:pt-24 pb-20 overflow-y-auto hide-scroll">
           {children}
         </div>
       </div>

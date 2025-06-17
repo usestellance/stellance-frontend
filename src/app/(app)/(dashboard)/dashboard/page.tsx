@@ -36,6 +36,36 @@ const StatsCard = () => {
 };
 
 export default function Page() {
+  const sampleInvoices = [
+    {
+      id: "INV-001",
+      customer: { name: "John Doe", email: "john@example.com" },
+      description: "Web Development Services",
+      dateIssued: "2024-01-15",
+      dueDate: "2024-02-15",
+      amount: 2500.0,
+      status: "Pending",
+    },
+    {
+      id: "INV-002",
+      customer: { name: "Jane Smith", email: "jane@company.com" },
+      description: "Mobile App Design",
+      dateIssued: "2024-01-10",
+      dueDate: "2024-02-10",
+      amount: 3200.0,
+      status: "Paid",
+    },
+    {
+      id: "INV-003",
+      customer: { name: "Bob Wilson", email: "bob@startup.io" },
+      description: "SEO Optimization Package",
+      dateIssued: "2024-01-08",
+      dueDate: "2024-01-25",
+      amount: 1800.0,
+      status: "Overdue",
+    },
+  ];
+
   return (
     <div className="myContainer">
       <section className="flex max-[290px]:flex-col gap-2 max-[290px]:gap-5 items-center justify-between mt-5">
@@ -53,13 +83,70 @@ export default function Page() {
         <StatsCard />
       </section>
 
-      <section className="mt-[47px] lg:text-[60px]">
+      <section className="mt-[47px] lg:mt-[60px]">
         <h4 className="section-subtitle">Latest Invoices</h4>
-        <div className="flex flex-col gap-[15px] mt-3">
-          <InvoiceList />
-          <InvoiceList />
-          <InvoiceList />
+        <div className="flex flex-col gap-[15px] mt-3 xl:hidden">
+          {sampleInvoices.map((invoice) => (
+            <InvoiceList key={invoice.id} invoice={invoice} />
+          ))}
         </div>
+
+        <table className="min-w-full text-text-strong dark:text-white max-xl:hidden">
+          {/* Table Header */}
+          <thead className="bg-[#D9E4F866] rounded-[5px] overflow-hidden mb-2">
+            <tr className="rounded-[5px]">
+              <th
+                scope="col"
+                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+              >
+                Invoice ID
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+              >
+                Customer Details
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+              >
+                Description
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+              >
+                Date Issued
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+              >
+                Due Date
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+              >
+                Amount
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+              >
+                Status
+              </th>
+            </tr>
+          </thead>
+
+          {/* Table Body */}
+          <tbody className="mt-2">
+            {sampleInvoices.map((invoice) => (
+              <InvoiceList key={invoice.id} invoice={invoice} />
+            ))}
+          </tbody>
+        </table>
       </section>
     </div>
   );

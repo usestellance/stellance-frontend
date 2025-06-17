@@ -14,7 +14,7 @@ export default function Page() {
         </AppButton>
         <AppButton
           size="lg"
-          type="button"
+          href="/invoice"
           className="w-full mt-10"
           customTheme="bg-white text-primary max-sm:hidden dark:text-white dark:bg-secondary"
         >
@@ -22,7 +22,7 @@ export default function Page() {
         </AppButton>
 
         <Link
-          href="/"
+          href="/dashboard"
           className="underline underline-offset-2 text-sm mt-5 sm:text-lg"
         >
           Later

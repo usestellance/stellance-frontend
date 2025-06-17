@@ -31,6 +31,13 @@
   @apply px-4 sm:px-[30px] md:px-[40px] xl:px-[60px];
 }
 
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+  scrollbar-width: 1px;
+  scroll-behavior: smooth;
+  scrollbar-color: black;
+}
+
 /* Spinner */
 .svg-loader {
   animation: rotate 1s linear infinite;
