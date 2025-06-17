@@ -15,14 +15,14 @@ export default function AppHeader() {
             <Logo />
           </div>
         </div>
-        <div className="flex items-center gap-[13px] lg:gap-5">
+        <div className="flex items-center gap-[13px] sm:gap-4 lg:gap-5">
           {/* notification svg */}
           <svg
             // width="22"
             // height="22"
             viewBox="0 0 22 22"
             // fill="none"
-            className="fill-white md:fill-primary dark:md:fill-white h-[22px] w-[22px] lg:h-8 lg:w-8 object-contain"
+            className="fill-white md:fill-primary dark:md:fill-white h-[22px] w-[22px] sm:h-6 sm:w-6 lg:h-7 lg:w-7 object-contain"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
@@ -35,7 +35,7 @@ export default function AppHeader() {
           {/* user svg */}
           {/* <PiUserCircleThin className="text-[28px] block dark:hidden" /> */}
           <svg
-            className="h-6 w-6 lg:h-10 lg:w-10"
+            className="h-6 w-6 sm:h-8 sm:w-8 lg:h-9 lg:w-9"
             // width="24"
             // height="24"
             viewBox="0 0 22 22"
@@ -56,16 +56,16 @@ export default function AppHeader() {
             />
           </svg>
 
-          <div className="max-md:hidden text-xl lg:text-[28px] font-bold">
+          <div className="max-md:hidden text-xl lg:text-[24px] font-bold">
             John Doe
           </div>
 
           {/* Menu icon */}
           <svg
             onClick={toggleSideBar}
-            className="cursor-pointer md:hidden"
-            width="28"
-            height="28"
+            className="cursor-pointer h-7 w-7 sm:h-10 sm:w-10 md:hidden"
+            // width="28"
+            // height="28"
             viewBox="0 0 22 22"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

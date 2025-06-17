@@ -21,7 +21,7 @@
 }
 
 .myContainer {
-  @apply px-4;
+  @apply px-4 sm:px-[30px];
 }
 
 /* Spinner */
