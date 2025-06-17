@@ -1,5 +1,13 @@
 import React from "react";
 
+const CreateInvoice = () => {
+  return <div></div>;
+};
+
 export default function Page() {
-  return <div>Invoice</div>;
+  return (
+    <div>
+      <CreateInvoice />
+    </div>
+  );
 }

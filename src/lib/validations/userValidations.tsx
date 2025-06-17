@@ -64,15 +64,15 @@ export const accountSetupValidation = Yup.object().shape({
 
   countryCode: Yup.string()
     .trim()
-    .matches(/^\d+$/, "Country code must be digits only")
-    .required("Country code is required"),
+    .matches(/^\d+$/, "Country code must be digits only"),
+    // .required("Country code is required"),
 
   phoneNumber: Yup.string()
     .trim()
     .matches(/^\d+$/, "Phone number must be digits only")
     .min(7, "Phone number too short")
-    .max(15, "Phone number too long")
-    .required("Phone number is required"),
+    .max(15, "Phone number too long"),
+    // .required("Phone number is required"),
 
   country: Yup.string().trim().required("Country is required"),
 });

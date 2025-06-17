@@ -161,8 +161,8 @@ export default function AppSideBar() {
           >
             <IoIosClose className="text-3xl text-text-black" />
           </button>
-          <div className="mt-8">
-            <div className={`h-[34px] md:h-[80px] inline-block`}>
+          <div className="mt-6">
+            <div className={`h-[44px] md:h-[80px] inline-block`}>
               <Image
                 src="/images/logo-light.svg"
                 alt="Stellance Logo"
