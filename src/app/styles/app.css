@@ -20,6 +20,10 @@
   @apply text-sm tracking-[0.15px] leading-[24px] sm:text-base sm:mt-2;
 }
 
+.myContainer {
+  @apply px-4;
+}
+
 /* Spinner */
 .svg-loader {
   animation: rotate 1s linear infinite;
