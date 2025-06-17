@@ -54,15 +54,18 @@ export const accountSetupValidation = Yup.object().shape({
   businessName: Yup.string()
     .trim()
     .min(2, "Business name is too short")
-    .max(100, "Business name is too long")
-    .required("Business name is required"),
+    .max(100, "Business name is too long"),
+  // .required("Business name is required"),
 
-  walletAddress: Yup.string()
+  // walletAddress: Yup.string()
+  //   .trim()
+  //   .matches(/^G[A-Z0-9]{55}$/, "Invalid Stellar wallet address")
+  //   .required("Wallet address is required"),
+
+  countryCode: Yup.string()
     .trim()
-    .matches(/^G[A-Z0-9]{55}$/, "Invalid Stellar wallet address")
-    .required("Wallet address is required"),
-
-  countryCode: Yup.string().trim().required("Country code is required"),
+    .matches(/^\d+$/, "Country code must be digits only")
+    .required("Country code is required"),
 
   phoneNumber: Yup.string()
     .trim()

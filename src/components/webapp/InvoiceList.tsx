@@ -52,51 +52,18 @@ const InvoiceList: React.FC<InvoiceListProps> = ({ invoice }) => {
   };
 
   return (
-    <>
-      <div className="flex justify-between items-center bg-[#D9E4F866] rounded-[5px] px-[15px] py-3 xl:hidden">
-        <div className="flex flex-col gap-[5px]">
-          <p className="text-xs leading-[25px]">{sampleInvoice.id}</p>
-          <div className="">{getStatusBadge(sampleInvoice.status)}</div>
-        </div>
-        <div className="text-end text-sm">
-          <p>To:</p>
-          <p className="font-bold"> {sampleInvoice.customer.name}</p>
-          <p className="font-bold">$1,000.00</p>
-          <p>
-            Due Date: {new Date(sampleInvoice.dueDate).toLocaleDateString()}
-          </p>
-        </div>
+    <div className="flex justify-between items-center bg-[#D9E4F866] rounded-[5px] px-[15px] py-3 xl:hidden">
+      <div className="flex flex-col gap-[5px]">
+        <p className="text-xs leading-[25px]">{sampleInvoice.id}</p>
+        <div className="">{getStatusBadge(sampleInvoice.status)}</div>
       </div>
-
-      {/* table */}
-      <tr className="border-b bg-[#D9E4F866] transition-colors duration-150 max-xl:hidden">
-        <td className="px-4 py-4 text-sm font-medium">{sampleInvoice.id}</td>
-        <td className="px-4 py-4">
-          <div className="text-sm">
-            <div className="font-medium text-center">
-              {sampleInvoice.customer.name}
-            </div>
-            <div className="">{sampleInvoice.customer.email}</div>
-          </div>
-        </td>
-        <td className="px-4 py-4 text-sm max-w-xs truncate">
-          {sampleInvoice.description}
-        </td>
-        <td className="px-4 py-4 text-sm ">
-          {new Date(sampleInvoice.dateIssued).toLocaleDateString()}
-        </td>
-        <td className="px-4 py-4 text-sm ">
-          {new Date(sampleInvoice.dueDate).toLocaleDateString()}
-        </td>
-        <td className="px-4 py-4 text-sm font-medium ">
-          $
-          {sampleInvoice.amount.toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-          })}
-        </td>
-        <td className="">{getStatusBadge(sampleInvoice.status)}</td>
-      </tr>
-    </>
+      <div className="text-end text-sm">
+        <p>To:</p>
+        <p className="font-bold"> {sampleInvoice.customer.name}</p>
+        <p className="font-bold">$1,000.00</p>
+        <p>Due Date: {new Date(sampleInvoice.dueDate).toLocaleDateString()}</p>
+      </div>
+    </div>
   );
 };
 

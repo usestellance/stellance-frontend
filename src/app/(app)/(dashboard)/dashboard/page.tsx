@@ -2,6 +2,7 @@ import React from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
 import { invoiceRoute } from "../../../../utils/route";
 import InvoiceList from "../../../../components/webapp/InvoiceList";
+import InvoiceListDesktop from "../../../../components/webapp/InvoiceListDesktop";
 
 const StatsCard = () => {
   return (
@@ -91,49 +92,49 @@ export default function Page() {
           ))}
         </div>
 
-        <table className="min-w-full text-text-strong dark:text-white max-xl:hidden">
+        <table className="min-w-full border-separate border-spacing-y-2 overflow-hidden text-text-strong dark:text-white max-xl:hidden mt-[20px]">
           {/* Table Header */}
-          <thead className="bg-[#D9E4F866] rounded-[5px] overflow-hidden mb-2">
-            <tr className="rounded-[5px]">
+          <thead className="bg-[#D9E4F866] overflow-hidden ">
+            <tr className="">
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+                className="px-4 py-5 text-start font-bold "
               >
                 Invoice ID
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+                className="px-4 py-5 text-center font-bold "
               >
                 Customer Details
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+                className="px-4 py-5 text-center font-bold "
               >
                 Description
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+                className="px-4 py-5 text-center font-bold "
               >
                 Date Issued
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+                className="px-4 py-5 text-center font-bold "
               >
                 Due Date
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+                className="px-4 py-5 text-center font-bold "
               >
                 Amount
               </th>
               <th
-                scope="col"
-                className="px-4 py-3 text-left text-xs font-medium  tracking-wider"
+                // scope="col"
+                className="px-4 py-5 text-center font-bold  "
               >
                 Status
               </th>
@@ -141,9 +142,9 @@ export default function Page() {
           </thead>
 
           {/* Table Body */}
-          <tbody className="mt-2">
+          <tbody className="divide-y divide-black">
             {sampleInvoices.map((invoice) => (
-              <InvoiceList key={invoice.id} invoice={invoice} />
+              <InvoiceListDesktop key={invoice.id} invoice={invoice} />
             ))}
           </tbody>
         </table>

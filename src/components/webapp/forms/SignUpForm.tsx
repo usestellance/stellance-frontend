@@ -14,6 +14,7 @@ import AppButton from "../ui/AppButton";
 interface ISignUp {
   email: string;
   password: string;
+  
 }
 
 export default function SignUpForm() {

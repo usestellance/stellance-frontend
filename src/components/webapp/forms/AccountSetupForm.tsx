@@ -96,21 +96,35 @@ export default function AccountSetupForm() {
             formik.touched.lastName ? formik.errors.lastName || null : null
           }
         />
-        <InputField
-          name="businessName"
-          label="Business Name"
-          placeholder="Business name"
-          type="text"
-          value={formik.values.businessName}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={
-            formik.touched.businessName
-              ? formik.errors.businessName || null
-              : null
-          }
-        />
 
+        <ComboboxField
+          name="country"
+          label="Country (Residence)"
+          value={
+            countryOptions.find(
+              (option) => option.value === formik.values.country
+            ) || null
+          }
+          onChange={(option) => formik.setFieldValue("country", option.value)}
+          // onBlur={() => formik.setFieldTouched("country", true)}
+          options={countryOptions}
+          error={formik.touched.country ? formik.errors.country || null : null}
+        />
+          <InputField
+            name="businessName"
+            label="Business Name (Optional)"
+            placeholder="Business name"
+            type="text"
+            value={formik.values.businessName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              formik.touched.businessName
+                ? formik.errors.businessName || null
+                : null
+            }
+          />
+{/* 
         <InputField
           name="walletAddress"
           label="Stellar Wallet Address"
@@ -124,12 +138,12 @@ export default function AccountSetupForm() {
               ? formik.errors.walletAddress || null
               : null
           }
-        />
+        /> */}
 
         {/* Phone Number and country code */}
         <Field>
           <Label htmlFor="phoneNumber" className="label-class">
-            Phone Number
+            Phone Number (Optional)
           </Label>
 
           <div className="relative flex gap-2">
@@ -138,7 +152,7 @@ export default function AccountSetupForm() {
               <Input
                 id="countryCode"
                 name="countryCode"
-                type="number"
+                type="tel"
                 placeholder="234"
                 value={formik.values.countryCode}
                 onChange={formik.handleChange}
@@ -185,20 +199,6 @@ export default function AccountSetupForm() {
             </Description>
           ) : null}
         </Field>
-
-        <ComboboxField
-          name="country"
-          label="Country"
-          value={
-            countryOptions.find(
-              (option) => option.value === formik.values.country
-            ) || null
-          }
-          onChange={(option) => formik.setFieldValue("country", option.value)}
-          // onBlur={() => formik.setFieldTouched("country", true)}
-          options={countryOptions}
-          error={formik.touched.country ? formik.errors.country || null : null}
-        />
 
         <AppButton
           size="lg"
