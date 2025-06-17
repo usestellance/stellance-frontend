@@ -9,10 +9,11 @@ export default function Page() {
       <div className="mt-[50px] sm:mt-0 w-full flex flex-col items-center">
         <LuCircleCheckBig className="text-[150px] mx-auto stroke-1 sm:text-[210px]" />
         <p className="text-xl font-bold mt-5">Account Created Successfully!</p>
-        <AppButton type="button" className="w-full mt-5 sm:hidden">
+        <AppButton size="lg" type="button" className="w-full mt-5 sm:hidden">
           Create your first invoice
         </AppButton>
         <AppButton
+          size="lg"
           type="button"
           className="w-full mt-10"
           customTheme="bg-white text-primary max-sm:hidden dark:text-white dark:bg-secondary"

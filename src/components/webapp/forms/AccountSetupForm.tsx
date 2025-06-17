@@ -201,6 +201,7 @@ export default function AccountSetupForm() {
         />
 
         <AppButton
+          size="lg"
           type="submit"
           className="w-full mt-5 sm:hidden"
           disabled={!(formik.isValid && formik.dirty)}
@@ -209,6 +210,7 @@ export default function AccountSetupForm() {
           Submit
         </AppButton>
         <AppButton
+          size="lg"
           loading={loading}
           type="submit"
           className="w-full mt-5"

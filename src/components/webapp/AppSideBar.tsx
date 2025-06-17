@@ -85,9 +85,9 @@ const NavLink: React.FC<NavLinkProps> = ({ item, isActive, onClick }) => {
         <Icon
           className={` ${
             isActive ? "" : "text-primary"
-          } text-lg flex-shrink-0 md:text-xl lg:text-[28px]`}
+          } text-lg flex-shrink-0 md:text-xl lg:text-[24px]`}
         />
-        <span className="text-lg font-medium md:text-xl lg:text-[24px]">
+        <span className="text-lg font-medium md:text-xl lg:text-[22px]">
           {item.name}
         </span>
       </Link>
@@ -149,7 +149,7 @@ export default function AppSideBar() {
       <div
         className={`${
           isSideBarOpen ? "max-md:translate-x-0" : "max-md:-translate-x-full"
-        } transition-transform duration-300 ease-in-out max-md:fixed relative h-screen left-0 top-0 bottom-0 bg-[#D9E4F8] w-[55vw] max-w-[219px] z-50 rounded-tr-[20px] rounded-br-[20px] md:rounded-tr-[10px] md:rounded-br-[10px] md:max-w-[270px] lg:max-w-[323px]  overflow-hidden flex flex-col`}
+        } transition-transform duration-300 ease-in-out max-md:fixed relative h-screen left-0 top-0 bottom-0 bg-[#D9E4F8] w-[55vw] max-w-[219px] z-50 rounded-tr-[20px] rounded-br-[20px] md:rounded-tr-[10px] md:rounded-br-[10px] md:max-w-[270px] lg:max-w-[280px]  overflow-hidden flex flex-col`}
         style={{ boxShadow: "0px 4px 20px 0px #00000026" }}
       >
         {/* Header */}

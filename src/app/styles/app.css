@@ -20,8 +20,12 @@
   @apply text-sm tracking-[0.15px] leading-[24px] sm:text-base sm:mt-2;
 }
 
+.section-title {
+  @apply text-[22px] font-bold leading-[25px] sm:text-3xl lg:text-4xl;
+}
+
 .myContainer {
-  @apply px-4 sm:px-[30px];
+  @apply px-4 sm:px-[30px] md:px-[40px] xl:px-[60px];
 }
 
 /* Spinner */
