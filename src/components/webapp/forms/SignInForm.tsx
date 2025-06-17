@@ -7,6 +7,7 @@ import AppButton from "../ui/AppButton";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { accountSetUpRoute } from "../../../utils/route";
 
 interface ILogin {
   email: string;
@@ -25,7 +26,7 @@ export default function SignInForm() {
     onSubmit: (values) => {
       setLoading(true);
       console.log(values);
-      router.push("#");
+      router.push(accountSetUpRoute);
 
       setTimeout(() => {
         setLoading(false);
@@ -72,7 +73,7 @@ export default function SignInForm() {
           disabled={!(formik.isValid && formik.dirty)}
           loading={loading}
         >
-          Sign Up
+          Sign in
         </AppButton>
         <AppButton
           loading={loading}
@@ -81,7 +82,7 @@ export default function SignInForm() {
           customTheme="bg-white text-primary max-sm:hidden dark:text-white dark:bg-secondary"
           disabled={!(formik.isValid && formik.dirty)}
         >
-          Sign Up
+          Sign in
         </AppButton>
       </form>
 

@@ -36,3 +36,40 @@ export const signInValidation = Yup.object().shape({
     .required("Email is required"),
   password: Yup.string().required("Password is required"),
 });
+
+
+export const accountSetupValidation = Yup.object().shape({
+  firstName: Yup.string()
+    .trim()
+    .min(2, "First name is too short")
+    .max(50, "First name is too long")
+    .required("First name is required"),
+
+  lastName: Yup.string()
+    .trim()
+    .min(2, "Last name is too short")
+    .max(50, "Last name is too long")
+    .required("Last name is required"),
+
+  businessName: Yup.string()
+    .trim()
+    .min(2, "Business name is too short")
+    .max(100, "Business name is too long")
+    .required("Business name is required"),
+
+  walletAddress: Yup.string()
+    .trim()
+    .matches(/^G[A-Z0-9]{55}$/, "Invalid Stellar wallet address")
+    .required("Wallet address is required"),
+
+  countryCode: Yup.string().trim().required("Country code is required"),
+
+  phoneNumber: Yup.string()
+    .trim()
+    .matches(/^\d+$/, "Phone number must be digits only")
+    .min(7, "Phone number too short")
+    .max(15, "Phone number too long")
+    .required("Phone number is required"),
+
+  country: Yup.string().trim().required("Country is required"),
+});

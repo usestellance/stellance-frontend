@@ -1,8 +1,16 @@
 import React from "react";
 import Button from "./ui/Button";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { signInRoute } from "../../utils/route";
 
 export default function Hero() {
+  const router = useRouter();
+
+  const signIn = () => {
+    router.push(signInRoute);
+  };
+
   return (
     <section className="pt-20 pb-12 sm:pb-28">
       <div className="myContainer">
@@ -17,7 +25,7 @@ export default function Hero() {
         </div>
 
         <div className="flex justify-center flex-col items-center gap-5 mt-10 sm:mt-16 sm:flex-row">
-          <Button style="primary" type="button">
+          <Button onClick={signIn} style="primary" type="button">
             Generate Invoice
           </Button>
           <Button style="secondary" type="button">

@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { verificationRoute } from "../../../utils/route";
 import AppButton from "../ui/AppButton";
 
-interface ILogin {
+interface ISignUp {
   email: string;
   password: string;
 }
@@ -19,7 +19,7 @@ interface ILogin {
 export default function SignUpForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const formik = useFormik<ILogin>({
+  const formik = useFormik<ISignUp>({
     initialValues: {
       email: "",
       password: "",
@@ -102,7 +102,7 @@ export default function SignUpForm() {
           disabled={!(formik.isValid && formik.dirty)}
           loading={loading}
         >
-          Sign Up
+          Sign in
         </AppButton>
         <AppButton
           loading={loading}
@@ -111,7 +111,7 @@ export default function SignUpForm() {
           customTheme="bg-white text-primary max-sm:hidden dark:text-white dark:bg-secondary"
           disabled={!(formik.isValid && formik.dirty)}
         >
-          Sign Up
+          Sign in
         </AppButton>
       </form>
 
