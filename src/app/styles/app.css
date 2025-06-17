@@ -1,6 +1,6 @@
 @import "./globals.css";
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* @custom-variant dark (&:where(.dark, .dark *)); */
 
 .body {
   @apply text-[#14171f] bg-white dark:text-[#fff] dark:bg-primary;
@@ -22,6 +22,9 @@
 
 .section-title {
   @apply text-[22px] font-bold leading-[25px] sm:text-3xl lg:text-4xl;
+}
+.section-subtitle {
+  @apply text-sm font-bold leading-[25px] sm:text-2xl;
 }
 
 .myContainer {

@@ -5,7 +5,7 @@ import { invoiceRoute } from "../../../../utils/route";
 const StatsCard = () => {
   return (
     <div
-      className="w-full h-[120px] max-[340px]:h-[120px] sm:h-[154px] xl:h-[170px] mx-auto bg-[#D9E4F8] rounded-[5px] p-2 flex flex-col items-center justify-center gap-2"
+      className="w-full h-[120px] max-[340px]:h-[120px] sm:h-[154px] xl:h-[170px] mx-auto bg-[#D9E4F8] rounded-[5px] p-2 flex flex-col items-center justify-center gap-2 text-text-strong"
       style={{ boxShadow: "0px 4px 10px 0px #8392CD4D" }}
     >
       <div className="font-bold max-[300px]:text-base sm:text-lg lg:text-xl xl:text-2xl ">
@@ -38,9 +38,7 @@ export default function Page() {
   return (
     <div className="myContainer">
       <section className="flex max-[290px]:flex-col gap-2 max-[290px]:gap-5 items-center justify-between mt-5">
-        <h3 className="section-title max-[290px]:text-center">
-          Dashboard
-        </h3>
+        <h3 className="section-title max-[290px]:text-center">Dashboard</h3>
         <AppButton size="sm" href={invoiceRoute} className="max-[290px]:w-full">
           Create Invoice
         </AppButton>
@@ -54,7 +52,9 @@ export default function Page() {
         <StatsCard />
       </section>
 
-      <section></section>
+      <section className="mt-[47px] lg:text-[60px]">
+        <h4 className="section-subtitle">Latest Invoices</h4>
+      </section>
     </div>
   );
 }
