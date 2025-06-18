@@ -73,6 +73,7 @@ export default function AccountSetupForm() {
         className="flex flex-col gap-[14px] sm:gap-7"
       >
         <InputField
+          className="input-class-auth"
           name="firstName"
           label="First Name"
           placeholder="First name"
@@ -85,6 +86,7 @@ export default function AccountSetupForm() {
           }
         />
         <InputField
+          className="input-class-auth"
           name="lastName"
           label="Last Name"
           placeholder="Last name"
@@ -98,6 +100,7 @@ export default function AccountSetupForm() {
         />
 
         <ComboboxField
+          className="input-class-auth"
           name="country"
           label="Country (Residence)"
           value={
@@ -110,21 +113,22 @@ export default function AccountSetupForm() {
           options={countryOptions}
           error={formik.touched.country ? formik.errors.country || null : null}
         />
-          <InputField
-            name="businessName"
-            label="Business Name (Optional)"
-            placeholder="Business name"
-            type="text"
-            value={formik.values.businessName}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.businessName
-                ? formik.errors.businessName || null
-                : null
-            }
-          />
-{/* 
+        <InputField
+          className="input-class-auth"
+          name="businessName"
+          label="Business Name (Optional)"
+          placeholder="Business name"
+          type="text"
+          value={formik.values.businessName}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={
+            formik.touched.businessName
+              ? formik.errors.businessName || null
+              : null
+          }
+        />
+        {/* 
         <InputField
           name="walletAddress"
           label="Stellar Wallet Address"
@@ -157,7 +161,7 @@ export default function AccountSetupForm() {
                 value={formik.values.countryCode}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`input-class
+                className={`input-class-auth
                 ${
                   formik.touched.countryCode && formik.errors.countryCode
                     ? "border-[#B40000E5] text-[#B40000]"
@@ -176,7 +180,7 @@ export default function AccountSetupForm() {
                 value={formik.values.phoneNumber}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`input-class
+                className={`input-class-auth
                   ${
                     formik.touched.phoneNumber && formik.errors.phoneNumber
                       ? "border-[#B40000E5] text-[#B40000]"

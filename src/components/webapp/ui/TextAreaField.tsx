@@ -15,6 +15,7 @@ interface TextAreaProps {
   disabled?: boolean;
   description?: string;
   rows?: number;
+  className?: string;
 }
 
 const TextAreaField: React.FC<TextAreaProps> = ({
@@ -28,6 +29,7 @@ const TextAreaField: React.FC<TextAreaProps> = ({
   disabled,
   error,
   description,
+  className = "textarea-class",
   rows = 4,
 }) => {
   return (
@@ -50,7 +52,7 @@ const TextAreaField: React.FC<TextAreaProps> = ({
         readOnly={readonly}
         disabled={disabled}
         rows={rows}
-        className={`textarea-class resize-none ${
+        className={` ${className} resize-none ${
           error ? "border-[#B40000E5] text-[#B40000]" : "border-[#AAAAAA]"
         }`}
       />

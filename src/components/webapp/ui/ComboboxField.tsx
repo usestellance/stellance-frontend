@@ -28,6 +28,7 @@ interface SelectFieldProps<T> {
   displayKey?: keyof T;
   placeholder?: string;
   disabled?: boolean;
+  className: string
 }
 
 const ComboboxField = <T extends SelectOption>({
@@ -41,6 +42,7 @@ const ComboboxField = <T extends SelectOption>({
   displayKey = "label",
   placeholder = "Search or select...",
   disabled = false,
+  className = "input-class-auth",
 }: SelectFieldProps<T>) => {
   const [query, setQuery] = useState("");
 
@@ -73,7 +75,7 @@ const ComboboxField = <T extends SelectOption>({
             id={name}
             name={name}
             placeholder={placeholder}
-            className="input-class border-[#aaa]"
+            className={`${className} border-[#aaa]`}
             displayValue={(item: T) => (item ? String(item[displayKey]) : "")}
             onChange={(event) => setQuery(event.target.value)}
           />

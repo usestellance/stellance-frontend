@@ -96,6 +96,7 @@ export default function AddItemsModal() {
                 className="flex flex-col gap-[14px] mt-4 text-text-strong dark:text-white"
               >
                 <SelectField
+                  className="input-class"
                   name="invoiceType"
                   label="Invoice Type"
                   options={[

@@ -20,11 +20,12 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="mt-6 md:hidden">
-        <CreateInvoice inv="INV-001" />
-      </div>
       <div className="mt-6 max-md:hidden">
         <CreateInvoiceDesktop inv="INV-001" />
+      </div>
+
+      <div className="mt-6 md:hidden">
+        <CreateInvoice inv="INV-001" />
       </div>
 
       <AddItemsModal />

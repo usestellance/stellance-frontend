@@ -19,6 +19,7 @@ interface InputProps {
   autoComplete?: string;
   disabled?: boolean;
   description?: string;
+  className?: string;
 }
 
 const InputField: React.FC<InputProps> = ({
@@ -35,6 +36,7 @@ const InputField: React.FC<InputProps> = ({
   min,
   max,
   description,
+  className = "input-class",
 }) => {
   const [view, setView] = useState(false);
 
@@ -65,7 +67,7 @@ const InputField: React.FC<InputProps> = ({
           readOnly={readonly}
           min={min}
           max={max}
-          className={`input-class  
+          className={`${className}  
             ${error ? "border-[#B40000E5] text-[#B40000]" : "border-[#AAAAAA] "}
             ${
               readonly

@@ -19,6 +19,7 @@ interface SelectFieldProps {
   error?: string | null;
   disabled?: boolean;
   description?: string;
+  className: string;
 }
 
 const SelectField: React.FC<SelectFieldProps> = ({
@@ -31,11 +32,12 @@ const SelectField: React.FC<SelectFieldProps> = ({
   error,
   disabled,
   description,
+  className = "select-class",
 }) => {
   const selectedOption = options.find((opt) => opt.value === value);
 
-//   console.log(options);
-//   console.log(selectedOption);
+  //   console.log(options);
+  //   console.log(selectedOption);
 
   return (
     <div className="w-full">
@@ -51,7 +53,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
         <div className="relative">
           <Listbox.Button
             onBlur={onBlur}
-            className={`select-class text-left  ${
+            className={`${className} text-left  ${
               error ? "border-[#B40000E5] text-[#B40000]" : "border-[#AAAAAA] "
             }
             `}

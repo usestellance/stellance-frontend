@@ -42,6 +42,7 @@ export default function SignInForm() {
         className="flex flex-col gap-[14px] sm:gap-7"
       >
         <InputField
+          className="input-class-auth"
           name="email"
           label="Email"
           placeholder="Enter your email"
@@ -54,6 +55,7 @@ export default function SignInForm() {
 
         <div>
           <InputField
+            className="input-class-auth"
             name="password"
             label="Password"
             placeholder="Enter your password"

@@ -146,7 +146,7 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
           {/* Inline Editing (Optional) */}
           <div className="flex flex-col gap-10 divide-y divide-primary">
             {formik.values.items.map((item, index) => (
-              <div key={index} className="pb-10">
+              <div key={index} className="pb-16">
                 <div className="flex gap-[18px] flex-col">
                   <div className="flex gap-[10px] lg:gap-[18px]">
                     <div className="flex-1/5">

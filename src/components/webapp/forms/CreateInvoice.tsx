@@ -193,6 +193,7 @@ export default function CreateInvoice({ inv }: { inv: string }) {
             <TextAreaField
               name="note"
               label="Add Note"
+            //   rows={10}
               placeholder="Add additional note like thank you note, return policy or others"
               value={formik.values.note}
               onChange={formik.handleChange}
