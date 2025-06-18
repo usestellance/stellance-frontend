@@ -328,7 +328,7 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
             }}
             className={`${
               formik.values.items.length > 0 ? "mt-5" : ""
-            } bg-primary-light text-text-strong text-xs px-[23px] py-[10px] rounded-[35px] font-medium md:text-base md:px-7 md:py-3 xl:py-[17px] xl:px-[43px] xl:text-lg`}
+            } bg-primary-light text-text-strong text-xs px-[23px] py-[10px] rounded-[35px] font-medium md:text-base md:px-7 md:py-3 xlpy-[17px] xlpx-[43px] xl:mt-5 xl:text-lg`}
           >
             Add New Item
           </button>

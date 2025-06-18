@@ -19,7 +19,7 @@ interface SelectFieldProps {
   error?: string | null;
   disabled?: boolean;
   description?: string;
-  className: string;
+  className?: string;
 }
 
 const SelectField: React.FC<SelectFieldProps> = ({
