@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
+import { createInvoiceRoute } from "../../../../utils/route";
 
 const CreateInvoice = () => {
   return (
@@ -20,7 +21,7 @@ const CreateInvoice = () => {
       </p>
       <AppButton
         size="lg"
-        href="#"
+        href={createInvoiceRoute}
         className="w-full mt-7 lg:mt-8 max-w-[320px] sm:max-w-[400px] lg:max-w-[490px]"
       >
         Create Invoice

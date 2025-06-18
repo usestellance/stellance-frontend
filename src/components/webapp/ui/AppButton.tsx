@@ -13,7 +13,7 @@ export interface ButtonProps {
   target?: "_blank" | "_self" | "_parent" | "_top";
   download?: string;
   // Additional button props
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: () => void;
   disabled?: boolean;
   id?: string;
   loading?: boolean;
@@ -41,7 +41,7 @@ const AppButton: React.FC<ButtonProps> = ({
         : "bg-primary dark:bg-secondary"
     }`,
     secondary: `text-primary bg-white`,
-    tetiary: `text-primary border-2 border-primary `,
+    tetiary: `text-primary border border-primary dark:border-secondary dark:text-white `,
   };
 
   const sizeMap = {

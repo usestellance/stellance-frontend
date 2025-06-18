@@ -1,7 +1,8 @@
 "use client";
 
 import { Listbox } from "@headlessui/react";
-import { HiSelector } from "react-icons/hi";
+// import { HiSelector } from "react-icons/hi";
+import { IoChevronDown } from "react-icons/io5";
 
 interface SelectOption {
   label: string;
@@ -33,12 +34,12 @@ const SelectField: React.FC<SelectFieldProps> = ({
 }) => {
   const selectedOption = options.find((opt) => opt.value === value);
 
+//   console.log(options);
+//   console.log(selectedOption);
+
   return (
     <div className="w-full">
-      <label
-        htmlFor={name}
-        className="block mb-2 text-sm font-medium sm:text-lg"
-      >
+      <label htmlFor={name} className="label-class">
         {label}
       </label>
 
@@ -50,31 +51,32 @@ const SelectField: React.FC<SelectFieldProps> = ({
         <div className="relative">
           <Listbox.Button
             onBlur={onBlur}
-            className={`w-full border rounded-md py-2 pl-3 pr-10 text-left bg-white text-sm shadow-sm focus:outline-none focus:ring-1 ${
-              error
-                ? "border-red-600 ring-red-600"
-                : "border-gray-300 ring-primary"
-            }`}
+            className={`select-class text-left  ${
+              error ? "border-[#B40000E5] text-[#B40000]" : "border-[#AAAAAA] "
+            }
+            `}
           >
             <span className="block truncate">
               {selectedOption?.label || "Select an option"}
             </span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <HiSelector
-                className="h-5 w-5 text-gray-400"
+            <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center pr-2">
+              <IoChevronDown
+                className="h-4 w-4 text-[#aaa]"
                 aria-hidden="true"
               />
             </span>
           </Listbox.Button>
 
-          <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-sm shadow-lg ring-1 ring-black/5 focus:outline-none">
+          <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-[#eeeeee] shadow-lg p-1 text-sm  focus:outline-none">
             {options.map((option) => (
               <Listbox.Option
                 key={option.value}
                 value={option.value}
                 className={({ active }) =>
-                  `cursor-pointer select-none px-4 py-2 ${
-                    active ? "bg-primary text-white" : "text-gray-900"
+                  `cursor-pointer select-none px-2 py-2 font-medium rounded-[3px] ${
+                    active
+                      ? "bg-[#D9E4F8] text-text-strong"
+                      : "text-text-strong"
                   }`
                 }
               >
@@ -85,7 +87,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
         </div>
       </Listbox>
 
-      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+      {error && <p className="mt-1 text-xs text-[#b40000]">{error}</p>}
     </div>
   );
 };

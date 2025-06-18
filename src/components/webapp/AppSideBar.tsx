@@ -107,7 +107,7 @@ const NavLinks: React.FC<{ onLinkClick?: () => void }> = ({ onLinkClick }) => {
             <NavLink
               key={item.name}
               item={item}
-              isActive={pathname === item.href}
+              isActive={pathname.startsWith(item.href)}
               onClick={onLinkClick}
             />
           ))}

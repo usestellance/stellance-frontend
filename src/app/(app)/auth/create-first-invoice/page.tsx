@@ -2,6 +2,7 @@ import React from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
 import Link from "next/link";
 import { LuCircleCheckBig } from "react-icons/lu";
+import { createInvoiceRoute, dashboardRoute } from "../../../../utils/route";
 
 export default function Page() {
   return (
@@ -14,7 +15,7 @@ export default function Page() {
         </AppButton>
         <AppButton
           size="lg"
-          href="/invoice"
+          href={createInvoiceRoute}
           className="w-full mt-10"
           customTheme="bg-white text-primary max-sm:hidden dark:text-white dark:bg-secondary"
         >
@@ -22,7 +23,7 @@ export default function Page() {
         </AppButton>
 
         <Link
-          href="/dashboard"
+          href={dashboardRoute}
           className="underline underline-offset-2 text-sm mt-5 sm:text-lg"
         >
           Later

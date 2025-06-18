@@ -9,10 +9,10 @@ interface InputProps {
   label: string;
   type?: string;
   placeholder?: string;
-  value: string;
+  value: string | number;
   readonly?: boolean;
   error?: string | null;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   min?: number;
   max?: number;
@@ -65,9 +65,14 @@ const InputField: React.FC<InputProps> = ({
           readOnly={readonly}
           min={min}
           max={max}
-          className={`input-class  ${
-            error ? "border-[#B40000E5] text-[#B40000]" : "border-[#AAAAAA] "
-          }`}
+          className={`input-class  
+            ${error ? "border-[#B40000E5] text-[#B40000]" : "border-[#AAAAAA] "}
+            ${
+              readonly
+                ? "bg-[#AAAAAA66] dark:bg-[#aaa] dark:text-[#151515] text-[#979797] font-semibold"
+                : ""
+            }
+          `}
         />
         {type === "password" && (
           <button

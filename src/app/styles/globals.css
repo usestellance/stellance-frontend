@@ -23,6 +23,7 @@
 @theme {
   /* web app */
   --color-primary: #18234f;
+  --color-primary-light: #D9E4F8;
   --color-primary-disabled: #18234fb3;
   --color-secondary: #ee2d77;
   --color-secondary-disabled: #ee2d77b2;

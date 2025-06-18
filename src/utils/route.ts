@@ -9,3 +9,4 @@ export const createFirstInvoiceRoute = "/auth/create-first-invoice";
 // DashBoard Routes
 export const dashboardRoute = "/dashboard";
 export const invoiceRoute = "/invoice";
+export const createInvoiceRoute = "/invoice/create";
