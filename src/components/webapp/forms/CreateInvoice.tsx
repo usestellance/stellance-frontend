@@ -33,7 +33,6 @@ interface IInvoice {
   address: string;
   items: Items[];
   dueDate: string;
-  currency: string;
   note: string;
   serviceFee: string;
 }
@@ -65,7 +64,6 @@ export default function CreateInvoice({ inv }: { inv: string }) {
       email: "",
       address: "",
       dueDate: "",
-      currency: "",
       serviceFee: "",
       note: "",
       items: items,
@@ -236,21 +234,9 @@ export default function CreateInvoice({ inv }: { inv: string }) {
               }
             />
 
-            <InputField
-              name="currency"
-              label="Currency"
-              placeholder="e.g. USD"
-              value={formik.values.currency}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.currency ? formik.errors.currency || null : null
-              }
-            />
-
             <TextAreaField
               name="note"
-              label="Note"
+              label="Add Note"
               placeholder="Add additional note like thank you note, return policy or others"
               value={formik.values.note}
               onChange={formik.handleChange}
