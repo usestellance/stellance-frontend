@@ -7,7 +7,7 @@
 }
 
 .label-class {
-  @apply block mb-2 text-sm font-medium sm:text-lg ;
+  @apply block mb-2 text-sm font-medium sm:text-lg;
 }
 .input-class {
   @apply w-full border px-[10px] text-sm font-medium py-3 h-[43px] rounded-md placeholder:text-[#BFBFBF] focus:border-primary  focus:dark:border-secondary focus:outline-none caret-primary dark:caret-secondary sm:h-[60px] sm:text-base sm:py-4 sm:focus:border-white sm:caret-white;
@@ -16,7 +16,7 @@
   @apply w-full border px-[10px] text-sm font-medium py-3 h-[43px] rounded-md placeholder:text-[#BFBFBF] focus:border-primary  focus:dark:border-secondary focus:outline-none caret-primary dark:caret-secondary sm:h-[60px] sm:text-base sm:py-4 sm:focus:border-white sm:caret-white;
 }
 .textarea-class {
-  @apply w-full border px-[11px] text-sm font-medium py-3 h-[120px] rounded-md placeholder:font-normal placeholder:italic placeholder:text-[#BFBFBF] placeholder:text-xs focus:border-primary  focus:dark:border-secondary focus:outline-none caret-primary dark:caret-secondary sm:h-[60px] sm:text-base sm:py-4 sm:focus:border-white sm:caret-white;
+  @apply w-full border px-[11px] text-sm font-medium py-3 h-[120px] md:h-[201px] rounded-md placeholder:font-normal placeholder:italic placeholder:text-[#BFBFBF] placeholder:text-xs focus:border-primary  focus:dark:border-secondary focus:outline-none caret-primary dark:caret-secondary sm:h-[60px] sm:text-base sm:py-4 sm:focus:border-white sm:caret-white;
 }
 
 .auth-title {
@@ -35,6 +35,18 @@
 
 .myContainer {
   @apply px-4 sm:px-[30px] md:px-[40px] xl:px-[60px];
+}
+
+/* For Chrome, Safari */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  /* filter: invert(0.5) sepia(1) saturate(5) hue-rotate(180deg); */
+  cursor: pointer;
+}
+
+/* Optional: Hide default arrow if needed */
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-clear-button {
+  display: none;
 }
 
 .hide-scroll::-webkit-scrollbar {

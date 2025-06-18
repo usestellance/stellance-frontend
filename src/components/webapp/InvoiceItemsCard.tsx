@@ -24,7 +24,7 @@ const InvoiceItemsCard: FC<ICard> = ({
   editItem
 }) => {
   return (
-    <div className="relative bg-primary-light rounded-[5px] px-[10px] pt-2 pb-3">
+    <div className="relative bg-primary-light rounded-[5px] px-[10px] pt-2 pb-3 md:hidden">
       <h6 className="text-[#8F8F8F] text-xs">Description</h6>
       <h5 className="text-[#22252A] text-xs mt-[6px] line-clamp-1">
         {description}

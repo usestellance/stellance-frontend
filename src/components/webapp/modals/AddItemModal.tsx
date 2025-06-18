@@ -37,13 +37,13 @@ export default function AddItemsModal() {
     },
     validationSchema: addItemValidation,
     onSubmit: (values) => {
-        if (editingIndex !== null) {
-          updateItem(values); // Update the item
-          toast.success("Item updated");
-        } else {
-          addItem(values); // Add new item
-          toast.success("Item added");
-        }
+      if (editingIndex !== null) {
+        updateItem(values); // Update the item
+        toast.success("Item updated");
+      } else {
+        addItem(values); // Add new item
+        toast.success("Item added");
+      }
       console.log(values);
       formik.resetForm();
       setEditingIndex(null);
@@ -74,7 +74,7 @@ export default function AddItemsModal() {
       <Dialog
         open={isModalOpen}
         as="div"
-        className="bg-[#1D1D1D57]  relative z-[10001] focus:outline-none"
+        className="bg-[#1D1D1D57]  relative z-[10001] focus:outline-none md:hidden"
         onClose={closeModal}
         __demoMode
       >
@@ -82,11 +82,11 @@ export default function AddItemsModal() {
           <div className="flex min-h-full items-end justify-center">
             <DialogPanel
               transition
-              className="w-full max-w-md rounded-tr-[10px] rounded-tl-[10px] bg-white dark:bg-primary text-text-strong myContainer pt-[18px] pb-11 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
+              className="w-full rounded-tr-[10px] rounded-tl-[10px] bg-white dark:bg-primary text-text-strong myContainer pt-[18px] pb-11 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
             >
               <DialogTitle
                 as="h3"
-                className="text-sm/6 font-medium dark:text-white"
+                className="text-sm sm:text-lg font-medium dark:text-white"
               >
                 Add Item
               </DialogTitle>
