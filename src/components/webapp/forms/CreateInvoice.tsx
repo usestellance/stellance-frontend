@@ -10,6 +10,13 @@ import AppButton from "../ui/AppButton";
 import InvoiceItemsCard from "../InvoiceItemsCard";
 import { useAddItemModal } from "../../../store/modals";
 import { useInvoiceItems } from "../../../store/invoiceItemsStore";
+import {
+  calculateFinalTotal,
+  calculateServiceFee,
+  calculateSubtotal,
+  formatCurrency,
+} from "../../../utils/helpers/helperFunctions";
+import { SERVICE_CHARGE } from "../../../utils/Constants";
 
 interface Items {
   invoiceType: string;
@@ -34,6 +41,13 @@ interface IInvoice {
 export default function CreateInvoice({ inv }: { inv: string }) {
   const { openModal } = useAddItemModal();
   const { items, removeItem, clearItems, setEditingIndex } = useInvoiceItems();
+
+  const subtotalValue = calculateSubtotal(items);
+  const subtotal = formatCurrency(subtotalValue);
+  const serviceCharge = formatCurrency(calculateServiceFee(subtotalValue));
+  const total = formatCurrency(
+    calculateFinalTotal(subtotalValue, calculateServiceFee(subtotalValue))
+  );
 
   console.log(inv);
 
@@ -60,7 +74,7 @@ export default function CreateInvoice({ inv }: { inv: string }) {
     onSubmit: (values) => {
       console.log(values);
       toast.success("Invoice Created");
-      clearItems();
+      //   clearItems();
       setEditingIndex(null);
     },
   });
@@ -114,8 +128,8 @@ export default function CreateInvoice({ inv }: { inv: string }) {
   return (
     <div className="">
       <h1 className="text-2xl font-bold mb-4 myContainer">Create Invoice</h1>
-      <form onSubmit={formik.handleSubmit} className="flex flex-col gap-6">
-        <div className="myContainer">
+      <form onSubmit={formik.handleSubmit} className="">
+        <div className="myContainer flex flex-col gap-4">
           <InputField
             name="billTo"
             label="Bill To"
@@ -173,114 +187,79 @@ export default function CreateInvoice({ inv }: { inv: string }) {
           <button
             type="button"
             onClick={openModal}
-            className="bg-primary-light text-text-strong text-xs px-[23px] py-[10px] rounded-[35px] font-medium mt-5"
+            className={`${
+              items.length > 0 ? "mt-5" : ""
+            } bg-primary-light text-text-strong text-xs px-[23px] py-[10px] rounded-[35px] font-medium`}
           >
             Add New Item
           </button>
         </div>
-        <hr className="border-[#BFBFBF99] mt-5" />
+        <hr className="border-[#BFBFBF99] mt-10" />
 
-        {/* {formik.values.items.map((item, index) => (
-          <div key={index} className="border p-4 rounded-md mb-4 space-y-4">
-            <InputField
-              name={`items[${index}].invoiceType`}
-              label="Invoice Type"
-              value={item.invoiceType}
-              onChange={(e) =>
-                handleItemChange(index, "invoiceType", e.target.value)
-              }
-            />
-            <InputField
-              name={`items[${index}].description`}
-              label="Description"
-              value={item.description}
-              onChange={(e) =>
-                handleItemChange(index, "description", e.target.value)
-              }
-            />
-            <InputField
-              name={`items[${index}].quantity`}
-              label="Quantity"
-              type="number"
-              value={item.quantity}
-              onChange={(e) =>
-                handleItemChange(index, "quantity", e.target.value)
-              }
-            />
-            <InputField
-              name={`items[${index}].unitPrice`}
-              label="Unit Price"
-              type="number"
-              value={item.unitPrice}
-              onChange={(e) =>
-                handleItemChange(index, "unitPrice", e.target.value)
-              }
-            />
-            <InputField
-              name={`items[${index}].discount`}
-              label="Discount (%)"
-              type="number"
-              value={item.discount}
-              onChange={(e) =>
-                handleItemChange(index, "discount", e.target.value)
-              }
-            />
-            <InputField
-              name={`items[${index}].amount`}
-              label="Amount"
-              type="number"
-              value={item.amount}
-              disabled
-            />
+        <div className="myContainer pt-[35px] pb-[18px] flex justify-between items-center">
+          <h5 className="section-subtitle">Sub Total</h5>
+          <h5 className="section-subtitle">{subtotal}</h5>
+        </div>
 
-            {formik.values.items.length > 1 && (
-              <button
-                type="button"
-                className="text-red-500 text-sm"
-                onClick={() => removeItem(index)}
-              >
-                Remove Item
-              </button>
-            )}
+        <hr className="border-[#BFBFBF99]" />
+
+        <section className="myContainer">
+          <div className="pt-[18px] pb-9 flex justify-between items-center">
+            <div className="flex gap-1">
+              <h5 className="section-subtitle whitespace-nowrap flex-1">
+                Service charge (%)
+              </h5>
+              <div className=" border border-[#AAAAAA] font-medium text-xs h-[30px] w-[58px] flex items-center justify-center px-[10px] py-[6px] rounded-[6px] text-center">
+                {SERVICE_CHARGE}
+              </div>
+            </div>
+            <h5 className="section-subtitle">{serviceCharge}</h5>
           </div>
-        ))} */}
 
-        <div className="myContainer">
-          <InputField
-            name="dueDate"
-            label="Due Date"
-            type="date"
-            value={formik.values.dueDate}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.dueDate ? formik.errors.dueDate || null : null
-            }
-          />
+          <div className="flex justify-between h-[43px] overflow-hidden border border-primary dark:border-white items-center gap-[10px] rounded-[6px]">
+            <h5 className="section-subtitle py-3 px-4 w-[74px]  text-white bg-primary dark:text-text-strong dark:bg-white">
+              Total
+            </h5>
+            <h5 className="section-subtitle py-3 px-4 ">{total}</h5>
+          </div>
 
-          <InputField
-            name="currency"
-            label="Currency"
-            placeholder="e.g. USD"
-            value={formik.values.currency}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.currency ? formik.errors.currency || null : null
-            }
-          />
+          <div className="mt-10 flex flex-col gap-4">
+            <InputField
+              name="dueDate"
+              label="Due Date"
+              type="date"
+              value={formik.values.dueDate}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched.dueDate ? formik.errors.dueDate || null : null
+              }
+            />
 
-          <TextAreaField
-            name="note"
-            label="Note"
-            placeholder="Add additional note like thank you note, return policy or others"
-            value={formik.values.note}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.note ? formik.errors.note || null : null}
-          />
+            <InputField
+              name="currency"
+              label="Currency"
+              placeholder="e.g. USD"
+              value={formik.values.currency}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched.currency ? formik.errors.currency || null : null
+              }
+            />
 
-          <div className="flex justify-center gap-[25px] mt-[20px]">
+            <TextAreaField
+              name="note"
+              label="Note"
+              placeholder="Add additional note like thank you note, return policy or others"
+              value={formik.values.note}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.note ? formik.errors.note || null : null}
+            />
+          </div>
+
+          <div className="flex justify-center gap-[25px] mt-[50px]">
             <AppButton onClick={clearItems} size="sm" theme="tetiary">
               Cancel
             </AppButton>
@@ -288,8 +267,72 @@ export default function CreateInvoice({ inv }: { inv: string }) {
               Proceed
             </AppButton>
           </div>
-        </div>
+        </section>
       </form>
+      {/* {formik.values.items.map((item, index) => (
+        <div key={index} className="border p-4 rounded-md mb-4 space-y-4">
+          <InputField
+            name={`items[${index}].invoiceType`}
+            label="Invoice Type"
+            value={item.invoiceType}
+            onChange={(e) =>
+              handleItemChange(index, "invoiceType", e.target.value)
+            }
+          />
+          <InputField
+            name={`items[${index}].description`}
+            label="Description"
+            value={item.description}
+            onChange={(e) =>
+              handleItemChange(index, "description", e.target.value)
+            }
+          />
+          <InputField
+            name={`items[${index}].quantity`}
+            label="Quantity"
+            type="number"
+            value={item.quantity}
+            onChange={(e) =>
+              handleItemChange(index, "quantity", e.target.value)
+            }
+          />
+          <InputField
+            name={`items[${index}].unitPrice`}
+            label="Unit Price"
+            type="number"
+            value={item.unitPrice}
+            onChange={(e) =>
+              handleItemChange(index, "unitPrice", e.target.value)
+            }
+          />
+          <InputField
+            name={`items[${index}].discount`}
+            label="Discount (%)"
+            type="number"
+            value={item.discount}
+            onChange={(e) =>
+              handleItemChange(index, "discount", e.target.value)
+            }
+          />
+          <InputField
+            name={`items[${index}].amount`}
+            label="Amount"
+            type="number"
+            value={item.amount}
+            disabled
+          />
+      
+          {formik.values.items.length > 1 && (
+            <button
+              type="button"
+              className="text-red-500 text-sm"
+              onClick={() => removeItem(index)}
+            >
+              Remove Item
+            </button>
+          )}
+        </div>
+      ))} */}
     </div>
   );
 }
