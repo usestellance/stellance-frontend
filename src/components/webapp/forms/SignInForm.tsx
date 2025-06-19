@@ -84,7 +84,7 @@ export default function SignInForm() {
           type="submit"
           className="w-full mt-5"
           customTheme="bg-white text-primary max-sm:hidden dark:text-white dark:bg-secondary"
-          disabled={!(formik.isValid && formik.dirty)}
+          disabled={loading || !(formik.isValid && formik.dirty)}
         >
           Sign in
         </AppButton>
