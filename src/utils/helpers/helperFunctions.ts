@@ -41,3 +41,7 @@ export function calculateFinalTotal(
 ): number {
   return subtotal - serviceFee;
 }
+
+export function capitalizeWords(str: string): string {
+  return str.replace(/\b\w/g, (char: string) => char.toUpperCase());
+}

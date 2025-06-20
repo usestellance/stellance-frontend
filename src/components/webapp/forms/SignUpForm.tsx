@@ -10,17 +10,12 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { verificationRoute } from "../../../utils/route";
 import AppButton from "../ui/AppButton";
-
-interface ISignUp {
-  email: string;
-  password: string;
-  
-}
+import { IUser } from "../../../lib/types/userTypes";
 
 export default function SignUpForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const formik = useFormik<ISignUp>({
+  const formik = useFormik<IUser>({
     initialValues: {
       email: "",
       password: "",
@@ -29,7 +24,7 @@ export default function SignUpForm() {
     onSubmit: (values) => {
       setLoading(true);
       console.log(values);
-      router.push(verificationRoute(values.email));
+      router.push(verificationRoute(values.email || ""));
 
       setTimeout(() => {
         setLoading(false);
@@ -39,7 +34,7 @@ export default function SignUpForm() {
   });
 
   const strength = useMemo(
-    () => getPasswordStrength(formik.values.password),
+    () => getPasswordStrength(formik.values.password || ""),
     [formik.values.password]
   );
 
@@ -57,7 +52,7 @@ export default function SignUpForm() {
           label="Email"
           placeholder="Enter your email"
           type="email"
-          value={formik.values.email}
+          value={formik.values.email || ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.email ? formik.errors.email || null : null}
@@ -70,7 +65,7 @@ export default function SignUpForm() {
             label="Password"
             placeholder="Enter your password"
             type="password"
-            value={formik.values.password}
+            value={formik.values.password || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={
@@ -79,7 +74,7 @@ export default function SignUpForm() {
           />
 
           {/* Password Strength Meter */}
-          {formik.values.password.length > 0 && (
+          {formik.values.password && formik.values.password.length > 0 && (
             <div className="mt-2">
               <div className="w-full h-2 bg-[#cccccc] rounded-[6px] overflow-hidden">
                 <div

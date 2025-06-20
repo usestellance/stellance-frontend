@@ -10,16 +10,7 @@ import { countryCodes } from "../../../utils/contents/countryCodes";
 import ComboboxField from "../ui/ComboboxField";
 import { Description, Field, Input, Label } from "@headlessui/react";
 import { createFirstInvoiceRoute } from "../../../utils/route";
-
-interface IAccountSetUp {
-  firstName: string;
-  lastName: string;
-  businessName: string;
-  countryCode: string;
-  phoneNumber: string;
-  walletAddress: string;
-  country: string;
-}
+import { IUser } from "../../../lib/types/userTypes";
 
 export default function AccountSetupForm() {
   const router = useRouter();
@@ -35,7 +26,7 @@ export default function AccountSetupForm() {
   //   value: c.code,
   // }));
 
-  const formik = useFormik<IAccountSetUp>({
+  const formik = useFormik<IUser>({
     initialValues: {
       firstName: "",
       lastName: "",
@@ -50,8 +41,8 @@ export default function AccountSetupForm() {
       setLoading(true);
       console.log(values);
 
-      let phoneNumber = values.phoneNumber.trim();
-      if (phoneNumber.startsWith("0")) {
+      let phoneNumber = values.phoneNumber && values.phoneNumber.trim();
+      if (phoneNumber?.startsWith("0")) {
         phoneNumber = phoneNumber.substring(1);
       }
 
@@ -78,7 +69,7 @@ export default function AccountSetupForm() {
           label="First Name"
           placeholder="First name"
           type="text"
-          value={formik.values.firstName}
+          value={formik.values.firstName || ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={
@@ -91,7 +82,7 @@ export default function AccountSetupForm() {
           label="Last Name"
           placeholder="Last name"
           type="text"
-          value={formik.values.lastName}
+          value={formik.values.lastName || ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={
@@ -119,7 +110,7 @@ export default function AccountSetupForm() {
           label="Business Name (Optional)"
           placeholder="Business name"
           type="text"
-          value={formik.values.businessName}
+          value={formik.values.businessName || ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={
@@ -128,21 +119,6 @@ export default function AccountSetupForm() {
               : null
           }
         />
-        {/* 
-        <InputField
-          name="walletAddress"
-          label="Stellar Wallet Address"
-          placeholder="G..."
-          type="text"
-          value={formik.values.walletAddress}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={
-            formik.touched.walletAddress
-              ? formik.errors.walletAddress || null
-              : null
-          }
-        /> */}
 
         {/* Phone Number and country code */}
         <Field>

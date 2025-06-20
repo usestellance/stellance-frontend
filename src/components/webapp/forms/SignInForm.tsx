@@ -8,16 +8,13 @@ import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { accountSetUpRoute } from "../../../utils/route";
-
-interface ILogin {
-  email: string;
-  password: string;
-}
+import { IUser } from "../../../lib/types/userTypes";
 
 export default function SignInForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const formik = useFormik<ILogin>({
+
+  const formik = useFormik<Partial<IUser>>({
     initialValues: {
       email: "",
       password: "",
@@ -47,7 +44,7 @@ export default function SignInForm() {
           label="Email"
           placeholder="Enter your email"
           type="email"
-          value={formik.values.email}
+          value={formik.values.email || ''}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.email ? formik.errors.email || null : null}
@@ -60,7 +57,7 @@ export default function SignInForm() {
             label="Password"
             placeholder="Enter your password"
             type="password"
-            value={formik.values.password}
+            value={formik.values.password || ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={

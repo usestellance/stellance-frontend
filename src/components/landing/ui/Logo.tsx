@@ -4,11 +4,15 @@ import React, { FC } from "react";
 
 interface LogoProps {
   type: "primary" | "secondary";
+  h?: string;
 }
 
-const Logo: FC<LogoProps> = ({ type }) => {
+const Logo: FC<LogoProps> = ({
+  type,
+  h = "h-[22px] w-[121px]",
+}) => {
   return (
-    <Link href="/" className="h-[22px] w-[121px] inline-block">
+    <Link href="/" className={`${h} inline-block`}>
       <Image
         alt="Stellance logo"
         src={
