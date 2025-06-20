@@ -67,10 +67,10 @@ export default function CreateInvoice({ inv }: { inv: string }) {
             name="title"
             label="Invoice Title"
             placeholder="short title..."
-            value={formik.values.billTo}
+            value={formik.values.title}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.billTo ? formik.errors.billTo || null : null}
+            error={formik.touched.title ? formik.errors.title || null : null}
           />
           <InputField
             name="billTo"
