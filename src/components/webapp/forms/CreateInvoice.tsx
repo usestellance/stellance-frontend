@@ -17,25 +17,7 @@ import {
   formatCurrency,
 } from "../../../utils/helpers/helperFunctions";
 import { SERVICE_CHARGE } from "../../../utils/Constants";
-
-interface Items {
-  invoiceType: string;
-  description: string;
-  quantity: number;
-  unitPrice: number;
-  discount: number;
-  amount: number;
-}
-
-interface IInvoice {
-  billTo: string;
-  email: string;
-  address: string;
-  items: Items[];
-  dueDate: string;
-  note: string;
-  serviceFee: string;
-}
+import { InvoiceType } from "../../../lib/types/invoiceType";
 
 export default function CreateInvoice({ inv }: { inv: string }) {
   const { openModal } = useAddItemModal();
@@ -50,8 +32,9 @@ export default function CreateInvoice({ inv }: { inv: string }) {
 
   console.log(inv);
 
-  const formik = useFormik<IInvoice>({
+  const formik = useFormik<InvoiceType>({
     initialValues: {
+      title: "",
       billTo: "",
       email: "",
       address: "",
@@ -80,6 +63,15 @@ export default function CreateInvoice({ inv }: { inv: string }) {
       </h1>
       <form onSubmit={formik.handleSubmit} className="">
         <div className="myContainer flex flex-col gap-4 md:gap-[30px]">
+          <InputField
+            name="title"
+            label="Invoice Title"
+            placeholder="short title..."
+            value={formik.values.billTo}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.billTo ? formik.errors.billTo || null : null}
+          />
           <InputField
             name="billTo"
             label="Bill To"
@@ -193,7 +185,7 @@ export default function CreateInvoice({ inv }: { inv: string }) {
             <TextAreaField
               name="note"
               label="Add Note"
-            //   rows={10}
+              //   rows={10}
               placeholder="Add additional note like thank you note, return policy or others"
               value={formik.values.note}
               onChange={formik.handleChange}

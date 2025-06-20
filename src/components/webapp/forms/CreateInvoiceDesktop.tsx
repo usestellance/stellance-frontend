@@ -7,7 +7,6 @@ import { invoiceValidation } from "../../../lib/validations/invoiceValidation";
 import InputField from "../ui/InputField";
 import TextAreaField from "../ui/TextAreaField";
 import AppButton from "../ui/AppButton";
-// import { useAddItemModal } from "../../../store/modals";
 import {
   calculateFinalTotal,
   calculateServiceFee,
@@ -17,34 +16,14 @@ import {
 import { SERVICE_CHARGE } from "../../../utils/Constants";
 import SelectField from "../ui/SelectField";
 import { FiTrash } from "react-icons/fi";
-
-interface Items {
-  invoiceType: string;
-  description: string;
-  quantity: number;
-  unitPrice: number;
-  discount: number;
-  amount: number;
-}
-
-interface IInvoice {
-  billTo: string;
-  email: string;
-  address: string;
-  items: Items[];
-  dueDate: string;
-  note: string;
-  serviceFee: string;
-}
+import { InvoiceItemsTypes, InvoiceType } from "../../../lib/types/invoiceType";
 
 export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
-  // const { openModal } = useAddItemModal();
-  // const [editingIndex, setEditingIndex] = useState<number | null>(null);
-
   console.log(inv);
 
-  const formik = useFormik<IInvoice>({
+  const formik = useFormik<InvoiceType>({
     initialValues: {
+      title: "",
       billTo: "",
       email: "",
       address: "",
@@ -63,7 +42,7 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
 
   const handleItemChange = (
     index: number,
-    field: keyof Items,
+    field: keyof InvoiceItemsTypes,
     value: string | number
   ) => {
     const updatedItems = [...formik.values.items];
@@ -102,12 +81,21 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
   };
 
   return (
-    <div className="md:mt-[60px] lg:pb-20">
+    <div className="md:mt-[60px] lg:pb-20 ">
       <h1 className="text-2xl font-bold mb-4 myContainer max-md:hidden">
         Create Invoice
       </h1>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} className="mt-8">
         <div className="myContainer flex flex-col gap-4 md:gap-[30px] max-w-[700px] w-full">
+          <InputField
+            name="Title"
+            label="Invoice Title"
+            placeholder="short title..."
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.title ? formik.errors.title || null : null}
+          />
           <InputField
             name="billTo"
             label="Bill To"
@@ -141,7 +129,7 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
         </div>
 
         <div className="mt-6 md:mt-20 myContainer">
-          <h2 className="section-subtitle mb-5">Invoice Items</h2>
+          <h2 className="section-subtitle mt-10 mb-5">Invoice Items</h2>
 
           {/* Inline Editing (Optional) */}
           <div className="flex flex-col gap-10 divide-y divide-primary">
@@ -174,7 +162,7 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
                               ? (
                                   formik.errors.items[
                                     index
-                                  ] as FormikErrors<Items>
+                                  ] as FormikErrors<InvoiceItemsTypes>
                                 ).invoiceType || null
                               : null
                             : null
@@ -196,7 +184,7 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
                               ? (
                                   formik.errors.items[
                                     index
-                                  ] as FormikErrors<Items>
+                                  ] as FormikErrors<InvoiceItemsTypes>
                                 ).description || null
                               : null
                             : null
@@ -222,7 +210,7 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
                               ? (
                                   formik.errors.items[
                                     index
-                                  ] as FormikErrors<Items>
+                                  ] as FormikErrors<InvoiceItemsTypes>
                                 ).quantity || null
                               : null
                             : null
@@ -246,7 +234,7 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
                               ? (
                                   formik.errors.items[
                                     index
-                                  ] as FormikErrors<Items>
+                                  ] as FormikErrors<InvoiceItemsTypes>
                                 ).unitPrice || null
                               : null
                             : null
@@ -270,7 +258,7 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
                               ? (
                                   formik.errors.items[
                                     index
-                                  ] as FormikErrors<Items>
+                                  ] as FormikErrors<InvoiceItemsTypes>
                                 ).discount || null
                               : null
                             : null
@@ -292,7 +280,7 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
                               ? (
                                   formik.errors.items[
                                     index
-                                  ] as FormikErrors<Items>
+                                  ] as FormikErrors<InvoiceItemsTypes>
                                 ).amount || null
                               : null
                             : null
@@ -316,7 +304,7 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
           <button
             type="button"
             onClick={() => {
-              const newItem: Items = {
+              const newItem: InvoiceItemsTypes = {
                 invoiceType: "perHour",
                 description: "",
                 quantity: 1,

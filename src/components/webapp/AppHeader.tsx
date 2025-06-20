@@ -8,8 +8,8 @@ export default function AppHeader() {
   const { toggleSideBar } = useSideBarStore();
 
   return (
-    <header className="z-30 fixed top-0 bg-white dark:bg-primary right-0 left-0">
-      <div className="myContainer py-6 flex justify-between items-center bg-red400">
+    <header className="z-30 fixed md:flex md:justify-end  top-0 bg-white  dark:bg-primary right-0 left-0">
+      <div className="myContainer w-full py-6 flex justify-between  items-center bg-red400">
         <div className="">
           <div className="md:hidden">
             <Logo />
