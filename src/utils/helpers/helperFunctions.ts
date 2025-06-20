@@ -20,7 +20,7 @@ interface Items {
 }
 
 // Calculates subtotal (sum of all item amounts after individual discounts)
-export function calculateSubtotal(items: Items[]): number {
+export function calculateTotal(items: Items[]): number {
   return items.reduce((total, item) => {
     const itemTotal =
       item.quantity * item.unitPrice * ((100 - item.discount) / 100);
@@ -35,7 +35,7 @@ export function calculateServiceFee(
   return (subtotal * SERVICE_CHARGE) / 100;
 }
 
-export function calculateFinalTotal(
+export function calculateNetTotal(
   subtotal: number,
   serviceFee: number
 ): number {

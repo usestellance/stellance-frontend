@@ -8,9 +8,9 @@ import InputField from "../ui/InputField";
 import TextAreaField from "../ui/TextAreaField";
 import AppButton from "../ui/AppButton";
 import {
-  calculateFinalTotal,
+  calculateNetTotal,
   calculateServiceFee,
-  calculateSubtotal,
+  calculateTotal,
   formatCurrency,
 } from "../../../utils/helpers/helperFunctions";
 import { SERVICE_CHARGE } from "../../../utils/Constants";
@@ -69,11 +69,11 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
     formik.setFieldValue("items", updatedItems);
   };
 
-  const subtotalValue = calculateSubtotal(formik.values.items);
-  const subtotal = formatCurrency(subtotalValue);
-  const serviceCharge = formatCurrency(calculateServiceFee(subtotalValue));
-  const total = formatCurrency(
-    calculateFinalTotal(subtotalValue, calculateServiceFee(subtotalValue))
+  const total = calculateTotal(formik.values.items);
+  // const subtotal = formatCurrency(subtotalValue);
+  const serviceCharge = formatCurrency(calculateServiceFee(total));
+  const netTotal = formatCurrency(
+    calculateNetTotal(total, calculateServiceFee(total))
   );
 
   const clearItems = () => {
@@ -327,10 +327,10 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
         <section className="flex flex-col items-end bg-geen-400">
           <div className="myContainer border-b border-[#bfbfbf99] pt-[35px] pb-[18px] lg:pb-[33px] flex justify-between items-center min-w-[600px] max-w-3xl gap-4">
             <h5 className="text-sm font-bold leading-[25px] md:text-lg whitespace-nowrap">
-              Sub Total
+              Net Total
             </h5>
             <h5 className="text-sm font-bold leading-[25px] md:text-lg truncate">
-              {subtotal}
+              {netTotal}
             </h5>
           </div>
 
@@ -356,7 +356,7 @@ export default function CreateInvoiceDesktop({ inv }: { inv: string }) {
                 Total
               </h5>
               <h5 className="truncate text-sm font-bold leading-[25px] md:text-lg py-3 px-4">
-                {total}
+                {formatCurrency(total)}
               </h5>
             </div>
           </div>

@@ -11,9 +11,9 @@ import InvoiceItemsCard from "../InvoiceItemsCard";
 import { useAddItemModal } from "../../../store/modals";
 import { useInvoiceItems } from "../../../store/invoiceItemsStore";
 import {
-  calculateFinalTotal,
+  calculateNetTotal,
   calculateServiceFee,
-  calculateSubtotal,
+  calculateTotal,
   formatCurrency,
 } from "../../../utils/helpers/helperFunctions";
 import { SERVICE_CHARGE } from "../../../utils/Constants";
@@ -23,11 +23,11 @@ export default function CreateInvoice({ inv }: { inv: string }) {
   const { openModal } = useAddItemModal();
   const { items, removeItem, clearItems, setEditingIndex } = useInvoiceItems();
 
-  const subtotalValue = calculateSubtotal(items);
-  const subtotal = formatCurrency(subtotalValue);
-  const serviceCharge = formatCurrency(calculateServiceFee(subtotalValue));
-  const total = formatCurrency(
-    calculateFinalTotal(subtotalValue, calculateServiceFee(subtotalValue))
+  const total = calculateTotal(items);
+  // const subtotal = formatCurrency(subtotalValue);
+  const serviceCharge = formatCurrency(calculateServiceFee(total));
+  const netTotal = formatCurrency(
+    calculateNetTotal(total, calculateServiceFee(total))
   );
 
   console.log(inv);
@@ -139,8 +139,8 @@ export default function CreateInvoice({ inv }: { inv: string }) {
         <hr className="border-[#BFBFBF99] mt-10" />
 
         <div className="myContainer pt-[35px] pb-[18px] flex justify-between items-center">
-          <h5 className="text-sm font-bold leading-[25px]">Sub Total</h5>
-          <h5 className="text-sm font-bold leading-[25px]">{subtotal}</h5>
+          <h5 className="text-sm font-bold leading-[25px]">Net Total</h5>
+          <h5 className="text-sm font-bold leading-[25px]">{netTotal}</h5>
         </div>
 
         <hr className="border-[#BFBFBF99]" />
@@ -165,7 +165,7 @@ export default function CreateInvoice({ inv }: { inv: string }) {
               Total
             </h5>
             <h5 className="text-sm font-bold leading-[25px] py-3 px-4 ">
-              {total}
+              {formatCurrency(total)}
             </h5>
           </div>
 
