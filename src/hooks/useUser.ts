@@ -30,7 +30,7 @@ export const useCompleteProfile = () => {
   >({
     mutationFn: handleCompleteProfile,
     onSuccess: (data: ILoginResponse) => {
-      console.log(data.data);
+      console.log(data);
 
       toast.success(data.message);
         router.push(dashboardRoute);
