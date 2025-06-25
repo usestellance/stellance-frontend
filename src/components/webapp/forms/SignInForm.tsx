@@ -1,18 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import { signInValidation } from "../../../lib/validations/userValidations";
 import InputField from "../ui/InputField";
 import AppButton from "../ui/AppButton";
 import { FcGoogle } from "react-icons/fc";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { accountSetUpRoute } from "../../../utils/route";
+// import { useRouter } from "next/navigation";
+// import { accountSetUpRoute } from "../../../utils/route";
 import { IUser } from "../../../lib/types/userTypes";
+import { useLogin } from "../../../hooks/useAuth";
 
 export default function SignInForm() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  // const router = useRouter();
+
+  const { mutate, isPending } = useLogin();
 
   const formik = useFormik<Partial<IUser>>({
     initialValues: {
@@ -20,15 +21,14 @@ export default function SignInForm() {
       password: "",
     },
     validationSchema: signInValidation,
-    onSubmit: (values) => {
-      setLoading(true);
+    onSubmit: async (values) => {
+      const { email, password } = values;
+      // setLoading(true);
       console.log(values);
-      router.push(accountSetUpRoute);
-
-      setTimeout(() => {
-        setLoading(false);
-        toast.success("Login Successful");
-      }, 1000);
+      // router.push(accountSetUpRoute);
+      // const clear = await axiosInstance.post("/auth/clear");
+      // console.log(clear);
+      mutate({ email, password });
     },
   });
 
@@ -44,7 +44,7 @@ export default function SignInForm() {
           label="Email"
           placeholder="Enter your email"
           type="email"
-          value={formik.values.email || ''}
+          value={formik.values.email || ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.email ? formik.errors.email || null : null}
@@ -57,7 +57,7 @@ export default function SignInForm() {
             label="Password"
             placeholder="Enter your password"
             type="password"
-            value={formik.values.password || ''}
+            value={formik.values.password || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={
@@ -71,17 +71,17 @@ export default function SignInForm() {
           type="submit"
           className="w-full mt-5 sm:hidden"
           disabled={!(formik.isValid && formik.dirty)}
-          loading={loading}
+          loading={isPending}
         >
           Sign in
         </AppButton>
         <AppButton
           size="lg"
-          loading={loading}
+          loading={isPending}
           type="submit"
           className="w-full mt-5"
           customTheme="bg-white text-primary max-sm:hidden dark:text-white dark:bg-secondary"
-          disabled={loading || !(formik.isValid && formik.dirty)}
+          disabled={isPending || !(formik.isValid && formik.dirty)}
         >
           Sign in
         </AppButton>

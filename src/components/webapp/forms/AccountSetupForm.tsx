@@ -1,59 +1,38 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import { accountSetupValidation } from "../../../lib/validations/userValidations";
 import InputField from "../ui/InputField";
 import AppButton from "../ui/AppButton";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { countryCodes } from "../../../utils/contents/countryCodes";
 import ComboboxField from "../ui/ComboboxField";
-import { Description, Field, Input, Label } from "@headlessui/react";
-import { createFirstInvoiceRoute } from "../../../utils/route";
+// import { createFirstInvoiceRoute } from "../../../utils/route";
 import { IUser } from "../../../lib/types/userTypes";
+import { useCompleteProfile } from "../../../hooks/useUser";
 
 export default function AccountSetupForm() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  // const router = useRouter();
+  const { mutate, isPending } = useCompleteProfile();
 
   const countryOptions = countryCodes.map((c) => ({
     label: c.country,
     value: c.country.toLowerCase(),
   }));
 
-  // const phoneCodes = countryCodes.map((c) => ({
-  //   label: c.country,
-  //   value: c.code,
-  // }));
-
   const formik = useFormik<IUser>({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      businessName: "",
-      countryCode: "",
-      phoneNumber: "",
-      walletAddress: "",
+      first_name: "",
+      last_name: "",
+      business_name: "",
+      phone_number: "",
       country: "",
     },
     validationSchema: accountSetupValidation,
     onSubmit: (values) => {
-      setLoading(true);
       console.log(values);
-
-      let phoneNumber = values.phoneNumber && values.phoneNumber.trim();
-      if (phoneNumber?.startsWith("0")) {
-        phoneNumber = phoneNumber.substring(1);
-      }
-
-      // const phone = countryCode.code + phoneNumber;
-
-      router.push(createFirstInvoiceRoute);
-
-      setTimeout(() => {
-        setLoading(false);
-        toast.success("Submitted Successfully");
-      }, 1000);
+      mutate(values);
+      // router.push(createFirstInvoiceRoute);
     },
   });
 
@@ -65,28 +44,28 @@ export default function AccountSetupForm() {
       >
         <InputField
           className="input-class-auth"
-          name="firstName"
+          name="first_name"
           label="First Name"
           placeholder="First name"
           type="text"
-          value={formik.values.firstName || ""}
+          value={formik.values.first_name || ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={
-            formik.touched.firstName ? formik.errors.firstName || null : null
+            formik.touched.first_name ? formik.errors.first_name || null : null
           }
         />
         <InputField
           className="input-class-auth"
-          name="lastName"
+          name="last_name"
           label="Last Name"
           placeholder="Last name"
           type="text"
-          value={formik.values.lastName || ""}
+          value={formik.values.last_name || ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={
-            formik.touched.lastName ? formik.errors.lastName || null : null
+            formik.touched.last_name ? formik.errors.last_name || null : null
           }
         />
 
@@ -106,96 +85,51 @@ export default function AccountSetupForm() {
         />
         <InputField
           className="input-class-auth"
-          name="businessName"
+          name="business_name"
           label="Business Name (Optional)"
           placeholder="Business name"
           type="text"
-          value={formik.values.businessName || ""}
+          value={formik.values.business_name || ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={
-            formik.touched.businessName
-              ? formik.errors.businessName || null
+            formik.touched.business_name
+              ? formik.errors.business_name || null
               : null
           }
         />
-
-        {/* Phone Number and country code */}
-        <Field>
-          <Label htmlFor="phoneNumber" className="label-class">
-            Phone Number (Optional)
-          </Label>
-
-          <div className="relative flex gap-2">
-            {/* Country Code Input */}
-            <div className="basis-1/5">
-              <Input
-                id="countryCode"
-                name="countryCode"
-                type="tel"
-                placeholder="234"
-                value={formik.values.countryCode}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className={`input-class-auth
-                ${
-                  formik.touched.countryCode && formik.errors.countryCode
-                    ? "border-[#B40000E5] text-[#B40000]"
-                    : "border-[#AAAAAA]"
-                }`}
-              />
-            </div>
-
-            {/* Phone Number Input */}
-            <div className="flex-1">
-              <Input
-                id="phoneNumber"
-                name="phoneNumber"
-                type="text"
-                placeholder="000 0000 000"
-                value={formik.values.phoneNumber}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className={`input-class-auth
-                  ${
-                    formik.touched.phoneNumber && formik.errors.phoneNumber
-                      ? "border-[#B40000E5] text-[#B40000]"
-                      : "border-[#AAAAAA]"
-                  }`}
-              />
-            </div>
-          </div>
-
-          {/* Error Message */}
-          {(formik.touched.phoneNumber && formik.errors.phoneNumber) ||
-          (formik.touched.countryCode && formik.errors.countryCode) ? (
-            <Description className="mt-1 text-xs text-[#B40000] flex flex-col gap-1">
-              {formik.touched.phoneNumber && formik.errors.phoneNumber && (
-                <span>{formik.errors.phoneNumber}</span>
-              )}
-              {formik.touched.countryCode && formik.errors.countryCode && (
-                <span>{formik.errors.countryCode}</span>
-              )}
-            </Description>
-          ) : null}
-        </Field>
+        <InputField
+          className="input-class-auth"
+          name="phone_number"
+          label="Phone Number"
+          placeholder="Phone Number"
+          type="tel"
+          value={formik.values.phone_number || ""}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={
+            formik.touched.phone_number
+              ? formik.errors.phone_number || null
+              : null
+          }
+        />
 
         <AppButton
           size="lg"
           type="submit"
           className="w-full mt-5 sm:hidden"
-          disabled={!(formik.isValid && formik.dirty)}
-          loading={loading}
+          disabled={isPending || !(formik.isValid && formik.dirty)}
+          loading={isPending}
         >
           Submit
         </AppButton>
         <AppButton
           size="lg"
-          loading={loading}
+          loading={isPending}
           type="submit"
           className="w-full mt-5"
           customTheme="bg-white text-primary max-sm:hidden dark:text-white dark:bg-secondary"
-          disabled={!(formik.isValid && formik.dirty)}
+          disabled={isPending || !(formik.isValid && formik.dirty)}
         >
           Submit
         </AppButton>

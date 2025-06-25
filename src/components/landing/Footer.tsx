@@ -33,8 +33,8 @@ export default function Footer() {
               <div className="">CONTACT US</div>
 
               <div>
-                <Link href="/" className="">
-                  info@stellance.com
+                <Link href="mailto:support@usestellance.com" className="">
+                  support@usestellance.com
                 </Link>
                 <div className="flex gap-4 mt-3 max-[390px]:justify-center">
                   <Link

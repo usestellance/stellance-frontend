@@ -1,20 +1,20 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useFormik } from "formik";
 import { signUpValidation } from "../../../lib/validations/userValidations";
 import InputField from "../ui/InputField";
 import Link from "next/link";
 import { getPasswordStrength } from "../../../utils/helpers/passwordStrength";
 import { FcGoogle } from "react-icons/fc";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { verificationRoute } from "../../../utils/route";
+// import { useRouter } from "next/navigation";
 import AppButton from "../ui/AppButton";
 import { IUser } from "../../../lib/types/userTypes";
+import { useRegister } from "../../../hooks/useAuth";
 
 export default function SignUpForm() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  // const router = useRouter();
+  const { mutate, isPending } = useRegister();
+
   const formik = useFormik<IUser>({
     initialValues: {
       email: "",
@@ -22,14 +22,12 @@ export default function SignUpForm() {
     },
     validationSchema: signUpValidation,
     onSubmit: (values) => {
-      setLoading(true);
+      const { email, password } = values;
+      // setLoading(true);
       console.log(values);
-      router.push(verificationRoute(values.email || ""));
+      // router.push(accountSetUpRoute);
 
-      setTimeout(() => {
-        setLoading(false);
-        toast.success("Verification Sent");
-      }, 1000);
+      mutate({ email, password });
     },
   });
 
@@ -98,20 +96,20 @@ export default function SignUpForm() {
           size="lg"
           type="submit"
           className="w-full mt-5 sm:hidden"
-          disabled={!(formik.isValid && formik.dirty)}
-          loading={loading}
+          disabled={isPending || !(formik.isValid && formik.dirty)}
+          loading={isPending}
         >
-          Sign in
+          Sign up
         </AppButton>
         <AppButton
           size="lg"
-          loading={loading}
+          loading={isPending}
           type="submit"
           className="w-full mt-5"
           customTheme="bg-white text-primary max-sm:hidden dark:text-white dark:bg-secondary"
-          disabled={!(formik.isValid && formik.dirty)}
+          disabled={isPending || !(formik.isValid && formik.dirty)}
         >
-          Sign in
+          Sign up
         </AppButton>
       </form>
 

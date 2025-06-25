@@ -1,5 +1,6 @@
 import AppHeader from "../../../components/webapp/AppHeader";
 import AppSideBar from "../../../components/webapp/AppSideBar";
+import AuthProvider from "../../../providers/AuthProvider";
 // import PageLoading from "../../../components/webapp/PageLoading";
 
 export default function Layout({
@@ -8,7 +9,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="">
+    <AuthProvider>
       <AppHeader />
       <div className="md:h-screen flex justify-between">
         <AppSideBar />
@@ -16,6 +17,6 @@ export default function Layout({
           {children}
         </div>
       </div>
-    </div>
+    </AuthProvider>
   );
 }

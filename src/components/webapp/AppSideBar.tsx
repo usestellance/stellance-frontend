@@ -5,15 +5,16 @@ import { IoIosClose } from "react-icons/io";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  HiOutlineArrowRightOnRectangle,
   HiOutlineHomeModern,
-  //   HiOutlineQuestionMarkCircle,
-  //   HiOutlineArrowRightOnRectangle,
+  HiOutlineQuestionMarkCircle,
 } from "react-icons/hi2";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import { TfiWorld } from "react-icons/tfi";
 import { PiWallet } from "react-icons/pi";
 import { HiOutlineBriefcase } from "react-icons/hi";
 import Image from "next/image";
+import { userAuth } from "../../store/userAuth";
 
 // Navigation items configuration
 const navigationItems = [
@@ -45,18 +46,18 @@ const navigationItems = [
 ];
 
 // Bottom navigation items
-// const bottomNavigationItems = [
-//   {
-//     name: "Help & Support",
-//     href: "/help",
-//     icon: HiOutlineQuestionMarkCircle,
-//   },
-//   {
-//     name: "Logout",
-//     href: "/logout",
-//     icon: HiOutlineArrowRightOnRectangle,
-//   },
-// ];
+const bottomNavigationItems = [
+  {
+    name: "Help & Support",
+    href: "/help",
+    icon: HiOutlineQuestionMarkCircle,
+  },
+  // {
+  //   name: "Logout",
+  //   href: "/logout",
+  //   icon: HiOutlineArrowRightOnRectangle,
+  // },
+];
 
 interface NavLinkProps {
   item: {
@@ -96,6 +97,7 @@ const NavLink: React.FC<NavLinkProps> = ({ item, isActive, onClick }) => {
 };
 
 const NavLinks: React.FC<{ onLinkClick?: () => void }> = ({ onLinkClick }) => {
+  const { logout } = userAuth();
   const pathname = usePathname();
 
   return (
@@ -115,7 +117,7 @@ const NavLinks: React.FC<{ onLinkClick?: () => void }> = ({ onLinkClick }) => {
       </div>
 
       {/* Bottom Navigation */}
-      {/* <div className="py-4 border-t border-gray-200">
+      <div className="py-4 border-t border-gray-200">
         <ul className="space-y-1">
           {bottomNavigationItems.map((item) => (
             <NavLink
@@ -125,8 +127,21 @@ const NavLinks: React.FC<{ onLinkClick?: () => void }> = ({ onLinkClick }) => {
               onClick={onLinkClick}
             />
           ))}
+          <li>
+            <a
+              onClick={logout}
+              className={`flex items-center gap-4 pl-6 py-[15px] transition-colors duration-200 md:py-5 lg:pl-[40px] lg:gap-6 lg:rounded-tr-[5px] cursor-pointer lg:rounded-br-[5px] overflow-hidden text-primary hover:bg-primary/10 dark:hover:bg-secondary/10`}
+            >
+              <HiOutlineArrowRightOnRectangle
+                className={` ${"text-primary"} text-lg flex-shrink-0 md:text-xl lg:text-[24px]`}
+              />
+              <span className="text-lg font-medium md:text-xl lg:text-[22px]">
+                Logout
+              </span>
+            </a>
+          </li>
         </ul>
-      </div> */}
+      </div>
     </nav>
   );
 };
