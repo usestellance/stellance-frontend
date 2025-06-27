@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import {
   HiOutlineArrowRightOnRectangle,
   HiOutlineHomeModern,
-  HiOutlineQuestionMarkCircle,
+  // HiOutlineQuestionMarkCircle,
 } from "react-icons/hi2";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import { TfiWorld } from "react-icons/tfi";
@@ -46,18 +46,18 @@ const navigationItems = [
 ];
 
 // Bottom navigation items
-const bottomNavigationItems = [
-  {
-    name: "Help & Support",
-    href: "/help",
-    icon: HiOutlineQuestionMarkCircle,
-  },
-  // {
-  //   name: "Logout",
-  //   href: "/logout",
-  //   icon: HiOutlineArrowRightOnRectangle,
-  // },
-];
+// const bottomNavigationItems = [
+//   {
+//     name: "Help & Support",
+//     href: "/help",
+//     icon: HiOutlineQuestionMarkCircle,
+//   },
+//   // {
+//   //   name: "Logout",
+//   //   href: "/logout",
+//   //   icon: HiOutlineArrowRightOnRectangle,
+//   // },
+// ];
 
 interface NavLinkProps {
   item: {
@@ -119,14 +119,14 @@ const NavLinks: React.FC<{ onLinkClick?: () => void }> = ({ onLinkClick }) => {
       {/* Bottom Navigation */}
       <div className="py-4 border-t border-gray-200">
         <ul className="space-y-1">
-          {bottomNavigationItems.map((item) => (
+          {/* {bottomNavigationItems.map((item) => (
             <NavLink
               key={item.name}
               item={item}
               isActive={pathname === item.href}
               onClick={onLinkClick}
             />
-          ))}
+          ))} */}
           <li>
             <a
               onClick={logout}

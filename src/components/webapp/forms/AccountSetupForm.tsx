@@ -10,9 +10,11 @@ import ComboboxField from "../ui/ComboboxField";
 // import { createFirstInvoiceRoute } from "../../../utils/route";
 import { IUser } from "../../../lib/types/userTypes";
 import { useCompleteProfile } from "../../../hooks/useUser";
+// import useAxiosAuth from "../../../hooks/useAxiosAuth";
 
 export default function AccountSetupForm() {
   // const router = useRouter();
+  // const axiosAuth = useAxiosAuth();
   const { mutate, isPending } = useCompleteProfile();
 
   const countryOptions = countryCodes.map((c) => ({
@@ -29,9 +31,21 @@ export default function AccountSetupForm() {
       country: "",
     },
     validationSchema: accountSetupValidation,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log(values);
-      mutate(values);
+      const { business_name, country, first_name, last_name, phone_number } =
+        values;
+
+      // const response = await axiosInstance.post("/auth/clear")
+      // const response = await axiosAuth.post("/profile", {
+      //   first_name,
+      //   last_name,
+      //   phone_number,
+      //   business_name,
+      //   country: country,
+      // });
+      // console.log(response);
+      mutate({ business_name, country, first_name, last_name, phone_number });
       // router.push(createFirstInvoiceRoute);
     },
   });

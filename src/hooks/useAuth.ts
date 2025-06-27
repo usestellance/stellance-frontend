@@ -32,7 +32,8 @@ export const useLogin = () => {
       const user = data.data.user;
       sessionStorage.setItem("access_token", access_token);
       sessionStorage.setItem("user", JSON.stringify(user));
-      console.log(data.data.profile_complete);
+
+      console.log(data.data);
 
       const isProfileComplete = data.data.profile_complete;
 
@@ -73,7 +74,7 @@ export const useRegister = () => {
       const user = data.data.user;
       sessionStorage.setItem("access_token", access_token);
       sessionStorage.setItem("user", JSON.stringify(user));
-      console.log(data.data);
+      // console.log(data.data);
 
       toast.success(data.message);
       router.push(verificationRoute(user?.email || ""));

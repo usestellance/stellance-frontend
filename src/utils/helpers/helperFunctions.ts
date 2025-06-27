@@ -1,3 +1,4 @@
+import { InvoiceItemsTypes } from "../../lib/types/invoiceType";
 import { SERVICE_CHARGE } from "../Constants";
 
 // utils/formatCurrency.ts
@@ -13,17 +14,13 @@ export function formatCurrency(
   }).format(value);
 }
 
-interface Items {
-  quantity: number;
-  unitPrice: number;
-  discount: number;
-}
+
 
 // Calculates subtotal (sum of all item amounts after individual discounts)
-export function calculateTotal(items: Items[]): number {
+export function calculateTotal(items: InvoiceItemsTypes[]): number {
   return items.reduce((total, item) => {
     const itemTotal =
-      item.quantity * item.unitPrice * ((100 - item.discount) / 100);
+      item.quantity * item.unit_price * ((100 - item.discount) / 100);
     return total + itemTotal;
   }, 0);
 }

@@ -151,9 +151,11 @@ const ComboboxField = <T extends SelectOption>({
       </Combobox>
 
       {/* Error Message */}
-      {error && (
-        <p className="mt-1.5 text-sm text-red-600 dark:text-red-400">{error}</p>
-      )}
+          {error && (
+            <p className="mt-1 text-xs text-[#b40000]">
+              {error}
+            </p>
+          )}
     </div>
   );
 };

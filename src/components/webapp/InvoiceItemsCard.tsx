@@ -1,27 +1,28 @@
 import React, { FC } from "react";
 import { FiTrash } from "react-icons/fi";
 import { RiEditLine } from "react-icons/ri";
+import { formatCurrency } from "../../utils/helpers/helperFunctions";
 
 interface ICard {
   description: string;
-  unitPrice: number;
+  unit_price: number;
   quantity: number;
   amount: number;
   discount: number;
   removeItem: () => void;
-  invoiceType: string;
-    editItem: () => void;
+  invoice_type: string;
+  editItem: () => void;
 }
 
 const InvoiceItemsCard: FC<ICard> = ({
   amount,
   description,
   discount,
-  invoiceType,
+  invoice_type,
   quantity,
-  unitPrice,
+  unit_price,
   removeItem,
-  editItem
+  editItem,
 }) => {
   return (
     <div className="relative bg-primary-light rounded-[5px] px-[10px] pt-2 pb-3 md:hidden">
@@ -51,10 +52,10 @@ const InvoiceItemsCard: FC<ICard> = ({
         <thead>
           <tr>
             <th className="font-normal pr-[10px] text-[#8F8F8F]">
-              {invoiceType === "perHour" ? "Unit Price/hr" : "Unit Price"}
+              {invoice_type === "per_hour" ? "Unit Price/hr" : "Unit Price"}
             </th>
             <th className="font-normal px-[10px] text-[#8F8F8F]">
-              {invoiceType === "perHour" ? "Quantity/hr" : "Quantity"}
+              {invoice_type === "per_hour" ? "Quantity/hr" : "Quantity"}
             </th>
             <th className="font-normal px-[10px] text-[#8F8F8F]">Discount</th>
             <th className="font-normal px-[10px] text-[#8F8F8F]">Amount</th>
@@ -62,10 +63,12 @@ const InvoiceItemsCard: FC<ICard> = ({
         </thead>
         <tbody>
           <tr className="text-xs text-text-strong">
-            <td className="text-center py-[6px]">${unitPrice}</td>
+            <td className="text-center py-[6px]">
+              {formatCurrency(unit_price || 0)}
+            </td>
             <td className="text-center">{quantity}</td>
             <td className="text-center">{discount}</td>
-            <td className="text-center">${amount}</td>
+            <td className="text-center">{formatCurrency(amount || 0)}</td>
           </tr>
         </tbody>
       </table>

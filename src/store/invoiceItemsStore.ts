@@ -1,20 +1,13 @@
 // store/invoiceItems.ts
 import { create } from "zustand";
+import { InvoiceItemsTypes } from "../lib/types/invoiceType";
 
-interface Item {
-  invoiceType: string;
-  description: string;
-  quantity: number;
-  unitPrice: number;
-  discount: number;
-  amount: number;
-}
 
 interface InvoiceItemsStore {
-  items: Item[];
+  items: InvoiceItemsTypes[];
   editingIndex: number | null;
-  addItem: (item: Item) => void;
-  updateItem: (item: Item) => void;
+  addItem: (item: InvoiceItemsTypes) => void;
+  updateItem: (item: InvoiceItemsTypes) => void;
   setEditingIndex: (index: number | null) => void;
   removeItem: (index: number) => void;
   clearItems: () => void;

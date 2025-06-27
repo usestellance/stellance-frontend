@@ -1,19 +1,34 @@
 export interface InvoiceItemsTypes {
-  invoiceType: string;
+  invoice_type: string;
   description: string;
   quantity: number;
-  unitPrice: number;
+  unit_price: number;
   discount: number;
   amount: number;
 }
 
 export interface InvoiceType {
-  title: string;
-  billTo: string;
-  email: string;
-  address: string;
-  items: InvoiceItemsTypes[];
-  dueDate: string;
-  note: string;
-  serviceFee: string;
+  id?:string
+  invoice_number?:string
+  invoice_url?:string
+  title?: string;
+  payer_name?: string;
+  payer_email?: string;
+  country?: string;
+  sub_total?:number
+  total?:number
+  currency?:string
+  status?:string
+  due_date?: string;
+  service_fee?: number;
+  created_at?:string
+  updated_at?:string
+  invoice_items?: InvoiceItemsTypes[];
+  items?: InvoiceItemsTypes[];
+}
+
+export interface InvoiceResponseType {
+  status_code: number;
+  message: string;
+  data: InvoiceType;
 }

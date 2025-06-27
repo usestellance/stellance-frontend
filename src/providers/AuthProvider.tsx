@@ -15,8 +15,10 @@ export default function AuthProvider({
 }) {
   const { resetState } = useSideBarStore();
   const router = useRouter();
-  const { initializeAuth, credentials } = userAuth();
+  const { initializeAuth, credentials, logout} = userAuth();
   const [isInitialized, setIsInitialized] = useState(false);
+
+  // console.log(credentials);
 
   useEffect(() => {
     // Initialize auth state first
@@ -29,6 +31,7 @@ export default function AuthProvider({
     if (isInitialized) {
       if (!credentials) {
         router.replace(signInRoute);
+        logout();
       }
       resetState();
     }
@@ -41,7 +44,7 @@ export default function AuthProvider({
 
   // Show loading while redirecting
   if (!credentials) {
-    return <PageLoading showLogo />
+    return <PageLoading showLogo />;
   }
 
   return <>{children}</>;

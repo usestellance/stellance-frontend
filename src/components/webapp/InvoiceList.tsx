@@ -33,9 +33,10 @@ const InvoiceList: React.FC<InvoiceListProps> = ({ invoice }) => {
 
   const getStatusBadge = (status: string) => {
     const statusStyles = {
-      Paid: "text-[#004E31] border-[#007A4D]",
-      Pending: "border-[#FFCE74] text-[#885800] dark:text-[#FFC75F] ",
-      Overdue: "text-[#910400] border-[#D31510]",
+      Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20",
+      Pending:
+        "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
+      Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
       Draft: "bg-gray-100 text-gray-800 border-gray-200",
     };
 

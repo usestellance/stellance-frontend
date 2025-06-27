@@ -1,17 +1,20 @@
 import { toast } from "sonner";
-import { dashboardRoute } from "../utils/route";
+import { dashboardRoute, signInRoute } from "../utils/route";
 import { useRouter } from "next/navigation";
 import useAxiosAuth from "./useAxiosAuth";
 import { ILoginResponse, IUser } from "../lib/types/userTypes";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import { userAuth } from "../store/userAuth";
 
 export const useCompleteProfile = () => {
+  const { logout } = userAuth();
   const { post } = useAxiosAuth();
   const router = useRouter();
 
   // Define the function to handle the registration API call
   const handleCompleteProfile = async (data: IUser) => {
+    // const response = await get('/auth/clear')
     const response = await post("/profile", {
       first_name: data.first_name,
       last_name: data.last_name,
@@ -19,6 +22,7 @@ export const useCompleteProfile = () => {
       business_name: data.business_name,
       Country: data.country,
     });
+    console.log(response);
     return response.data;
   };
 
@@ -30,10 +34,10 @@ export const useCompleteProfile = () => {
   >({
     mutationFn: handleCompleteProfile,
     onSuccess: (data: ILoginResponse) => {
-      console.log(data);
+      // console.log(data);
 
       toast.success(data.message);
-        router.push(dashboardRoute);
+      router.push(dashboardRoute);
     },
     onError: (error) => {
       const errorMessage =
@@ -41,7 +45,11 @@ export const useCompleteProfile = () => {
           ? error?.response?.data?.message
           : "An unknown error occurred.";
       toast.error(errorMessage);
-      //   console.log(error?.response?.data);
+      if (error.response?.status === 401) {
+        router.push(signInRoute);
+        logout();
+      }
+      // console.log(error?.response);
     },
   });
 

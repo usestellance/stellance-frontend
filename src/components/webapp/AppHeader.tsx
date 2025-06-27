@@ -3,9 +3,11 @@ import React from "react";
 import Logo from "./ui/Logo";
 // import { PiUserCircleThin } from "react-icons/pi";
 import { useSideBarStore } from "../../store/NavStore";
+import { userAuth } from "../../store/userAuth";
 
 export default function AppHeader() {
   const { toggleSideBar } = useSideBarStore();
+  const { credentials } = userAuth();
 
   return (
     <header className="z-30 fixed md:flex md:justify-end  top-0 bg-white  dark:bg-primary right-0 left-0">
@@ -57,7 +59,7 @@ export default function AppHeader() {
           </svg>
 
           <div className="max-md:hidden text-xl lg:text-[24px] font-bold">
-            John Doe
+            {credentials?.user?.first_name || ""}
           </div>
 
           {/* Menu icon */}

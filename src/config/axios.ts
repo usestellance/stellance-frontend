@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Define the base URL for the API
-const BASE_URL = "https://api.usestellance.com/api/v1";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_UR;
 
 // Default axios instance
 const axiosInstance = axios.create({

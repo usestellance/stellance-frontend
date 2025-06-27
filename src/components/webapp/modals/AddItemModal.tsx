@@ -11,27 +11,19 @@ import { addItemValidation } from "../../../lib/validations/invoiceValidation";
 import { useEffect } from "react";
 import { useInvoiceItems } from "../../../store/invoiceItemsStore";
 import { toast } from "sonner";
-
-interface Items {
-  invoiceType: string;
-  description: string;
-  quantity: number;
-  unitPrice: number;
-  discount: number;
-  amount: number;
-}
+import { InvoiceItemsTypes } from "../../../lib/types/invoiceType";
 
 export default function AddItemsModal() {
   const { closeModal, isModalOpen } = useAddItemModal();
   const { addItem, updateItem, editingIndex, setEditingIndex, items } =
     useInvoiceItems();
 
-  const formik = useFormik<Items>({
+  const formik = useFormik<InvoiceItemsTypes>({
     initialValues: {
-      invoiceType: "",
+      invoice_type: "",
       description: "",
       quantity: 1,
-      unitPrice: 0,
+      unit_price: 0,
       discount: 0,
       amount: 0,
     },
@@ -44,7 +36,7 @@ export default function AddItemsModal() {
         addItem(values); // Add new item
         toast.success("Item added");
       }
-      console.log(values);
+      // console.log(values);
       formik.resetForm();
       setEditingIndex(null);
       closeModal();
@@ -57,11 +49,15 @@ export default function AddItemsModal() {
   };
 
   useEffect(() => {
-    const { quantity, unitPrice, discount } = formik.values;
-    const subtotal = unitPrice * quantity;
+    const { quantity, unit_price, discount } = formik.values;
+    const subtotal = unit_price * quantity;
     const discounted = subtotal * (1 - discount / 100);
     formik.setFieldValue("amount", parseFloat(discounted.toFixed(2)));
-  }, [formik.values.quantity, formik.values.unitPrice, formik.values.discount]);
+  }, [
+    formik.values.quantity,
+    formik.values.unit_price,
+    formik.values.discount,
+  ]);
 
   useEffect(() => {
     if (editingIndex !== null) {
@@ -75,7 +71,7 @@ export default function AddItemsModal() {
         open={isModalOpen}
         as="div"
         className="bg-[#1D1D1D57]  relative z-[10001] focus:outline-none md:hidden"
-        onClose={closeModal}
+        onClose={handleCloseModal}
         __demoMode
       >
         <div className="fixed top-0 left-0 right-0 bottom-0 inset0 w-screen overflow-y-auto bg-[#1D1D1D57] ">
@@ -97,18 +93,18 @@ export default function AddItemsModal() {
               >
                 <SelectField
                   className="input-class"
-                  name="invoiceType"
+                  name="invoice_type"
                   label="Invoice Type"
                   options={[
-                    { label: "Per Hour", value: "perHour" },
-                    { label: "Per Unit", value: "perUnit" },
+                    { label: "Per Hour", value: "per_hour" },
+                    { label: "Per Unit", value: "per_unit" },
                   ]}
-                  value={formik.values.invoiceType}
-                  onChange={(val) => formik.setFieldValue("invoiceType", val)}
-                  onBlur={() => formik.setFieldTouched("invoiceType", true)}
+                  value={formik.values.invoice_type}
+                  onChange={(val) => formik.setFieldValue("invoice_type", val)}
+                  onBlur={() => formik.setFieldTouched("invoice_type", true)}
                   error={
-                    formik.touched.invoiceType
-                      ? formik.errors.invoiceType || null
+                    formik.touched.invoice_type
+                      ? formik.errors.invoice_type || null
                       : null
                   }
                 />
@@ -144,16 +140,16 @@ export default function AddItemsModal() {
                 />
 
                 <InputField
-                  name="unitPrice"
+                  name="unit_price"
                   label="Unit Price"
                   placeholder="Enter unit price per unit/hr"
                   type="number"
-                  value={formik.values.unitPrice}
+                  value={formik.values.unit_price}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={
-                    formik.touched.unitPrice
-                      ? formik.errors.unitPrice || null
+                    formik.touched.unit_price
+                      ? formik.errors.unit_price || null
                       : null
                   }
                 />
@@ -196,7 +192,11 @@ export default function AddItemsModal() {
                   >
                     Cancel
                   </AppButton>
-                  <AppButton type="submit" size="sm">
+                  <AppButton
+                    disabled={!(formik.isValid || formik.dirty)}
+                    type="submit"
+                    size="sm"
+                  >
                     Add Item
                   </AppButton>
                 </div>
