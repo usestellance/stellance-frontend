@@ -1,7 +1,10 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
 import { createInvoiceRoute } from "../../../../utils/route";
+import { useGetInvoices } from "../../../../hooks/useInvoice";
+import { InvoiceType } from "../../../../lib/types/invoiceType";
 
 const CreateInvoice = () => {
   return (
@@ -31,9 +34,18 @@ const CreateInvoice = () => {
 };
 
 export default function Page() {
-  return (
-    <div className="myContainer">
-      <CreateInvoice />
-    </div>
-  );
+  const { data } = useGetInvoices();
+
+  const invoices: InvoiceType[] = data?.invoice;
+
+  console.log(data);
+
+  if (invoices?.length === 0)
+    return (
+      <div className="myContainer">
+        <CreateInvoice />
+      </div>
+    );
+
+  return <div className="myContainer">{invoices?.length}</div>;
 }

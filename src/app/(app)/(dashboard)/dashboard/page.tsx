@@ -1,8 +1,16 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+import React, { useEffect } from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
 import { invoiceRoute } from "../../../../utils/route";
-import InvoiceList from "../../../../components/webapp/InvoiceList";
-import InvoiceListDesktop from "../../../../components/webapp/InvoiceListDesktop";
+import InvoiceList, {
+  MobileInvoiceSkeleton,
+} from "../../../../components/webapp/InvoiceList";
+import InvoiceListDesktop, { InvoiceListDesktopSkeleton } from "../../../../components/webapp/InvoiceListDesktop";
+import { InvoiceType } from "../../../../lib/types/invoiceType";
+import { useGetInvoices } from "../../../../hooks/useInvoice";
+import { useRouter } from "next/navigation";
+import { responseStatus } from "../../../../utils/helpers/helperFunctions";
 
 const StatsCard = () => {
   return (
@@ -37,35 +45,54 @@ const StatsCard = () => {
 };
 
 export default function Page() {
-  const sampleInvoices = [
-    {
-      id: "INV-001",
-      customer: { name: "John Doe", email: "john@example.com" },
-      description: "Web Development Services",
-      dateIssued: "2024-01-15",
-      dueDate: "2024-02-15",
-      amount: 2500.0,
-      status: "Pending",
-    },
-    {
-      id: "INV-002",
-      customer: { name: "Jane Smith", email: "jane@company.com" },
-      description: "Mobile App Design",
-      dateIssued: "2024-01-10",
-      dueDate: "2024-02-10",
-      amount: 3200.0,
-      status: "Paid",
-    },
-    {
-      id: "INV-003",
-      customer: { name: "Bob Wilson", email: "bob@startup.io" },
-      description: "SEO Optimization Package",
-      dateIssued: "2024-01-08",
-      dueDate: "2024-01-25",
-      amount: 1800.0,
-      status: "Overdue",
-    },
-  ];
+  const { data, error, isError, isLoading } = useGetInvoices();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isError && error) {
+      const statusCode = (error && typeof error === "object" && "status" in error)
+        ? (error as any).status
+        : 500;
+      const message =
+        (error && typeof error === "object" && "response" in error && (error as any).response?.data) ||
+        error?.message ||
+        "An error occurred";
+      responseStatus(statusCode, message, router);
+      // console.log(error)
+    }
+  }, [isError, error, router]);
+
+  const invoices: InvoiceType[] = data?.invoice;
+
+  // const sampleInvoices = [
+  //   {
+  //     id: "INV-001",
+  //     customer: { name: "John Doe", email: "john@example.com" },
+  //     description: "Web Development Services",
+  //     dateIssued: "2024-01-15",
+  //     dueDate: "2024-02-15",
+  //     amount: 2500.0,
+  //     status: "Pending",
+  //   },
+  //   {
+  //     id: "INV-002",
+  //     customer: { name: "Jane Smith", email: "jane@company.com" },
+  //     description: "Mobile App Design",
+  //     dateIssued: "2024-01-10",
+  //     dueDate: "2024-02-10",
+  //     amount: 3200.0,
+  //     status: "Paid",
+  //   },
+  //   {
+  //     id: "INV-003",
+  //     customer: { name: "Bob Wilson", email: "bob@startup.io" },
+  //     description: "SEO Optimization Package",
+  //     dateIssued: "2024-01-08",
+  //     dueDate: "2024-01-25",
+  //     amount: 1800.0,
+  //     status: "Overdue",
+  //   },
+  // ];
 
   return (
     <div className="myContainer">
@@ -87,49 +114,35 @@ export default function Page() {
       <section className="mt-[47px] lg:mt-[60px]">
         <h4 className="section-subtitle">Latest Invoices</h4>
         <div className="flex flex-col gap-[15px] mt-3 xl:hidden">
-          {sampleInvoices.map((invoice) => (
-            <InvoiceList key={invoice.id} invoice={invoice} />
-          ))}
+          {isLoading
+            ? Array.from({ length: 5 }).map((_, i) => (
+                <MobileInvoiceSkeleton key={i} />
+              ))
+            : invoices?.map((invoice: InvoiceType) => (
+                <InvoiceList key={invoice.id} {...invoice} />
+              ))}
         </div>
 
-          {/* Table */}
+        {/* Table */}
         <table className="min-w-full border-separate border-spacing-y-2 overflow-hidden text-text-strong dark:text-white max-xl:hidden mt-[20px]">
           <thead className="bg-[#D9E4F866] overflow-hidden ">
             <tr className="">
-              <th
-                scope="col"
-                className="px-4 py-5 text-start font-bold "
-              >
+              <th scope="col" className="px-4 py-5 text-start font-bold ">
                 Invoice ID
               </th>
-              <th
-                scope="col"
-                className="px-4 py-5 text-center font-bold "
-              >
+              <th scope="col" className="px-4 py-5 text-center font-bold ">
                 Customer Details
               </th>
-              <th
-                scope="col"
-                className="px-4 py-5 text-center font-bold "
-              >
-                Description
+              <th scope="col" className="px-4 py-5 text-center font-bold ">
+                Title
               </th>
-              <th
-                scope="col"
-                className="px-4 py-5 text-center font-bold "
-              >
+              <th scope="col" className="px-4 py-5 text-center font-bold ">
                 Date Issued
               </th>
-              <th
-                scope="col"
-                className="px-4 py-5 text-center font-bold "
-              >
+              <th scope="col" className="px-4 py-5 text-center font-bold ">
                 Due Date
               </th>
-              <th
-                scope="col"
-                className="px-4 py-5 text-center font-bold "
-              >
+              <th scope="col" className="px-4 py-5 text-center font-bold ">
                 Amount
               </th>
               <th
@@ -143,9 +156,13 @@ export default function Page() {
 
           {/* Table Body */}
           <tbody className="divide-y divide-black">
-            {sampleInvoices.map((invoice) => (
-              <InvoiceListDesktop key={invoice.id} invoice={invoice} />
-            ))}
+            {isLoading
+              ? Array.from({ length: 5 }).map((_, i) => (
+                  <InvoiceListDesktopSkeleton key={i} />
+                ))
+              : invoices?.map((invoice: InvoiceType) => (
+                  <InvoiceListDesktop key={invoice.id} {...invoice} />
+                ))}
           </tbody>
         </table>
       </section>

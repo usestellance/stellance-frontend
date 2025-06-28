@@ -9,7 +9,7 @@ import InputField from "../ui/InputField";
 import AppButton from "../ui/AppButton";
 import InvoiceItemsCard from "../InvoiceItemsCard";
 import { useAddItemModal } from "../../../store/modals";
-import { useInvoiceItems } from "../../../store/invoiceItemsStore";
+import { useInvoiceItems } from "../../../store/invoiceStore";
 import {
   calculateNetTotal,
   calculateServiceFee,

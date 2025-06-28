@@ -1,44 +1,21 @@
 import React from "react";
+import { InvoiceType } from "../../lib/types/invoiceType";
+import {
+  capitalizeWords,
+  formatCurrency,
+} from "../../utils/helpers/helperFunctions";
 
-interface Invoice {
-  id: string;
-  customer: {
-    name: string;
-    email: string;
-  };
-  description: string;
-  dateIssued: string;
-  dueDate: string;
-  amount: number;
-  status: string;
-}
-
-interface InvoiceListProps {
-  invoice?: Invoice;
-}
-
-const InvoiceList: React.FC<InvoiceListProps> = ({ invoice }) => {
-  const sampleInvoice = invoice || {
-    id: "INV-001",
-    customer: {
-      name: "John Doe",
-      email: "john@example.com",
-    },
-    description: "Web Development Services",
-    dateIssued: "2024-01-15",
-    dueDate: "2024-02-15",
-    amount: 2500.0,
-    status: "Pending",
-  };
-
+const InvoiceList: React.FC<InvoiceType> = (invoice) => {
   const getStatusBadge = (status: string) => {
     const statusStyles = {
       Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20",
       Pending:
         "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
       Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
-      Draft: "bg-gray-100 text-gray-800 border-gray-200",
+      Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
     };
+
+    // console.log(invoice);
 
     return (
       <span
@@ -54,18 +31,37 @@ const InvoiceList: React.FC<InvoiceListProps> = ({ invoice }) => {
 
   return (
     <div className="flex justify-between items-center bg-[#D9E4F866] rounded-[5px] px-[15px] py-3 xl:hidden">
-      <div className="flex flex-col gap-[5px]">
-        <p className="text-xs leading-[25px]">{sampleInvoice.id}</p>
-        <div className="">{getStatusBadge(sampleInvoice.status)}</div>
+      <div className="flex flex-col gap-4 justify-between">
+        <p className="text-xs leading-[25px]">{invoice.invoice_number}</p>
+        <div className="">
+          {getStatusBadge(capitalizeWords(invoice.status || "") || "")}
+        </div>
       </div>
       <div className="text-end text-sm">
         <p>To:</p>
-        <p className="font-bold"> {sampleInvoice.customer.name}</p>
-        <p className="font-bold">$1,000.00</p>
-        <p>Due Date: {new Date(sampleInvoice.dueDate).toLocaleDateString()}</p>
+        <p className="font-bold"> {invoice.payer_name}</p>
+        <p className="font-bold">{formatCurrency(invoice.total || 0)}</p>
+        <p>Due Date: {new Date(invoice.due_date || "").toLocaleDateString()}</p>
       </div>
     </div>
   );
 };
 
 export default InvoiceList;
+
+export const MobileInvoiceSkeleton = () => {
+  return (
+    <div className="flex justify-between items-center bg-[#D9E4F866] rounded-[5px] px-[15px] py-3 animate-pulse xl:hidden">
+      <div className="flex flex-col gap-4 justify-between">
+        <div className="h-3 w-24 bg-gray-300 rounded"></div>
+        <div className="h-5 w-16 bg-gray-300 rounded"></div>
+      </div>
+      <div className="flex flex-col gap-1 items-end text-end">
+        <div className="h-3 w-10 bg-gray-300 rounded"></div>
+        <div className="h-4 w-24 bg-gray-300 rounded"></div>
+        <div className="h-4 w-16 bg-gray-300 rounded"></div>
+        <div className="h-3 w-20 bg-gray-300 rounded"></div>
+      </div>
+    </div>
+  );
+};

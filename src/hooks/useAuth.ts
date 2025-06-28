@@ -46,6 +46,7 @@ export const useLogin = () => {
           ? error.response.data.message
           : "An unknown error occurred.";
       toast.error(errorMessage);
+      console.log(error);
     },
   });
 

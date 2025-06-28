@@ -2,11 +2,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { userAuth } from "../store/userAuth";
 import { signInRoute } from "../utils/route";
 import { useSideBarStore } from "../store/NavStore";
 import PageLoading from "../components/webapp/PageLoading";
+import { useFetchInvoiceParams } from "../store/invoiceStore";
 
 export default function AuthProvider({
   children,
@@ -14,11 +15,17 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   const { resetState } = useSideBarStore();
+  const pathname = usePathname();
+  const { reset } = useFetchInvoiceParams();
+
   const router = useRouter();
-  const { initializeAuth, credentials, logout} = userAuth();
+  const { initializeAuth, credentials, logout } = userAuth();
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // console.log(credentials);
+  useEffect(() => {
+    reset(); // reset Zustand store whenever pathname changes
+    resetState();
+  }, [pathname, reset]);
 
   useEffect(() => {
     // Initialize auth state first

@@ -1,5 +1,8 @@
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { InvoiceItemsTypes } from "../../lib/types/invoiceType";
 import { SERVICE_CHARGE } from "../Constants";
+import { signInRoute } from "../route";
+import { toast } from "sonner";
 
 // utils/formatCurrency.ts
 export function formatCurrency(
@@ -13,8 +16,6 @@ export function formatCurrency(
     minimumFractionDigits: 2,
   }).format(value);
 }
-
-
 
 // Calculates subtotal (sum of all item amounts after individual discounts)
 export function calculateTotal(items: InvoiceItemsTypes[]): number {
@@ -42,3 +43,19 @@ export function calculateNetTotal(
 export function capitalizeWords(str: string): string {
   return str.replace(/\b\w/g, (char: string) => char.toUpperCase());
 }
+
+  export const responseStatus = (
+    statusCode: number,
+    message: string,
+    router: AppRouterInstance | string[]
+  ) => {
+    switch (statusCode) {
+      case 401:
+        router.push(signInRoute);
+        toast.error(message);
+        break;
+      default:
+        toast.error(message);
+        break;
+    }
+  };

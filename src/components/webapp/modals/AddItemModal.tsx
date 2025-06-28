@@ -9,7 +9,7 @@ import SelectField from "../ui/SelectField";
 import InputField from "../ui/InputField";
 import { addItemValidation } from "../../../lib/validations/invoiceValidation";
 import { useEffect } from "react";
-import { useInvoiceItems } from "../../../store/invoiceItemsStore";
+import { useInvoiceItems } from "../../../store/invoiceStore";
 import { toast } from "sonner";
 import { InvoiceItemsTypes } from "../../../lib/types/invoiceType";
 

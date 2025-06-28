@@ -1,43 +1,16 @@
 import React from "react";
+import { InvoiceType } from "../../lib/types/invoiceType";
+import { capitalizeWords, formatCurrency } from "../../utils/helpers/helperFunctions";
 
-interface Invoice {
-  id: string;
-  customer: {
-    name: string;
-    email: string;
-  };
-  description: string;
-  dateIssued: string;
-  dueDate: string;
-  amount: number;
-  status: string;
-}
-
-interface InvoiceListProps {
-  invoice?: Invoice;
-}
-
-const InvoiceListDesktop: React.FC<InvoiceListProps> = ({ invoice }) => {
-  const sampleInvoice = invoice || {
-    id: "INV-001",
-    customer: {
-      name: "John Doe",
-      email: "john@example.com",
-    },
-    description: "Web Development Services",
-    dateIssued: "2024-01-15",
-    dueDate: "2024-02-15",
-    amount: 2500.0,
-    status: "Pending",
-  };
-
+const InvoiceListDesktop: React.FC<InvoiceType> = (invoice) => {
+  console.log(invoice);
   const getStatusBadge = (status: string) => {
     const statusStyles = {
       Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20",
       Pending:
         "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
       Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
-      Draft: "bg-gray-100 text-gray-800 border-gray-200",
+      Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
     };
 
     return (
@@ -54,33 +27,74 @@ const InvoiceListDesktop: React.FC<InvoiceListProps> = ({ invoice }) => {
 
   return (
     <tr className="bg-[#D9E4F866] font-medium duration-150 max-xl:hidden">
-      <td className="px-4 py-5">{sampleInvoice.id}</td>
+      <td className="px-4 py-5 whitespace-nowrap text-xs">{invoice.invoice_number}</td>
       <td className="px-4 py-5">
         <div className="text-sm">
-          <div className="font-medium text-center">
-            {sampleInvoice.customer.name}
-          </div>
-          <div className="text-center">{sampleInvoice.customer.email}</div>
+          <div className="font-medium text-center">{invoice.payer_name}</div>
+          <div className="text-center">{invoice.payer_email}</div>
         </div>
       </td>
       <td className="px-4 py-5 text-sm max-w-xs text-center truncate">
-        {sampleInvoice.description}
+        {invoice.title}
       </td>
       <td className="px-4 py-5 text-center text-sm ">
-        {new Date(sampleInvoice.dateIssued).toLocaleDateString()}
+        {new Date(invoice.created_at || "").toLocaleDateString()}
       </td>
       <td className="px-4 py-5 text-center text-sm ">
-        {new Date(sampleInvoice.dueDate).toLocaleDateString()}
+        {new Date(invoice.due_date || "").toLocaleDateString()}
       </td>
       <td className="px-4 py-5 text-sm text-center ">
-        $
-        {sampleInvoice.amount.toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-        })}
+        {formatCurrency(invoice.total || 0)}
       </td>
-      <td className="">{getStatusBadge(sampleInvoice.status)}</td>
+      <td className="">
+        {getStatusBadge(capitalizeWords(invoice.status || ""))}
+      </td>
     </tr>
   );
 };
 
 export default InvoiceListDesktop;
+
+export const InvoiceListDesktopSkeleton: React.FC = () => {
+  return (
+    <tr className="bg-[#D9E4F866] font-medium duration-150 max-xl:hidden animate-pulse">
+      {/* Invoice Number */}
+      <td className="px-4 py-5">
+        <div className="h-4 bg-gray-300 rounded w-20"></div>
+      </td>
+
+      {/* Payer Info */}
+      <td className="px-4 py-5">
+        <div className="text-sm space-y-2">
+          <div className="h-4 bg-gray-300 rounded w-24 mx-auto"></div>
+          <div className="h-3 bg-gray-300 rounded w-32 mx-auto"></div>
+        </div>
+      </td>
+
+      {/* Country */}
+      <td className="px-4 py-5 text-center">
+        <div className="h-4 bg-gray-300 rounded w-16 mx-auto"></div>
+      </td>
+
+      {/* Date Issued */}
+      <td className="px-4 py-5 text-center">
+        <div className="h-4 bg-gray-300 rounded w-20 mx-auto"></div>
+      </td>
+
+      {/* Due Date */}
+      <td className="px-4 py-5 text-center">
+        <div className="h-4 bg-gray-300 rounded w-20 mx-auto"></div>
+      </td>
+
+      {/* Amount */}
+      <td className="px-4 py-5 text-center">
+        <div className="h-4 bg-gray-300 rounded w-16 mx-auto"></div>
+      </td>
+
+      {/* Status Badge */}
+      <td className="px-4 py-5">
+        <div className="h-7 w-[59px] bg-gray-300 rounded-[3px] mx-auto"></div>
+      </td>
+    </tr>
+  );
+};

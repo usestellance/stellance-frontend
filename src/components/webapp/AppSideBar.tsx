@@ -10,9 +10,9 @@ import {
   // HiOutlineQuestionMarkCircle,
 } from "react-icons/hi2";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
-import { TfiWorld } from "react-icons/tfi";
+// import { TfiWorld } from "react-icons/tfi";
 import { PiWallet } from "react-icons/pi";
-import { HiOutlineBriefcase } from "react-icons/hi";
+// import { HiOutlineBriefcase } from "react-icons/hi";
 import Image from "next/image";
 import { userAuth } from "../../store/userAuth";
 
@@ -28,16 +28,16 @@ const navigationItems = [
     href: "/invoice",
     icon: LiaFileInvoiceDollarSolid,
   },
-  {
-    name: "Payables",
-    href: "/payables",
-    icon: HiOutlineBriefcase,
-  },
-  {
-    name: "Jobs",
-    href: "/jobs",
-    icon: TfiWorld,
-  },
+  // {
+  //   name: "Payables",
+  //   href: "/payables",
+  //   icon: HiOutlineBriefcase,
+  // },
+  // {
+  //   name: "Jobs",
+  //   href: "/jobs",
+  //   icon: TfiWorld,
+  // },
   {
     name: "Wallet",
     href: "/wallet",
