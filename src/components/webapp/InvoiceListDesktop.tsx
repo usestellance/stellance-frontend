@@ -3,7 +3,7 @@ import { InvoiceType } from "../../lib/types/invoiceType";
 import { capitalizeWords, formatCurrency } from "../../utils/helpers/helperFunctions";
 
 const InvoiceListDesktop: React.FC<InvoiceType> = (invoice) => {
-  console.log(invoice);
+  // console.log(invoice);
   const getStatusBadge = (status: string) => {
     const statusStyles = {
       Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20",

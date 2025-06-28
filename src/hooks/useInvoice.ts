@@ -7,7 +7,7 @@ import useAxiosAuth from "./useAxiosAuth";
 import { InvoiceResponseType, InvoiceType } from "../lib/types/invoiceType";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useFetchInvoiceParams } from "../store/invoiceStore";
+// import { useFetchInvoiceParams } from "../store/invoiceStore";
 
 export const useCreateInvoice = () => {
   const { logout } = userAuth();
@@ -63,14 +63,23 @@ export const useCreateInvoice = () => {
   return mutation;
 };
 
-export const useGetInvoices = () => {
+export const useGetInvoices = ({
+  order_by = 'asc',
+  page = 1,
+  page_count = 10,
+  status = '',
+}: {
+  order_by?: string;
+  page?: number;
+  page_count?: number;
+  status?: string;
+}) => {
   // const router = useRouter();
   const { credentials } = userAuth();
   const { get } = useAxiosAuth();
-  const { order_by, page, page_count, status } = useFetchInvoiceParams();
+  // const { order_by, page, page_count, status } = useFetchInvoiceParams();
 
   const user_id = credentials?.user.id;
-
   const handleGetInvoices = async () => {
     const params = new URLSearchParams();
 

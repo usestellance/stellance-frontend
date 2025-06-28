@@ -11,7 +11,7 @@ interface SelectOption {
 
 interface SelectFieldProps {
   name: string;
-  label: string;
+  label?: string;
   value: string;
   onChange: (e: string) => void;
   onBlur?: () => void;
@@ -50,7 +50,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
       )}
 
       <Listbox value={value} onChange={onChange} disabled={disabled}>
-        <div className="relative">
+        <div className="relative w-fit">
           <Listbox.Button
             onBlur={onBlur}
             className={`${className} text-left  ${

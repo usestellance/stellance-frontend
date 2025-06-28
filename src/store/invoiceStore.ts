@@ -58,7 +58,7 @@ interface FetchInvoiceProps {
 
 // Default values
 const defaultState = {
-  status: "draft",
+  status: "",
   page: 1,
   order_by: "asc" as "asc" | "dsc",
   page_count: 10,

@@ -47,7 +47,8 @@ const StatsCard = () => {
 };
 
 export default function Page() {
-  const { data, error, isError, isLoading } = useGetInvoices();
+  // const { order_by, page, page_count, status } = useFetchInvoiceParams();
+  const { data, error, isError, isLoading } = useGetInvoices({});
   const router = useRouter();
 
   useEffect(() => {
@@ -134,22 +135,22 @@ export default function Page() {
           <table className="min-w-full border-separate border-spacing-y-2 overflow-hidden text-text-strong dark:text-white max-xl:hidden mt-[20px] ">
             <thead className="bg-[#D9E4F866] overflow-hidden ">
               <tr className="">
-                <th scope="col" className="px-4 py-5 text-start font-bold ">
+                <th scope="col" className="px-4 py-5 text-start font-bold whitespace-nowrap ">
                   Invoice ID
                 </th>
-                <th scope="col" className="px-4 py-5 text-center font-bold ">
+                <th scope="col" className="px-4 py-5 text-center font-bold whitespace-nowrap ">
                   Customer Details
                 </th>
-                <th scope="col" className="px-4 py-5 text-center font-bold ">
+                <th scope="col" className="px-4 py-5 text-center font-bold whitespace-nowrap ">
                   Title
                 </th>
-                <th scope="col" className="px-4 py-5 text-center font-bold ">
+                <th scope="col" className="px-4 py-5 text-center font-bold whitespace-nowrap ">
                   Date Issued
                 </th>
-                <th scope="col" className="px-4 py-5 text-center font-bold ">
+                <th scope="col" className="px-4 py-5 text-center font-bold whitespace-nowrap ">
                   Due Date
                 </th>
-                <th scope="col" className="px-4 py-5 text-center font-bold ">
+                <th scope="col" className="px-4 py-5 text-center font-bold whitespace-nowrap ">
                   Amount
                 </th>
                 <th
