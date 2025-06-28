@@ -6,7 +6,9 @@ import { invoiceRoute } from "../../../../utils/route";
 import InvoiceList, {
   MobileInvoiceSkeleton,
 } from "../../../../components/webapp/InvoiceList";
-import InvoiceListDesktop, { InvoiceListDesktopSkeleton } from "../../../../components/webapp/InvoiceListDesktop";
+import InvoiceListDesktop, {
+  InvoiceListDesktopSkeleton,
+} from "../../../../components/webapp/InvoiceListDesktop";
 import { InvoiceType } from "../../../../lib/types/invoiceType";
 import { useGetInvoices } from "../../../../hooks/useInvoice";
 import { useRouter } from "next/navigation";
@@ -50,11 +52,15 @@ export default function Page() {
 
   useEffect(() => {
     if (isError && error) {
-      const statusCode = (error && typeof error === "object" && "status" in error)
-        ? (error as any).status
-        : 500;
+      const statusCode =
+        error && typeof error === "object" && "status" in error
+          ? (error as any).status
+          : 500;
       const message =
-        (error && typeof error === "object" && "response" in error && (error as any).response?.data) ||
+        (error &&
+          typeof error === "object" &&
+          "response" in error &&
+          (error as any).response?.data) ||
         error?.message ||
         "An error occurred";
       responseStatus(statusCode, message, router);
@@ -124,47 +130,49 @@ export default function Page() {
         </div>
 
         {/* Table */}
-        <table className="min-w-full border-separate border-spacing-y-2 overflow-hidden text-text-strong dark:text-white max-xl:hidden mt-[20px]">
-          <thead className="bg-[#D9E4F866] overflow-hidden ">
-            <tr className="">
-              <th scope="col" className="px-4 py-5 text-start font-bold ">
-                Invoice ID
-              </th>
-              <th scope="col" className="px-4 py-5 text-center font-bold ">
-                Customer Details
-              </th>
-              <th scope="col" className="px-4 py-5 text-center font-bold ">
-                Title
-              </th>
-              <th scope="col" className="px-4 py-5 text-center font-bold ">
-                Date Issued
-              </th>
-              <th scope="col" className="px-4 py-5 text-center font-bold ">
-                Due Date
-              </th>
-              <th scope="col" className="px-4 py-5 text-center font-bold ">
-                Amount
-              </th>
-              <th
-                // scope="col"
-                className="px-4 py-5 text-center font-bold  "
-              >
-                Status
-              </th>
-            </tr>
-          </thead>
+        <div className="overflow-x-auto pb-5 scroll">
+          <table className="min-w-full border-separate border-spacing-y-2 overflow-hidden text-text-strong dark:text-white max-xl:hidden mt-[20px] ">
+            <thead className="bg-[#D9E4F866] overflow-hidden ">
+              <tr className="">
+                <th scope="col" className="px-4 py-5 text-start font-bold ">
+                  Invoice ID
+                </th>
+                <th scope="col" className="px-4 py-5 text-center font-bold ">
+                  Customer Details
+                </th>
+                <th scope="col" className="px-4 py-5 text-center font-bold ">
+                  Title
+                </th>
+                <th scope="col" className="px-4 py-5 text-center font-bold ">
+                  Date Issued
+                </th>
+                <th scope="col" className="px-4 py-5 text-center font-bold ">
+                  Due Date
+                </th>
+                <th scope="col" className="px-4 py-5 text-center font-bold ">
+                  Amount
+                </th>
+                <th
+                  // scope="col"
+                  className="px-4 py-5 text-center font-bold  "
+                >
+                  Status
+                </th>
+              </tr>
+            </thead>
 
-          {/* Table Body */}
-          <tbody className="divide-y divide-black">
-            {isLoading
-              ? Array.from({ length: 5 }).map((_, i) => (
-                  <InvoiceListDesktopSkeleton key={i} />
-                ))
-              : invoices?.map((invoice: InvoiceType) => (
-                  <InvoiceListDesktop key={invoice.id} {...invoice} />
-                ))}
-          </tbody>
-        </table>
+            {/* Table Body */}
+            <tbody className="divide-y divide-black">
+              {isLoading
+                ? Array.from({ length: 5 }).map((_, i) => (
+                    <InvoiceListDesktopSkeleton key={i} />
+                  ))
+                : invoices?.map((invoice: InvoiceType) => (
+                    <InvoiceListDesktop key={invoice.id} {...invoice} />
+                  ))}
+            </tbody>
+          </table>
+        </div>
       </section>
     </div>
   );
