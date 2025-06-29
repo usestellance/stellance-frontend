@@ -383,7 +383,7 @@ export default function CreateInvoiceDesktop() {
           </div>
 
           <div className="myContainer  min-w-[400px] max-w-3xl">
-            <div className=" flex justify-between h-[43px] md:h-[48h] border border-primary overflow-hidden dark:border-white items-center gap-[10px] rounded-[6px] ">
+            <div className=" flex justify-between h-[43px] md:h-[48px] border border-primary overflow-hidden dark:border-white items-center gap-[10px] rounded-[6px] ">
               <h5 className="text-sm font-bold leading-[25px] py-3 px-4 w-[74px] text-white bg-primary dark:text-text-strong dark:bg-white md:text-lg">
                 Total
               </h5>

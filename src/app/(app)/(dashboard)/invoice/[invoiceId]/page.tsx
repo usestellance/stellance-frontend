@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import {
   capitalizeWords,
+  formatCurrency,
   formatDateTime,
 } from "../../../../../utils/helpers/helperFunctions";
 import Link from "next/link";
@@ -16,6 +17,7 @@ import { useGetInvoice } from "../../../../../hooks/useInvoice";
 import { InvoiceType } from "../../../../../lib/types/invoiceType";
 import PageLoading from "../../../../../components/webapp/PageLoading";
 import { userAuth } from "../../../../../store/userAuth";
+import { SERVICE_CHARGE } from "../../../../../utils/Constants";
 
 const getStatusBadge = (status: string) => {
   const statusStyles = {
@@ -96,7 +98,7 @@ export default function Page() {
         </h3>
         {invoice?.status === "draft" && (
           <Link
-            href="/"
+            href="#"
             className="underline underline-offset-2 text-primary dark:text-white font-bold text-xl md:text-[32px]"
           >
             Edit
@@ -105,29 +107,6 @@ export default function Page() {
       </div>
 
       {/* SHare and copy */}
-      {/* <div className="flex gap-[18px] items-center justify-between mt-5 h-[43px] lg:mt-[60px] lg:h-[60px]">
-        <div className="flex w-[80%] h-full bg-green-300">
-          <div className="border-[0.5px] max-w-1/2 w-full h-full flex items-center border-r-0 truncate px-[10px] py-[9px] border-primary dark:border-white rounded-bl-[6px] rounded-tl-[6px] lg:text-lg lg:px-5">
-            {url || "Loading..."}
-          </div>
-          <button
-            onClick={handleCopy}
-            className="px-[18px] flex items-center justify-center bg-[#D9E4F8] border border-[#D9E4F8] rounded-br-[6px] rounded-tr-[6px] text-text-strong gap-[10px] cursor-pointer"
-          >
-            <AiFillCopy className="text-xl lg:text-[35px]" />
-            <span className="max-md:hidden font-medium">Copy</span>
-          </button>
-        </div>
-        <div className="w[15%] min-w-fit h-full ">
-          <button
-            onClick={handleShare}
-            className="px-[18px] h-full minw-[60px] flex items-center justify-center bg-[#D9E4F8] border border-[#D9E4F8] rounded-[6px] gap-[10px] text-text-strong lg:min-w-[140px] cursor-pointer"
-          >
-            <FiShare2 className="text-xl md:text-base lg:text-3xl" />
-            <span className="max-md:hidden font-medium">Share</span>
-          </button>
-        </div>
-      </div> */}
 
       <div className="flex justify-between gap-1 mt-5 h-[43px] lg:mt-[60px] lg:h-[60px]">
         <div className=" max-w-9/12 sm:max-w-8/12 md:max-w-9/12">
@@ -179,12 +158,12 @@ export default function Page() {
 
         <div className="pl-4 pr-9 mt-[33px] sm:pl-[30px] sm:pr-[55px]">
           <div className="flex font-bold items-center justify-between">
-            <h3 className="text-[22px] sm:text-[32px] text-primary dark:text-secondary ">
+            <h3 className="text-[22px] md:text-[32px] text-primary dark:text-secondary ">
               Invoice
             </h3>
             <p className="text-sm sm:text-2xl">{invoice?.payer_name || ""}</p>
           </div>
-          <p className="text-sm sm:text-lg md:text-2xl font-bold text-[#8F8F8F] mt-4 sm:mt-[35px]">
+          <p className="text-sm sm:text-base lg:text-2xl font-bold text-[#8F8F8F] mt-4 sm:mt-[35px]">
             Invoice Number: <br className="sm:hidden" />{" "}
             {invoice?.invoice_number || ""}{" "}
           </p>
@@ -194,7 +173,7 @@ export default function Page() {
 
         <div className="px-4 flex gap-[60px] sm:px-[30px]">
           {/* Biller */}
-          <div className="flex flex-col text-sm sm:text-lg md:text-2xl font-medium leading-[150%] text-[#111111] dark:text-white min-w-0 flex-1">
+          <div className="flex flex-col text-sm sm:text-lg lg:text-2xl font-medium leading-[150%] text-[#111111] dark:text-white min-w-0 flex-1">
             <span className="text-[#8F8F8F]">Billed By:</span>
             <span className="font-bold break-words">
               {user?.first_name + " " + user?.last_name}
@@ -211,7 +190,7 @@ export default function Page() {
             </span>
           </div>
           {/* Billed */}
-          <div className="flex justify-end text-sm sm:text-lg md:text-2xl font-medium leading-[150%] text-[#111111] dark:text-white min-w-0 flex-1">
+          <div className="flex justify-end text-sm sm:text-lg lg:text-2xl font-medium leading-[150%] text-[#111111] dark:text-white min-w-0 flex-1">
             <p className="flex flex-col w-fit min-w-0">
               <span className="text-[#8F8F8F]">Billed To:</span>
               <span className="font-bold break-words">
@@ -230,7 +209,118 @@ export default function Page() {
             </p>
           </div>
         </div>
+
+        <div className="px-4 sm:px-[30px] mt-[35px] lg:mt-[50px] ">
+          <InvoiceItems inv={invoice} />
+        </div>
+
+        <div className="leading-[150%] px-[30px] text-[#8F8F8F] text-sm lg:text-xl mt-4 lg:mt-5">
+          <span className="font-medium">Note:</span>
+          <br />
+          <span className="font-bold italic">Thanks for patronizing</span>
+        </div>
       </section>
     </section>
+  );
+}
+
+function InvoiceItems({ inv }: { inv: InvoiceType }) {
+  return (
+    <div className="bg-[#D9E4F8] rounded-[5px] pb-10 lg:pb-[83px]">
+      <div className="overflow-x-auto scroll">
+        <table className=" bg-[#D9E4F8] min-w-full border-collapse border-spacing-y2 overflow-hidden rounded-[5px] text-text-strong ">
+          <thead className="bg-[#D1E2FF] overflow-hidden ">
+            <tr className="">
+              <th
+                scope="col"
+                className="px-4 py-[15px] xl:text-[28px] text-center font-bold whitespace-nowrap "
+              >
+                Type
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-[15px] xl:text-[28px] text-center font-bold whitespace-nowrap "
+              >
+                Description
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-[15px] xl:text-[28px] text-center font-bold whitespace-nowrap "
+              >
+                Unit Price
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-[15px] xl:text-[28px] text-center font-bold whitespace-nowrap "
+              >
+                Quantity
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-[15px] xl:text-[28px] text-center font-bold whitespace-nowrap "
+              >
+                Amount
+              </th>
+            </tr>
+          </thead>
+
+          {/* Table Body */}
+          <tbody className="divide-y divide-[#BFBFBF99]">
+            {inv?.items?.map((inv, i) => (
+              <tr key={i} className="bg-[#D9E4F866] font-medium">
+                <td className="px-4 py-[15px] whitespace-nowrap text-xs lg:text-lg text-center">
+                  {inv.invoice_type === "per_unit" ? "Per Unit" : "Per Hour"}
+                </td>
+                <td className="px-4 py-[15px] whitespace-nowrap text-xs lg:text-lg text-center">
+                  {inv.description || ''}
+                </td>
+                <td className="px-4 py-[15px] text-xs lg:text-lg text-center">
+                  {inv.unit_price || 0}
+                </td>
+                <td className="px-4 py-[15px] text-xs lg:text-lg text-center">
+                  {inv.quantity || 0}
+                </td>
+                <td className="px-4 py-[15px] text-xs lg:text-lg text-center">
+                  {inv.amount || 0}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="bg-red400 border-t border-[#BFBFBF99] w-full myContainer">
+        <div className="flex justify-end py-[18px]">
+          <div className="flex items-center gap-[81px] justify-end">
+            <p className="text-xs font-bold text-text-strong lg:text-lg">
+              Sub Total
+            </p>
+            <p className="text-xs font-bold text-text-strong lg:text-lg">
+              {inv.sub_total || ""}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-end">
+        <hr className="text-[#BFBFBF99] w-[230px] lg:w-[558px]" />
+      </div>
+      <div className="flex justify-end py-[18px] myContainer">
+        <div className="flex items-center gap-[81px] justify-end">
+          <p className="text-xs font-bold text-text-strong lg:text-lg">{`Service Fee (${SERVICE_CHARGE}) %`}</p>
+          <p className="text-xs font-bold text-text-strong lg:text-lg">
+            {inv.service_fee || 0}
+          </p>
+        </div>
+      </div>
+      <div className="myContainer mt-2 w-full flex justify-end">
+        <div className="w-full max-w-[273px] lg:max-w-[558px] flex justifybetween h-[43px] overflow-hidden items-center rounded-[6px] ">
+          <h5 className="text-sm font-bold leading-[25px] py-3 px-4 w-[74px] text-white bg-primary md:text-lg">
+            Total
+          </h5>
+          <h5 className="truncate w-full text-center lg:text-end text-sm font-bold leading-[25px] md:text-lg py-3 px-4 bg-white text-text-strong">
+            {formatCurrency(inv.total || 0)}
+          </h5>
+        </div>
+      </div>
+    </div>
   );
 }
