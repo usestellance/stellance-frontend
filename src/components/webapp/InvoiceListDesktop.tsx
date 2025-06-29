@@ -1,33 +1,48 @@
 import React from "react";
 import { InvoiceType } from "../../lib/types/invoiceType";
-import { capitalizeWords, formatCurrency } from "../../utils/helpers/helperFunctions";
+import {
+  capitalizeWords,
+  formatCurrency,
+} from "../../utils/helpers/helperFunctions";
+import { previewInvoiceRoute } from "../../utils/route";
+import { useRouter } from "next/navigation";
 
-const InvoiceListDesktop: React.FC<InvoiceType> = (invoice) => {
-  // console.log(invoice);
-  const getStatusBadge = (status: string) => {
-    const statusStyles = {
-      Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20",
-      Pending:
-        "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
-      Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
-      Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
-    };
-
-    return (
-      <span
-        className={`h-7 w-[59px] border mx-auto rounded-[3px] text-xs flex justify-center items-center font-medium ${
-          statusStyles[status as keyof typeof statusStyles] ||
-          statusStyles.Draft
-        }`}
-      >
-        {status}
-      </span>
-    );
+const getStatusBadge = (status: string) => {
+  const statusStyles = {
+    Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20",
+    Pending:
+      "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
+    Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
+    Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
   };
 
   return (
-    <tr className="bg-[#D9E4F866] font-medium duration-150 max-xl:hidden">
-      <td className="px-4 py-5 whitespace-nowrap text-xs">{invoice.invoice_number}</td>
+    <span
+      className={`h-8 w-[75px] border mx-auto rounded-[3px] text-sm flex justify-center items-center font-medium ${
+        statusStyles[status as keyof typeof statusStyles] ||
+        statusStyles.Draft
+      }`}
+    >
+      {status}
+    </span>
+  );
+};
+
+const InvoiceListDesktop: React.FC<InvoiceType> = (invoice) => {
+const router = useRouter()
+
+  const previewInvoice = () => {
+    router.push(previewInvoiceRoute(invoice.id || ""));
+  };
+
+  return (
+    <tr
+      onClick={previewInvoice}
+      className="bg-[#D9E4F866] font-medium cursor-pointer max-xl:hidden hover:bg-primary hover:text-white dark:hover:bg-secondary/50 duration-200"
+    >
+      <td className="px-4 py-5 whitespace-nowrap text-xs">
+        {invoice.invoice_number}
+      </td>
       <td className="px-4 py-5">
         <div className="text-sm">
           <div className="font-medium text-center">{invoice.payer_name}</div>
@@ -46,7 +61,7 @@ const InvoiceListDesktop: React.FC<InvoiceType> = (invoice) => {
       <td className="px-4 py-5 text-sm text-center ">
         {formatCurrency(invoice.total || 0)}
       </td>
-      <td className="">
+      <td className="px-2">
         {getStatusBadge(capitalizeWords(invoice.status || ""))}
       </td>
     </tr>

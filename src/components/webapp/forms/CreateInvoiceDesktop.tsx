@@ -20,6 +20,7 @@ import ComboboxField from "../ui/ComboboxField";
 import { countryCodes } from "../../../utils/contents/countryCodes";
 import { useCreateInvoice } from "../../../hooks/useInvoice";
 
+
 export default function CreateInvoiceDesktop() {
   const { mutate, isPending } = useCreateInvoice();
 
@@ -155,7 +156,7 @@ export default function CreateInvoiceDesktop() {
               <div key={index} className="pb-16">
                 <div className="flex gap-[18px] flex-col">
                   <div className="flex gap-[10px] lg:gap-[18px]">
-                    <div className="flex-1/5">
+                    <div className="flex-2/12">
                       <SelectField
                         name={`invoice_items[${index}].invoice_type`}
                         label="Invoice Type"

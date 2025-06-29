@@ -2,7 +2,7 @@
 "use client";
 import React, { useEffect } from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
-import { invoiceRoute } from "../../../../utils/route";
+import { createInvoiceRoute } from "../../../../utils/route";
 import InvoiceList, {
   MobileInvoiceSkeleton,
 } from "../../../../components/webapp/InvoiceList";
@@ -105,7 +105,7 @@ export default function Page() {
     <div className="myContainer">
       <section className="flex max-[290px]:flex-col gap-2 max-[290px]:gap-5 items-center justify-between mt-5">
         <h3 className="section-title max-[290px]:text-center">Dashboard</h3>
-        <AppButton size="sm" href={invoiceRoute} className="max-[290px]:w-full">
+        <AppButton size="sm" href={createInvoiceRoute} className="max-[290px]:w-full">
           Create Invoice
         </AppButton>
       </section>

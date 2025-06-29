@@ -50,7 +50,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
       )}
 
       <Listbox value={value} onChange={onChange} disabled={disabled}>
-        <div className="relative w-fit">
+        <div className="relative">
           <Listbox.Button
             onBlur={onBlur}
             className={`${className} text-left  ${

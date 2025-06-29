@@ -59,3 +59,24 @@ export function capitalizeWords(str: string): string {
         break;
     }
   };
+
+ const formatter = new Intl.DateTimeFormat("en-US", {
+  hour: "numeric",
+  minute: "2-digit",
+  hour12: false,
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+});
+
+/**
+ * Formats a valid ISO or Date object into:
+ * "1:06 PM, June 18, 2025"
+ * Returns "-" if input is invalid.
+ */
+export function formatDateTime(raw: string | Date | null | undefined): string {
+  if (!raw) return "-";
+  const date = raw instanceof Date ? raw : new Date(raw);
+  if (isNaN(date.getTime())) return "-";
+  return formatter.format(date);
+}

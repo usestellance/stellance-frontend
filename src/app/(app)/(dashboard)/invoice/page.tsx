@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
-import { createInvoiceRoute, invoiceRoute } from "../../../../utils/route";
+import { createInvoiceRoute } from "../../../../utils/route";
 import { useGetInvoices } from "../../../../hooks/useInvoice";
 import { InvoiceType } from "../../../../lib/types/invoiceType";
 import { Listbox } from "@headlessui/react";
@@ -78,8 +78,8 @@ export default function Page() {
   const { data: draftInvoice } = useGetInvoices({ status: "draft" });
   const selectedOption = options.find((opt) => opt.value === status);
 
-  console.log("status", status);
-  console.log("selected", selectedOption);
+  // console.log("status", status);
+  // console.log("selected", selectedOption);
 
   const invoices: InvoiceType[] = data?.invoice || [];
 
@@ -114,7 +114,7 @@ export default function Page() {
     <div className="myContainer">
       <section className="flex max-[290px]:flex-col gap-2 max-[290px]:gap-5 items-center justify-between mt-5">
         <h3 className="section-title max-[290px]:text-center">Invoice</h3>
-        <AppButton size="sm" href={invoiceRoute} className="max-[290px]:w-full">
+        <AppButton size="sm" href={createInvoiceRoute} className="max-[290px]:w-full">
           Create Invoice
         </AppButton>
       </section>
@@ -259,7 +259,7 @@ export default function Page() {
             </tbody>
           </table>
           {/* <div className=" w-full"> */}
-          {invoices.length === 0 && (
+          {invoices.length === 0 && !isLoading && (
             <div className="max-xl:hidden">
               <NoInvoice />
             </div>

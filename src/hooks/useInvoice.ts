@@ -64,7 +64,7 @@ export const useCreateInvoice = () => {
 };
 
 export const useGetInvoices = ({
-  order_by = 'asc',
+  order_by = 'desc',
   page = 1,
   page_count = 10,
   status = '',
@@ -100,6 +100,37 @@ export const useGetInvoices = ({
   return useQuery({
     queryKey: ["invoices", page, page_count, status, order_by, user_id],
     queryFn: handleGetInvoices,
+    enabled: !!credentials?.access_token,
+    retry: 2,
+    refetchOnWindowFocus: false,
+  });
+};
+
+
+export const useGetInvoice = ({
+  invoice_id,
+}: {
+  invoice_id: string;
+}) => {
+  const { credentials } = userAuth();
+  const { get } = useAxiosAuth();
+  
+  const handleGetInvoice = async () => {
+    const params = new URLSearchParams();
+
+    if (invoice_id) params.append("id", invoice_id);
+
+    const url = `/invoice/search?${params.toString()}`;
+    const res = await get(url);
+
+    // console.log(response.data);
+    // responseStatus(res.status, res.data, router);
+    return res.data.data;
+  };
+
+  return useQuery({
+    queryKey: ["invoice", invoice_id],
+    queryFn: handleGetInvoice,
     enabled: !!credentials?.access_token,
     retry: 2,
     refetchOnWindowFocus: false,

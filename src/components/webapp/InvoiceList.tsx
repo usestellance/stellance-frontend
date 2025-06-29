@@ -4,33 +4,43 @@ import {
   capitalizeWords,
   formatCurrency,
 } from "../../utils/helpers/helperFunctions";
+import { useRouter } from "next/navigation";
+import { previewInvoiceRoute } from "../../utils/route";
+
+const getStatusBadge = (status: string) => {
+  const statusStyles = {
+    Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20",
+    Pending:
+      "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
+    Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
+    Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
+  };
+
+  // console.log(invoice);
+
+  return (
+    <span
+      className={`h-7 w-[59px] border rounded-[3px] text-xs flex justify-center items-center font-medium ${
+        statusStyles[status as keyof typeof statusStyles] || statusStyles.Draft
+      }`}
+    >
+      {status}
+    </span>
+  );
+};
 
 const InvoiceList: React.FC<InvoiceType> = (invoice) => {
-  const getStatusBadge = (status: string) => {
-    const statusStyles = {
-      Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20",
-      Pending:
-        "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
-      Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
-      Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
-    };
+  const router = useRouter();
 
-    // console.log(invoice);
-
-    return (
-      <span
-        className={`h-7 w-[59px] border rounded-[3px] text-xs flex justify-center items-center font-medium ${
-          statusStyles[status as keyof typeof statusStyles] ||
-          statusStyles.Draft
-        }`}
-      >
-        {status}
-      </span>
-    );
+  const previewInvoice = () => {
+    router.push(previewInvoiceRoute(invoice.id || ""));
   };
 
   return (
-    <div className="flex justify-between items-center bg-[#D9E4F866] rounded-[5px] px-[15px] py-3 xl:hidden">
+    <div
+      onClick={previewInvoice}
+      className="flex cursor-pointer justify-between items-center bg-[#D9E4F866] hover:bg-primary hover:text-white dark:hover:bg-secondary/50 duration-200 rounded-[5px] px-[15px] py-3 xl:hidden"
+    >
       <div className="flex flex-col gap-4 justify-between">
         <p className="text-xs leading-[25px]">{invoice.invoice_number}</p>
         <div className="">
