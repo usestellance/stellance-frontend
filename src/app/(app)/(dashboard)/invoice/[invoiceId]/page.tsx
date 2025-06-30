@@ -5,6 +5,7 @@ import {
   capitalizeWords,
   formatCurrency,
   formatDateTime,
+  maskMiddle,
 } from "../../../../../utils/helpers/helperFunctions";
 import Link from "next/link";
 import { AiFillCopy } from "react-icons/ai";
@@ -18,6 +19,7 @@ import { InvoiceType } from "../../../../../lib/types/invoiceType";
 import PageLoading from "../../../../../components/webapp/PageLoading";
 import { userAuth } from "../../../../../store/userAuth";
 import { SERVICE_CHARGE } from "../../../../../utils/Constants";
+import AppButton from "../../../../../components/webapp/ui/AppButton";
 
 const getStatusBadge = (status: string) => {
   const statusStyles = {
@@ -25,6 +27,8 @@ const getStatusBadge = (status: string) => {
     pending: "bg-[#FFC75F]",
     overdue: "bg-[#910400]",
     draft: "bg-[#508DFA]",
+    viewed: "bg-[#00FF55]",
+    cancelled: "bg-[#800000]",
   };
 
   return (
@@ -33,7 +37,9 @@ const getStatusBadge = (status: string) => {
         statusStyles[status as keyof typeof statusStyles] || statusStyles.draft
       }`}
     >
-      {capitalizeWords(status)}
+      {(status === "viewed" && capitalizeWords("Approved")) ||
+        (status === "cancelled" && capitalizeWords("Declined")) ||
+        capitalizeWords(status)}
     </div>
   );
 };
@@ -50,8 +56,8 @@ export default function Page() {
 
   // console.log(user)
 
-  console.log("id for invoice", invoiceId);
-  console.log("invoice", invoice);
+  // console.log("id for invoice", invoiceId);
+  // console.log("invoice", invoice);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -91,6 +97,7 @@ export default function Page() {
   return (
     <section className="myContainer pt-4">
       <div>{getStatusBadge(invoice?.status || "")}</div>
+      {/* <div>{getStatusBadge("viewed")}</div> */}
 
       <div className="flex justify-between gap-2 items-center mt-[30px] lg:mt-[60px]">
         <h3 className=" font-bold lg:font-medium lg:text-[32px]">
@@ -163,9 +170,16 @@ export default function Page() {
             </h3>
             <p className="text-sm sm:text-2xl">{invoice?.payer_name || ""}</p>
           </div>
-          <p className="text-sm sm:text-base lg:text-2xl font-bold text-[#8F8F8F] mt-4 sm:mt-[35px]">
+          <p className="text-xs sm:text-sm lg:text-xl font-bold text-[#8F8F8F] mt-4 sm:mt-[35px]">
             Invoice Number: <br className="sm:hidden" />{" "}
             {invoice?.invoice_number || ""}{" "}
+          </p>
+          <p className="text-xs sm:text-sm lg:text-xl font-bold text-[#8F8F8F] mt-4">
+            Wallet Address: <br className="sm:hidden" />
+            {maskMiddle(
+              "GC7OHFPWPSWXL4HMN6TXAG54MTZSMJIASWHO6KVRQNHNCXEAHWDSGGC3"
+            )}
+            {/* {invoice?.invoice_number || ""}{" "} */}
           </p>
         </div>
 
@@ -220,6 +234,15 @@ export default function Page() {
           <span className="font-bold italic">Thanks for patronizing</span>
         </div>
       </section>
+
+      <div className="flex items-center justify-center gap-6 mt-14 md:mt-20">
+        <AppButton size="sm" theme="tetiary" className="sm:w-full">
+          Cancel
+        </AppButton>
+        <AppButton size="sm" className="sm:w-full">
+          Send
+        </AppButton>
+      </div>
     </section>
   );
 }
@@ -272,7 +295,7 @@ function InvoiceItems({ inv }: { inv: InvoiceType }) {
                   {inv.invoice_type === "per_unit" ? "Per Unit" : "Per Hour"}
                 </td>
                 <td className="px-4 py-[15px] whitespace-nowrap text-xs lg:text-lg text-center">
-                  {inv.description || ''}
+                  {inv.description || ""}
                 </td>
                 <td className="px-4 py-[15px] text-xs lg:text-lg text-center">
                   {inv.unit_price || 0}

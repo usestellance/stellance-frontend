@@ -14,22 +14,25 @@ const getStatusBadge = (status: string) => {
       "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
     Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
     Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
+    Cancelled: "text-[#800000] border-[#800000] bg-[#800000]/15",
+    Viewed: "text-[#00FF40] border-[#00FF55] bg-[#00FF55]/15",
   };
 
   return (
     <span
       className={`h-8 w-[75px] border mx-auto rounded-[3px] text-sm flex justify-center items-center font-medium ${
-        statusStyles[status as keyof typeof statusStyles] ||
-        statusStyles.Draft
+        statusStyles[status as keyof typeof statusStyles] || statusStyles.Draft
       }`}
     >
-      {status}
+      {(status === "viewed" && capitalizeWords("Approved")) ||
+        (status === "cancelled" && capitalizeWords("Declined")) ||
+        capitalizeWords(status)}
     </span>
   );
 };
 
 const InvoiceListDesktop: React.FC<InvoiceType> = (invoice) => {
-const router = useRouter()
+  const router = useRouter();
 
   const previewInvoice = () => {
     router.push(previewInvoiceRoute(invoice.id || ""));
@@ -63,6 +66,7 @@ const router = useRouter()
       </td>
       <td className="px-2">
         {getStatusBadge(capitalizeWords(invoice.status || ""))}
+        {/* {getStatusBadge(capitalizeWords("cancelled") || "")} */}
       </td>
     </tr>
   );

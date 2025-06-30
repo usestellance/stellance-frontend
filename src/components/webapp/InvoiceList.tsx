@@ -14,17 +14,20 @@ const getStatusBadge = (status: string) => {
       "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
     Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
     Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
+    Cancelled: "text-[#800000] border-[#800000] bg-[#800000]/15",
+    Viewed: "text-[#00FF40] border-[#00FF55] bg-[#00FF55]/15",
   };
-
   // console.log(invoice);
 
   return (
     <span
-      className={`h-7 w-[59px] border rounded-[3px] text-xs flex justify-center items-center font-medium ${
+      className={`h-7 w-fit px-1 min-w-[59px] border rounded-[3px] text-xs flex justify-center items-center font-medium ${
         statusStyles[status as keyof typeof statusStyles] || statusStyles.Draft
       }`}
     >
-      {status}
+      {(status === "viewed" && capitalizeWords("Approved")) ||
+        (status === "cancelled" && capitalizeWords("Declined")) ||
+        capitalizeWords(status)}
     </span>
   );
 };
@@ -45,6 +48,7 @@ const InvoiceList: React.FC<InvoiceType> = (invoice) => {
         <p className="text-xs leading-[25px]">{invoice.invoice_number}</p>
         <div className="">
           {getStatusBadge(capitalizeWords(invoice.status || "") || "")}
+          {/* {getStatusBadge(capitalizeWords("viewed") || "")} */}
         </div>
       </div>
       <div className="text-end text-sm">

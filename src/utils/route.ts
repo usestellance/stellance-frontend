@@ -14,3 +14,6 @@ export const dashboardRoute = "/dashboard";
 export const invoiceRoute = "/invoice";
 export const createInvoiceRoute = "/invoice/create";
 export const previewInvoiceRoute = (id: string) => `/invoice/${id}`;
+
+//profile routes
+export const profileRoute = "/profile";

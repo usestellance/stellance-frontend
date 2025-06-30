@@ -80,3 +80,15 @@ export function formatDateTime(raw: string | Date | null | undefined): string {
   if (isNaN(date.getTime())) return "-";
   return formatter.format(date);
 }
+
+
+export function maskMiddle(text: string, visibleStart = 5, visibleEnd = 5): string {
+  if (text.length <= visibleStart + visibleEnd) return text;
+
+  const start = text.slice(0, visibleStart);
+  const end = text.slice(-visibleEnd);
+  // const masked = "*".repeat(text.length - (visibleStart + visibleEnd));
+  const masked = "*".repeat(10);
+
+  return `${start}${masked}${end}`;
+}

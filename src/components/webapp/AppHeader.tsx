@@ -4,10 +4,17 @@ import Logo from "./ui/Logo";
 // import { PiUserCircleThin } from "react-icons/pi";
 import { useSideBarStore } from "../../store/NavStore";
 import { userAuth } from "../../store/userAuth";
+import { useRouter } from "next/navigation";
+import { profileRoute } from "../../utils/route";
 
 export default function AppHeader() {
   const { toggleSideBar } = useSideBarStore();
   const { credentials } = userAuth();
+  const router = useRouter()
+
+  const gotoProfile = ()=>{
+    router.push(profileRoute)
+  }
 
   return (
     <header className="z-30 fixed md:flex md:justify-end  top-0 bg-white  dark:bg-primary right-0 left-0">
@@ -37,7 +44,8 @@ export default function AppHeader() {
           {/* user svg */}
           {/* <PiUserCircleThin className="text-[28px] block dark:hidden" /> */}
           <svg
-            className="h-6 w-6 sm:h-8 sm:w-8 lg:h-9 lg:w-9"
+            onClick={gotoProfile}
+            className="cursor-pointer h-6 w-6 sm:h-8 sm:w-8 lg:h-9 lg:w-9"
             // width="24"
             // height="24"
             viewBox="0 0 22 22"
@@ -58,7 +66,10 @@ export default function AppHeader() {
             />
           </svg>
 
-          <div className="max-md:hidden text-xl lg:text-[24px] font-bold">
+          <div
+            onClick={gotoProfile}
+            className="cursor-pointer max-md:hidden text-xl lg:text-[24px] font-bold"
+          >
             {credentials?.user?.first_name || ""}
           </div>
 

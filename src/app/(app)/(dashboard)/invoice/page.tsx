@@ -17,6 +17,7 @@ import InvoiceListDesktop, {
 import InvoiceList, {
   MobileInvoiceSkeleton,
 } from "../../../../components/webapp/InvoiceList";
+import { invoiceFilterOptions } from "../../../../utils/Constants";
 
 const CreateInvoice = () => {
   return (
@@ -63,20 +64,16 @@ const NoInvoice = () => {
   );
 };
 
-const options = [
-  { label: "All", value: "" },
-  { label: "Paid", value: "paid" },
-  { label: "Pending", value: "pending" },
-  { label: "Draft", value: "draft" },
-  { label: "Overdue", value: "overdue" },
-];
+
 
 export default function Page() {
   const router = useRouter();
   const { status, setStatus } = useFetchInvoiceParams();
   const { data, isLoading, isError, error } = useGetInvoices({ status });
   const { data: draftInvoice } = useGetInvoices({ status: "draft" });
-  const selectedOption = options.find((opt) => opt.value === status);
+  const selectedOption = invoiceFilterOptions.find(
+    (opt) => opt.value === status
+  );
 
   // console.log("status", status);
   // console.log("selected", selectedOption);
@@ -114,7 +111,11 @@ export default function Page() {
     <div className="myContainer">
       <section className="flex max-[290px]:flex-col gap-2 max-[290px]:gap-5 items-center justify-between mt-5">
         <h3 className="section-title max-[290px]:text-center">Invoice</h3>
-        <AppButton size="sm" href={createInvoiceRoute} className="max-[290px]:w-full">
+        <AppButton
+          size="sm"
+          href={createInvoiceRoute}
+          className="max-[290px]:w-full"
+        >
           Create Invoice
         </AppButton>
       </section>
@@ -134,7 +135,7 @@ export default function Page() {
             </Listbox.Button>
 
             <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-[#eeeeee] shadow-lg p-1 text-sm md:text-base  focus:outline-none max-w-[130px]">
-              {options.map((option) => (
+              {invoiceFilterOptions.map((option) => (
                 <Listbox.Option
                   key={option.value}
                   value={option.value}
@@ -152,27 +153,30 @@ export default function Page() {
             </Listbox.Options>
           </div>
         </Listbox>
-        <div
-          onClick={() => setStatus("draft")}
-          className="cursor-pointer flex gap-1 lg:gap-2 items-center mr-10 md:mr-20 lg:mr-[100px] justify-end xl:w-full"
-        >
-          <span className="text-primary lg:text-lg dark:text-secondary font-bold underline underline-offset-4 xl:text-[32px]">
+        <div className="cursor-pointer flex gap-1 lg:gap-2 items-center mr-10 md:mr-20 lg:mr-[100px] justify-end xl:w-full">
+          <span
+            onClick={() => setStatus("draft")}
+            className="text-primary lg:text-lg dark:text-secondary font-bold underline underline-offset-4 xl:text-[32px]"
+          >
             Draft
           </span>
-          <span className="bg-primary dark:bg-secondary text-white lg:text-sm min-h-[30px] min-w-[30px] xl:text-base xl:min-h-[40px] xl:min-w-[40px] inline-flex justify-center items-center rounded-full text-xs font-bold">
+          <span
+            onClick={() => setStatus("draft")}
+            className="bg-primary dark:bg-secondary text-white lg:text-sm min-h-[30px] min-w-[30px] xl:text-base xl:min-h-[40px] xl:min-w-[40px] inline-flex justify-center items-center rounded-full text-xs font-bold"
+          >
             {draftInvoice?.meta?.total_invoice_count || 0}
           </span>
         </div>
       </div>
 
-      <div className="h-[60px] bg-[#E8E8E8] dark:bg-[#E8E8E8]/50 mt-[59px] rounded-[6px] p-[2px] flex justify-between max-xl:hidden">
-        {options.map((option, i) => {
+      <div className="h-[60px] bg-[#E8E8E8] dark:bg-[#E8E8E8]/50 mt-[50px] rounded-[6px] p-[2px] flex justify-between max-xl:hidden">
+        {invoiceFilterOptions.map((option, i) => {
           const active = option.value === status;
           return (
             <div
               key={i}
               onClick={() => setStatus(option.value)}
-              className={`flex text-text-strong cursor-pointer items-center justify-center text-2xl font-bold duration-150 w-[181px]  h-full rounded-[6px]
+              className={`flex text-text-strong cursor-pointer items-center justify-center text-xl font-bold duration-150 w-[181px]  h-full rounded-[6px]
                 ${active ? "bg-white dark:bg-white/90" : ""}
                 `}
             >
