@@ -65,3 +65,29 @@ export const accountSetupValidation = Yup.object().shape({
 
   country: Yup.string().trim().required("Country is required"),
 });
+
+
+export const changePasswordValidation = Yup.object().shape({
+  current_password: Yup.string().required("Current password is required"),
+
+  new_password: Yup.string()
+    .test("not-email", "Can't contain your email address", function (value) {
+      const { email } = this.parent; // Access the email field
+      if (!value || !email) return true; // Skip validation if no value or email
+      return !value.includes(email);
+    })
+    .test("min-chars", "At least 8 characters", (value) => {
+      return value ? value.length >= 8 : false;
+    })
+    .test("number-or-symbol", "Contain a number and symbol", (value) => {
+      return value ? /[\d@$!%*?&]/.test(value) : false;
+    })
+    .test("strength", "Password strength: Weak", (value) => {
+      return value ? isStrongPassword(value) : false;
+    })
+    .required("Password is required"),
+
+  confirm_new_password: Yup.string()
+    .oneOf([Yup.ref("new_password"), ""], "Passwords must match")
+    .required("Please confirm your new password"),
+});

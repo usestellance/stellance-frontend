@@ -46,7 +46,7 @@ const InputField: React.FC<InputProps> = ({
 
   return (
     <Field className="">
-      <Label htmlFor={name} className=" label-class">
+      <Label htmlFor={name} className="label-class">
         {label}
       </Label>
       {description && (

@@ -11,9 +11,11 @@ import ComboboxField from "../ui/ComboboxField";
 import { IUser } from "../../../lib/types/userTypes";
 import { useUpdateProfile } from "../../../hooks/useUser";
 import { userAuth } from "../../../store/userAuth";
+import { useChangePasswordModalStore } from "../../../store/modals";
 // import useAxiosAuth from "../../../hooks/useAxiosAuth";
 
 export default function UpdateProfileForm() {
+  const { openModal } = useChangePasswordModalStore();
   const { logout } = userAuth();
   const { credentials: userDetails } = userAuth();
   const user = userDetails?.user;
@@ -176,7 +178,10 @@ export default function UpdateProfileForm() {
             }
           />
         </div>
-        <div className="text-[#B40000E5] font-medium text-center mt-5 lg:text-xl">
+        <div
+          onClick={openModal}
+          className="text-[#B40000E5] cursor-pointer font-medium text-center mt-5 lg:text-xl"
+        >
           Change Password
         </div>
         <AppButton

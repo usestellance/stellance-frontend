@@ -82,7 +82,7 @@ export default function AddItemsModal() {
             >
               <DialogTitle
                 as="h3"
-                className="text-sm sm:text-lg font-medium dark:text-white"
+                className="text-sm sm:text-lg font-medium text-text-black dark:text-white"
               >
                 Add Item
               </DialogTitle>
