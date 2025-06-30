@@ -1,15 +1,15 @@
 import Logo from "./ui/Logo";
 
 export default function PageLoading({
-  showLogo = true,
-  style = "fixed h-screen",
+  showLogo = false,
+  style = "h-screen",
 }: {
   showLogo?: boolean;
   style?: string;
 }) {
   return (
     <div
-      className={` ${style} top-0 bottom-0 left-0 right-0 bg-white dark:bg-primary p-[30px] overflow-hidden`}
+      className={` ${style} absolute top-0 bottom-0 left-0 right-0 bg-white dark:bg-primary z[100] p-[30px] overflow-hidden`}
     >
       {showLogo && <Logo />}
       <div

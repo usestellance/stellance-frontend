@@ -20,6 +20,7 @@ import PageLoading from "../../../../../components/webapp/PageLoading";
 import { userAuth } from "../../../../../store/userAuth";
 import { SERVICE_CHARGE } from "../../../../../utils/Constants";
 import AppButton from "../../../../../components/webapp/ui/AppButton";
+import GoBack from "../../../../../components/webapp/ui/GoBack";
 
 const getStatusBadge = (status: string) => {
   const statusStyles = {
@@ -96,7 +97,10 @@ export default function Page() {
 
   return (
     <section className="myContainer pt-4">
-      <div>{getStatusBadge(invoice?.status || "")}</div>
+      <GoBack />
+      <div className="mt-5 md:mt-10">
+        {getStatusBadge(invoice?.status || "")}
+      </div>
       {/* <div>{getStatusBadge("viewed")}</div> */}
 
       <div className="flex justify-between gap-2 items-center mt-[30px] lg:mt-[60px]">
