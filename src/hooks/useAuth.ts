@@ -33,7 +33,7 @@ export const useLogin = () => {
       sessionStorage.setItem("access_token", access_token);
       sessionStorage.setItem("user", JSON.stringify(user));
 
-      console.log(data.data);
+      // console.log(data.data);
 
       const isProfileComplete = data.data.profile_complete;
 

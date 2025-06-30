@@ -1,5 +1,5 @@
 export interface IUser {
-  id?:string
+  id?: string;
   email?: string;
   password?: string;
   first_name?: string;
@@ -7,7 +7,7 @@ export interface IUser {
   business_name?: string;
   country?: string;
   phone_number?: string;
-  walletAddress?: string;
+  wallet_address?: string;
   is_active?: boolean;
   role?: string;
 }
@@ -21,4 +21,9 @@ export interface ILoginResponse {
     profile_complete: boolean;
     user: IUser;
   };
+}
+export interface IUpdateUserResponse {
+  status_code: number;
+  message: string;
+  data: IUser;
 }
