@@ -64,10 +64,10 @@ export const useCreateInvoice = () => {
 };
 
 export const useGetInvoices = ({
-  order_by = 'desc',
+  order_by = "desc",
   page = 1,
   page_count = 10,
-  status = '',
+  status = "",
 }: {
   order_by?: string;
   page?: number;
@@ -106,21 +106,17 @@ export const useGetInvoices = ({
   });
 };
 
-
-export const useGetInvoice = ({
-  invoice_id,
-}: {
-  invoice_id: string;
-}) => {
+export const useGetInvoice = ({ invoice_id }: { invoice_id: string }) => {
   const { credentials } = userAuth();
   const { get } = useAxiosAuth();
-  
+
   const handleGetInvoice = async () => {
-    const params = new URLSearchParams();
+    // const params = new URLSearchParams();
 
-    if (invoice_id) params.append("id", invoice_id);
+    // if (invoice_id) params.append("id", invoice_id);
 
-    const url = `/invoice/search?${params.toString()}`;
+    // const url = `/invoice/search?${params.toString()}`;
+    const url = `/invoice/${invoice_id}`;
     const res = await get(url);
 
     // console.log(response.data);
@@ -132,6 +128,34 @@ export const useGetInvoice = ({
     queryKey: ["invoice", invoice_id],
     queryFn: handleGetInvoice,
     enabled: !!credentials?.access_token,
+    retry: 2,
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useGetInvoiceForClient = ({
+  invoice_id,
+}: {
+  invoice_id: string;
+}) => {
+  const { get } = useAxiosAuth();
+
+  const handleGetInvoiceForClient = async () => {
+    const params = new URLSearchParams();
+
+    if (invoice_id) params.append("id", invoice_id);
+
+    const url = `/invoice/search?${params.toString()}`;
+    const res = await get(url);
+
+    console.log(res);
+    // responseStatus(res.status, res.data, router);
+    return res.data.data;
+  };
+
+  return useQuery({
+    queryKey: ["client_invoice", invoice_id],
+    queryFn: handleGetInvoiceForClient,
     retry: 2,
     refetchOnWindowFocus: false,
   });

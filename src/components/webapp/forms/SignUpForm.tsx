@@ -24,7 +24,7 @@ export default function SignUpForm() {
     onSubmit: (values) => {
       const { email, password } = values;
       // setLoading(true);
-      console.log(values);
+      // console.log(values);
       // router.push(accountSetUpRoute);
 
       mutate({ email, password });

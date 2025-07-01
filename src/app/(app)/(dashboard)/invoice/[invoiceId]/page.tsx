@@ -96,14 +96,14 @@ export default function Page() {
   }
 
   return (
-    <section className="myContainer pt-4">
-      <GoBack />
-      <div className="mt-5 md:mt-10">
-        {getStatusBadge(invoice?.status || "")}
+    <section className="myContainer pt-4 max-w-[1200px] mx-auto">
+      <div className="flex justify-between items-center">
+        <GoBack />
+        <div className="">{getStatusBadge(invoice?.status || "")}</div>
       </div>
       {/* <div>{getStatusBadge("viewed")}</div> */}
 
-      <div className="flex justify-between gap-2 items-center mt-[30px] lg:mt-[60px]">
+      <div className="flex justify-between gap-2 items-center mt-[40px] lg:mt-[70px]">
         <h3 className=" font-bold lg:font-medium lg:text-[32px]">
           {invoice?.invoice_number || ""}
         </h3>
@@ -152,7 +152,7 @@ export default function Page() {
         className="pt-[15px] mt-[56px] rounded-[10px] pb-[29px] sm:pt-[25px] sm:pb-[56px]"
         style={{ boxShadow: "0px 3px 30px 2px #CBCBCB99" }}
       >
-        <div className="flex justify-between items-end px-9 sm:pl-[51px] sm:pr-[55px]">
+        <div className="flex justify-between items-center px-9 sm:pl-[51px] sm:pr-[55px]">
           <div>
             <AppLogo />
           </div>
@@ -194,7 +194,7 @@ export default function Page() {
           <div className="flex flex-col text-sm sm:text-lg lg:text-2xl font-medium leading-[150%] text-[#111111] dark:text-white min-w-0 flex-1">
             <span className="text-[#8F8F8F]">Billed By:</span>
             <span className="font-bold break-words">
-              {user?.first_name + " " + user?.last_name}
+              {(user?.first_name || "") + " " + (user?.last_name || "")}
             </span>
             <span className="break-words">{user?.email || ""}</span>
             <span className="break-words">
@@ -204,7 +204,7 @@ export default function Page() {
               Date Issued:
             </span>
             <span className="font-bold break-words">
-              {formatDateTime(invoice.created_at)}
+              {formatDateTime(invoice?.created_at)}
             </span>
           </div>
           {/* Billed */}
@@ -222,7 +222,7 @@ export default function Page() {
                 Due Date:
               </span>
               <span className="font-bold break-words">
-                {formatDateTime(invoice.due_date)}
+                {formatDateTime(invoice?.due_date)}
               </span>
             </p>
           </div>
@@ -302,13 +302,13 @@ function InvoiceItems({ inv }: { inv: InvoiceType }) {
                   {inv.description || ""}
                 </td>
                 <td className="px-4 py-[15px] text-xs lg:text-lg text-center">
-                  {inv.unit_price || 0}
+                  {formatCurrency(inv.unit_price || 0)}
                 </td>
                 <td className="px-4 py-[15px] text-xs lg:text-lg text-center">
                   {inv.quantity || 0}
                 </td>
                 <td className="px-4 py-[15px] text-xs lg:text-lg text-center">
-                  {inv.amount || 0}
+                  {formatCurrency(inv.amount || 0)}
                 </td>
               </tr>
             ))}
@@ -322,7 +322,7 @@ function InvoiceItems({ inv }: { inv: InvoiceType }) {
               Sub Total
             </p>
             <p className="text-xs font-bold text-text-strong lg:text-lg">
-              {inv.sub_total || ""}
+              {formatCurrency(inv?.sub_total || 0)}
             </p>
           </div>
         </div>
@@ -334,7 +334,7 @@ function InvoiceItems({ inv }: { inv: InvoiceType }) {
         <div className="flex items-center gap-[81px] justify-end">
           <p className="text-xs font-bold text-text-strong lg:text-lg">{`Service Fee (${SERVICE_CHARGE}) %`}</p>
           <p className="text-xs font-bold text-text-strong lg:text-lg">
-            {inv.service_fee || 0}
+            {formatCurrency(inv?.service_fee || 0)}
           </p>
         </div>
       </div>
@@ -344,7 +344,7 @@ function InvoiceItems({ inv }: { inv: InvoiceType }) {
             Total
           </h5>
           <h5 className="truncate w-full text-center lg:text-end text-sm font-bold leading-[25px] md:text-lg py-3 px-4 bg-white text-text-strong">
-            {formatCurrency(inv.total || 0)}
+            {formatCurrency(inv?.total || 0)}
           </h5>
         </div>
       </div>

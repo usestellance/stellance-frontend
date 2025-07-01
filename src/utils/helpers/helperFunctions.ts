@@ -92,3 +92,4 @@ export function maskMiddle(text: string, visibleStart = 5, visibleEnd = 5): stri
 
   return `${start}${masked}${end}`;
 }
+

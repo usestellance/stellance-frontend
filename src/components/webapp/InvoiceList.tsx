@@ -25,8 +25,8 @@ const getStatusBadge = (status: string) => {
         statusStyles[status as keyof typeof statusStyles] || statusStyles.Draft
       }`}
     >
-      {(status === "viewed" && capitalizeWords("Approved")) ||
-        (status === "cancelled" && capitalizeWords("Declined")) ||
+      {(status === "Viewed" && capitalizeWords("Approved")) ||
+        (status === "Cancelled" && capitalizeWords("Declined")) ||
         capitalizeWords(status)}
     </span>
   );

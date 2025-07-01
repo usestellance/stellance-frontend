@@ -1,12 +1,15 @@
+'use client'
 import React from "react";
 import CreateInvoice from "../../../../../components/webapp/forms/CreateInvoice";
 import AddItemsModal from "../../../../../components/webapp/modals/AddItemModal";
 import CreateInvoiceDesktop from "../../../../../components/webapp/forms/CreateInvoiceDesktop";
+// import GoBack from "../../../../../components/webapp/ui/GoBack";
 
 export default function Page() {
   return (
     <section className="">
       <div className="myContainer">
+        {/* <GoBack /> */}
         <h2 className="section-title mt-5">New Invoice</h2>
         {/* <h4 className="section-subtitle mt-5 md:mt-[30px]">Invoice Number</h4> */}
 

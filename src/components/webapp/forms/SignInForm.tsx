@@ -24,7 +24,7 @@ export default function SignInForm() {
     onSubmit: async (values) => {
       const { email, password } = values;
       // setLoading(true);
-      console.log(values);
+      // console.log(values);
       // router.push(accountSetUpRoute);
       // const clear = await axiosInstance.post("/auth/clear");
       // console.log(clear);
