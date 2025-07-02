@@ -8,23 +8,30 @@ export interface InvoiceItemsTypes {
 }
 
 export interface InvoiceType {
-  id?:string
-  invoice_number?:string
-  invoice_url?:string
+  id?: string;
+  invoice_number?: string;
+  invoice_url?: string;
   title?: string;
   payer_name?: string;
   payer_email?: string;
   country?: string;
-  sub_total?:number
-  total?:number
-  currency?:string
-  status?:string
+  sub_total?: number;
+  total?: number;
+  currency?: string;
+  status?: string;
   due_date?: string;
   service_fee?: number;
-  created_at?:string
-  updated_at?:string
+  created_at?: string;
+  updated_at?: string;
   invoice_items?: InvoiceItemsTypes[];
   items?: InvoiceItemsTypes[];
+  createdBy?: {
+    business_name: string;
+    email: string;
+    location: string;
+    name: string;
+    user_id: string;
+  };
 }
 
 export interface InvoiceResponseType {

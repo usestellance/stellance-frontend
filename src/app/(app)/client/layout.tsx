@@ -7,9 +7,9 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="myContainer pt-[20px] min-h-screen relative pb-20 md:pt-10 md:pb-40">
-      <div className="max-w-[1200px] mx-auto ">
-        <div className="flex justifybetween items-center">
+    <div className=" pt-[20px] min-h-screen relative pb-20 md:pt-10 md:pb-40">
+      <div className="max-w-[1200px] mx-auto">
+        <div className="flex justifybetween myContainer items-center">
           <div>
             <AppLogo />
           </div>

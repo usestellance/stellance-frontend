@@ -1,6 +1,6 @@
 @import "./globals.css";
 
-/* @custom-variant dark (&:where(.dark, .dark *)); */
+@custom-variant dark (&:where(.dark, .dark *));
 
 .body {
   @apply text-[#14171f] bg-white dark:text-[#fff] dark:bg-primary;
@@ -10,7 +10,7 @@
   @apply block mb-2 text-sm font-medium sm:text-lg;
 }
 .input-class {
-  @apply w-full border px-[10px] text-sm font-medium py-3 h-[43px] rounded-md placeholder:text-[#BFBFBF] focus:border-primary  focus:dark:border-secondary focus:outline-none caret-primary dark:caret-secondary sm:h-[60px] sm:text-base sm:py-4 duration-150;
+  @apply w-full border border-[#AAAAAA] px-[10px] text-sm font-medium py-3 h-[43px] rounded-md placeholder:text-[#BFBFBF] focus:border-primary  focus:dark:border-secondary focus:outline-none caret-primary dark:caret-secondary sm:h-[60px] sm:text-base sm:py-4 duration-150;
 }
 .select-class {
   @apply w-full border px-[10px] text-sm font-medium py-3 h-[43px] rounded-md placeholder:text-[#BFBFBF] focus:border-primary  focus:dark:border-secondary focus:outline-none caret-primary dark:caret-secondary sm:h-[60px] sm:text-base sm:py-4  duration-150;

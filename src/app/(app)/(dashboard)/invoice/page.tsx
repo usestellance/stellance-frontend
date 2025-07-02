@@ -45,7 +45,7 @@ const CreateInvoice = () => {
     </div>
   );
 };
-const NoInvoice = () => {
+export const NoInvoice = () => {
   return (
     <div className="flex flex-col items-center mx-auto ">
       <div className="w-[100px] lg:w-[150px] mx-auto mt-[80px] lg:mt-[50px]">
@@ -63,8 +63,6 @@ const NoInvoice = () => {
     </div>
   );
 };
-
-
 
 export default function Page() {
   const router = useRouter();
@@ -204,52 +202,54 @@ export default function Page() {
         {/* Table */}
         <div className="overflow-x-auto pb-5 scroll">
           <table className="min-w-full border-separate border-spacing-y-2 overflow-hidden text-text-strong dark:text-white max-xl:hidden">
-            <thead className="bg-[#D9E4F866] overflow-hidden ">
-              <tr className="">
-                <th
-                  scope="col"
-                  className="px-4 py-5 text-start font-bold whitespace-nowrap "
-                >
-                  Invoice ID
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                >
-                  Customer Details
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                >
-                  Title
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                >
-                  Date Issued
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                >
-                  Due Date
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                >
-                  Amount
-                </th>
-                <th
-                  // scope="col"
-                  className="px-4 py-5 text-center font-bold whitespace-nowrap  "
-                >
-                  Status
-                </th>
-              </tr>
-            </thead>
+            {invoices?.length !== 0  && (
+              <thead className="bg-[#D9E4F866] overflow-hidden ">
+                <tr className="">
+                  <th
+                    scope="col"
+                    className="px-4 py-5 text-start font-bold whitespace-nowrap "
+                  >
+                    Invoice ID
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                  >
+                    Customer Details
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                  >
+                    Title
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                  >
+                    Date Issued
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                  >
+                    Due Date
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                  >
+                    Amount
+                  </th>
+                  <th
+                    // scope="col"
+                    className="px-4 py-5 text-center font-bold whitespace-nowrap  "
+                  >
+                    Status
+                  </th>
+                </tr>
+              </thead>
+            )}
 
             {/* Table Body */}
             <tbody className="divide-y divide-black">
@@ -263,7 +263,7 @@ export default function Page() {
             </tbody>
           </table>
           {/* <div className=" w-full"> */}
-          {invoices.length === 0 && !isLoading && (
+          {invoices?.length === 0 && !isLoading && (
             <div className="max-xl:hidden">
               <NoInvoice />
             </div>

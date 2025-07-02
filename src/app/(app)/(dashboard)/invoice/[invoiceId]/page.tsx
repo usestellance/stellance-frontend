@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -6,6 +7,7 @@ import {
   formatCurrency,
   formatDateTime,
   maskMiddle,
+  responseStatus,
 } from "../../../../../utils/helpers/helperFunctions";
 import Link from "next/link";
 import { AiFillCopy } from "react-icons/ai";
@@ -13,11 +15,10 @@ import { FiShare2 } from "react-icons/fi";
 import { toast } from "sonner"; // Optional: if you want to show toast
 import Logo from "../../../../../components/landing/ui/Logo";
 import AppLogo from "../../../../../components/webapp/ui/Logo";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useGetInvoice } from "../../../../../hooks/useInvoice";
 import { InvoiceType } from "../../../../../lib/types/invoiceType";
 import PageLoading from "../../../../../components/webapp/PageLoading";
-import { userAuth } from "../../../../../store/userAuth";
 import { SERVICE_CHARGE } from "../../../../../utils/Constants";
 import AppButton from "../../../../../components/webapp/ui/AppButton";
 import GoBack from "../../../../../components/webapp/ui/GoBack";
@@ -46,19 +47,19 @@ const getStatusBadge = (status: string) => {
 };
 
 export default function Page() {
-  const { credentials } = userAuth();
+  const router = useRouter();
   const [url, setUrl] = useState("");
   const { invoiceId } = useParams();
-  const { data, isLoading } = useGetInvoice({
+  const { data, isLoading, isError, error } = useGetInvoice({
     invoice_id: invoiceId?.toString() || "",
   });
   const invoice: InvoiceType = data;
-  const user = credentials?.user;
+  const user = invoice?.createdBy;
 
-  // console.log(user)
+  console.log(user);
 
   // console.log("id for invoice", invoiceId);
-  // console.log("invoice", invoice);
+  console.log("invoice", invoice);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -90,6 +91,24 @@ export default function Page() {
       toast.warning("Your browser doesn't support native sharing.");
     }
   };
+
+  useEffect(() => {
+    if (isError && error) {
+      const statusCode =
+        error && typeof error === "object" && "status" in error
+          ? (error as any).status
+          : 500;
+      const message =
+        (error &&
+          typeof error === "object" &&
+          "response" in error &&
+          (error as any).response?.data) ||
+        error?.message ||
+        "An error occurred";
+      responseStatus(statusCode, message, router);
+      // console.log(error)
+    }
+  }, [isError, error, router]);
 
   if (isLoading) {
     return <PageLoading />;
@@ -194,11 +213,12 @@ export default function Page() {
           <div className="flex flex-col text-sm sm:text-lg lg:text-2xl font-medium leading-[150%] text-[#111111] dark:text-white min-w-0 flex-1">
             <span className="text-[#8F8F8F]">Billed By:</span>
             <span className="font-bold break-words">
-              {(user?.first_name || "") + " " + (user?.last_name || "")}
+              {/* {(user?.first_name || "") + " " + (user?.last_name || "")} */}
+              {user?.business_name || user?.name || ""}
             </span>
             <span className="break-words">{user?.email || ""}</span>
             <span className="break-words">
-              {capitalizeWords(user?.country || "")}
+              {capitalizeWords(user?.location || "")}
             </span>
             <span className="text-[#8F8F8F] inline-block mt-auto">
               Date Issued:

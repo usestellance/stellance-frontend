@@ -20,3 +20,4 @@ const createModalStore = () =>
   
 export const useAddItemModal = createModalStore();
 export const useChangePasswordModalStore = createModalStore();
+export const usePaymentModalStore = createModalStore();

@@ -81,6 +81,18 @@ export function formatDateTime(raw: string | Date | null | undefined): string {
   return formatter.format(date);
 }
 
+export function formatDate(raw: string | Date | null | undefined): string {
+  if (!raw) return "-";
+  const date = raw instanceof Date ? raw : new Date(raw);
+  if (isNaN(date.getTime())) return "-";
+
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }).format(date);
+}
+
 
 export function maskMiddle(text: string, visibleStart = 5, visibleEnd = 5): string {
   if (text.length <= visibleStart + visibleEnd) return text;

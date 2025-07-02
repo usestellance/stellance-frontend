@@ -164,7 +164,7 @@ export default function AppSideBar() {
       <div
         className={`${
           isSideBarOpen ? "max-md:translate-x-0" : "max-md:-translate-x-[200%]"
-        } transition-transform duration-300 ease-in-out max-md:fixed relative h-screen left-0 top-0 bottom-0 bg-[#D9E4F8] w-[55vw] max-w-[219px] z-50 rounded-tr-[20px] rounded-br-[20px] md:rounded-tr-[10px] md:rounded-br-[10px] md:max-w-[270px] lg:max-w-[280px]  overflow-hidden flex flex-col`}
+        } transition-transform duration-300 ease-in-out max-md:fixed relative h-screen left-0 top-0 bottom-0 bg-[#D9E4F8] w-[55vw] max-w-[219px] z-50 rounded-tr-[20px] rounded-br-[20px] md:rounded-tr-[10px] md:rounded-br-[10px] md:max-w-[200px] lg:max-w-[250px] xl:max-w-[280px]  overflow-hidden flex flex-col`}
         style={{ boxShadow: "0px 4px 20px 0px #00000026" }}
       >
         {/* Header */}

@@ -13,6 +13,8 @@ import { InvoiceType } from "../../../../lib/types/invoiceType";
 import { useGetInvoices } from "../../../../hooks/useInvoice";
 import { useRouter } from "next/navigation";
 import { responseStatus } from "../../../../utils/helpers/helperFunctions";
+import { userAuth } from "../../../../store/userAuth";
+import { NoInvoice } from "../invoice/page";
 
 const StatsCard = () => {
   return (
@@ -50,6 +52,10 @@ export default function Page() {
   // const { order_by, page, page_count, status } = useFetchInvoiceParams();
   const { data, error, isError, isLoading } = useGetInvoices({});
   const router = useRouter();
+
+  const { credentials } = userAuth();
+
+  console.log(data, credentials);
 
   useEffect(() => {
     if (isError && error) {
@@ -105,7 +111,11 @@ export default function Page() {
     <div className="myContainer">
       <section className="flex max-[290px]:flex-col gap-2 max-[290px]:gap-5 items-center justify-between mt-5">
         <h3 className="section-title max-[290px]:text-center">Dashboard</h3>
-        <AppButton size="sm" href={createInvoiceRoute} className="max-[290px]:w-full">
+        <AppButton
+          size="sm"
+          href={createInvoiceRoute}
+          className="max-[290px]:w-full"
+        >
           Create Invoice
         </AppButton>
       </section>
@@ -133,24 +143,42 @@ export default function Page() {
         {/* Table */}
         <div className="overflow-x-auto pb-5 scroll">
           <table className="min-w-full border-separate border-spacing-y-2 overflow-hidden text-text-strong dark:text-white max-xl:hidden mt-[20px] ">
-            <thead className="bg-[#D9E4F866] overflow-hidden ">
+         {invoices?.length !== 0 &&   <thead className="bg-[#D9E4F866] overflow-hidden ">
               <tr className="">
-                <th scope="col" className="px-4 py-5 text-start font-bold whitespace-nowrap ">
+                <th
+                  scope="col"
+                  className="px-4 py-5 text-start font-bold whitespace-nowrap "
+                >
                   Invoice ID
                 </th>
-                <th scope="col" className="px-4 py-5 text-center font-bold whitespace-nowrap ">
+                <th
+                  scope="col"
+                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                >
                   Customer Details
                 </th>
-                <th scope="col" className="px-4 py-5 text-center font-bold whitespace-nowrap ">
+                <th
+                  scope="col"
+                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                >
                   Title
                 </th>
-                <th scope="col" className="px-4 py-5 text-center font-bold whitespace-nowrap ">
+                <th
+                  scope="col"
+                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                >
                   Date Issued
                 </th>
-                <th scope="col" className="px-4 py-5 text-center font-bold whitespace-nowrap ">
+                <th
+                  scope="col"
+                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                >
                   Due Date
                 </th>
-                <th scope="col" className="px-4 py-5 text-center font-bold whitespace-nowrap ">
+                <th
+                  scope="col"
+                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                >
                   Amount
                 </th>
                 <th
@@ -160,7 +188,7 @@ export default function Page() {
                   Status
                 </th>
               </tr>
-            </thead>
+            </thead>}
 
             {/* Table Body */}
             <tbody className="divide-y divide-black">
@@ -173,6 +201,11 @@ export default function Page() {
                   ))}
             </tbody>
           </table>
+          {invoices?.length === 0 && !isLoading && (
+            <div className="">
+              <NoInvoice />
+            </div>
+          )}
         </div>
       </section>
     </div>

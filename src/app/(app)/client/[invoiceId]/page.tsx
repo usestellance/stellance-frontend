@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
 import {
   capitalizeWords,
@@ -8,13 +8,13 @@ import {
   maskMiddle,
 } from "../../../../utils/helpers/helperFunctions";
 import { useGetInvoiceForClient } from "../../../../hooks/useInvoice";
-import { userAuth } from "../../../../store/userAuth";
 import { useParams } from "next/navigation";
 import { InvoiceType } from "../../../../lib/types/invoiceType";
 import { SERVICE_CHARGE } from "../../../../utils/Constants";
 import Link from "next/link";
 import { MdOutlineCancel } from "react-icons/md";
 import InvoiceSkeletonLoader from "../../../../components/webapp/InvoiceSkeletonLoader";
+import { toast } from "sonner";
 
 const getStatusBadge = (status: string) => {
   const statusStyles = {
@@ -41,22 +41,27 @@ const getStatusBadge = (status: string) => {
   );
 };
 export default function Page() {
-  const { credentials } = userAuth();
   const { invoiceId } = useParams();
-  const { data, isLoading } = useGetInvoiceForClient({
+  const { data, isLoading, isError, error } = useGetInvoiceForClient({
     invoice_id: invoiceId?.toString() || "",
   });
   const invoice: InvoiceType = data;
-  const user = credentials?.user;
+  const user = invoice?.createdBy;
 
   console.log(data);
+
+  useEffect(() => {
+    if (isError && error) {
+      toast.error("Something went wrong");
+    }
+  }, [isError, error]);
 
   if (isLoading) {
     return <InvoiceSkeletonLoader />;
   }
 
   return (
-    <div className="pb-20 md:pb-10">
+    <div className="pb-20 md:pb-10 text-text-strong mt-30 myContainer">
       <section className="bg-primary-light/40 dark:bg-primary-light/90 border border-[#9FB4DD] pt-5 mt-10 rounded-[10px] pb-[29px] sm:pt-10 sm:pb-[56px]">
         <div className="border-b border-[#9FB4DD80] pb-4 flex flex-col items-center lg:pb-7">
           <h3 className="text-sm text-center px-2 font-bold sm:text-base lg:text-2xl">
@@ -84,11 +89,12 @@ export default function Page() {
             <div className="flex flex-col text-sm sm:text-lg lg:text-2xl font-medium leading-[150%]  min-w-0 flex-1">
               <span className="text-[#8F8F8F]">Billed By:</span>
               <span className="font-bold break-words">
-                {(user?.first_name || "") + " " + (user?.last_name || "")}
+                {/* {(user?.first_name || "") + " " + (user?.last_name || "")} */}
+                {user?.business_name || user?.name || ""}
               </span>
               <span className="break-words">{user?.email || ""}</span>
               <span className="break-words">
-                {capitalizeWords(user?.country || "")}
+                {capitalizeWords(user?.location || "")}
               </span>
               <span className="text-[#8F8F8F] inline-block mt-auto">
                 Date Issued:
@@ -98,7 +104,7 @@ export default function Page() {
               </span>
             </div>
             {/* Billed */}
-            <div className="flex justify-end text-sm sm:text-lg lg:text-2xl font-medium leading-[150%] text-[#111111] dark:text-white min-w-0 flex-1">
+            <div className="flex justify-end text-sm sm:text-lg lg:text-2xl font-medium leading-[150%] text-[#111111]  min-w-0 flex-1">
               <p className="flex flex-col w-fit min-w-0">
                 <span className="text-[#8F8F8F]">Billed To:</span>
                 <span className="font-bold break-words">
