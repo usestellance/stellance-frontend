@@ -9,6 +9,8 @@ import { FcGoogle } from "react-icons/fc";
 // import { accountSetUpRoute } from "../../../utils/route";
 import { IUser } from "../../../lib/types/userTypes";
 import { useLogin } from "../../../hooks/useAuth";
+import Link from "next/link";
+import { forgotPasswordRoute } from "../../../utils/route";
 
 export default function SignInForm() {
   // const router = useRouter();
@@ -64,6 +66,12 @@ export default function SignInForm() {
               formik.touched.password ? formik.errors.password || null : null
             }
           />
+          <Link
+            href={forgotPasswordRoute}
+            className="mt-3 block text-xs sm:text-base"
+          >
+            Forgot Password ?
+          </Link>
         </div>
 
         <AppButton

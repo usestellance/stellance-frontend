@@ -5,6 +5,7 @@ import axios, { AxiosError } from "axios";
 import {
   accountSetUpRoute,
   dashboardRoute,
+  signInRoute,
   verificationRoute,
 } from "../utils/route";
 import { axiosInstance } from "../config/axios";
@@ -87,6 +88,45 @@ export const useRegister = () => {
           : "An unknown error occurred.";
       toast.error(errorMessage);
       //   console.log(error?.response?.data);
+    },
+  });
+
+  // Return the mutation object to use in components
+  return mutation;
+};
+
+export const useResetPassword = () => {
+  const router = useRouter();
+
+  // Define the function to handle the registration API call
+  const handleLogin = async (data: IUser) => {
+    // console.log(data)
+    const response = await axiosInstance.post("/auth/reset-password", {
+      email: data.email,
+      otp: data.otp,
+      confirm_password: data.password,
+    });
+    return response.data;
+  };
+
+  // Use React Query's useMutation hook with additional configurations
+  const mutation = useMutation<
+    ILoginResponse,
+    AxiosError<ILoginResponse>,
+    IUser
+  >({
+    mutationFn: handleLogin,
+    onSuccess: () => {
+      toast.success("Reset Successful");
+      router.push(signInRoute);
+    },
+    onError: (error) => {
+      const errorMessage =
+        axios.isAxiosError(error) && error.response?.data?.message
+          ? error.response.data.message
+          : "An unknown error occurred.";
+      toast.error(errorMessage);
+      console.log(error);
     },
   });
 

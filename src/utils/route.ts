@@ -6,6 +6,9 @@ export const verifyEmailRoute = `/auth/sign-up/verify-email`;
 export const signInRoute = "/auth/sign-in";
 export const accountSetUpRoute = "/auth/account-setup";
 export const createFirstInvoiceRoute = "/auth/create-first-invoice";
+export const forgotPasswordRoute = "/auth/forgot-password";
+export const resetSentRoute = (email: string) =>
+  `/auth/forgot-password/reset-sent?email=${email}`;
 
 // DashBoard Routes
 export const dashboardRoute = "/dashboard";

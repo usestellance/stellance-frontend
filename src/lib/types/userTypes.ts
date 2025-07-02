@@ -10,6 +10,7 @@ export interface IUser {
   wallet_address?: string;
   is_active?: boolean;
   role?: string;
+  otp?: string;
 }
 
 export interface ILoginResponse {
