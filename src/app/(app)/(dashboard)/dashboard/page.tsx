@@ -14,7 +14,7 @@ import { useGetInvoices } from "../../../../hooks/useInvoice";
 import { useRouter } from "next/navigation";
 import { responseStatus } from "../../../../utils/helpers/helperFunctions";
 import { userAuth } from "../../../../store/userAuth";
-import { NoInvoice } from "../invoice/page";
+import Image from "next/image";
 
 const StatsCard = () => {
   return (
@@ -44,6 +44,25 @@ const StatsCard = () => {
         <span className="text-xl font-bold xl:text-[28px]">$250</span>
       </div>
       <div className="text-xs sm:text-lg font-light">30 Invoices</div>
+    </div>
+  );
+};
+
+const NoInvoice = () => {
+  return (
+    <div className="flex flex-col items-center mx-auto ">
+      <div className="w-[100px] lg:w-[150px] mx-auto mt-[80px] lg:mt-[50px]">
+        <Image
+          alt="Invoice Illustration"
+          src="/images/new_Invoice.svg"
+          className="h-full w-full object-contain"
+          height={500}
+          width={500}
+        />
+      </div>
+      <p className="max-w-[294px] lg:max-w-[482px] mx-auto text-center lg:text-xl font-bold mt-4 lg:mt-6">
+        No Invoice Found
+      </p>
     </div>
   );
 };
@@ -143,52 +162,54 @@ export default function Page() {
         {/* Table */}
         <div className="overflow-x-auto pb-5 scroll">
           <table className="min-w-full border-separate border-spacing-y-2 overflow-hidden text-text-strong dark:text-white max-xl:hidden mt-[20px] ">
-         {invoices?.length !== 0 &&   <thead className="bg-[#D9E4F866] overflow-hidden ">
-              <tr className="">
-                <th
-                  scope="col"
-                  className="px-4 py-5 text-start font-bold whitespace-nowrap "
-                >
-                  Invoice ID
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                >
-                  Customer Details
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                >
-                  Title
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                >
-                  Date Issued
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                >
-                  Due Date
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                >
-                  Amount
-                </th>
-                <th
-                  // scope="col"
-                  className="px-4 py-5 text-center font-bold  "
-                >
-                  Status
-                </th>
-              </tr>
-            </thead>}
+            {invoices?.length !== 0 && (
+              <thead className="bg-[#D9E4F866] overflow-hidden ">
+                <tr className="">
+                  <th
+                    scope="col"
+                    className="px-4 py-5 text-start font-bold whitespace-nowrap "
+                  >
+                    Invoice ID
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                  >
+                    Customer Details
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                  >
+                    Title
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                  >
+                    Date Issued
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                  >
+                    Due Date
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                  >
+                    Amount
+                  </th>
+                  <th
+                    // scope="col"
+                    className="px-4 py-5 text-center font-bold  "
+                  >
+                    Status
+                  </th>
+                </tr>
+              </thead>
+            )}
 
             {/* Table Body */}
             <tbody className="divide-y divide-black">

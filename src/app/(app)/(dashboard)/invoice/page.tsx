@@ -45,7 +45,7 @@ const CreateInvoice = () => {
     </div>
   );
 };
-export const NoInvoice = () => {
+const NoInvoice = () => {
   return (
     <div className="flex flex-col items-center mx-auto ">
       <div className="w-[100px] lg:w-[150px] mx-auto mt-[80px] lg:mt-[50px]">
