@@ -13,7 +13,7 @@ import { InvoiceType } from "../../../../lib/types/invoiceType";
 import { useGetInvoices } from "../../../../hooks/useInvoice";
 import { useRouter } from "next/navigation";
 import { responseStatus } from "../../../../utils/helpers/helperFunctions";
-import { userAuth } from "../../../../store/userAuth";
+// import { userAuth } from "../../../../store/userAuth";
 import Image from "next/image";
 
 const StatsCard = () => {
@@ -72,9 +72,9 @@ export default function Page() {
   const { data, error, isError, isLoading } = useGetInvoices({});
   const router = useRouter();
 
-  const { credentials } = userAuth();
+  // const { credentials } = userAuth();
 
-  console.log(data, credentials);
+  // console.log(data, credentials);
 
   useEffect(() => {
     if (isError && error) {
