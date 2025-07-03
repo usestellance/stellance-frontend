@@ -17,7 +17,7 @@ export default function Page() {
   const { openModal } = usePaymentModalStore();
   const { invoiceId } = useParams();
   const { isError, error, data, isLoading } = useGetInvoiceForClient({
-    invoice_id: invoiceId?.toString() || "",
+    invoice_url: invoiceId?.toString() || "",
   });
   const invoice: InvoiceType = data;
 
