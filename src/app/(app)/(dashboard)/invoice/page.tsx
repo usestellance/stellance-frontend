@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Image from "next/image";
@@ -78,7 +79,7 @@ export default function Page() {
 
   const invoices: InvoiceType[] = data?.invoice || [];
 
-  console.log(data);
+  // console.log(data);
 
   useEffect(() => {
     if (isError && error) {
@@ -96,7 +97,7 @@ export default function Page() {
       responseStatus(statusCode, message, router);
       // console.log(error)
     }
-  }, [isError, error, router]);
+  }, [isError, error]);
 
   if (status === "" && data?.meta?.total_invoice_count === 0)
     return (

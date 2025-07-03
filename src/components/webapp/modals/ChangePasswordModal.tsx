@@ -10,7 +10,7 @@ export default function ChangePasswordModal() {
     closeModal();
   };
 
-  console.log(isModalOpen);
+//   console.log(isModalOpen);
 
   return (
     <>

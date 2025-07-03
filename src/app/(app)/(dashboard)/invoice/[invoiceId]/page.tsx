@@ -16,7 +16,7 @@ import { toast } from "sonner"; // Optional: if you want to show toast
 import Logo from "../../../../../components/landing/ui/Logo";
 import AppLogo from "../../../../../components/webapp/ui/Logo";
 import { useParams, useRouter } from "next/navigation";
-import { useGetInvoice } from "../../../../../hooks/useInvoice";
+import { useGetInvoice, useSendInvoice } from "../../../../../hooks/useInvoice";
 import { InvoiceType } from "../../../../../lib/types/invoiceType";
 import PageLoading from "../../../../../components/webapp/PageLoading";
 import { SERVICE_CHARGE } from "../../../../../utils/Constants";
@@ -53,10 +53,12 @@ export default function Page() {
   const { data, isLoading, isError, error } = useGetInvoice({
     invoice_id: invoiceId?.toString() || "",
   });
+  const { mutate: sendInvoice, isPending } = useSendInvoice(invoiceId?.toString() || "");
+
   const invoice: InvoiceType = data;
   const user = invoice?.createdBy;
 
-  console.log(user);
+  // console.log(user);
 
   // console.log("id for invoice", invoiceId);
   console.log("invoice", invoice);
@@ -113,6 +115,10 @@ export default function Page() {
   if (isLoading) {
     return <PageLoading />;
   }
+
+  const handleSendInvoice = () => {
+    sendInvoice(); // Will send to /invoice/send/43a265f5-9f5b-4d0d-b9c0-43f6622fd2d8
+  };
 
   return (
     <section className="myContainer pt-4 max-w-[1200px] mx-auto">
@@ -263,7 +269,12 @@ export default function Page() {
         <AppButton size="sm" theme="tetiary" className="sm:w-full">
           Cancel
         </AppButton>
-        <AppButton size="sm" className="sm:w-full">
+        <AppButton
+          onClick={handleSendInvoice}
+          loading={isPending}
+          size="sm"
+          className="sm:w-full"
+        >
           Send
         </AppButton>
       </div>

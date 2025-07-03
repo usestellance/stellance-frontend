@@ -13,7 +13,7 @@ export default function ResetPasswordForm() {
   const email = decodeURIComponent(params.get("email") || "");
   const { mutate, isPending } = useResetPassword(); // optional
   // const isPending = false;
-  console.log(email);
+  // console.log(email);
 
   const formik = useFormik({
     initialValues: {

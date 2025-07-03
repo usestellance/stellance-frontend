@@ -43,7 +43,7 @@ const getStatusBadge = (status: string) => {
 export default function Page() {
   const { invoiceId } = useParams();
   const { data, isLoading, isError, error } = useGetInvoiceForClient({
-    invoice_id: invoiceId?.toString() || "",
+    invoice_url: invoiceId?.toString() || "",
   });
   const invoice: InvoiceType = data;
   const user = invoice?.createdBy;
@@ -68,8 +68,7 @@ export default function Page() {
             {invoice?.invoice_number || ""}
           </h3>
           <div className="mt-4 md:mt-6">
-            {/* {getStatusBadge(capitalizeWords(invoice?.status || "") || "")} */}
-            {getStatusBadge(capitalizeWords("cancelled") || "")}
+            {getStatusBadge(capitalizeWords(invoice?.status || "") || "")}
           </div>
           <div className="text-sm flex flex-col text-center mt-2 leading-[25px] sm:text-lg lg:leading-[150%]  lg:text-3xl md:mt-4">
             <span className="">Balance Due:</span>

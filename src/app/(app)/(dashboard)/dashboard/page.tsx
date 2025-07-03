@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useEffect } from "react";
@@ -92,7 +93,7 @@ export default function Page() {
       responseStatus(statusCode, message, router);
       // console.log(error)
     }
-  }, [isError, error, router]);
+  }, [isError, error]);
 
   const invoices: InvoiceType[] = data?.invoice;
 

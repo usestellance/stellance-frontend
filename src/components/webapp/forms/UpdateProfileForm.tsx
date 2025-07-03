@@ -40,7 +40,7 @@ export default function UpdateProfileForm() {
     },
     validationSchema: accountSetupValidation,
     onSubmit: async (values) => {
-      console.log(values);
+      // console.log(values);
       const { business_name, country, first_name, last_name, phone_number } =
         values;
 

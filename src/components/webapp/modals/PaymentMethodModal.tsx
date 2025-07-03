@@ -45,6 +45,7 @@ export default function PaymentMethodModal() {
 
   const handleCloseModal = () => {
     closeModal();
+    setMadePayment(false);
     formik.resetForm();
   };
 

@@ -8,8 +8,8 @@ const Shimmer = ({ className = "" }) => (
 );
 
 function InvoiceSkeletonLoader() {
-  return (
-    <div className="pb-20 md:pb-10 overflow-hidden">
+  return ( 
+    <div className="pb-20 md:pb-10 overflow-hidden myContainer mx-auto">
       <section className="bg-primary-light/40 dark:bg-primary-light/90 border border-[#9FB4DD] pt-5 mt-10 rounded-[10px] pb-[29px] sm:pt-10 sm:pb-[56px]">
         <div className="border-b border-[#9FB4DD80] pb-4 flex flex-col items-center lg:pb-7">
           {/* Invoice Number Skeleton */}

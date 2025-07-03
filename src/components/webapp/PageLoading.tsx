@@ -11,7 +11,11 @@ export default function PageLoading({
     <div
       className={` ${style} absolute top-0 bottom-0 left-0 right-0 bg-white dark:bg-primary z[100] p-[30px] overflow-hidden`}
     >
-      {showLogo && <Logo />}
+      {showLogo && (
+        <div className="sm:hidden">
+          <Logo />
+        </div>
+      )}
       <div
         className={` ${
           showLogo && "-mt-10"
