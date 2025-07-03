@@ -7,6 +7,7 @@ import useAxiosAuth from "./useAxiosAuth";
 import { InvoiceResponseType, InvoiceType } from "../lib/types/invoiceType";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { axiosInstance } from "../config/axios";
 // import { useFetchInvoiceParams } from "../store/invoiceStore";
 
 export const useCreateInvoice = () => {
@@ -138,7 +139,7 @@ export const useGetInvoiceForClient = ({
 }: {
   invoice_url: string;
 }) => {
-  const { get } = useAxiosAuth();
+  // const { get } = useAxiosAuth();
 
   const handleGetInvoiceForClient = async () => {
     const params = new URLSearchParams();
@@ -147,7 +148,7 @@ export const useGetInvoiceForClient = ({
 
     const url = `/invoice/search?${params.toString()}`;
     // const url = `/invoice/search?url=78522-6b18I-5f2fa428f4848385N0`;
-    const res = await get(url);
+    const res = await axiosInstance.get(url);
 
     // console.log(invoice_url);
 
@@ -192,6 +193,91 @@ export const useSendInvoice = (invoiceId: string, email?: string) => {
       // console.log(data);
       toast.success(data.message);
       window.location.reload();
+    },
+    onError: (error) => {
+      const errorMessage =
+        axios.isAxiosError(error) && error?.response?.data?.message
+          ? error?.response?.data?.message
+          : "An unknown error occurred.";
+      if (error.response?.status === 401) {
+        toast.error("Unauthorized Access");
+        router.push(signInRoute);
+        logout();
+      } else {
+        toast.error(errorMessage);
+      }
+      console.log(error?.response);
+    },
+  });
+
+  return mutation;
+};
+
+export const useReviewInvoice = (invoiceId: string, approve: boolean) => {
+  // const router = useRouter();
+
+  // Define the function to handle the send invoice API call
+  const handleSendInvoice = async () => {
+    // Build the URL conditionally based on whether email is provided
+    const url = `/invoice/review/${invoiceId}?approve=${approve}`;
+
+    const response = await axiosInstance.get(url);
+    // console.log(response);
+    return response.data;
+  };
+
+  // Use React Query's useMutation hook
+  const mutation = useMutation<
+    InvoiceResponseType,
+    AxiosError<InvoiceResponseType>,
+    void // No parameters needed since we're using closure
+  >({
+    mutationFn: handleSendInvoice,
+    onSuccess: (data: InvoiceResponseType) => {
+      // console.log(data);
+      toast.success(data.message);
+      window.location.reload();
+    },
+    onError: (error) => {
+      const errorMessage =
+        axios.isAxiosError(error) && error?.response?.data?.message
+          ? error?.response?.data?.message
+          : "An unknown error occurred.";
+
+      toast.error(errorMessage);
+      console.log(error?.response);
+    },
+  });
+
+  return mutation;
+};
+
+export const useDeleteInvoice = (invoiceId: string) => {
+  const { logout } = userAuth();
+  const axiosAuth = useAxiosAuth();
+  const router = useRouter();
+
+  // Define the function to handle the send invoice API call
+  const handleSendInvoice = async () => {
+    // Build the URL conditionally based on whether email is provided
+    const url = `/invoice/${invoiceId}`;
+
+    const response = await axiosAuth.delete(url);
+    // console.log(response);
+    return response.data;
+  };
+
+  // Use React Query's useMutation hook
+  const mutation = useMutation<
+    InvoiceResponseType,
+    AxiosError<InvoiceResponseType>,
+    void // No parameters needed since we're using closure
+  >({
+    mutationFn: handleSendInvoice,
+    onSuccess: (data: InvoiceResponseType) => {
+      // console.log(data);
+      toast.success(data.message);
+      router.push(invoiceRoute);
     },
     onError: (error) => {
       const errorMessage =

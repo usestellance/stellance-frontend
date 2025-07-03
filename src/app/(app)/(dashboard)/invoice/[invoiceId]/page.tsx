@@ -16,7 +16,11 @@ import { toast } from "sonner"; // Optional: if you want to show toast
 import Logo from "../../../../../components/landing/ui/Logo";
 import AppLogo from "../../../../../components/webapp/ui/Logo";
 import { useParams, useRouter } from "next/navigation";
-import { useGetInvoice, useSendInvoice } from "../../../../../hooks/useInvoice";
+import {
+  useDeleteInvoice,
+  useGetInvoice,
+  useSendInvoice,
+} from "../../../../../hooks/useInvoice";
 import { InvoiceType } from "../../../../../lib/types/invoiceType";
 import PageLoading from "../../../../../components/webapp/PageLoading";
 import { SERVICE_CHARGE } from "../../../../../utils/Constants";
@@ -53,7 +57,12 @@ export default function Page() {
   const { data, isLoading, isError, error } = useGetInvoice({
     invoice_id: invoiceId?.toString() || "",
   });
-  const { mutate: sendInvoice, isPending } = useSendInvoice(invoiceId?.toString() || "");
+  const { mutate: sendInvoice, isPending } = useSendInvoice(
+    invoiceId?.toString() || ""
+  );
+  const { mutate: deleteInvoice } = useDeleteInvoice(
+    invoiceId?.toString() || ""
+  );
 
   const invoice: InvoiceType = data;
   const user = invoice?.createdBy;
@@ -120,6 +129,11 @@ export default function Page() {
     sendInvoice(); // Will send to /invoice/send/43a265f5-9f5b-4d0d-b9c0-43f6622fd2d8
   };
 
+  const handleDeleteInvoice = () => {
+    deleteInvoice(); // Will send to /invoice/send/43a265f5-9f5b-4d0d-b9c0-43f6622fd2d8
+    // console.log("deleted");
+  };
+
   return (
     <section className="myContainer pt-4 max-w-[1200px] mx-auto">
       <div className="flex justify-between items-center">
@@ -144,33 +158,37 @@ export default function Page() {
 
       {/* SHare and copy */}
 
-      <div className="flex justify-between gap-1 mt-5 h-[43px] lg:mt-[60px] lg:h-[60px]">
-        <div className=" max-w-9/12 sm:max-w-8/12 md:max-w-9/12">
-          <div className="flex w-full h-full">
-            <div className="border-[0.5px]  w-full h-full flex items-center border-r-0 truncate px-[10px] py-[9px] border-primary dark:border-white rounded-bl-[6px] rounded-tl-[6px] lg:text-lg lg:px-5">
-              {url || "Loading..."}
+      {["paid", "pending", "overdue", "cancelled", "viewed"].includes(
+        (invoice?.status ?? "").toLowerCase()
+      ) && (
+        <div className="flex justify-between gap-1 mt-5 h-[43px] lg:mt-[60px] lg:h-[60px]">
+          <div className=" max-w-9/12 sm:max-w-8/12 md:max-w-9/12">
+            <div className="flex w-full h-full">
+              <div className="border-[0.5px]  w-full h-full flex items-center border-r-0 truncate px-[10px] py-[9px] border-primary dark:border-white rounded-bl-[6px] rounded-tl-[6px] lg:text-lg lg:px-5">
+                {url || "Loading..."}
+              </div>
+              <button
+                onClick={handleCopy}
+                className="px-[18px] flex items-center justify-center bg-[#D9E4F8] border border-[#D9E4F8] rounded-br-[6px] rounded-tr-[6px] text-text-strong gap-[10px] cursor-pointer"
+              >
+                <AiFillCopy className="text-xl lg:text-[35px]" />
+                <span className="max-md:hidden font-medium">Copy</span>
+              </button>
             </div>
-            <button
-              onClick={handleCopy}
-              className="px-[18px] flex items-center justify-center bg-[#D9E4F8] border border-[#D9E4F8] rounded-br-[6px] rounded-tr-[6px] text-text-strong gap-[10px] cursor-pointer"
-            >
-              <AiFillCopy className="text-xl lg:text-[35px]" />
-              <span className="max-md:hidden font-medium">Copy</span>
-            </button>
+          </div>
+          <div className=" flex-1/12 flex max-sm:ustify-end">
+            <div className="w[15%] min-w-fit h-full ">
+              <button
+                onClick={handleShare}
+                className="px-[18px] h-full minw-[60px] flex items-center justify-center bg-[#D9E4F8] border border-[#D9E4F8] rounded-[6px] gap-[10px] text-text-strong lg:min-w-[140px] cursor-pointer"
+              >
+                <FiShare2 className="text-xl md:text-base lg:text-3xl" />
+                <span className="max-md:hidden font-medium">Share</span>
+              </button>
+            </div>
           </div>
         </div>
-        <div className=" flex-1/12 flex max-sm:ustify-end">
-          <div className="w[15%] min-w-fit h-full ">
-            <button
-              onClick={handleShare}
-              className="px-[18px] h-full minw-[60px] flex items-center justify-center bg-[#D9E4F8] border border-[#D9E4F8] rounded-[6px] gap-[10px] text-text-strong lg:min-w-[140px] cursor-pointer"
-            >
-              <FiShare2 className="text-xl md:text-base lg:text-3xl" />
-              <span className="max-md:hidden font-medium">Share</span>
-            </button>
-          </div>
-        </div>
-      </div>
+      )}
 
       {/* Document */}
       <section
@@ -266,7 +284,12 @@ export default function Page() {
       </section>
 
       <div className="flex items-center justify-center gap-6 mt-14 md:mt-20">
-        <AppButton size="sm" theme="tetiary" className="sm:w-full">
+        <AppButton
+          onClick={handleDeleteInvoice}
+          size="sm"
+          theme="tetiary"
+          className="sm:w-full"
+        >
           Cancel
         </AppButton>
         <AppButton

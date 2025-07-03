@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
 import {
   capitalizeWords,
@@ -7,7 +7,10 @@ import {
   formatDateTime,
   maskMiddle,
 } from "../../../../utils/helpers/helperFunctions";
-import { useGetInvoiceForClient } from "../../../../hooks/useInvoice";
+import {
+  useGetInvoiceForClient,
+  useReviewInvoice,
+} from "../../../../hooks/useInvoice";
 import { useParams } from "next/navigation";
 import { InvoiceType } from "../../../../lib/types/invoiceType";
 import { SERVICE_CHARGE } from "../../../../utils/Constants";
@@ -40,11 +43,17 @@ const getStatusBadge = (status: string) => {
     </span>
   );
 };
+
 export default function Page() {
   const { invoiceId } = useParams();
   const { data, isLoading, isError, error } = useGetInvoiceForClient({
     invoice_url: invoiceId?.toString() || "",
   });
+  const [approve, setApprove] = useState<boolean>(true);
+  const { mutate, isPending } = useReviewInvoice(
+    invoiceId?.toString() || "",
+    approve
+  );
   const invoice: InvoiceType = data;
   const user = invoice?.createdBy;
 
@@ -56,9 +65,24 @@ export default function Page() {
     }
   }, [isError, error]);
 
+  useEffect(() => {
+    const toastId = "review-toast";
+
+    if (isPending) {
+      toast.loading("Reviewing...", { id: toastId });
+    } else {
+      toast.dismiss(toastId);
+    }
+  }, [isPending]);
+
   if (isLoading) {
     return <InvoiceSkeletonLoader />;
   }
+
+  const handleReviewInvoice = (status: boolean) => {
+    setApprove(status);
+    mutate();
+  };
 
   return (
     <div className="pb-20 md:pb-10 text-text-strong mt-30 myContainer">
@@ -146,10 +170,21 @@ export default function Page() {
 
       {invoice?.status === "pending" && (
         <div className="flex items-center justify-center gap-6 mt-14 md:mt-20">
-          <AppButton size="sm" theme="tetiary" className="sm:w-full">
+          <AppButton
+            onClick={() => handleReviewInvoice(false)}
+            disabled={isPending}
+            size="sm"
+            theme="tetiary"
+            className="sm:w-full"
+          >
             Decline
           </AppButton>
-          <AppButton size="sm" className="sm:w-full">
+          <AppButton
+            onClick={() => handleReviewInvoice(true)}
+            disabled={isPending}
+            size="sm"
+            className="sm:w-full"
+          >
             Approve
           </AppButton>
         </div>
