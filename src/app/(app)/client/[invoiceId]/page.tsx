@@ -22,12 +22,11 @@ import { toast } from "sonner";
 const getStatusBadge = (status: string) => {
   const statusStyles = {
     Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20",
-    Pending:
-      "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
+    Sent: "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
     Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
     Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
     Cancelled: "text-[#800000] border-[#800000] bg-[#800000]/15",
-    Viewed: "text-[#00FF40] border-[#00FF55] bg-[#00FF55]/15",
+    Viewed: "text-[#004E31] border-[#00FF55] bg-[#00FF55]/15",
   };
   // console.log(invoice);
 
@@ -39,6 +38,7 @@ const getStatusBadge = (status: string) => {
     >
       {(status === "Viewed" && capitalizeWords("Approved")) ||
         (status === "Cancelled" && capitalizeWords("Declined")) ||
+        (status === "Sent" && capitalizeWords("Pending")) ||
         capitalizeWords(status)}
     </span>
   );
@@ -50,11 +50,11 @@ export default function Page() {
     invoice_url: invoiceId?.toString() || "",
   });
   const [approve, setApprove] = useState<boolean>(true);
+  const invoice: InvoiceType = data;
   const { mutate, isPending } = useReviewInvoice(
-    invoiceId?.toString() || "",
+    invoice?.id?.toString() || "",
     approve
   );
-  const invoice: InvoiceType = data;
   const user = invoice?.createdBy;
 
   console.log(data);
@@ -168,7 +168,7 @@ export default function Page() {
         </div>
       </section>
 
-      {invoice?.status === "pending" && (
+      {invoice?.status === "sent" && (
         <div className="flex items-center justify-center gap-6 mt-14 md:mt-20">
           <AppButton
             onClick={() => handleReviewInvoice(false)}
@@ -191,7 +191,7 @@ export default function Page() {
       )}
 
       {/* Replace the array with a valid status array or a direct condition */}
-      {invoice?.status === "pending" && (
+      {invoice?.status === "sent" && (
         <div className="text-center text-sm font-bold mt-[51px] lg:mt-[70px] sm:text-lg lg:text-2xl text-[#18234F80] dark:text-secondary-disabled">
           CLICK HERE TO PAY THIS INVOICE
         </div>

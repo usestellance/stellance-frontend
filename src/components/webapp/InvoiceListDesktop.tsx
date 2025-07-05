@@ -15,7 +15,7 @@ const getStatusBadge = (status: string) => {
     Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
     Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
     Cancelled: "text-[#800000] border-[#800000] bg-[#800000]/15",
-    Viewed: "text-[#00FF40] border-[#00FF55] bg-[#00FF55]/15",
+    Viewed: "text-[#004E31] border-[#00FF55] bg-[#00FF55]/15",
   };
 
   return (
@@ -24,7 +24,7 @@ const getStatusBadge = (status: string) => {
         statusStyles[status as keyof typeof statusStyles] || statusStyles.Draft
       }`}
     >
-      {(status === "viewed" && capitalizeWords("Approved")) ||
+      {(status === "Viewed" && capitalizeWords("Approved")) ||
         (status === "cancelled" && capitalizeWords("Declined")) ||
         capitalizeWords(status)}
     </span>
@@ -37,7 +37,7 @@ const InvoiceListDesktop: React.FC<InvoiceType> = (invoice) => {
   const previewInvoice = () => {
     router.push(previewInvoiceRoute(invoice.id || ""));
   };
-
+console.log(invoice);
   return (
     <tr
       onClick={previewInvoice}

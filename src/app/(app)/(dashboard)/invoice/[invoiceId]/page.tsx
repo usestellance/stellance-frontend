@@ -9,7 +9,7 @@ import {
   maskMiddle,
   responseStatus,
 } from "../../../../../utils/helpers/helperFunctions";
-import Link from "next/link";
+// import Link from "next/link";
 import { AiFillCopy } from "react-icons/ai";
 import { FiShare2 } from "react-icons/fi";
 import { toast } from "sonner"; // Optional: if you want to show toast
@@ -26,6 +26,7 @@ import PageLoading from "../../../../../components/webapp/PageLoading";
 import { SERVICE_CHARGE } from "../../../../../utils/Constants";
 import AppButton from "../../../../../components/webapp/ui/AppButton";
 import GoBack from "../../../../../components/webapp/ui/GoBack";
+import { clientViewInvoiceRoute } from "../../../../../utils/route";
 
 const getStatusBadge = (status: string) => {
   const statusStyles = {
@@ -33,18 +34,19 @@ const getStatusBadge = (status: string) => {
     pending: "bg-[#FFC75F]",
     overdue: "bg-[#910400]",
     draft: "bg-[#508DFA]",
-    viewed: "bg-[#00FF55]",
+    viewed: "bg-[#00dd55]",
     cancelled: "bg-[#800000]",
   };
 
   return (
     <div
-      className={`h-[42px] text-white w-[82px] rounded-[3px] font-medium px-6 py-4 inline-flex items-center justify-center lg:w-[128px] lg:h-[60px] lg:text-2xl ${
+      className={`h-[42px] text-white w-fit rounded-[3px] font-medium px-4 py-4 inline-flex items-center justify-center lg:w-fit lg:h-[60px] lg:text-2xl ${
         statusStyles[status as keyof typeof statusStyles] || statusStyles.draft
       }`}
     >
       {(status === "viewed" && capitalizeWords("Approved")) ||
         (status === "cancelled" && capitalizeWords("Declined")) ||
+        (status === "sent" && capitalizeWords("Pending")) ||
         capitalizeWords(status)}
     </div>
   );
@@ -70,13 +72,15 @@ export default function Page() {
   // console.log(user);
 
   // console.log("id for invoice", invoiceId);
-  console.log("invoice", invoice);
+  // console.log("invoice", invoice);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrl(window.location.href);
+    if (typeof window !== "undefined" && invoice?.invoice_url) {
+      const baseUrl = window.location.origin;
+      setUrl(`${baseUrl}${clientViewInvoiceRoute(invoice.invoice_url)}`);
     }
-  }, []);
+  }, [invoice?.invoice_url]);
+  
 
   const handleCopy = async () => {
     try {
@@ -146,14 +150,14 @@ export default function Page() {
         <h3 className=" font-bold lg:font-medium lg:text-[32px]">
           {invoice?.invoice_number || ""}
         </h3>
-        {invoice?.status === "draft" && (
+        {/* {invoice?.status === "draft" && (
           <Link
             href="#"
             className="underline underline-offset-2 text-primary dark:text-white font-bold text-xl md:text-[32px]"
           >
             Edit
           </Link>
-        )}
+        )} */}
       </div>
 
       {/* SHare and copy */}
@@ -283,24 +287,26 @@ export default function Page() {
         </div>
       </section>
 
-      <div className="flex items-center justify-center gap-6 mt-14 md:mt-20">
-        <AppButton
-          onClick={handleDeleteInvoice}
-          size="sm"
-          theme="tetiary"
-          className="sm:w-full"
-        >
-          Cancel
-        </AppButton>
-        <AppButton
-          onClick={handleSendInvoice}
-          loading={isPending}
-          size="sm"
-          className="sm:w-full"
-        >
-          Send
-        </AppButton>
-      </div>
+      {invoice?.status === "draft" && (
+        <div className="flex items-center justify-center gap-6 mt-14 md:mt-20">
+          <AppButton
+            onClick={handleDeleteInvoice}
+            size="sm"
+            theme="tetiary"
+            className="sm:w-full"
+          >
+            Delete
+          </AppButton>
+          <AppButton
+            onClick={handleSendInvoice}
+            loading={isPending}
+            size="sm"
+            className="sm:w-full"
+          >
+            Send
+          </AppButton>
+        </div>
+      )}
     </section>
   );
 }

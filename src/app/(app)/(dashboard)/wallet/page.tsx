@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import AppButton from "../../../../components/webapp/ui/AppButton";
+// import AppButton from "../../../../components/webapp/ui/AppButton";
+// import { useGenerateWallet } from "../../../../hooks/useWallet";
 // import { AiFillCopy } from "react-icons/ai";
 // import { toast } from "sonner";
 
@@ -32,6 +33,8 @@ export default function Page() {
 }
 
 function NoWalletAddress() {
+  // const { mutate } = useGenerateWallet();
+
   return (
     <div className="myContainer h-full">
       <h3 className="section-title max-[290px]:text-center mt-5">Wallet</h3>
@@ -45,9 +48,9 @@ function NoWalletAddress() {
             className="w-full h-full object-contain"
           />
         </div>
-        <AppButton size="sm" className="">
+        {/* <AppButton onClick={} size="sm" className="">
           Generate Wallet Address
-        </AppButton>
+        </AppButton> */}
       </div>
     </div>
   );

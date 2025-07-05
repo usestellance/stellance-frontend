@@ -3,7 +3,7 @@
 "use client";
 import React, { useEffect } from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
-import { createInvoiceRoute } from "../../../../utils/route";
+import { accountSetUpRoute, createInvoiceRoute } from "../../../../utils/route";
 import InvoiceList, {
   MobileInvoiceSkeleton,
 } from "../../../../components/webapp/InvoiceList";
@@ -16,6 +16,8 @@ import { useRouter } from "next/navigation";
 import { responseStatus } from "../../../../utils/helpers/helperFunctions";
 // import { userAuth } from "../../../../store/userAuth";
 import Image from "next/image";
+import { userAuth } from "../../../../store/userAuth";
+import { toast } from "sonner";
 
 const StatsCard = () => {
   return (
@@ -73,9 +75,10 @@ export default function Page() {
   const { data, error, isError, isLoading } = useGetInvoices({});
   const router = useRouter();
 
-  // const { credentials } = userAuth();
+  const { credentials } = userAuth();
+  const is_profile_complete = credentials?.profile_complete;
 
-  // console.log(data, credentials);
+  // console.log(is_profile_complete);
 
   useEffect(() => {
     if (isError && error) {
@@ -90,42 +93,21 @@ export default function Page() {
           (error as any).response?.data) ||
         error?.message ||
         "An error occurred";
-      responseStatus(statusCode, message, router);
+      if (is_profile_complete) {
+        responseStatus(statusCode, message, router);
+      }
       // console.log(error)
     }
   }, [isError, error]);
 
   const invoices: InvoiceType[] = data?.invoice;
 
-  // const sampleInvoices = [
-  //   {
-  //     id: "INV-001",
-  //     customer: { name: "John Doe", email: "john@example.com" },
-  //     description: "Web Development Services",
-  //     dateIssued: "2024-01-15",
-  //     dueDate: "2024-02-15",
-  //     amount: 2500.0,
-  //     status: "Pending",
-  //   },
-  //   {
-  //     id: "INV-002",
-  //     customer: { name: "Jane Smith", email: "jane@company.com" },
-  //     description: "Mobile App Design",
-  //     dateIssued: "2024-01-10",
-  //     dueDate: "2024-02-10",
-  //     amount: 3200.0,
-  //     status: "Paid",
-  //   },
-  //   {
-  //     id: "INV-003",
-  //     customer: { name: "Bob Wilson", email: "bob@startup.io" },
-  //     description: "SEO Optimization Package",
-  //     dateIssued: "2024-01-08",
-  //     dueDate: "2024-01-25",
-  //     amount: 1800.0,
-  //     status: "Overdue",
-  //   },
-  // ];
+  const handleCreateInvoiceRoute = () => {
+    router.push(is_profile_complete ? createInvoiceRoute : accountSetUpRoute);
+    if (!is_profile_complete) {
+      toast.warning("Complete profile to enable creating invoice");
+    }
+  };
 
   return (
     <div className="myContainer">
@@ -133,7 +115,7 @@ export default function Page() {
         <h3 className="section-title max-[290px]:text-center">Dashboard</h3>
         <AppButton
           size="sm"
-          href={createInvoiceRoute}
+          onClick={handleCreateInvoiceRoute}
           className="max-[290px]:w-full"
         >
           Create Invoice
@@ -150,85 +132,89 @@ export default function Page() {
 
       <section className="mt-[47px] lg:mt-[60px]">
         <h4 className="section-subtitle">Latest Invoices</h4>
-        <div className="flex flex-col gap-[15px] mt-3 xl:hidden">
-          {isLoading
-            ? Array.from({ length: 5 }).map((_, i) => (
-                <MobileInvoiceSkeleton key={i} />
-              ))
-            : invoices?.map((invoice: InvoiceType) => (
-                <InvoiceList key={invoice.id} {...invoice} />
-              ))}
-        </div>
+        {is_profile_complete && (
+          <div className="flex flex-col gap-[15px] mt-3 xl:hidden">
+            {isLoading
+              ? Array.from({ length: 5 }).map((_, i) => (
+                  <MobileInvoiceSkeleton key={i} />
+                ))
+              : invoices?.map((invoice: InvoiceType) => (
+                  <InvoiceList key={invoice.id} {...invoice} />
+                ))}
+          </div>
+        )}
 
         {/* Table */}
-        <div className="overflow-x-auto pb-5 scroll">
-          <table className="min-w-full border-separate border-spacing-y-2 overflow-hidden text-text-strong dark:text-white max-xl:hidden mt-[20px] ">
-            {invoices?.length !== 0 && (
-              <thead className="bg-[#D9E4F866] overflow-hidden ">
-                <tr className="">
-                  <th
-                    scope="col"
-                    className="px-4 py-5 text-start font-bold whitespace-nowrap "
-                  >
-                    Invoice ID
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                  >
-                    Customer Details
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                  >
-                    Title
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                  >
-                    Date Issued
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                  >
-                    Due Date
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-5 text-center font-bold whitespace-nowrap "
-                  >
-                    Amount
-                  </th>
-                  <th
-                    // scope="col"
-                    className="px-4 py-5 text-center font-bold  "
-                  >
-                    Status
-                  </th>
-                </tr>
-              </thead>
-            )}
+        {is_profile_complete && (
+          <div className="overflow-x-auto pb-5 scroll">
+            <table className="min-w-full border-separate border-spacing-y-2 overflow-hidden text-text-strong dark:text-white max-xl:hidden mt-[20px] ">
+              {invoices?.length !== 0 && (
+                <thead className="bg-[#D9E4F866] overflow-hidden ">
+                  <tr className="">
+                    <th
+                      scope="col"
+                      className="px-4 py-5 text-start font-bold whitespace-nowrap "
+                    >
+                      Invoice ID
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                    >
+                      Customer Details
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                    >
+                      Title
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                    >
+                      Date Issued
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                    >
+                      Due Date
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 py-5 text-center font-bold whitespace-nowrap "
+                    >
+                      Amount
+                    </th>
+                    <th
+                      // scope="col"
+                      className="px-4 py-5 text-center font-bold  "
+                    >
+                      Status
+                    </th>
+                  </tr>
+                </thead>
+              )}
 
-            {/* Table Body */}
-            <tbody className="divide-y divide-black">
-              {isLoading
-                ? Array.from({ length: 5 }).map((_, i) => (
-                    <InvoiceListDesktopSkeleton key={i} />
-                  ))
-                : invoices?.map((invoice: InvoiceType) => (
-                    <InvoiceListDesktop key={invoice.id} {...invoice} />
-                  ))}
-            </tbody>
-          </table>
-          {invoices?.length === 0 && !isLoading && (
-            <div className="">
-              <NoInvoice />
-            </div>
-          )}
-        </div>
+              {/* Table Body */}
+              <tbody className="divide-y divide-black">
+                {isLoading
+                  ? Array.from({ length: 5 }).map((_, i) => (
+                      <InvoiceListDesktopSkeleton key={i} />
+                    ))
+                  : invoices?.map((invoice: InvoiceType) => (
+                      <InvoiceListDesktop key={invoice.id} {...invoice} />
+                    ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {(!is_profile_complete || (invoices?.length === 0 && !isLoading)) && (
+          <div className="mt-10">
+            <NoInvoice />
+          </div>
+        )}
       </section>
     </div>
   );

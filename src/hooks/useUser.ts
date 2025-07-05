@@ -26,7 +26,7 @@ export const useCompleteProfile = () => {
       business_name: data.business_name,
       Country: data.country,
     });
-    console.log(response);
+    // console.log(response);
     return response.data;
   };
 
@@ -38,6 +38,7 @@ export const useCompleteProfile = () => {
   >({
     mutationFn: handleCompleteProfile,
     onSuccess: (data: ILoginResponse) => {
+      sessionStorage.setItem("profile_complete", "true");
       // console.log(data);
 
       toast.success(data.message);
@@ -95,7 +96,7 @@ export const useUpdateProfile = () => {
       sessionStorage.setItem("user", JSON.stringify(user));
 
       // console.log(access_token, user);
-      setCredentials(access_token, user);
+      setCredentials(access_token, user, true, true);
       toast.success(data.message);
       // router.push(dashboardRoute);
     },

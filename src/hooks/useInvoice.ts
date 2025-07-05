@@ -11,11 +11,13 @@ import { axiosInstance } from "../config/axios";
 // import { useFetchInvoiceParams } from "../store/invoiceStore";
 
 export const useCreateInvoice = () => {
-  const { logout } = userAuth();
+  const { logout, credentials } = userAuth();
   const { post } = useAxiosAuth();
   const router = useRouter();
+  const is_profile_complete = credentials?.profile_complete;
 
   // Define the function to handle the registration API call
+
   const handleCreateInvoice = async (data: InvoiceType) => {
     // const response = await get('/auth/clear')
     const response = await post("/invoice", {
@@ -39,7 +41,7 @@ export const useCreateInvoice = () => {
   >({
     mutationFn: handleCreateInvoice,
     onSuccess: (data: InvoiceResponseType) => {
-      console.log(data);
+      // console.log(data);
 
       toast.success(data.message);
       router.push(invoiceRoute);
@@ -54,9 +56,9 @@ export const useCreateInvoice = () => {
         router.push(signInRoute);
         logout();
       } else {
-        toast.error(errorMessage);
+        toast.error(is_profile_complete && errorMessage);
       }
-      console.log(error?.response);
+      // console.log(error?.response);
     },
   });
 

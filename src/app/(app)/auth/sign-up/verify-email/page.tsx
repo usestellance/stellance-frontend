@@ -24,7 +24,7 @@ export default function Page() {
     setLoading(true);
     try {
       const res = await axiosInstance.get(`/auth/validate?token=${token}`);
-
+      // console.log(res)
       if (res.data) {
         setLoading(false);
         toast.success(res?.data?.message);

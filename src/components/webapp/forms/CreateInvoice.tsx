@@ -21,18 +21,25 @@ import { InvoiceType } from "../../../lib/types/invoiceType";
 import { countryCodes } from "../../../utils/contents/countryCodes";
 import ComboboxField from "../ui/ComboboxField";
 import { useCreateInvoice } from "../../../hooks/useInvoice";
+import { toast } from "sonner";
+import { userAuth } from "../../../store/userAuth";
+import { useRouter } from "next/navigation";
+import { accountSetUpRoute } from "../../../utils/route";
 
 export default function CreateInvoice() {
+  const router = useRouter();
   const { openModal } = useAddItemModal();
   const { mutate, isPending } = useCreateInvoice();
   const { items, removeItem, clearItems, setEditingIndex } = useInvoiceItems();
-
+  const { credentials } = userAuth();
   const total = calculateTotal(items);
   // const subtotal = formatCurrency(subtotalValue);
   const serviceCharge = formatCurrency(calculateServiceFee(total));
   const netTotal = formatCurrency(
     calculateNetTotal(total, calculateServiceFee(total))
   );
+
+  const is_profile_complete = credentials?.profile_complete;
 
   // console.log(items);
 
@@ -49,10 +56,13 @@ export default function CreateInvoice() {
     },
     validationSchema: invoiceValidation,
     onSubmit: (values) => {
-      // console.log(values);
-      mutate(values);
-
-      setEditingIndex(null);
+      if (is_profile_complete) {
+        mutate(values);
+        setEditingIndex(null);
+      } else {
+        toast.warning("Complete profile to enable creating invoice");
+        router.push(accountSetUpRoute);
+      }
     },
   });
 

@@ -19,10 +19,17 @@ import { InvoiceItemsTypes, InvoiceType } from "../../../lib/types/invoiceType";
 import ComboboxField from "../ui/ComboboxField";
 import { countryCodes } from "../../../utils/contents/countryCodes";
 import { useCreateInvoice } from "../../../hooks/useInvoice";
-
+import { userAuth } from "../../../store/userAuth";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { accountSetUpRoute } from "../../../utils/route";
 
 export default function CreateInvoiceDesktop() {
   const { mutate, isPending } = useCreateInvoice();
+  const { credentials } = userAuth();
+    const router = useRouter();
+
+  const is_profile_complete = credentials?.profile_complete;
 
   const formik = useFormik<InvoiceType>({
     initialValues: {
@@ -36,7 +43,12 @@ export default function CreateInvoiceDesktop() {
     },
     validationSchema: invoiceValidation,
     onSubmit: (values) => {
-      mutate(values);
+      if (is_profile_complete) {
+        mutate(values);
+      } else {
+         toast.warning("Complete profile to enable creating invoice");
+         router.push(accountSetUpRoute);
+      }
     },
   });
 
@@ -45,7 +57,7 @@ export default function CreateInvoiceDesktop() {
     field: keyof InvoiceItemsTypes,
     value: string | number
   ) => {
-    const updatedItems = [...formik.values.invoice_items || []];
+    const updatedItems = [...(formik.values.invoice_items || [])];
     (updatedItems[index][field] as typeof value) =
       field === "quantity" ||
       field === "unit_price" ||
@@ -64,7 +76,7 @@ export default function CreateInvoiceDesktop() {
   };
 
   const removeItem = (index: number) => {
-    const updatedItems = [...formik.values.invoice_items || []];
+    const updatedItems = [...(formik.values.invoice_items || [])];
     updatedItems.splice(index, 1);
     formik.setFieldValue("invoice_items", updatedItems);
   };
@@ -81,9 +93,9 @@ export default function CreateInvoiceDesktop() {
   };
 
   const countryOptions = countryCodes.map((c) => ({
-      label: c.country,
-      value: c.country.toLowerCase(),
-    }));
+    label: c.country,
+    value: c.country.toLowerCase(),
+  }));
 
   return (
     <div className="md:mt-[60px] lg:pb-20 ">
@@ -348,9 +360,8 @@ export default function CreateInvoiceDesktop() {
           >
             Add New Item
           </button>
-
         </div>
-          {/* {formik.errors.invoice_items && (
+        {/* {formik.errors.invoice_items && (
             <p className="mt-2 text-[#b40000]">{formik.errors.invoice_items}</p>
           )} */}
 

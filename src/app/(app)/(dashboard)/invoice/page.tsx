@@ -4,7 +4,7 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
-import { createInvoiceRoute } from "../../../../utils/route";
+import { accountSetUpRoute, createInvoiceRoute } from "../../../../utils/route";
 import { useGetInvoices } from "../../../../hooks/useInvoice";
 import { InvoiceType } from "../../../../lib/types/invoiceType";
 import { Listbox } from "@headlessui/react";
@@ -19,6 +19,8 @@ import InvoiceList, {
   MobileInvoiceSkeleton,
 } from "../../../../components/webapp/InvoiceList";
 import { invoiceFilterOptions } from "../../../../utils/Constants";
+import { userAuth } from "../../../../store/userAuth";
+import { toast } from "sonner";
 
 const CreateInvoice = () => {
   return (
@@ -73,7 +75,8 @@ export default function Page() {
   const selectedOption = invoiceFilterOptions.find(
     (opt) => opt.value === status
   );
-
+  const { credentials } = userAuth();
+  const is_profile_complete = credentials?.profile_complete;
   // console.log("status", status);
   // console.log("selected", selectedOption);
 
@@ -94,8 +97,9 @@ export default function Page() {
           (error as any).response?.data) ||
         error?.message ||
         "An error occurred";
-      responseStatus(statusCode, message, router);
-      // console.log(error)
+      if (is_profile_complete) {
+        responseStatus(statusCode, message, router);
+      }
     }
   }, [isError, error]);
 
@@ -106,13 +110,20 @@ export default function Page() {
       </div>
     );
 
+  const handleCreateInvoiceRoute = () => {
+    router.push(is_profile_complete ? createInvoiceRoute : accountSetUpRoute);
+    if (!is_profile_complete) {
+      toast.warning("Complete profile to enable creating invoice");
+    }
+  };
+
   return (
     <div className="myContainer">
       <section className="flex max-[290px]:flex-col gap-2 max-[290px]:gap-5 items-center justify-between mt-5">
         <h3 className="section-title max-[290px]:text-center">Invoice</h3>
         <AppButton
           size="sm"
-          href={createInvoiceRoute}
+          onClick={handleCreateInvoiceRoute}
           className="max-[290px]:w-full"
         >
           Create Invoice
@@ -203,7 +214,7 @@ export default function Page() {
         {/* Table */}
         <div className="overflow-x-auto pb-5 scroll">
           <table className="min-w-full border-separate border-spacing-y-2 overflow-hidden text-text-strong dark:text-white max-xl:hidden">
-            {invoices?.length !== 0  && (
+            {invoices?.length !== 0 && (
               <thead className="bg-[#D9E4F866] overflow-hidden ">
                 <tr className="">
                   <th
@@ -259,17 +270,15 @@ export default function Page() {
                     <InvoiceListDesktopSkeleton key={i} />
                   ))
                 : invoices?.map((invoice: InvoiceType) => (
-                    <InvoiceListDesktop key={invoice.id} {...invoice} />
+                    <InvoiceListDesktop key={invoice?.id} {...invoice} />
                   ))}
             </tbody>
           </table>
-          {/* <div className=" w-full"> */}
           {invoices?.length === 0 && !isLoading && (
             <div className="max-xl:hidden">
               <NoInvoice />
             </div>
           )}
-          {/* </div> */}
         </div>
       </section>
     </div>
