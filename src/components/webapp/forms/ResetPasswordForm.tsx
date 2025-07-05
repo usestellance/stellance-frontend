@@ -23,9 +23,14 @@ export default function ResetPasswordForm() {
     },
     validationSchema: ResetPasswordValidation,
     onSubmit: async (values) => {
-      const { otp, new_password } = values;
+      const { otp, new_password, confirm_new_password } = values;
 
-      mutate({ email, otp, password: new_password });
+      mutate({
+        email,
+        otp,
+        password: new_password,
+        confirm_password: confirm_new_password,
+      });
       // console.log("Reset Password Form:", values);
     },
   });

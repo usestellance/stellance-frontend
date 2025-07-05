@@ -105,7 +105,8 @@ export const useResetPassword = () => {
     const response = await axiosInstance.post("/auth/reset-password", {
       email: data.email,
       otp: data.otp,
-      confirm_password: data.password,
+      password: data.password,
+      confirm_password: data.confirm_password,
     });
     return response.data;
   };
