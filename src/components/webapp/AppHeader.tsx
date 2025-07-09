@@ -5,16 +5,22 @@ import Logo from "./ui/Logo";
 import { useSideBarStore } from "../../store/NavStore";
 import { userAuth } from "../../store/userAuth";
 import { useRouter } from "next/navigation";
-import { profileRoute } from "../../utils/route";
+import { accountSetUpRoute, profileRoute } from "../../utils/route";
 
 export default function AppHeader() {
   const { toggleSideBar } = useSideBarStore();
   const { credentials } = userAuth();
-  const router = useRouter()
+  const router = useRouter();
+  const isProfileComplete = credentials?.profile_complete;
+  console.log("credentials", credentials);
 
-  const gotoProfile = ()=>{
-    router.push(profileRoute)
-  }
+  const gotoProfile = () => {
+    if (isProfileComplete) {
+      router.push(profileRoute);
+    } else {
+      router.push(accountSetUpRoute);
+    }
+  };
 
   return (
     <header className="z-30 fixed md:flex md:justify-end  top-0 bg-white  dark:bg-primary right-0 left-0">
