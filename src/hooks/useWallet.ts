@@ -46,7 +46,7 @@ export const useGenerateWallet = () => {
           const user = JSON.parse(userRaw);
           user.wallet = {
             id: wallet.id,
-            wallet_address: wallet.wallet_address,
+            address: wallet.wallet_address,
           };
           sessionStorage.setItem("user", JSON.stringify(user));
         } catch (err) {

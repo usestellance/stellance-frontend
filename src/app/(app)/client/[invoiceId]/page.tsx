@@ -57,7 +57,7 @@ export default function Page() {
   );
   const user = invoice?.createdBy;
 
-  // console.log(data);
+  console.log(data);
 
   useEffect(() => {
     if (isError && error) {
