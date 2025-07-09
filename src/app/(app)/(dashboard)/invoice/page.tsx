@@ -30,7 +30,7 @@ const CreateInvoice = () => {
   const router = useRouter();
   const { credentials } = userAuth();
   const is_profile_complete = credentials?.profile_complete;
-  const wallet_address = credentials?.user.wallet?.wallet_address;
+  const wallet_address = credentials?.user.wallet?.address;
 
   const handleCreateInvoiceRoute = () => {
     if (!is_profile_complete) {
@@ -98,7 +98,7 @@ export default function Page() {
   );
   const { credentials } = userAuth();
   const is_profile_complete = credentials?.profile_complete;
-  const wallet_address = credentials?.user.wallet?.wallet_address;
+  const wallet_address = credentials?.user.wallet?.address;
 
   const invoices: InvoiceType[] = data?.invoice || [];
 

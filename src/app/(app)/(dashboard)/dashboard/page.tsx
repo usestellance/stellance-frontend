@@ -77,9 +77,9 @@ export default function Page() {
 
   const { credentials } = userAuth();
   const is_profile_complete = credentials?.profile_complete;
-  const wallet_address = credentials?.user.wallet?.wallet_address;
+  const wallet_address = credentials?.user.wallet?.address;
 
-  // console.log(is_profile_complete);
+  console.log(wallet_address);
 
   useEffect(() => {
     if (isError && error) {
@@ -104,15 +104,15 @@ export default function Page() {
   const invoices: InvoiceType[] = data?.invoice;
 
   const handleCreateInvoiceRoute = () => {
-     if (!is_profile_complete) {
-         toast.warning("Complete profile to enable creating invoice");
-         router.push(accountSetUpRoute);
-       } else if (is_profile_complete && !wallet_address) {
-         router.push(walletRoute);
-         toast.warning("Generate your wallet address to enable creating invoice");
-       } else {
-         router.push(createInvoiceRoute);
-       }
+    if (!is_profile_complete) {
+      toast.warning("Complete profile to enable creating invoice");
+      router.push(accountSetUpRoute);
+    } else if (is_profile_complete && !wallet_address) {
+      router.push(walletRoute);
+      toast.warning("Generate your wallet address to enable creating invoice");
+    } else {
+      router.push(createInvoiceRoute);
+    }
   };
 
   return (

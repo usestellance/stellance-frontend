@@ -8,6 +8,7 @@ export interface IWallet {
   tag: string;
   user_id: string;
   wallet_address: string;
+  address: string;
   balance: {
     usdc: number;
     xlm: number;
