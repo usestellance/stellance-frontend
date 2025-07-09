@@ -86,7 +86,7 @@ export default function Page() {
           {walletDetails?.wallet_address && (
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1 text-primary mt-1 md:mt-3"
+              className="flex items-center gap-1 text-primary dark:text-white mt-1 md:mt-3"
             >
               <p className="text-xs md:text-lg font-medium  lg:text-2xl ">
                 {maskMiddle(walletDetails?.wallet_address)}
