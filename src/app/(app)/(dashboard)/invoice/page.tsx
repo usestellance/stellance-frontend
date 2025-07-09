@@ -4,7 +4,11 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
-import { accountSetUpRoute, createInvoiceRoute } from "../../../../utils/route";
+import {
+  accountSetUpRoute,
+  createInvoiceRoute,
+  walletRoute,
+} from "../../../../utils/route";
 import { useGetInvoices } from "../../../../hooks/useInvoice";
 import { InvoiceType } from "../../../../lib/types/invoiceType";
 import { Listbox } from "@headlessui/react";
@@ -23,6 +27,23 @@ import { userAuth } from "../../../../store/userAuth";
 import { toast } from "sonner";
 
 const CreateInvoice = () => {
+  const router = useRouter();
+  const { credentials } = userAuth();
+  const is_profile_complete = credentials?.profile_complete;
+  const wallet_address = credentials?.user.wallet?.wallet_address;
+
+  const handleCreateInvoiceRoute = () => {
+    if (!is_profile_complete) {
+      toast.warning("Complete profile to enable creating invoice");
+      router.push(accountSetUpRoute);
+    } else if (is_profile_complete && !wallet_address) {
+      router.push(walletRoute);
+      toast.warning("Generate your wallet address to enable creating invoice");
+    } else {
+      router.push(createInvoiceRoute);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center">
       <div className="w-[163px] lg:w-[200px] mx-auto mt-[80px] lg:mt-[50px]">
@@ -40,7 +61,7 @@ const CreateInvoice = () => {
       </p>
       <AppButton
         size="lg"
-        href={createInvoiceRoute}
+        onClick={handleCreateInvoiceRoute}
         className="w-full mt-7 lg:mt-8 max-w-[320px] sm:max-w-[400px] lg:max-w-[490px]"
       >
         Create Invoice
@@ -77,8 +98,7 @@ export default function Page() {
   );
   const { credentials } = userAuth();
   const is_profile_complete = credentials?.profile_complete;
-  // console.log("status", status);
-  // console.log("selected", selectedOption);
+  const wallet_address = credentials?.user.wallet?.wallet_address;
 
   const invoices: InvoiceType[] = data?.invoice || [];
 
@@ -111,9 +131,14 @@ export default function Page() {
     );
 
   const handleCreateInvoiceRoute = () => {
-    router.push(is_profile_complete ? createInvoiceRoute : accountSetUpRoute);
     if (!is_profile_complete) {
       toast.warning("Complete profile to enable creating invoice");
+      router.push(accountSetUpRoute);
+    } else if (is_profile_complete && !wallet_address) {
+      router.push(walletRoute);
+      toast.warning("Generate your wallet address to enable creating invoice");
+    } else {
+      router.push(createInvoiceRoute);
     }
   };
 

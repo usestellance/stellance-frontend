@@ -1,3 +1,5 @@
+import { IWallet } from "./walletType";
+
 export interface IUser {
   id?: string;
   email?: string;
@@ -8,6 +10,7 @@ export interface IUser {
   business_name?: string;
   country?: string;
   phone_number?: string;
+  wallet?: IWallet;
   wallet_address?: string;
   is_active?: boolean;
   role?: string;

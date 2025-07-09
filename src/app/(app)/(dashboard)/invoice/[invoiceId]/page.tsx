@@ -27,6 +27,7 @@ import { SERVICE_CHARGE } from "../../../../../utils/Constants";
 import AppButton from "../../../../../components/webapp/ui/AppButton";
 import GoBack from "../../../../../components/webapp/ui/GoBack";
 import { clientViewInvoiceRoute } from "../../../../../utils/route";
+import { userAuth } from "../../../../../store/userAuth";
 
 const getStatusBadge = (status: string) => {
   const statusStyles = {
@@ -54,6 +55,7 @@ const getStatusBadge = (status: string) => {
 
 export default function Page() {
   const router = useRouter();
+  const { credentials } = userAuth();
   const [url, setUrl] = useState("");
   const { invoiceId } = useParams();
   const { data, isLoading, isError, error } = useGetInvoice({
@@ -80,7 +82,6 @@ export default function Page() {
       setUrl(`${baseUrl}${clientViewInvoiceRoute(invoice.invoice_url)}`);
     }
   }, [invoice?.invoice_url]);
-  
 
   const handleCopy = async () => {
     try {
@@ -227,9 +228,7 @@ export default function Page() {
           </p>
           <p className="text-xs sm:text-sm lg:text-xl font-bold text-[#8F8F8F] mt-4">
             Wallet Address: <br className="sm:hidden" />
-            {maskMiddle(
-              "GC7OHFPWPSWXL4HMN6TXAG54MTZSMJIASWHO6KVRQNHNCXEAHWDSGGC3"
-            )}
+            {maskMiddle(credentials?.user.wallet?.wallet_address || "")}
             {/* {invoice?.invoice_number || ""}{" "} */}
           </p>
         </div>

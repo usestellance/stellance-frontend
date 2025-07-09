@@ -17,6 +17,25 @@ export function formatCurrency(
   }).format(value);
 }
 
+export function formatWalletCurrency(
+  amount: number | undefined,
+  wallet: "$" | "XML"
+): string {
+  if (amount === undefined || isNaN(amount)) {
+    return wallet === "$" ? "$0.00" : "XLM 0.00";
+  }
+
+  const formatted = new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
+
+  return wallet === "$" ? `$${formatted}` : `XLM ${formatted}`;
+}
+
+
+
+
 // Calculates subtotal (sum of all item amounts after individual discounts)
 export function calculateTotal(items: InvoiceItemsTypes[]): number {
   return items.reduce((total, item) => {
@@ -94,7 +113,7 @@ export function formatDate(raw: string | Date | null | undefined): string {
 }
 
 
-export function maskMiddle(text: string, visibleStart = 5, visibleEnd = 5): string {
+export function maskMiddle(text: string, visibleStart = 7, visibleEnd = 10): string {
   if (text.length <= visibleStart + visibleEnd) return text;
 
   const start = text.slice(0, visibleStart);

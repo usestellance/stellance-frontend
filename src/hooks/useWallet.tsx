@@ -1,43 +1,67 @@
-import { useRouter } from "next/router";
 import { userAuth } from "../store/userAuth";
 import useAxiosAuth from "./useAxiosAuth";
-import { InvoiceResponseType, InvoiceType } from "../lib/types/invoiceType";
-import { useMutation } from "@tanstack/react-query";
+// import { InvoiceResponseType, InvoiceType } from "../lib/types/invoiceType";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { signInRoute } from "../utils/route";
+import { useRouter } from "next/navigation";
+
+interface WalletResponseType {
+  message: string;
+  data: {
+    id: string;
+    wallet_address: string;
+    balance: {
+      usdc: number;
+      xlm: number;
+    };
+  };
+}
 
 export const useGenerateWallet = () => {
   const { logout } = userAuth();
   const { post } = useAxiosAuth();
   const router = useRouter();
 
-  // Define the function to handle the registration API call
   const handleCreateWallet = async () => {
-    // const response = await get('/auth/clear')
     const response = await post("/wallet");
-    console.log(response);
     return response.data;
   };
 
-  // Use React Query's useMutation hook with additional configurations
   const mutation = useMutation<
-    InvoiceResponseType,
-    AxiosError<InvoiceResponseType>,
-    InvoiceType
+    WalletResponseType,
+    AxiosError<WalletResponseType>
   >({
     mutationFn: handleCreateWallet,
-    onSuccess: (data: InvoiceResponseType) => {
-      console.log(data);
+    onSuccess: (response) => {
+      const wallet = response.data;
 
-      toast.success(data.message);
-      //   router.push(invoiceRoute);
+      toast.success(response.message);
+
+      // ✅ Update session storage
+      const userRaw = sessionStorage.getItem("user");
+      if (userRaw) {
+        try {
+          const user = JSON.parse(userRaw);
+          user.wallet = {
+            id: wallet.id,
+            wallet_address: wallet.wallet_address,
+          };
+          sessionStorage.setItem("user", JSON.stringify(user));
+        } catch (err) {
+          console.error("Failed to update session wallet:", err);
+        }
+      }
+      // window.location.reload();
+      // optionally redirect or trigger UI updates here
     },
     onError: (error) => {
       const errorMessage =
         axios.isAxiosError(error) && error?.response?.data?.message
           ? error?.response?.data?.message
           : "An unknown error occurred.";
+
       if (error.response?.status === 401) {
         toast.error("Unauthorized Access");
         router.push(signInRoute);
@@ -45,10 +69,34 @@ export const useGenerateWallet = () => {
       } else {
         toast.error(errorMessage);
       }
+
       console.log(error?.response);
     },
   });
 
-  // Return the mutation object to use in components
   return mutation;
+};
+
+export const useGetWallet = (wallet_id: string) => {
+  const { credentials } = userAuth();
+  const { get } = useAxiosAuth();
+
+  const handleGetWallet = async () => {
+    // const url = `/wallet/${wallet_id}`;
+    // const url = `/wallet/971d45fb-35fd-470f-9d40-ad7d659956d9`;
+    const url = `/wallet/${wallet_id}`;
+    const res = await get(url);
+
+    // console.log(res.data);
+    // responseStatus(res.status, res.data, router);
+    return res.data.data;
+  };
+
+  return useQuery({
+    queryKey: ["wallet", wallet_id],
+    queryFn: handleGetWallet,
+    enabled: !!credentials?.access_token,
+    retry: 2,
+    refetchOnWindowFocus: false,
+  });
 };

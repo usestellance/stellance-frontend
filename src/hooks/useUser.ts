@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { dashboardRoute, signInRoute } from "../utils/route";
+import { signInRoute, walletRoute } from "../utils/route";
 import { useRouter } from "next/navigation";
 import useAxiosAuth from "./useAxiosAuth";
 import {
@@ -42,7 +42,7 @@ export const useCompleteProfile = () => {
       // console.log(data);
 
       toast.success(data.message);
-      router.push(dashboardRoute);
+      router.push(walletRoute);
     },
     onError: (error) => {
       const errorMessage =

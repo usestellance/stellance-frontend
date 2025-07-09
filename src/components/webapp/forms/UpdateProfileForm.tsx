@@ -36,7 +36,7 @@ export default function UpdateProfileForm() {
       business_name: user?.business_name || "Odogwu and sons",
       phone_number: user?.phone_number || "09080716744",
       country: user?.country || "Nigeria",
-      wallet_address: user?.wallet_address || "",
+      wallet_address: user?.wallet?.wallet_address || "",
     },
     validationSchema: accountSetupValidation,
     onSubmit: async (values) => {

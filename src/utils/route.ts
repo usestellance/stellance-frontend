@@ -25,3 +25,6 @@ export const profileRoute = "/profile";
 //client routes
 export const clientViewInvoiceRoute = (invoice_url: string) =>
   `/client/search?url=${invoice_url}`;
+
+//wallet routes
+export const walletRoute = "/wallet";

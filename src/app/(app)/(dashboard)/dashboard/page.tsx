@@ -3,7 +3,7 @@
 "use client";
 import React, { useEffect } from "react";
 import AppButton from "../../../../components/webapp/ui/AppButton";
-import { accountSetUpRoute, createInvoiceRoute } from "../../../../utils/route";
+import { accountSetUpRoute, createInvoiceRoute, walletRoute } from "../../../../utils/route";
 import InvoiceList, {
   MobileInvoiceSkeleton,
 } from "../../../../components/webapp/InvoiceList";
@@ -77,6 +77,7 @@ export default function Page() {
 
   const { credentials } = userAuth();
   const is_profile_complete = credentials?.profile_complete;
+  const wallet_address = credentials?.user.wallet?.wallet_address;
 
   // console.log(is_profile_complete);
 
@@ -103,10 +104,15 @@ export default function Page() {
   const invoices: InvoiceType[] = data?.invoice;
 
   const handleCreateInvoiceRoute = () => {
-    router.push(is_profile_complete ? createInvoiceRoute : accountSetUpRoute);
-    if (!is_profile_complete) {
-      toast.warning("Complete profile to enable creating invoice");
-    }
+     if (!is_profile_complete) {
+         toast.warning("Complete profile to enable creating invoice");
+         router.push(accountSetUpRoute);
+       } else if (is_profile_complete && !wallet_address) {
+         router.push(walletRoute);
+         toast.warning("Generate your wallet address to enable creating invoice");
+       } else {
+         router.push(createInvoiceRoute);
+       }
   };
 
   return (
