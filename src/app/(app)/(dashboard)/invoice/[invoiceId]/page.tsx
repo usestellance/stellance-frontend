@@ -32,7 +32,7 @@ import { userAuth } from "../../../../../store/userAuth";
 const getStatusBadge = (status: string) => {
   const statusStyles = {
     paid: "bg-[#004E31]",
-    pending: "bg-[#FFC75F]",
+    sent: "bg-[#FFC75F]",
     overdue: "bg-[#910400]",
     draft: "bg-[#508DFA]",
     viewed: "bg-[#00dd55]",
@@ -74,7 +74,7 @@ export default function Page() {
   // console.log(user);
 
   // console.log("id for invoice", invoiceId);
-  // console.log("invoice", invoice);
+  console.log("invoice", invoice);
 
   useEffect(() => {
     if (typeof window !== "undefined" && invoice?.invoice_url) {

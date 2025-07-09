@@ -22,11 +22,11 @@ import { toast } from "sonner";
 const getStatusBadge = (status: string) => {
   const statusStyles = {
     Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20",
-    Sent: "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
+    Sent: "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:bg-[#FFC75F] ",
     Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
     Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
-    Cancelled: "text-[#800000] border-[#800000] bg-[#800000]/15",
-    Viewed: "text-[#004E31] border-[#00FF55] bg-[#00FF55]/15",
+    Cancelled: "text-[#800000] border-[#800000] bg-[#800000]/20",
+    Viewed: "text-[#004E31] border-[#00FF55] bg-[#00FF55]/15 dark:bg-[#00FF55]",
   };
   // console.log(invoice);
 
@@ -57,7 +57,7 @@ export default function Page() {
   );
   const user = invoice?.createdBy;
 
-  console.log(data);
+  // console.log(data);
 
   useEffect(() => {
     if (isError && error) {
@@ -93,6 +93,7 @@ export default function Page() {
           </h3>
           <div className="mt-4 md:mt-6">
             {getStatusBadge(capitalizeWords(invoice?.status || "") || "")}
+            {/* {getStatusBadge(capitalizeWords('paid') || "")} */}
           </div>
           <div className="text-sm flex flex-col text-center mt-2 leading-[25px] sm:text-lg lg:leading-[150%]  lg:text-3xl md:mt-4">
             <span className="">Balance Due:</span>
