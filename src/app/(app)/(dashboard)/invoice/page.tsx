@@ -188,10 +188,10 @@ export default function Page() {
             </Listbox.Options>
           </div>
         </Listbox>
-        <div className="cursor-pointer flex gap-1 lg:gap-2 items-center mr-10 md:mr-20 lg:mr-[100px] justify-end xl:w-full">
+        <div className="flex gap-1 lg:gap-2 items-center mr-10 md:mr-20 lg:mr-[100px] justify-end xl:w-full">
           <span
             onClick={() => setStatus("draft")}
-            className="text-primary lg:text-lg dark:text-secondary font-bold underline underline-offset-4 xl:text-[32px]"
+            className="text-primary cursor-pointer lg:text-lg dark:text-secondary font-bold underline underline-offset-4 xl:text-[32px]"
           >
             Draft
           </span>

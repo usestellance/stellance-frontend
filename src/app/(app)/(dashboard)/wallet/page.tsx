@@ -44,8 +44,8 @@ export default function Page() {
     }
   };
 
-  // console.log(credentials);
-  // console.log(walletDetails);
+  console.log(credentials);
+  console.log(walletDetails);
 
   function NoWalletAddress() {
     return (

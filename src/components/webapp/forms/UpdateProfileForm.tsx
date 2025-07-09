@@ -12,6 +12,7 @@ import { IUser } from "../../../lib/types/userTypes";
 import { useUpdateProfile } from "../../../hooks/useUser";
 import { userAuth } from "../../../store/userAuth";
 import { useChangePasswordModalStore } from "../../../store/modals";
+import { maskMiddle } from "../../../utils/helpers/helperFunctions";
 // import useAxiosAuth from "../../../hooks/useAxiosAuth";
 
 export default function UpdateProfileForm() {
@@ -36,7 +37,7 @@ export default function UpdateProfileForm() {
       business_name: user?.business_name || "",
       phone_number: user?.phone_number || "",
       country: user?.country || "",
-      wallet_address: user?.wallet?.wallet_address || "",
+      wallet_address: maskMiddle(user?.wallet?.address || "") || "",
     },
     validationSchema: accountSetupValidation,
     onSubmit: async (values) => {

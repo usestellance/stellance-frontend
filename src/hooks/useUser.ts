@@ -77,7 +77,7 @@ export const useUpdateProfile = () => {
       business_name: data.business_name,
       Country: data.country,
     });
-    // console.log(response);
+    console.log(response);
     return response.data;
   };
 
@@ -91,9 +91,11 @@ export const useUpdateProfile = () => {
     onSuccess: (data: IUpdateUserResponse) => {
       console.log(data.data);
       const user = data.data;
+      
 
       const access_token = sessionStorage.getItem("access_token") || "";
       sessionStorage.setItem("user", JSON.stringify(user));
+
 
       // console.log(access_token, user);
       setCredentials(access_token, user, true, true);

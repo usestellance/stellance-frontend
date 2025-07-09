@@ -114,10 +114,10 @@ export function formatDate(raw: string | Date | null | undefined): string {
 
 
 export function maskMiddle(text: string, visibleStart = 7, visibleEnd = 10): string {
-  if (text.length <= visibleStart + visibleEnd) return text;
+  if (text?.length <= visibleStart + visibleEnd) return text;
 
-  const start = text.slice(0, visibleStart);
-  const end = text.slice(-visibleEnd);
+  const start = text?.slice(0, visibleStart);
+  const end = text?.slice(-visibleEnd);
   // const masked = "*".repeat(text.length - (visibleStart + visibleEnd));
   const masked = "*".repeat(10);
 

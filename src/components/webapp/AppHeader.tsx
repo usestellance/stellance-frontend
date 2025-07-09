@@ -26,7 +26,7 @@ export default function AppHeader() {
         </div>
         <div className="flex items-center gap-[13px] sm:gap-4 lg:gap-5">
           {/* notification svg */}
-          <svg
+          {/* <svg
             // width="22"
             // height="22"
             viewBox="0 0 22 22"
@@ -39,7 +39,7 @@ export default function AppHeader() {
               //   stroke="#18234F"
               className="stroke-primary dark:stroke-white "
             />
-          </svg>
+          </svg> */}
 
           {/* user svg */}
           {/* <PiUserCircleThin className="text-[28px] block dark:hidden" /> */}
