@@ -18,7 +18,7 @@ export default function Page() {
   const { wallet } = useVariableStore();
   const { credentials } = userAuth();
   const { mutate, isPending } = useGenerateWallet();
-  const { data } = useGetWallet(credentials?.user.wallet?.id.toString() || "");
+  const { data } = useGetWallet(credentials?.user?.wallet?.id?.toString() || "");
   const walletDetails: IWallet = data;
   const handleGenerateWallet = () => {
     mutate();
