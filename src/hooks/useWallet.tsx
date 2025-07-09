@@ -53,7 +53,7 @@ export const useGenerateWallet = () => {
           console.error("Failed to update session wallet:", err);
         }
       }
-      // window.location.reload();
+      window.location.reload();
       // optionally redirect or trigger UI updates here
     },
     onError: (error) => {
