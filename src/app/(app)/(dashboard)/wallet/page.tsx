@@ -13,15 +13,24 @@ import {
 import WalletRadio from "../../../../components/webapp/WalletRadio";
 import { useVariableStore } from "../../../../store/variables";
 import { IWallet } from "../../../../lib/types/walletType";
+import { useRouter } from "next/navigation";
+import { accountSetUpRoute } from "../../../../utils/route";
 
 export default function Page() {
+  const router = useRouter();
   const { wallet } = useVariableStore();
   const { credentials } = userAuth();
   const { mutate, isPending } = useGenerateWallet();
-  const { data } = useGetWallet(credentials?.user?.wallet?.id?.toString() || "");
+  const { data } = useGetWallet(
+    credentials?.user?.wallet?.id?.toString() || ""
+  );
   const walletDetails: IWallet = data;
   const handleGenerateWallet = () => {
-    mutate();
+    if (credentials?.profile_complete) {
+      mutate();
+    } else {
+      router.push(accountSetUpRoute);
+    }
   };
   const balance = () => {
     if (walletDetails?.balance?.usdc) {
@@ -35,8 +44,8 @@ export default function Page() {
     }
   };
 
-  console.log(credentials);
-  console.log(walletDetails);
+  // console.log(credentials);
+  // console.log(walletDetails);
 
   function NoWalletAddress() {
     return (
