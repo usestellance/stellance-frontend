@@ -67,7 +67,7 @@ export const useCompleteProfile = () => {
 };
 
 export const useUpdateProfile = () => {
-  const { logout, setCredentials } = userAuth();
+  const { logout } = userAuth();
   const { put } = useAxiosAuth();
   const router = useRouter();
 
@@ -93,14 +93,14 @@ export const useUpdateProfile = () => {
   >({
     mutationFn: handleUpdateProfile,
     onSuccess: (data: IUpdateUserResponse) => {
-      console.log(data.data);
-      const user = data.data;
+      // console.log(data.data);
+      // const user = data.data;
 
-      const access_token = sessionStorage.getItem("access_token") || "";
-      sessionStorage.setItem("user", JSON.stringify(user));
+      // const access_token = sessionStorage.getItem("access_token") || "";
+      // sessionStorage.setItem("user", JSON.stringify(user));
 
       // console.log(access_token, user);
-      setCredentials(access_token, user);
+      // setCredentials(access_token, user);
       toast.success(data.message);
       // router.push(dashboardRoute);
     },
