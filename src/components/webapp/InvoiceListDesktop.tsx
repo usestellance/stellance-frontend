@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 const getStatusBadge = (status: string) => {
   const statusStyles = {
     Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20",
-    Pending:
+    Sent:
       "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
     Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
     Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
@@ -25,7 +25,8 @@ const getStatusBadge = (status: string) => {
       }`}
     >
       {(status === "Viewed" && capitalizeWords("Approved")) ||
-        (status === "cancelled" && capitalizeWords("Declined")) ||
+        (status === "Cancelled" && capitalizeWords("Declined")) ||
+        (status === "Sent" && capitalizeWords("Pending")) ||
         capitalizeWords(status)}
     </span>
   );
