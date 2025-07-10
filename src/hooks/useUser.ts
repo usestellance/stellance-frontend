@@ -8,6 +8,7 @@ import {
   ILoginResponse,
   IUpdateUserResponse,
   IUser,
+  UserFormValues,
 } from "../lib/types/userTypes";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
@@ -71,14 +72,14 @@ export const useUpdateProfile = () => {
   const router = useRouter();
 
   // Define the function to handle the registration API call
-  const handleUpdateProfile = async (data: IUser) => {
+  const handleUpdateProfile = async (data: UserFormValues) => {
     // const response = await get('/auth/clear')
     const response = await put(`/profile`, {
-      first_name: data.profile.first_name,
-      last_name: data.profile.last_name,
-      phone_number: data.profile.phone_number,
-      business_name: data.profile.business_name,
-      Country: data.profile.country,
+      first_name: data.first_name,
+      last_name: data.last_name,
+      phone_number: data.phone_number,
+      business_name: data.business_name,
+      country: data.country,
     });
     console.log(response);
     return response.data;
@@ -88,7 +89,7 @@ export const useUpdateProfile = () => {
   const mutation = useMutation<
     IUpdateUserResponse,
     AxiosError<IUpdateUserResponse>,
-    IUser
+    UserFormValues
   >({
     mutationFn: handleUpdateProfile,
     onSuccess: (data: IUpdateUserResponse) => {
@@ -99,7 +100,7 @@ export const useUpdateProfile = () => {
       sessionStorage.setItem("user", JSON.stringify(user));
 
       // console.log(access_token, user);
-      setCredentials(access_token, user, true, true);
+      setCredentials(access_token, user);
       toast.success(data.message);
       // router.push(dashboardRoute);
     },
@@ -133,8 +134,8 @@ export const useGetUser = (enabled: boolean = true) => {
     if (!response?.data?.data?.profile) {
       throw new Error("User profile data is missing");
     }
-
-    return response?.data?.data?.profile;
+console.log("User profile data:", response.data.data);
+    return response?.data?.data;
   };
   
   const query = useQuery<IUser, AxiosError>({
@@ -152,7 +153,7 @@ export const useGetUser = (enabled: boolean = true) => {
       const token = Cookies.get("access_token") || "";
 
       if (token) {
-        setCredentials(token, query.data, true, true);
+        setCredentials(token, query.data);
       }
     }
 

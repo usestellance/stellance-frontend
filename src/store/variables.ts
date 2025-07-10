@@ -6,6 +6,6 @@ interface VariableStore {
 }
 
 export const useVariableStore = create<VariableStore>((set) => ({
-  wallet: "XML",
+  wallet: "$",
   setWallet: (newWallet) => set({ wallet: newWallet }),
 }));

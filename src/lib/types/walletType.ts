@@ -1,17 +1,17 @@
 export interface IWallet {
-  chain: string;
-  created_at: string;
-  id: string;
-  is_active: boolean;
-  is_primary: boolean;
-  private_key: string;
-  tag: string;
-  user_id: string;
-  wallet_address: string;
-  address: string;
-  balance: {
-    usdc: number;
-    xlm: number;
+  chain?: string;
+  created_at?: string;
+  id?: string;
+  is_active?: boolean;
+  is_primary?: boolean;
+  private_key?: string;
+  tag?: string;
+  user_id?: string;
+  wallet_address?: string;
+  address?: string;
+  balance?: {
+    usdc?: number;
+    xlm?: number;
   };
 }
 

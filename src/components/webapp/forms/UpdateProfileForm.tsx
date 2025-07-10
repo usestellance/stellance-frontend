@@ -8,7 +8,7 @@ import AppButton from "../ui/AppButton";
 import { countryCodes } from "../../../utils/contents/countryCodes";
 import ComboboxField from "../ui/ComboboxField";
 // import { createFirstInvoiceRoute } from "../../../utils/route";
-import { IUser } from "../../../lib/types/userTypes";
+import {  UserFormValues } from "../../../lib/types/userTypes";
 import { useUpdateProfile } from "../../../hooks/useUser";
 import { userAuth } from "../../../store/userAuth";
 import { useChangePasswordModalStore } from "../../../store/modals";
@@ -28,16 +28,16 @@ export default function UpdateProfileForm() {
 
   // console.log(user);
 
-  const formik = useFormik<IUser>({
+  const formik = useFormik<UserFormValues>({
     enableReinitialize: true,
     initialValues: {
-      email: user?.email,
-      first_name: user?.first_name,
-      last_name: user?.last_name,
-      business_name: user?.business_name || "",
-      phone_number: user?.phone_number || "",
-      country: user?.country || "",
-      wallet_address: maskMiddle(user?.wallet?.address || "") || "",
+      email: user?.profile?.email || "",
+      first_name: user?.profile?.first_name || "",
+      last_name: user?.profile?.last_name || "",
+      business_name: user?.profile?.business_name || "",
+      phone_number: user?.profile?.phone_number || "",
+      country: user?.profile?.country || "",
+      wallet_address: maskMiddle(user?.wallet?.address || ""),
     },
     validationSchema: accountSetupValidation,
     onSubmit: async (values) => {

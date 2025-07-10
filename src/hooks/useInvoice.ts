@@ -14,7 +14,7 @@ export const useCreateInvoice = () => {
   const { logout, credentials } = userAuth();
   const { post } = useAxiosAuth();
   const router = useRouter();
-  const is_profile_complete = credentials?.profile_complete;
+  const is_profile_complete = credentials?.user?.profile_complete;
 
   // Define the function to handle the registration API call
 

@@ -29,8 +29,8 @@ import { toast } from "sonner";
 const CreateInvoice = () => {
   const router = useRouter();
   const { credentials } = userAuth();
-  const is_profile_complete = credentials?.profile_complete;
-  const wallet_address = credentials?.user.wallet?.address;
+  const is_profile_complete = credentials?.user?.profile_complete || false;
+  const wallet_address = credentials?.user?.wallet?.address;
 
   const handleCreateInvoiceRoute = () => {
     if (!is_profile_complete) {
@@ -97,8 +97,8 @@ export default function Page() {
     (opt) => opt.value === status
   );
   const { credentials } = userAuth();
-  const is_profile_complete = credentials?.profile_complete;
-  const wallet_address = credentials?.user.wallet?.address;
+  const is_profile_complete = credentials?.user?.profile_complete || false;
+  const wallet_address = credentials?.user?.wallet?.address;
 
   const invoices: InvoiceType[] = data?.invoice || [];
 

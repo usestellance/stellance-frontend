@@ -11,8 +11,8 @@ export default function AppHeader() {
   const { toggleSideBar } = useSideBarStore();
   const { credentials } = userAuth();
   const router = useRouter();
-  const isProfileComplete = credentials?.profile_complete;
-  // console.log("credentials", credentials);
+  const isProfileComplete = credentials?.user?.profile_complete || false;
+  console.log("credentials header", credentials);
 
   const gotoProfile = () => {
     if (isProfileComplete) {

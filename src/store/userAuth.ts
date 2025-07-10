@@ -1,21 +1,15 @@
 import { create } from "zustand";
 import { IUser } from "../lib/types/userTypes";
 import Cookies from "js-cookie";
+import { IWallet } from "../lib/types/walletType";
 
 type AuthState = {
   credentials: {
-    profile_complete: boolean;
-    email_verified: boolean;
     access_token: string;
     user: IUser;
   } | null;
   isInitialized: boolean;
-  setCredentials: (
-    access_token: string,
-    user: IUser,
-    profile_complete: boolean,
-    email_verified: boolean
-  ) => void;
+  setCredentials: (access_token: string, user: IUser) => void;
   logout: () => void;
   initializeAuth: () => void;
 };
@@ -24,7 +18,7 @@ export const userAuth = create<AuthState>((set) => ({
   credentials: null,
   isInitialized: false,
 
-  setCredentials: (access_token, user, profile_complete, email_verified) => {
+  setCredentials: (access_token, user) => {
     // Store token in cookie
     Cookies.set("access_token", access_token, {
       expires: 1, // expires in 1 day
@@ -34,7 +28,10 @@ export const userAuth = create<AuthState>((set) => ({
     });
 
     set(() => ({
-      credentials: { access_token, user, profile_complete, email_verified },
+      credentials: {
+        access_token,
+        user,
+      },
       isInitialized: true,
     }));
   },
@@ -59,6 +56,7 @@ export const userAuth = create<AuthState>((set) => ({
         credentials: {
           access_token,
           user: {} as IUser, // Placeholder until real user is fetched
+          wallet: {} as IWallet, // Placeholder until real wallet is fetched
           profile_complete: false,
           email_verified: false,
         },
