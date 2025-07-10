@@ -96,13 +96,10 @@ export const useUpdateProfile = () => {
       // console.log(data.data);
       // const user = data.data;
 
-      // const access_token = sessionStorage.getItem("access_token") || "";
-      // sessionStorage.setItem("user", JSON.stringify(user));
-
       // console.log(access_token, user);
       // setCredentials(access_token, user);
       toast.success(data.message);
-      // router.push(dashboardRoute);
+      window.location.reload();
     },
     onError: (error) => {
       const errorMessage =
@@ -134,10 +131,10 @@ export const useGetUser = (enabled: boolean = true) => {
     if (!response?.data?.data?.profile) {
       throw new Error("User profile data is missing");
     }
-// console.log("User profile data:", response.data.data);
+    // console.log("User profile data:", response.data.data);
     return response?.data?.data;
   };
-  
+
   const query = useQuery<IUser, AxiosError>({
     queryKey: ["user"],
     queryFn: handleGetUser,
@@ -164,4 +161,3 @@ export const useGetUser = (enabled: boolean = true) => {
 
   return query;
 };
-
