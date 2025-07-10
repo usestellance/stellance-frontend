@@ -81,7 +81,7 @@ export const useUpdateProfile = () => {
       business_name: data.business_name,
       country: data.country,
     });
-    console.log(response);
+    // console.log(response);
     return response.data;
   };
 
@@ -129,12 +129,12 @@ export const useGetUser = (enabled: boolean = true) => {
   const handleGetUser = async (): Promise<IUser> => {
     const response = await get(`/profile/me`);
 
-    console.log("Profile response:", response?.data?.data);
+    // console.log("Profile response:", response?.data?.data);
 
     if (!response?.data?.data?.profile) {
       throw new Error("User profile data is missing");
     }
-console.log("User profile data:", response.data.data);
+// console.log("User profile data:", response.data.data);
     return response?.data?.data;
   };
   

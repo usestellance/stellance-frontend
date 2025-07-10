@@ -29,7 +29,7 @@ export default function CreateInvoiceDesktop() {
   const { credentials } = userAuth();
   const router = useRouter();
 
-  const is_profile_complete = credentials?.profile_complete;
+  const is_profile_complete = credentials?.user?.profile_complete;
 
   const formik = useFormik<InvoiceType>({
     initialValues: {
@@ -46,7 +46,7 @@ export default function CreateInvoiceDesktop() {
       if (!is_profile_complete) {
         toast.warning("Complete profile to enable creating invoice");
         router.push(accountSetUpRoute);
-      } else if (is_profile_complete && !credentials?.user?.wallet?.id) {
+      } else if (is_profile_complete && !credentials?.user?.wallet?.address) {
         toast.warning("Generate wallet to enable creating invoice");
         router.push(walletRoute);
       } else {

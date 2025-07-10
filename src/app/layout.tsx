@@ -13,6 +13,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                if (typeof window === "undefined") return;
+                try {
+                  const stored = localStorage.getItem("theme");
+                  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                  const theme = stored || (prefersDark ? "dark" : "light");
+                  const appBody = document.querySelector(".body");
+                  appBody?.classList.toggle("dark", theme === "dark");  
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className={``}>{children}</body>
     </html>
   );

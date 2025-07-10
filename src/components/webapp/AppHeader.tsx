@@ -6,13 +6,14 @@ import { useSideBarStore } from "../../store/NavStore";
 import { userAuth } from "../../store/userAuth";
 import { useRouter } from "next/navigation";
 import { accountSetUpRoute, profileRoute } from "../../utils/route";
+import ThemeRadio from "./ThemeRadio";
 
 export default function AppHeader() {
   const { toggleSideBar } = useSideBarStore();
   const { credentials } = userAuth();
   const router = useRouter();
   const isProfileComplete = credentials?.user?.profile_complete || false;
-  console.log("credentials header", credentials);
+  // console.log("credentials header", credentials);
 
   const gotoProfile = () => {
     if (isProfileComplete) {
@@ -31,8 +32,9 @@ export default function AppHeader() {
           </div>
         </div>
         <div className="flex items-center gap-[13px] sm:gap-4 lg:gap-5">
+        <ThemeRadio />
           {/* notification svg */}
-          {/* <svg
+          <svg
             // width="22"
             // height="22"
             viewBox="0 0 22 22"
@@ -45,7 +47,7 @@ export default function AppHeader() {
               //   stroke="#18234F"
               className="stroke-primary dark:stroke-white "
             />
-          </svg> */}
+          </svg>
 
           {/* user svg */}
           {/* <PiUserCircleThin className="text-[28px] block dark:hidden" /> */}

@@ -18,7 +18,7 @@ export function formatCurrency(
 }
 
 export function formatWalletCurrency(
-  amount: number | undefined,
+  amount: number | undefined ,
   wallet: "$" | "XML"
 ): string {
   if (amount === undefined || isNaN(amount)) {

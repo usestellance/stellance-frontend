@@ -24,7 +24,7 @@ import { useCreateInvoice } from "../../../hooks/useInvoice";
 import { toast } from "sonner";
 import { userAuth } from "../../../store/userAuth";
 import { useRouter } from "next/navigation";
-import { accountSetUpRoute } from "../../../utils/route";
+import { accountSetUpRoute, walletRoute } from "../../../utils/route";
 
 export default function CreateInvoice() {
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function CreateInvoice() {
     calculateNetTotal(total, calculateServiceFee(total))
   );
 
-  const is_profile_complete = credentials?.profile_complete;
+  const is_profile_complete = credentials?.user?.profile_complete;
 
   // console.log(items);
 
@@ -56,12 +56,15 @@ export default function CreateInvoice() {
     },
     validationSchema: invoiceValidation,
     onSubmit: (values) => {
-      if (is_profile_complete) {
-        mutate(values);
-        setEditingIndex(null);
-      } else {
+      if (!is_profile_complete) {
         toast.warning("Complete profile to enable creating invoice");
         router.push(accountSetUpRoute);
+      } else if (is_profile_complete && !credentials?.user?.wallet?.address) {
+        toast.warning("Generate wallet to enable creating invoice");
+        router.push(walletRoute);
+      } else {
+        mutate(values);
+        setEditingIndex(null);
       }
     },
   });

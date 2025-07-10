@@ -34,16 +34,16 @@ export default function Page() {
     if (walletDetails?.balance?.usdc) {
       const balance =
         wallet === "$"
-          ? walletDetails?.balance?.usdc || 0
-          : walletDetails?.balance?.xlm || 0;
+          ? walletDetails?.balance?.usdc
+          : walletDetails?.balance?.xlm;
       return balance;
     } else {
-      return walletDetails?.balance?.xlm || 0;
+      return walletDetails?.balance?.xlm;
     }
   };
 
-  console.log(credentials);
-  console.log(walletDetails);
+  // console.log(credentials);
+  // console.log(walletDetails);
 
   function NoWalletAddress() {
     return (
@@ -111,7 +111,7 @@ export default function Page() {
           <div className="flex flex-col items-center gap-[6px]">
             <h4 className="text-sm md:text-lg lg:text-2xl">Total Balance</h4>
             <h4 className="text-xl text-[#333333] font-bold md:text-[40px]">
-              {formatWalletCurrency(balance() || 0, wallet)}
+              {formatWalletCurrency(balance() || 0, wallet) || "******"}
             </h4>
           </div>
         </div>
