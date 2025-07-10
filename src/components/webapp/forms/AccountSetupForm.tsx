@@ -8,7 +8,7 @@ import AppButton from "../ui/AppButton";
 import { countryCodes } from "../../../utils/contents/countryCodes";
 import ComboboxField from "../ui/ComboboxField";
 // import { createFirstInvoiceRoute } from "../../../utils/route";
-import { IUser } from "../../../lib/types/userTypes";
+import {  UserFormValues } from "../../../lib/types/userTypes";
 import { useCompleteProfile } from "../../../hooks/useUser";
 // import useAxiosAuth from "../../../hooks/useAxiosAuth";
 
@@ -22,7 +22,7 @@ export default function AccountSetupForm() {
     value: c.country.toLowerCase(),
   }));
 
-  const formik = useFormik<IUser>({
+  const formik = useFormik<UserFormValues>({
     initialValues: {
       first_name: "",
       last_name: "",

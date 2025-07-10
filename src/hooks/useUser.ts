@@ -21,14 +21,14 @@ export const useCompleteProfile = () => {
   const router = useRouter();
 
   // Define the function to handle the registration API call
-  const handleCompleteProfile = async (data: IUser) => {
+  const handleCompleteProfile = async (data: UserFormValues) => {
     // const response = await get('/auth/clear')
     const response = await post("/profile", {
-      first_name: data.profile.first_name,
-      last_name: data.profile.last_name,
-      phone_number: data.profile.phone_number,
-      business_name: data.profile.business_name,
-      Country: data.profile.country,
+      first_name: data.first_name,
+      last_name: data.last_name,
+      phone_number: data.phone_number,
+      business_name: data.business_name,
+      Country: data.country,
     });
     // console.log(response);
     return response.data;
@@ -38,7 +38,7 @@ export const useCompleteProfile = () => {
   const mutation = useMutation<
     ILoginResponse,
     AxiosError<ILoginResponse>,
-    IUser
+    UserFormValues
   >({
     mutationFn: handleCompleteProfile,
     onSuccess: (data: ILoginResponse) => {
