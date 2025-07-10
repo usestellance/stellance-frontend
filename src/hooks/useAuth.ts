@@ -1,22 +1,71 @@
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import Cookies from "js-cookie";
 // import { responseStatus } from "../utils/helpers";
-import { dashboardRoute, signInRoute, verificationRoute } from "../utils/route";
+import {  signInRoute, verificationRoute } from "../utils/route";
 import { axiosInstance } from "../config/axios";
 import { ILoginResponse, IUser } from "../lib/types/userTypes";
 import { toast } from "sonner";
 
+// export const useLogin = () => {
+//   const router = useRouter();
+
+//   // Define the function to handle the registration API call
+//   const handleLogin = async (data: IUser) => {
+//     const response = await axiosInstance.post("/auth/login", data);
+//     return response.data;
+//   };
+
+//   // Use React Query's useMutation hook with additional configurations
+//   const mutation = useMutation<
+//     ILoginResponse,
+//     AxiosError<ILoginResponse>,
+//     IUser
+//   >({
+//     mutationFn: handleLogin,
+//     onSuccess: (data: ILoginResponse) => {
+//       const access_token = data.data.access_token;
+//       // const email_verified = data.data.email_verified;
+//       // const profile_complete = data.data.profile_complete;
+//       // const user = data.data.user;
+//       sessionStorage.setItem("access_token", access_token);
+//       // sessionStorage.setItem("user", JSON.stringify(user));
+//       // sessionStorage.setItem("profile_complete", profile_complete.toString());
+//       // sessionStorage.setItem("email_verified", email_verified.toString());
+//       // sessionStorage.setItem("user", JSON.stringify(user));
+
+//       // console.log(data);
+
+//       // const isProfileComplete = data.data.profile_complete;
+
+//       toast.success("Login Successful");
+//       // router.push(dashboardRoute);
+//       // router.push(isProfileComplete ? dashboardRoute : accountSetUpRoute);
+//     },
+//     onError: (error) => {
+//       const errorMessage =
+//         axios.isAxiosError(error) && error.response?.data?.message
+//           ? error.response.data.message
+//           : "An unknown error occurred.";
+//       toast.error(errorMessage);
+//       console.log(error);
+//     },
+//   });
+
+//   // Return the mutation object to use in components
+//   return mutation;
+// };
+
 export const useLogin = () => {
   const router = useRouter();
 
-  // Define the function to handle the registration API call
+  // Function to handle login API call
   const handleLogin = async (data: IUser) => {
     const response = await axiosInstance.post("/auth/login", data);
     return response.data;
   };
 
-  // Use React Query's useMutation hook with additional configurations
   const mutation = useMutation<
     ILoginResponse,
     AxiosError<ILoginResponse>,
@@ -25,22 +74,19 @@ export const useLogin = () => {
     mutationFn: handleLogin,
     onSuccess: (data: ILoginResponse) => {
       const access_token = data.data.access_token;
-      const email_verified = data.data.email_verified;
-      const profile_complete = data.data.profile_complete;
-      const user = data.data.user;
-      sessionStorage.setItem("access_token", access_token);
-      sessionStorage.setItem("user", JSON.stringify(user));
-      sessionStorage.setItem("profile_complete", profile_complete.toString());
-      sessionStorage.setItem("email_verified", email_verified.toString());
-      sessionStorage.setItem("user", JSON.stringify(user));
 
-      // console.log(data);
-
-      // const isProfileComplete = data.data.profile_complete;
+      // ✅ Store access token in cookies
+      Cookies.set("access_token", access_token, {
+        expires: 1, // Expires in 1 day
+        secure: process.env.NODE_ENV === "production", // true on HTTPS
+        sameSite: "Lax",
+        path: "/",
+      });
 
       toast.success("Login Successful");
-      router.push(dashboardRoute);
-      // router.push(isProfileComplete ? dashboardRoute : accountSetUpRoute);
+
+      // Optional: redirect user
+      router.push("/dashboard");
     },
     onError: (error) => {
       const errorMessage =
@@ -48,11 +94,10 @@ export const useLogin = () => {
           ? error.response.data.message
           : "An unknown error occurred.";
       toast.error(errorMessage);
-      console.log(error);
+      console.error(error);
     },
   });
 
-  // Return the mutation object to use in components
   return mutation;
 };
 
@@ -103,10 +148,10 @@ export const useResetPassword = () => {
   const handleReset = async (data: IUser) => {
     // console.log(data)
     const response = await axiosInstance.post("/auth/reset-password", {
-      email: data.email,
-      otp: data.otp,
-      password: data.password,
-      confirm_password: data.confirm_password,
+      email: data.profile.email,
+      otp: data.profile.otp,
+      password: data.profile.password,
+      confirm_password: data.profile.confirm_password,
     });
     return response.data;
   };

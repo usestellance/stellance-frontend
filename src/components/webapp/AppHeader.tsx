@@ -12,7 +12,7 @@ export default function AppHeader() {
   const { credentials } = userAuth();
   const router = useRouter();
   const isProfileComplete = credentials?.profile_complete;
-  console.log("credentials", credentials);
+  // console.log("credentials", credentials);
 
   const gotoProfile = () => {
     if (isProfileComplete) {
@@ -76,7 +76,7 @@ export default function AppHeader() {
             onClick={gotoProfile}
             className="cursor-pointer max-md:hidden text-xl lg:text-[24px] font-bold"
           >
-            {credentials?.user?.first_name || ""}
+            {credentials?.user?.profile?.first_name || ""}
           </div>
 
           {/* Menu icon */}

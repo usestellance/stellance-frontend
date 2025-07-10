@@ -78,7 +78,7 @@ export default function Page() {
   const is_profile_complete = credentials?.profile_complete;
   const wallet_address = credentials?.user.wallet?.address;
 
-  console.log(wallet_address);
+  console.log(credentials?.user);
 
   useEffect(() => {
     if (isError && error) {

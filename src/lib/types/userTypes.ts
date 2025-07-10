@@ -1,6 +1,13 @@
 import { IWallet } from "./walletType";
 
 export interface IUser {
+  email_verified: boolean;
+  profile: IProfile;
+  profile_complete: boolean;
+  wallet: IWallet;
+}
+
+export interface IProfile {
   id?: string;
   email?: string;
   password?: string;
@@ -10,8 +17,6 @@ export interface IUser {
   business_name?: string;
   country?: string;
   phone_number?: string;
-  wallet?: IWallet;
-  wallet_address?: string;
   is_active?: boolean;
   role?: string;
   otp?: string;
@@ -24,7 +29,7 @@ export interface ILoginResponse {
     access_token: string;
     email_verified: boolean;
     profile_complete: boolean;
-    user: IUser;
+    user: IProfile;
   };
 }
 export interface IUpdateUserResponse {

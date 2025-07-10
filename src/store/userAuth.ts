@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { IUser } from "../lib/types/userTypes";
+import Cookies from "js-cookie";
 
 type AuthState = {
   credentials: {
@@ -8,6 +9,7 @@ type AuthState = {
     access_token: string;
     user: IUser;
   } | null;
+  isInitialized: boolean;
   setCredentials: (
     access_token: string,
     user: IUser,
@@ -18,62 +20,103 @@ type AuthState = {
   initializeAuth: () => void;
 };
 
-// Helper function to get stored auth data
-const getStoredAuth = () => {
-  if (typeof window === "undefined") return null;
-
-  try {
-    const access_token = sessionStorage.getItem("access_token");
-    const userData = sessionStorage.getItem("user");
-    const profile_complete = sessionStorage.getItem("profile_complete");
-    const email_verified = sessionStorage.getItem("email_verified");
-
-    if (access_token && userData && profile_complete && email_verified) {
-      return {
-        access_token,
-        user: JSON.parse(userData),
-        profile_complete: profile_complete === "true",
-        email_verified: email_verified === "true",
-      };
-    }
-  } catch (error) {
-    console.error("Error parsing stored auth data:", error);
-  }
-
-  return null;
-};
-
 export const userAuth = create<AuthState>((set) => ({
   credentials: null,
+  isInitialized: false,
 
   setCredentials: (access_token, user, profile_complete, email_verified) => {
-    // Store in sessionStorage
-    sessionStorage.setItem("access_token", access_token);
-    sessionStorage.setItem("profile_complete", profile_complete.toString());
-    sessionStorage.setItem("email_verified", profile_complete.toString());
-    sessionStorage.setItem("user", JSON.stringify(user));
+    // Store token in cookie
+    Cookies.set("access_token", access_token, {
+      expires: 1, // expires in 1 day
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
+      path: "/",
+    });
 
-    // Update state
     set(() => ({
       credentials: { access_token, user, profile_complete, email_verified },
+      isInitialized: true,
     }));
   },
 
   logout: () => {
-    // Clear sessionStorage
-    sessionStorage.removeItem("profile_complete");
-    sessionStorage.removeItem("email_verified");
-    sessionStorage.removeItem("access_token");
-    sessionStorage.removeItem("user");
+    // Remove access_token cookie
+    Cookies.remove("access_token");
 
-    // Clear state
-    set(() => ({ credentials: null }));
+    set(() => ({
+      credentials: null,
+      isInitialized: true,
+    }));
   },
 
   initializeAuth: () => {
-    const storedAuth = getStoredAuth();
-    if (storedAuth) {
-      set(() => ({ credentials: storedAuth }));
+    const access_token = Cookies.get("access_token");
+
+    if (access_token) {
+      // NOTE: You can't restore full user data from cookies alone.
+      // You may need to call an API to fetch the user using the token.
+      set(() => ({
+        credentials: {
+          access_token,
+          user: {} as IUser, // Placeholder until real user is fetched
+          profile_complete: false,
+          email_verified: false,
+        },
+        isInitialized: true,
+      }));
+    } else {
+      set(() => ({
+        credentials: null,
+        isInitialized: true,
+      }));
     }
   },
 }));
+
+// // userAuth.ts - Zustand store for credentials only
+// import { create } from "zustand";
+// import { IUser } from "../lib/types/userTypes";
+
+// type AuthState = {
+//   credentials: {
+//     profile_complete: boolean;
+//     email_verified: boolean;
+//     access_token: string;
+//     user: IUser;
+//   } | null;
+//   isInitialized: boolean;
+//   setCredentials: (
+//     access_token: string,
+//     user: IUser,
+//     profile_complete: boolean,
+//     email_verified: boolean
+//   ) => void;
+//   logout: () => void;
+//   initializeAuth: () => void;
+// };
+
+// export const userAuth = create<AuthState>((set) => ({
+//   credentials: null,
+//   isInitialized: false,
+
+//   setCredentials: (access_token, user, profile_complete, email_verified) => {
+//     // Update state with all credential data
+//     set(() => ({
+//       credentials: { access_token, user, profile_complete, email_verified },
+//       isInitialized: true,
+//     }));
+//   },
+
+//   logout: () => {
+//     // Clear sessionStorage (only the token)
+//     sessionStorage.removeItem("access_token");
+
+//     // Clear state
+//     set(() => ({ credentials: null, isInitialized: true }));
+//   },
+
+//   initializeAuth: () => {
+//     // Just mark as initialized - don't load anything from storage except checking if token exists
+//     set(() => ({ isInitialized: true }));
+//   },
+// }));

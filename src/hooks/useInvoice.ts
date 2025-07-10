@@ -82,7 +82,7 @@ export const useGetInvoices = ({
   const { get } = useAxiosAuth();
   // const { order_by, page, page_count, status } = useFetchInvoiceParams();
 
-  const user_id = credentials?.user.id;
+  const user_id = credentials?.user?.profile?.id;
   const handleGetInvoices = async () => {
     const params = new URLSearchParams();
 
