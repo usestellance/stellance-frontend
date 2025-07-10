@@ -228,7 +228,7 @@ export default function Page() {
           </p>
           <p className="text-xs sm:text-sm lg:text-xl font-bold text-[#8F8F8F] mt-4">
             Wallet Address: <br className="sm:hidden" />
-            {maskMiddle(credentials?.user.wallet?.wallet_address || "")}
+            {maskMiddle(credentials?.user.wallet?.address || "")}
             {/* {invoice?.invoice_number || ""}{" "} */}
           </p>
         </div>
