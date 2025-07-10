@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { forgotPasswordValidation } from "../../../lib/validations/userValidations";
 import InputField from "../ui/InputField";
 import AppButton from "../ui/AppButton";
-import { IUser } from "../../../lib/types/userTypes";
+import { UserFormValues } from "../../../lib/types/userTypes";
 import Link from "next/link";
 import { resetSentRoute, signInRoute } from "../../../utils/route";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,7 @@ export default function ForgotPasswordForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const formik = useFormik<Partial<IUser>>({
+  const formik = useFormik<UserFormValues>({
     initialValues: {
       email: "",
     },

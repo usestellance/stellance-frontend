@@ -46,4 +46,7 @@ export interface UserFormValues {
   phone_number?: string;
   country?: string;
   wallet_address?: string;
+  password?: string;
+  confirm_password?: string;
+  otp?: string;
 }

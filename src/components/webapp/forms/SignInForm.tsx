@@ -7,7 +7,7 @@ import AppButton from "../ui/AppButton";
 import { FcGoogle } from "react-icons/fc";
 // import { useRouter } from "next/navigation";
 // import { accountSetUpRoute } from "../../../utils/route";
-import { IUser } from "../../../lib/types/userTypes";
+import {  UserFormValues } from "../../../lib/types/userTypes";
 import { useLogin } from "../../../hooks/useAuth";
 import Link from "next/link";
 import { forgotPasswordRoute } from "../../../utils/route";
@@ -17,7 +17,7 @@ export default function SignInForm() {
 
   const { mutate, isPending } = useLogin();
 
-  const formik = useFormik<Partial<IUser>>({
+  const formik = useFormik<UserFormValues>({
     initialValues: {
       email: "",
       password: "",

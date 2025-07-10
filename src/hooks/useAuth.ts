@@ -3,9 +3,9 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 // import { responseStatus } from "../utils/helpers";
-import {  signInRoute, verificationRoute } from "../utils/route";
+import { signInRoute, verificationRoute } from "../utils/route";
 import { axiosInstance } from "../config/axios";
-import { ILoginResponse, IUser } from "../lib/types/userTypes";
+import { ILoginResponse, UserFormValues } from "../lib/types/userTypes";
 import { toast } from "sonner";
 
 // export const useLogin = () => {
@@ -61,7 +61,7 @@ export const useLogin = () => {
   const router = useRouter();
 
   // Function to handle login API call
-  const handleLogin = async (data: IUser) => {
+  const handleLogin = async (data: UserFormValues) => {
     const response = await axiosInstance.post("/auth/login", data);
     return response.data;
   };
@@ -69,7 +69,7 @@ export const useLogin = () => {
   const mutation = useMutation<
     ILoginResponse,
     AxiosError<ILoginResponse>,
-    IUser
+    UserFormValues
   >({
     mutationFn: handleLogin,
     onSuccess: (data: ILoginResponse) => {
@@ -105,7 +105,7 @@ export const useRegister = () => {
   const router = useRouter();
 
   // Define the function to handle the registration API call
-  const handleRegister = async (data: IUser) => {
+  const handleRegister = async (data: UserFormValues) => {
     const response = await axiosInstance.post("/auth/signup", data);
     return response.data;
   };
@@ -114,7 +114,7 @@ export const useRegister = () => {
   const mutation = useMutation<
     ILoginResponse,
     AxiosError<ILoginResponse>,
-    IUser
+    UserFormValues
   >({
     mutationFn: handleRegister,
     onSuccess: (data: ILoginResponse) => {
@@ -145,13 +145,13 @@ export const useResetPassword = () => {
   const router = useRouter();
 
   // Define the function to handle the registration API call
-  const handleReset = async (data: IUser) => {
+  const handleReset = async (data: UserFormValues) => {
     // console.log(data)
     const response = await axiosInstance.post("/auth/reset-password", {
-      email: data.profile.email,
-      otp: data.profile.otp,
-      password: data.profile.password,
-      confirm_password: data.profile.confirm_password,
+      email: data.email,
+      otp: data.otp,
+      password: data.password,
+      confirm_password: data.confirm_password,
     });
     return response.data;
   };
@@ -160,7 +160,7 @@ export const useResetPassword = () => {
   const mutation = useMutation<
     ILoginResponse,
     AxiosError<ILoginResponse>,
-    IUser
+    UserFormValues
   >({
     mutationFn: handleReset,
     onSuccess: () => {

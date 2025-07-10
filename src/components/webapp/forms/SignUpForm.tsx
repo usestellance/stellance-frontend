@@ -8,14 +8,14 @@ import { getPasswordStrength } from "../../../utils/helpers/passwordStrength";
 import { FcGoogle } from "react-icons/fc";
 // import { useRouter } from "next/navigation";
 import AppButton from "../ui/AppButton";
-import { IUser } from "../../../lib/types/userTypes";
+import {  UserFormValues } from "../../../lib/types/userTypes";
 import { useRegister } from "../../../hooks/useAuth";
 
 export default function SignUpForm() {
   // const router = useRouter();
   const { mutate, isPending } = useRegister();
 
-  const formik = useFormik<IUser>({
+  const formik = useFormik<UserFormValues>({
     initialValues: {
       email: "",
       password: "",
