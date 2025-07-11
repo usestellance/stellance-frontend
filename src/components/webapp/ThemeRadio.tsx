@@ -1,12 +1,14 @@
 import React from "react";
-import { useVariableStore } from "../../store/variables";
+// import { useVariableStore } from "../../store/variables";
 import { CiDark, CiLight } from "react-icons/ci";
+import { useTheme } from "next-themes";
 
 const ThemeRadio = () => {
-  const { theme, setTheme } = useVariableStore();
+  // const { theme, setTheme } = useVariableStore();
+  const { theme, setTheme, resolvedTheme } = useTheme();
 
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
   return (

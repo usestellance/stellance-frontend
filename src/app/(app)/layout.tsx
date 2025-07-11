@@ -3,8 +3,8 @@
 import "@/app/styles/app.css";
 import { Toaster } from "sonner";
 import ReactQueryProvider from "../../providers/ReactQueryProvider";
-import { useEffect } from "react";
-import { useVariableStore } from "../../store/variables";
+import { AppThemeProvider } from "../../providers/AppThemeProvider";
+import { useTheme } from "next-themes";
 
 // export const metadata: Metadata = {
 //   title: "Stellance - App",
@@ -16,21 +16,16 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { initializeTheme, theme } = useVariableStore();
-            // const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-            // console.log("Current theme:", prefersDark ? "dark" : "light");
-
-  useEffect(() => {
-    initializeTheme();
-  }, [initializeTheme]);
+  const { resolvedTheme } = useTheme();
 
   return (
-    <ReactQueryProvider>
-      <div className={`body ${theme === "dark" ? "dark" : ""}`}>
-        <div className="min-h-screen relative">{children}</div>
-        <Toaster position="top-right" richColors theme="system" />
-      </div>
-    </ReactQueryProvider>
+    <AppThemeProvider>
+      <ReactQueryProvider>
+        <div className={`body ${resolvedTheme === "dark" ? "dark" : ""}`}>
+          <div className="min-h-screen relative">{children}</div>
+          <Toaster position="top-right" richColors theme="system" />
+        </div>
+      </ReactQueryProvider>
+    </AppThemeProvider>
   );
 }
