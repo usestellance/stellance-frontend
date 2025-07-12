@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
 interface VariableStore {
-  wallet: "$" | "XML";
-  setWallet: (newWallet: "$" | "XML") => void;
+  wallet: "usdc" | "xml";
+  setWallet: (newWallet: "usdc" | "xml") => void;
 }
 
 export const useVariableStore = create<VariableStore>((set) => ({
-  wallet: "$",
+  wallet: "usdc",
   setWallet: (newWallet) => set({ wallet: newWallet }),
 }));
 

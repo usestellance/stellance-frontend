@@ -19,10 +19,10 @@ export function formatCurrency(
 
 export function formatWalletCurrency(
   amount: number | undefined ,
-  wallet: "$" | "XML"
+  wallet: "usdc" | "xml"
 ): string {
   if (amount === undefined || isNaN(amount)) {
-    return wallet === "$" ? "$0.00" : "XLM 0.00";
+    return wallet === "usdc" ? "USDC 0.00" : "XLM 0.00";
   }
 
   const formatted = new Intl.NumberFormat("en-US", {
@@ -30,7 +30,7 @@ export function formatWalletCurrency(
     maximumFractionDigits: 2,
   }).format(amount);
 
-  return wallet === "$" ? `$${formatted}` : `XLM ${formatted}`;
+  return wallet === "usdc" ? `USDC ${formatted}` : `XLM ${formatted}`;
 }
 
 

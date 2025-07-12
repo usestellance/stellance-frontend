@@ -29,6 +29,7 @@ export interface ILoginResponse {
     access_token: string;
     email_verified: boolean;
     profile_complete: boolean;
+    expires_in: number;
     user: IProfile;
   };
 }

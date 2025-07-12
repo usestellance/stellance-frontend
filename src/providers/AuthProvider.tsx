@@ -22,10 +22,11 @@ export default function AuthProvider({
   const { initializeAuth, logout } = userAuth();
   const { resetState } = useSideBarStore();
   const { reset } = useFetchInvoiceParams();
+  const { credentials } = userAuth();
 
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // console.log(credentials, ' credentials in auth provider');
+  console.log(credentials, " credentials in auth provider");
 
   // ✅ Step 1: Mark auth as initialized on mount
   useEffect(() => {
@@ -67,5 +68,3 @@ export default function AuthProvider({
 
   return <>{children}</>;
 }
-
-

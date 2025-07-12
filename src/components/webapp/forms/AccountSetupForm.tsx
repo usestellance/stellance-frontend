@@ -100,7 +100,7 @@ export default function AccountSetupForm() {
         <InputField
           className="input-class-auth"
           name="business_name"
-          label="Business Name (Optional)"
+          label="Business Name (optional)"
           placeholder="Business name"
           type="text"
           value={formik.values.business_name || ""}
@@ -115,7 +115,7 @@ export default function AccountSetupForm() {
         <InputField
           className="input-class-auth"
           name="phone_number"
-          label="Phone Number"
+          label="Phone Number (optional)"
           placeholder="Phone Number"
           type="tel"
           value={formik.values.phone_number || ""}

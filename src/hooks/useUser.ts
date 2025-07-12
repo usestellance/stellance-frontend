@@ -119,20 +119,59 @@ export const useUpdateProfile = () => {
   return mutation;
 };
 
-export const useGetUser = (enabled: boolean = true) => {
+// export const useGetUser = (enabled: boolean = true) => {
+//   const { get } = useAxiosAuth();
+//   const { setCredentials } = userAuth();
+
+//   const handleGetUser = async (): Promise<IUser> => {
+//     const response = await get(`/profile/me`);
+
+//     // console.log("Profile response:", response?.data?.data);
+
+//     if (!response?.data?.data?.profile) {
+//       throw new Error("User profile data is missing");
+//     }
+//     // console.log("User profile data:", response.data.data);
+//     return response?.data?.data;
+//   };
+
+//   const query = useQuery<IUser, AxiosError>({
+//     queryKey: ["user"],
+//     queryFn: handleGetUser,
+//     enabled,
+//     retry: 1,
+//     refetchOnMount: false,
+//     refetchOnWindowFocus: false,
+//     staleTime: 1000 * 60 * 5, // 5 minutes
+//   });
+
+//   useEffect(() => {
+//     if (query.isSuccess && query.data) {
+//       const token = Cookies.get("access_token") || "";
+
+//       if (token) {
+//         setCredentials(token, query.data);
+//       }
+//     }
+
+//     if (query.isError) {
+//       toast.error("Failed to fetch user profile.");
+//     }
+//   }, [query.isSuccess, query.isError, query.data, setCredentials]);
+
+//   return query;
+// };
+
+export const useGetUser = (enabled = true) => {
   const { get } = useAxiosAuth();
   const { setCredentials } = userAuth();
 
   const handleGetUser = async (): Promise<IUser> => {
     const response = await get(`/profile/me`);
-
-    // console.log("Profile response:", response?.data?.data);
-
     if (!response?.data?.data?.profile) {
       throw new Error("User profile data is missing");
     }
-    // console.log("User profile data:", response.data.data);
-    return response?.data?.data;
+    return response.data.data;
   };
 
   const query = useQuery<IUser, AxiosError>({
@@ -142,13 +181,12 @@ export const useGetUser = (enabled: boolean = true) => {
     retry: 1,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 
   useEffect(() => {
     if (query.isSuccess && query.data) {
-      const token = Cookies.get("access_token") || "";
-
+      const token = Cookies.get("access_token");
       if (token) {
         setCredentials(token, query.data);
       }

@@ -3,10 +3,54 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 // import { responseStatus } from "../utils/helpers";
-import { signInRoute, verificationRoute } from "../utils/route";
+import { dashboardRoute, signInRoute, verificationRoute } from "../utils/route";
 import { axiosInstance } from "../config/axios";
 import { ILoginResponse, UserFormValues } from "../lib/types/userTypes";
 import { toast } from "sonner";
+
+export const useLogin = () => {
+  const router = useRouter();
+
+  const handleLogin = async (data: UserFormValues) => {
+    const response = await axiosInstance.post("/auth/login", data);
+    return response.data;
+  };
+
+  const mutation = useMutation<
+    ILoginResponse,
+    AxiosError<ILoginResponse>,
+    UserFormValues
+  >({
+    mutationFn: handleLogin,
+    onSuccess: (data: ILoginResponse) => {
+      const access_token = data.data.access_token;
+      const expiresInUnix = data.data.expires_in;
+
+      const expiryDate = new Date(expiresInUnix * 1000);
+
+      Cookies.set("access_token", access_token, {
+        expires: expiryDate,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "Lax",
+        path: "/",
+      });
+
+      toast.success("Login Successful");
+
+      router.push(dashboardRoute);
+    },
+    onError: (error) => {
+      const errorMessage =
+        axios.isAxiosError(error) && error.response?.data?.message
+          ? error.response.data.message
+          : "An unknown error occurred.";
+      toast.error(errorMessage);
+    },
+  });
+
+  return mutation;
+};
+
 
 // export const useLogin = () => {
 //   const router = useRouter();
@@ -57,49 +101,49 @@ import { toast } from "sonner";
 //   return mutation;
 // };
 
-export const useLogin = () => {
-  const router = useRouter();
+// export const useLogin = () => {
+//   const router = useRouter();
 
-  // Function to handle login API call
-  const handleLogin = async (data: UserFormValues) => {
-    const response = await axiosInstance.post("/auth/login", data);
-    return response.data;
-  };
+//   // Function to handle login API call
+//   const handleLogin = async (data: UserFormValues) => {
+//     const response = await axiosInstance.post("/auth/login", data);
+//     return response.data;
+//   };
 
-  const mutation = useMutation<
-    ILoginResponse,
-    AxiosError<ILoginResponse>,
-    UserFormValues
-  >({
-    mutationFn: handleLogin,
-    onSuccess: (data: ILoginResponse) => {
-      const access_token = data.data.access_token;
+//   const mutation = useMutation<
+//     ILoginResponse,
+//     AxiosError<ILoginResponse>,
+//     UserFormValues
+//   >({
+//     mutationFn: handleLogin,
+//     onSuccess: (data: ILoginResponse) => {
+//       const access_token = data.data.access_token;
 
-      // ✅ Store access token in cookies
-      Cookies.set("access_token", access_token, {
-        expires: 1, // Expires in 1 day
-        secure: process.env.NODE_ENV === "production", // true on HTTPS
-        sameSite: "Lax",
-        path: "/",
-      });
+//       // ✅ Store access token in cookies
+//       Cookies.set("access_token", access_token, {
+//         expires: 1, // Expires in 1 day
+//         secure: process.env.NODE_ENV === "production", // true on HTTPS
+//         sameSite: "Lax",
+//         path: "/",
+//       });
 
-      toast.success("Login Successful");
+//       toast.success("Login Successful");
 
-      // Optional: redirect user
-      router.push("/dashboard");
-    },
-    onError: (error) => {
-      const errorMessage =
-        axios.isAxiosError(error) && error.response?.data?.message
-          ? error.response.data.message
-          : "An unknown error occurred.";
-      toast.error(errorMessage);
-      console.error(error);
-    },
-  });
+//       // Optional: redirect user
+//       router.push(dashboardRoute);
+//     },
+//     onError: (error) => {
+//       const errorMessage =
+//         axios.isAxiosError(error) && error.response?.data?.message
+//           ? error.response.data.message
+//           : "An unknown error occurred.";
+//       toast.error(errorMessage);
+//       console.error(error);
+//     },
+//   });
 
-  return mutation;
-};
+//   return mutation;
+// };
 
 export const useRegister = () => {
   const router = useRouter();

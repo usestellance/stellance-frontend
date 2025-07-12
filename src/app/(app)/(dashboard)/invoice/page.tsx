@@ -46,7 +46,7 @@ const CreateInvoice = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="w-[163px] lg:w-[200px] mx-auto mt-[80px] lg:mt-[50px]">
+      <div className="w-[163px] lg:w-[200px] mx-auto mt-[80px] lg:mt-[80px]">
         <Image
           alt="Invoice Illustration"
           src="/images/new_Invoice.svg"
@@ -102,7 +102,8 @@ export default function Page() {
 
   const invoices: InvoiceType[] = data?.invoice || [];
 
-  // console.log(data);
+  console.log(data);
+  // console.log(error);
 
   useEffect(() => {
     if (isError && error) {
@@ -123,7 +124,7 @@ export default function Page() {
     }
   }, [isError, error]);
 
-  if (status === "" && data?.meta?.total_invoice_count === 0)
+  if (!data || (status === "" && data?.meta?.total_invoice_count === 0))
     return (
       <div className="myContainer">
         <CreateInvoice />

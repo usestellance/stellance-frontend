@@ -33,7 +33,7 @@ export default function Page() {
   const balance = () => {
     if (walletDetails?.balance?.usdc) {
       const balance =
-        wallet === "$"
+        wallet === "usdc"
           ? walletDetails?.balance?.usdc
           : walletDetails?.balance?.xlm;
       return balance;
@@ -93,7 +93,7 @@ export default function Page() {
           {walletDetails?.address && (
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1 text-primary dark:text-white mt-1 md:mt-3"
+              className="cursor-pointer flex items-center gap-1 text-primary hover:text-secondary dark:hover:text-secondary dark:text-white mt-1 md:mt-3 duration-150 active:text-primary dark:active:text-white "
             >
               <p className="text-xs md:text-lg font-medium  lg:text-2xl ">
                 {maskMiddle(walletDetails?.address)}
