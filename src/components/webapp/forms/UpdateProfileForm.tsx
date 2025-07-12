@@ -166,8 +166,8 @@ export default function UpdateProfileForm() {
           <InputField
             name="wallet_address"
             label="Wallet Address"
-            placeholder="GC7OHFPWPS********HNCXEAHWDSGGC3"
-            type="tel"
+            placeholder="No address found"
+            type="string"
             readonly
             value={formik.values.wallet_address || ""}
             onChange={formik.handleChange}

@@ -4,7 +4,7 @@ export const invoiceFilterOptions = [
   { label: "All", value: "" },
   { label: "Paid", value: "paid" },
   { label: "Approved", value: "viewed" },
-  { label: "Pending", value: "pending" },
+  { label: "Pending", value: "sent" },
   { label: "Draft", value: "draft" },
   { label: "Overdue", value: "overdue" },
   { label: "Declined", value: "cancelled" },

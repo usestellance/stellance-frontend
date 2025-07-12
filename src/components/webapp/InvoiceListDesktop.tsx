@@ -9,12 +9,15 @@ import { useRouter } from "next/navigation";
 
 const getStatusBadge = (status: string) => {
   const statusStyles = {
-    Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20",
-    Sent: "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
-    Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
-    Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
-    Cancelled: "text-[#800000] border-[#800000] bg-[#800000]/15",
-    Viewed: "text-[#004E31] border-[#00FF55] bg-[#00FF55]/15",
+    Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20 dark:text-white dark:bg-[#007A4D]",
+    Sent: "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:bg-[#FFCE74]",
+    Overdue:
+      "text-[#910400] border-[#D31510] bg-[#D31510]/15 dark:text-white dark:bg-[#D31510]",
+    Draft:
+      "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA] dark:text-white dark:bg-[#508DFA]",
+    Cancelled:
+      "text-[#800000] border-[#800000] bg-[#800000]/15 dark:text-white dark:bg-[#800000]",
+    Viewed: "text-[#004E31] border-[#00FF55] bg-[#00FF55]/15 dark:bg-[#00FF55]",
   };
 
   return (

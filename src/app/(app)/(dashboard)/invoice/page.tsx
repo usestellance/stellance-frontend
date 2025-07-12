@@ -102,7 +102,7 @@ export default function Page() {
 
   const invoices: InvoiceType[] = data?.invoice || [];
 
-  console.log(data);
+  // console.log(data);
   // console.log(error);
 
   useEffect(() => {
@@ -124,7 +124,7 @@ export default function Page() {
     }
   }, [isError, error]);
 
-  if (!data || (status === "" && data?.meta?.total_invoice_count === 0))
+  if (status === "" && data?.meta?.total_invoice_count === 0)
     return (
       <div className="myContainer">
         <CreateInvoice />

@@ -5,7 +5,7 @@ import axios, { AxiosError } from "axios";
 import { userAuth } from "../store/userAuth";
 import useAxiosAuth from "./useAxiosAuth";
 import { InvoiceResponseType, InvoiceType } from "../lib/types/invoiceType";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { axiosInstance } from "../config/axios";
 // import { useFetchInvoiceParams } from "../store/invoiceStore";
@@ -14,6 +14,7 @@ export const useCreateInvoice = () => {
   const { logout, credentials } = userAuth();
   const { post } = useAxiosAuth();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const is_profile_complete = credentials?.user?.profile_complete;
 
   // Define the function to handle the registration API call
@@ -43,6 +44,7 @@ export const useCreateInvoice = () => {
     onSuccess: (data: InvoiceResponseType) => {
       // console.log(data);
 
+      queryClient.invalidateQueries({ queryKey: ["invoices"] });
       toast.success(data.message);
       router.push(invoiceRoute);
     },
@@ -171,6 +173,7 @@ export const useSendInvoice = (invoiceId: string, email?: string) => {
   const { logout } = userAuth();
   const { get } = useAxiosAuth();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   // Define the function to handle the send invoice API call
   const handleSendInvoice = async () => {
@@ -194,6 +197,8 @@ export const useSendInvoice = (invoiceId: string, email?: string) => {
     onSuccess: (data: InvoiceResponseType) => {
       // console.log(data);
       toast.success(data.message);
+
+      queryClient.invalidateQueries({ queryKey: ["invoice", "invoices"] });
       window.location.reload();
     },
     onError: (error) => {
@@ -228,6 +233,8 @@ export const useReviewInvoice = (invoiceId: string, approve: boolean) => {
     return response.data;
   };
 
+  console.log(invoiceId, approve);
+
   // Use React Query's useMutation hook
   const mutation = useMutation<
     InvoiceResponseType,
@@ -258,7 +265,7 @@ export const useDeleteInvoice = (invoiceId: string) => {
   const { logout } = userAuth();
   const axiosAuth = useAxiosAuth();
   const router = useRouter();
-
+  const queryClient = useQueryClient();
   // Define the function to handle the send invoice API call
   const handleSendInvoice = async () => {
     // Build the URL conditionally based on whether email is provided
@@ -280,6 +287,8 @@ export const useDeleteInvoice = (invoiceId: string) => {
       // console.log(data);
       toast.success(data.message);
       router.push(invoiceRoute);
+      
+      queryClient.invalidateQueries({ queryKey: ["invoices"] });
     },
     onError: (error) => {
       const errorMessage =

@@ -227,6 +227,7 @@ export default function CreateInvoiceDesktop() {
                         name={`invoice_items[${index}].description`}
                         label="Description"
                         value={item.description}
+                        placeholder="Brief description of the item/service"
                         onChange={(e) =>
                           handleItemChange(index, "description", e.target.value)
                         }

@@ -47,7 +47,6 @@ const getStatusBadge = (status: string) => {
     >
       {(status === "viewed" && capitalizeWords("Approved")) ||
         (status === "cancelled" && capitalizeWords("Declined")) ||
-        (status === "sent" && capitalizeWords("Pending")) ||
         capitalizeWords(status)}
     </div>
   );
