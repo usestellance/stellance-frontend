@@ -3,7 +3,12 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 // import { responseStatus } from "../utils/helpers";
-import { dashboardRoute, signInRoute, verificationRoute } from "../utils/route";
+import {
+  accountSetUpRoute,
+  dashboardRoute,
+  signInRoute,
+  verificationRoute,
+} from "../utils/route";
 import { axiosInstance } from "../config/axios";
 import { ILoginResponse, UserFormValues } from "../lib/types/userTypes";
 import { toast } from "sonner";
@@ -24,6 +29,7 @@ export const useLogin = () => {
     mutationFn: handleLogin,
     onSuccess: (data: ILoginResponse) => {
       const access_token = data.data.access_token;
+      const isProfileComplete = data.data.profile_complete;
       const expiresInUnix = data.data.expires_in;
 
       const expiryDate = new Date(expiresInUnix * 1000);
@@ -37,7 +43,11 @@ export const useLogin = () => {
 
       toast.success("Login Successful");
 
-      router.push(dashboardRoute);
+      if (!isProfileComplete) {
+        router.push(accountSetUpRoute);
+      } else {
+        router.push(dashboardRoute);
+      }
     },
     onError: (error) => {
       const errorMessage =
@@ -50,7 +60,6 @@ export const useLogin = () => {
 
   return mutation;
 };
-
 
 // export const useLogin = () => {
 //   const router = useRouter();

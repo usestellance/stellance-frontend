@@ -10,8 +10,7 @@ import { useRouter } from "next/navigation";
 const getStatusBadge = (status: string) => {
   const statusStyles = {
     Paid: "text-[#004E31] border-[#007A4D] bg-[#007A4D]/20",
-    Sent:
-      "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
+    Sent: "border-[#FFCE74] bg-[#FFCE74]/20 text-[#885800] dark:text-[#FFC75F] ",
     Overdue: "text-[#910400] border-[#D31510] bg-[#D31510]/15",
     Draft: "bg-[#508DFA]/15 text-[#508DFA] border-[#508DFA]",
     Cancelled: "text-[#800000] border-[#800000] bg-[#800000]/15",
@@ -26,7 +25,6 @@ const getStatusBadge = (status: string) => {
     >
       {(status === "Viewed" && capitalizeWords("Approved")) ||
         (status === "Cancelled" && capitalizeWords("Declined")) ||
-        (status === "Sent" && capitalizeWords("Pending")) ||
         capitalizeWords(status)}
     </span>
   );
@@ -38,7 +36,7 @@ const InvoiceListDesktop: React.FC<InvoiceType> = (invoice) => {
   const previewInvoice = () => {
     router.push(previewInvoiceRoute(invoice.id || ""));
   };
-console.log(invoice);
+  console.log(invoice);
   return (
     <tr
       onClick={previewInvoice}

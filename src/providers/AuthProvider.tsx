@@ -26,7 +26,7 @@ export default function AuthProvider({
 
   const [isInitialized, setIsInitialized] = useState(false);
 
-  console.log(credentials, " credentials in auth provider");
+  console.log(credentials, "credentials in auth provider");
 
   // ✅ Step 1: Mark auth as initialized on mount
   useEffect(() => {

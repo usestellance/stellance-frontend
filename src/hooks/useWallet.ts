@@ -1,7 +1,7 @@
 import { userAuth } from "../store/userAuth";
 import useAxiosAuth from "./useAxiosAuth";
 // import { InvoiceResponseType, InvoiceType } from "../lib/types/invoiceType";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { signInRoute } from "../utils/route";
@@ -23,6 +23,7 @@ export const useGenerateWallet = () => {
   const { logout } = userAuth();
   const { post } = useAxiosAuth();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const handleCreateWallet = async () => {
     const response = await post("/wallet");
@@ -35,26 +36,8 @@ export const useGenerateWallet = () => {
   >({
     mutationFn: handleCreateWallet,
     onSuccess: (response) => {
-      const wallet = response.data;
-
+      queryClient.invalidateQueries({ queryKey: ["user"] });
       toast.success(response.message);
-
-      // ✅ Update session storage
-      const userRaw = sessionStorage.getItem("user");
-      if (userRaw) {
-        try {
-          const user = JSON.parse(userRaw);
-          user.wallet = {
-            id: wallet.id,
-            address: wallet.wallet_address,
-          };
-          sessionStorage.setItem("user", JSON.stringify(user));
-        } catch (err) {
-          console.error("Failed to update session wallet:", err);
-        }
-      }
-      window.location.reload();
-      // optionally redirect or trigger UI updates here
     },
     onError: (error) => {
       const errorMessage =

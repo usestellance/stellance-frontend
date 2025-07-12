@@ -71,9 +71,9 @@ export default function CreateInvoiceDesktop() {
 
     // Auto-calculate amount
     updatedItems[index].amount =
-      updatedItems[index].quantity *
-      updatedItems[index].unit_price *
-      ((100 - updatedItems[index].discount) / 100);
+      (updatedItems[index]?.quantity ?? 0) *
+      (updatedItems[index]?.unit_price ?? 0) *
+      ((100 - (updatedItems[index]?.discount ?? 0)) / 100);
 
     formik.setFieldValue("items", updatedItems);
   };
@@ -110,7 +110,7 @@ export default function CreateInvoiceDesktop() {
           <InputField
             name="title"
             label="Invoice Title"
-            placeholder="short title..."
+            placeholder="e.g. Mobile App Dev, Content Creation etc"
             value={formik.values.title || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -160,6 +160,24 @@ export default function CreateInvoiceDesktop() {
               formik.touched.country ? formik.errors.country || null : null
             }
           />
+
+          <div className="mt-10 flex flex-col gap-4 md:gap-[30px]">
+            <div className="max-w-[300px] w-full">
+              <InputField
+                name="due_date"
+                label="Due Date"
+                type="date"
+                value={formik.values.due_date || ""}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.due_date
+                    ? formik.errors.due_date || null
+                    : null
+                }
+              />
+            </div>
+          </div>
         </div>
 
         <div className="mt-6 md:mt-20 myContainer">
@@ -234,6 +252,7 @@ export default function CreateInvoiceDesktop() {
                         name={`invoice_items[${index}].quantity`}
                         label="Quantity"
                         type="number"
+                        placeholder="0"
                         value={item.quantity}
                         min={0}
                         onChange={(e) =>
@@ -259,7 +278,8 @@ export default function CreateInvoiceDesktop() {
                         name={`invoice_items[${index}].unit_price`}
                         label="Unit Price"
                         type="number"
-                        value={item.unit_price}
+                        placeholder="0"
+                        value={item.unit_price !== 0 ? item.unit_price : ""}
                         min={0}
                         onChange={(e) =>
                           handleItemChange(index, "unit_price", e.target.value)
@@ -284,7 +304,8 @@ export default function CreateInvoiceDesktop() {
                         name={`invoice_items[${index}].discount`}
                         label="Discount (%)"
                         type="number"
-                        value={item.discount}
+                        placeholder="0"
+                        value={item.discount !== 0 ? item.discount : ""}
                         min={0}
                         onChange={(e) =>
                           handleItemChange(index, "discount", e.target.value)
@@ -308,8 +329,8 @@ export default function CreateInvoiceDesktop() {
                       <InputField
                         name={`invoice_items[${index}].amount`}
                         label="Amount"
-                        type="number"
-                        value={item.amount}
+                        type="text"
+                        value={formatCurrency(item.amount)}
                         readonly
                         min={0}
                         error={
@@ -409,33 +430,6 @@ export default function CreateInvoiceDesktop() {
         </section>
 
         <section className="myContainer">
-          <div className="mt-10 flex flex-col gap-4 md:gap-[30px]">
-            <div className="max-w-[300px] w-full">
-              <InputField
-                name="due_date"
-                label="Due Date"
-                type="date"
-                value={formik.values.due_date || ""}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.due_date
-                    ? formik.errors.due_date || null
-                    : null
-                }
-              />
-            </div>
-            {/* <TextAreaField
-              name="note"
-              label="Add Note"
-              placeholder="Add additional note like thank you note, return policy or others"
-              value={formik.values.note}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.note ? formik.errors.note || null : null}
-            /> */}
-          </div>
-
           <div className="flex justify-center gap-[25px] mt-[50px] lg:mt-20 lg:gap-[54px]">
             <AppButton
               onClick={clearItems}

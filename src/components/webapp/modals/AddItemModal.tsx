@@ -112,7 +112,7 @@ export default function AddItemsModal() {
                 <InputField
                   name="description"
                   label="Description"
-                  placeholder="Job Description"
+                  placeholder="Brief description of item/service"
                   type="text"
                   value={formik.values.description}
                   onChange={formik.handleChange}
@@ -144,7 +144,11 @@ export default function AddItemsModal() {
                   label="Unit Price"
                   placeholder="Enter unit price per unit/hr"
                   type="number"
-                  value={formik.values.unit_price}
+                  value={
+                    formik.values.unit_price !== 0
+                      ? formik.values.unit_price
+                      : ""
+                  }
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={
@@ -159,7 +163,9 @@ export default function AddItemsModal() {
                   label="Discount (%)"
                   placeholder="Enter discount (optional)"
                   type="number"
-                  value={formik.values.discount}
+                  value={
+                    formik.values.discount !== 0 ? formik.values.discount : ""
+                  }
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={

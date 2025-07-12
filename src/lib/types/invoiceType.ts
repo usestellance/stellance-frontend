@@ -2,6 +2,9 @@ export interface InvoiceItemsTypes {
   invoice_type: string;
   description: string;
   quantity: number;
+  // unit_price: number | null;
+  // discount: number | null;
+  // amount: number | null;
   unit_price: number;
   discount: number;
   amount: number;

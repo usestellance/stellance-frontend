@@ -89,7 +89,7 @@ export default function CreateInvoice() {
           <InputField
             name="title"
             label="Invoice Title"
-            placeholder="short title..."
+            placeholder="e.g. Mobile App Dev, Content Creation etc"
             value={formik.values.title || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -139,6 +139,19 @@ export default function CreateInvoice() {
               formik.touched.country ? formik.errors.country || null : null
             }
           />
+          <div className="flex flex-col gap-4">
+            <InputField
+              name="due_date"
+              label="Due Date"
+              type="date"
+              value={formik.values.due_date || ""}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched.due_date ? formik.errors.due_date || null : null
+              }
+            />
+          </div>
         </div>
 
         <div className="mt-6 md:mt-20 myContainer">
@@ -209,31 +222,6 @@ export default function CreateInvoice() {
             <h5 className="text-sm font-bold leading-[25px] py-3 px-4 ">
               {formatCurrency(total)}
             </h5>
-          </div>
-
-          <div className="mt-10 flex flex-col gap-4">
-            <InputField
-              name="due_date"
-              label="Due Date"
-              type="date"
-              value={formik.values.due_date || ""}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.due_date ? formik.errors.due_date || null : null
-              }
-            />
-
-            {/* <TextAreaField
-              name="note"
-              label="Add Note"
-              //   rows={10}
-              placeholder="Add additional note like thank you note, return policy or others"
-              value={formik.values.note}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.note ? formik.errors.note || null : null}
-            /> */}
           </div>
 
           <div className="flex justify-center gap-[25px] mt-[50px]">

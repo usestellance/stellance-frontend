@@ -10,7 +10,7 @@ import {
   IUser,
   UserFormValues,
 } from "../lib/types/userTypes";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { userAuth } from "../store/userAuth";
 import { useEffect } from "react";
@@ -19,7 +19,7 @@ export const useCompleteProfile = () => {
   const { logout } = userAuth();
   const { post } = useAxiosAuth();
   const router = useRouter();
-
+  const queryClient = useQueryClient();
   // Define the function to handle the registration API call
   const handleCompleteProfile = async (data: UserFormValues) => {
     // const response = await get('/auth/clear')
@@ -42,8 +42,8 @@ export const useCompleteProfile = () => {
   >({
     mutationFn: handleCompleteProfile,
     onSuccess: (data: ILoginResponse) => {
-      sessionStorage.setItem("profile_complete", "true");
-      // console.log(data);
+      // 🔁 Invalidate user cache to trigger refetch
+      queryClient.invalidateQueries({ queryKey: ["user"] });
 
       toast.success(data.message);
       router.push(walletRoute);
@@ -70,6 +70,7 @@ export const useUpdateProfile = () => {
   const { logout } = userAuth();
   const { put } = useAxiosAuth();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   // Define the function to handle the registration API call
   const handleUpdateProfile = async (data: UserFormValues) => {
@@ -99,7 +100,7 @@ export const useUpdateProfile = () => {
       // console.log(access_token, user);
       // setCredentials(access_token, user);
       toast.success(data.message);
-      window.location.reload();
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     },
     onError: (error) => {
       const errorMessage =

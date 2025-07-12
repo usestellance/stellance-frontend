@@ -17,6 +17,20 @@ export function formatCurrency(
   }).format(value);
 }
 
+export const formatCurrencyStructure = (value: number | string): string => {
+  const num =
+    typeof value === "string" ? parseFloat(value.replace(/,/g, "")) : value;
+
+  if (isNaN(num)) return "";
+
+  return num.toLocaleString("en-US", {
+    style: "decimal",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+};
+
+
 export function formatWalletCurrency(
   amount: number | undefined ,
   wallet: "usdc" | "xml"
