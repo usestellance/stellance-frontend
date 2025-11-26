@@ -31,5 +31,5 @@
 body {
   font-family: "Satoshi-Variable", sans-serif;
   overflow-x: hidden;
-  @apply bg-primary-disabled text-text-black;
+  /* @apply bg-primary-disabled text-text-black; */
 }
