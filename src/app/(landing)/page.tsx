@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -6,9 +7,15 @@ export default function Home() {
       <Image
         src="/images/logo-primary.svg"
         alt="Stellance Logo"
-        width={500}
-        height={500}
+        width={300}
+        height={300}
       />
+      <p className="mt-10">
+        Landing page, Go to{" "}
+        <Link className="font-bold" href="/auth/login">
+          Login
+        </Link>{" "}
+      </p>
     </div>
   );
 }
