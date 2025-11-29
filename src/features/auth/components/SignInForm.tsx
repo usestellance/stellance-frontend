@@ -17,8 +17,8 @@ import {
 import { Button } from "@/components/ui/button";
 import InputField from "@/components/ui/custom/InputField";
 import { FcGoogle } from "react-icons/fc";
-import { authRoutes } from "../../../config/constants/routes";
-// import { useRouter } from "next/navigation";
+import { authRoutes, dashboardRoutes } from "../../../config/constants/routes";
+import { useRouter } from "next/navigation";
 import { useToast } from "../../../hooks/useToast";
 import { SignInSchema } from "../../../lib/validations/authValidations";
 import Link from "next/link";
@@ -27,7 +27,7 @@ type SignInValues = z.infer<typeof SignInSchema>;
 
 export default function SignInForm() {
   const [loading, setLoading] = useState(false);
-  //   const router = useRouter();
+  const router = useRouter();
   const toast = useToast();
 
   const form = useForm<SignInValues>({
@@ -44,7 +44,7 @@ export default function SignInForm() {
     setTimeout(() => {
       setLoading(false);
       toast.success("Sign in successful!");
-      //   router.push(`${authRoutes.VERIFICATION_SENT}?email=${values.email}`);
+      router.push(dashboardRoutes.HOME);
     }, 1000);
   };
 

@@ -5,3 +5,10 @@ export const authRoutes = {
   FORGOT_PASSWORD: "/auth/forgot-password",
   RESET_PASSWORD: "/auth/reset-password",
 };
+
+export const dashboardRoutes = {
+  HOME: "/dashboard",
+}
+export const invoiceRoutes = {
+  INVOICES: "/invoices",
+}
