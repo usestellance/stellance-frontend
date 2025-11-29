@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import SignUpForm from "../../../../features/auth/components/SignUpForm";
+import { authRoutes } from "../../../../config/constants/routes";
 
 export default function Page() {
   return (
@@ -8,7 +9,7 @@ export default function Page() {
       <h2 className="font-bold text-[28px] md:text-[36px]">Get Started</h2>
       <p className="text-sm text-black-400 md:text-base">
         Already using Stellance?{" "}
-        <Link href="/auth/login" className="font-bold  text-black-500">
+        <Link href={authRoutes.LOGIN} className="font-bold  text-black-500">
           Sign in
         </Link>
       </p>

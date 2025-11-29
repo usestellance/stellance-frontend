@@ -2,14 +2,16 @@
 
 import { useState } from "react";
 import { Button } from "../../../../components/ui/button";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "../../../../hooks/useToast";
+import { authRoutes } from "../../../../config/constants/routes";
 
 export default function Page() {
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
   const toast = useToast();
+  const router = useRouter();
 
   const resendLink = () => {
     setLoading(true);
@@ -20,6 +22,7 @@ export default function Page() {
       toast.info("Resent Successfully");
       toast.error("Resent Successfully");
       toast.warning("Resent Successfully");
+      router.push(authRoutes.LOGIN);
     }, 1000);
   };
 
