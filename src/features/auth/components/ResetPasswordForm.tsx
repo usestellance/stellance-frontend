@@ -16,79 +16,55 @@ import {
 
 import { Button } from "@/components/ui/button";
 import InputField from "@/components/ui/custom/InputField";
-import { SignUpSchema } from "../../../lib/validations/authValidations";
-import { getPasswordStrength } from "../../../lib/utils";
-import { FcGoogle } from "react-icons/fc";
-import { authRoutes } from "../../../config/constants/routes";
+import { authRoutes} from "../../../config/constants/routes";
 import { useRouter } from "next/navigation";
 import { useToast } from "../../../hooks/useToast";
+import { ResetPasswordSchema } from "../../../lib/validations/authValidations";
+import { getPasswordStrength } from "../../../lib/utils";
 
-type SignUpValues = z.infer<typeof SignUpSchema>;
+type ResetPasswordValues = z.infer<typeof ResetPasswordSchema>;
 
-export default function SignUpForm() {
+export default function ResetPasswordForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const toast = useToast();
 
-  const form = useForm<SignUpValues>({
-    resolver: zodResolver(SignUpSchema),
+  const form = useForm<ResetPasswordValues>({
+    resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
-      email: "",
+      otp: "",
       password: "",
       confirmPassword: "",
     },
   });
 
-  // Watch password value from RHF
-  const passwordValue = useWatch({
-    control: form.control,
-    name: "password",
-  });
-
-  // Calculate strength using useMemo
-  const strength = useMemo(() => {
-    return getPasswordStrength(passwordValue ?? "");
-  }, [passwordValue]);
-
-  const onSubmit = (values: SignUpValues) => {
+  const onSubmit = (values: ResetPasswordValues) => {
     setLoading(true);
     console.log("Submitted:", values);
     setTimeout(() => {
       setLoading(false);
-      toast.success("Sign up successful! Please verify your email.");
-      router.push(`${authRoutes.VERIFICATION_SENT}?email=${values.email}`);
+      toast.success("Password reset successful!");
+      router.push(authRoutes.LOGIN);
     }, 1000);
   };
+
+   // Watch password value from RHF
+    const passwordValue = useWatch({
+      control: form.control,
+      name: "password",
+    });
+  
+    // Calculate strength using useMemo
+    const strength = useMemo(() => {
+      return getPasswordStrength(passwordValue ?? "");
+    }, [passwordValue]);
+  
+   
 
   return (
     <div className="space-y-6">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-          {/* --------------------------------
-              EMAIL FIELD
-          -------------------------------- */}
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-
-                <FormControl>
-                  <InputField
-                    {...field}
-                    label=""
-                    placeholder="Email address"
-                    type="email"
-                    error={fieldState.error?.message ?? null}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           {/* --------------------------------
               PASSWORD FIELD
           -------------------------------- */}
@@ -158,29 +134,36 @@ export default function SignUpForm() {
             )}
           />
 
-          <div>
-            <p className="text-sm text-center my-[30px]">
-              By creating an account you agree to all of our <br />
-              <span className="font-bold underline underline-offset-4">
-                Terms and Conditions
-              </span>{" "}
-            </p>
-          </div>
+          {/* --------------------------------
+              OTP FIELD
+          -------------------------------- */}
+          <FormField
+            control={form.control}
+            name="otp"
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>One Time Password (OTP)</FormLabel>
 
-          <Button type="submit" isLoading={loading} className="w-full">
-            Sign up
+                <FormControl>
+                  <InputField
+                    {...field}
+                    label=""
+                    placeholder="Confirm your password"
+                    type="password"
+                    error={fieldState.error?.message ?? null}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" isLoading={loading} className="w-full mt-2">
+            Reset Password
           </Button>
         </form>
       </Form>
-      <p className="mt-2.5 mb-[15px] text-sm text-center">OR</p>
-
-      <Button
-        type="submit"
-        className="w-full bg-white text-black-500 font-normal hover:bg-neutral-100 border border-black-300"
-      >
-        <FcGoogle size={22} />
-        <span>Continue with Google</span>
-      </Button>
     </div>
   );
 }

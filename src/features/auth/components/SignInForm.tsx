@@ -116,18 +116,17 @@ export default function SignInForm() {
           <Button type="submit" isLoading={loading} className="w-full">
             Sign in
           </Button>
-
-          <p className="mt-2.5 mb-[15px] text-sm text-center">OR</p>
-
-          <Button
-            type="submit"
-            className="w-full bg-white text-black-500 font-normal hover:bg-neutral-100 border border-black-300"
-          >
-            <FcGoogle size={22} />
-            <span>Continue with Google</span>
-          </Button>
         </form>
       </Form>
+      <p className="mt-2.5 mb-[15px] text-sm text-center">OR</p>
+
+      <Button
+        type="submit"
+        className="w-full bg-white text-black-500 font-normal hover:bg-neutral-100 border border-black-300"
+      >
+        <FcGoogle size={22} />
+        <span>Continue with Google</span>
+      </Button>
     </div>
   );
 }

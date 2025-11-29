@@ -12,12 +12,10 @@ export default function PageLoading({
       </div>
 
       <div
-        className={` ${
-          showLogo ? "h-[80%]" : "h-full"
-        } flex flex-col justify-center items-center"`}
+        className={`h-[80%] flex flex-col bg-red300 justify-center items-center"`}
       >
         <svg
-          className="svg-loader"
+          className="svg-loader mx-auto"
           width="100"
           height="100"
           viewBox="0 0 100 100"

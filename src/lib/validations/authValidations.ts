@@ -11,8 +11,8 @@ export const SignUpSchema = z
   .object({
     email: z
       .string()
-      .email("Invalid email address")
-      .nonempty("Email is required"),
+      .nonempty("Email is required")
+      .email("Invalid email address"),
 
     password: z
       .string()
@@ -39,15 +39,39 @@ export const SignUpSchema = z
     path: ["confirmPassword"],
   });
 
-  export const SignInSchema = z
-  .object({
-    email: z
-      .string()
-      .email("Invalid email address")
-      .nonempty("Email is required"),
+export const SignInSchema = z.object({
+  email: z
+    .string()
+    .nonempty("Email is required")
+    .email("Invalid email address"),
+  password: z.string().nonempty("Password is required"),
+});
 
+export const ForgotPasswordSchema = z.object({
+  email: z
+    .string()
+    .nonempty("Email is required")
+    .email("Invalid email address"),
+});
+
+export const ResetPasswordSchema = z
+  .object({
+    otp: z.string().nonempty("OTP is required").min(6, "OTP must be 6 digits"),
     password: z
       .string()
       .nonempty("Password is required")
+      .min(8, "At least 8 characters")
+      .refine(
+        (value) => /[\d@$!%*?&]/.test(value), // number or symbol
+        "Contain a number or symbol"
+      )
+      .refine((value) => isStrongPassword(value), "Password strength: Weak"),
+
+    confirmPassword: z.string().nonempty("Please confirm your password"),
   })
 
+  // ❌ Passwords must match
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
