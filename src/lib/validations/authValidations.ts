@@ -75,3 +75,43 @@ export const ResetPasswordSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const SetUpAccountSchema = z.object({
+  first_name: z
+    .string()
+    .nonempty("First name is required")
+    .trim()
+    .min(2, "First name is too short")
+    .max(50, "First name is too long"),
+
+  last_name: z
+    .string()
+    .nonempty("Last name is required")
+    .trim()
+    .min(2, "Last name is too short")
+    .max(50, "Last name is too long"),
+
+  business_name: z
+    .string()
+    .trim()
+    .min(2, "Business name is too short")
+    .max(100, "Business name is too long")
+    .optional()
+    .or(z.literal("")),
+
+  phone_number: z
+    .string()
+    .trim()
+    .regex(
+      /^\+?\d+$/,
+      "Phone number must be digits only (optionally starts with +)"
+    )
+    .min(7, "Phone number too short")
+    .max(15, "Phone number too long")
+    .optional()
+    .or(z.literal("")),
+
+  country: z.string().trim().min(1, "Country is required"),
+});
+
+export type SetUpAccountValues = z.infer<typeof SetUpAccountSchema>;
