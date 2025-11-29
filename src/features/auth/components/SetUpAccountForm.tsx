@@ -21,7 +21,7 @@ import { useToast } from "../../../hooks/useToast";
 import { SetUpAccountSchema } from "../../../lib/validations/authValidations";
 import { Combobox } from "../../../components/ui/custom/ComboBox";
 import { countryCodes } from "../../../config/constants/countries";
-import { dashboardRoutes } from "../../../config/constants/routes";
+import { authRoutes, dashboardRoutes } from "../../../config/constants/routes";
 import { useRouter } from "next/navigation";
 
 type SetUpAccountValues = z.infer<typeof SetUpAccountSchema>;
@@ -55,7 +55,7 @@ export default function SetUpAccountForm() {
     setTimeout(() => {
       setLoading(false);
       toast.success("Account setup successful!");
-      router.push(dashboardRoutes.HOME);
+      router.push(authRoutes.CREATE_FIRST_INVOICE);
     }, 1000);
   };
 

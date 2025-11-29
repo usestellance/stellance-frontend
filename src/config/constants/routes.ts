@@ -4,6 +4,7 @@ export const authRoutes = {
   VERIFICATION_SENT: "/auth/verification-sent",
   FORGOT_PASSWORD: "/auth/forgot-password",
   RESET_PASSWORD: "/auth/reset-password",
+  CREATE_FIRST_INVOICE: "/auth/create-first-invoice",
 };
 
 export const dashboardRoutes = {
@@ -11,4 +12,5 @@ export const dashboardRoutes = {
 }
 export const invoiceRoutes = {
   INVOICES: "/invoices",
+  CREATE: "/invoices/create",
 }
