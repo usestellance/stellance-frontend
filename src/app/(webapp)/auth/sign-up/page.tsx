@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import SignUpForm from "../../../features/auth/components/SignUpForm";
+import SignUpForm from "../../../../features/auth/components/SignUpForm";
 
 export default function Page() {
   return (

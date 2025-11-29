@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../components/shared/Logo";
+import Logo from "../../../components/shared/Logo";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

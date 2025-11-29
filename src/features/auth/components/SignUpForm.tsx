@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import {
   Form,
@@ -19,10 +19,17 @@ import InputField from "@/components/ui/custom/InputField";
 import { SignUpSchema } from "../../../lib/validations/authValidations";
 import { getPasswordStrength } from "../../../lib/utils";
 import { FcGoogle } from "react-icons/fc";
+import { authRoutes } from "../../../config/constants/routes";
+import { useRouter } from "next/navigation";
+import { useToast } from "../../../hooks/useToast";
 
 type SignUpValues = z.infer<typeof SignUpSchema>;
 
 export default function SignUpForm() {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const toast = useToast();
+
   const form = useForm<SignUpValues>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -44,7 +51,13 @@ export default function SignUpForm() {
   }, [passwordValue]);
 
   const onSubmit = (values: SignUpValues) => {
+    setLoading(true);
     console.log("Submitted:", values);
+    setTimeout(() => {
+      setLoading(false);
+      toast.success("Sign up successful! Please verify your email.");
+      router.push(`${authRoutes.VERIFICATION_SENT}?email=${values.email}`);
+    }, 1000);
   };
 
   return (
@@ -154,7 +167,7 @@ export default function SignUpForm() {
             </p>
           </div>
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" isLoading={loading} className="w-full">
             Sign up
           </Button>
 

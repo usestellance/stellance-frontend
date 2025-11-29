@@ -1,7 +1,11 @@
-import React from 'react'
+import React from "react";
+import Toast from "../../components/ui/custom/ToastContainer";
 
-export default function Layout() {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div>Layout</div>
-  )
+    <main className="">
+      {children}
+      <Toast />
+    </main>
+  );
 }

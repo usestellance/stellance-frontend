@@ -1,13 +1,21 @@
 import Logo from "./Logo";
 
-export default function PageLoading() {
+export default function PageLoading({
+  showLogo = true,
+}: {
+  showLogo?: boolean;
+}) {
   return (
     <div className="absolute inset-0 z-10 px-4 sm:px-[30px] md:px-10 xl:px-[60px]">
       <div className="h-[10%] flex items-center py-5">
-        <Logo />
+        {showLogo && <Logo />}
       </div>
 
-      <div className=" h-[80%] flex flex-col justify-center items-center">
+      <div
+        className={` ${
+          showLogo ? "h-[80%]" : "h-full"
+        } flex flex-col justify-center items-center"`}
+      >
         <svg
           className="svg-loader"
           width="100"
