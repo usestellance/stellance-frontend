@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* @custom-variant dark (&:is(.dark *)); */
 
 @font-face {
   font-family: "Satoshi-Variable";
@@ -25,6 +25,7 @@
 
 @theme {
   /* primary shade */
+  --color-primary-600: #000A2F;
   --color-primary-500: #000c3b;
   --color-primary-400: #333d62;
   --color-primary-300: #94b9ff;
@@ -80,6 +81,8 @@
   --color-black-400: #23252c;
 }
 
+
+
 body {
   font-family: "Satoshi-Variable", sans-serif;
   overflow-x: hidden;
@@ -94,18 +97,12 @@ body {
   @apply text-2xl font-bold md:text-3xl lg:text-[32px];
 }
 
-
-
-
-
 .hide-scroll::-webkit-scrollbar {
   display: none;
   scrollbar-width: 1px;
   scroll-behavior: smooth;
   scrollbar-color: #18234f;
 }
-
-
 
 /* Spinner */
 .svg-loader {
