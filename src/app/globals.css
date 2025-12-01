@@ -104,6 +104,12 @@ body {
   scrollbar-color: #18234f;
 }
 
+[data-sidebar="mobile"] {
+  border-top-right-radius: 20px !important;
+  border-bottom-right-radius: 20px !important;
+  overflow: hidden !important;
+}
+
 /* Spinner */
 .svg-loader {
   animation: rotate 1s linear infinite;

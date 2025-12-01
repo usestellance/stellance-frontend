@@ -55,13 +55,16 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="bg-neutral-500 px-2 rounded-tr-[20px] rounded-br-[20px]">
+    <Sidebar
+      className="bg-neutral-500 px-2   rounded-tr-[20px] rounded-br-[20px]
+    md:rounded-tr-[20px] md:rounded-br-[20px]"
+    >
       <SidebarHeader className="bg-neutral-500">
         <div className="flex justify-center my-10">
           <Logo />
         </div>
       </SidebarHeader>
-      <SidebarContent className="bg-neutral-500">
+      <SidebarContent className="bg-neutral-500 px-1">
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>

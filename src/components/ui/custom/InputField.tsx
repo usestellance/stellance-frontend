@@ -68,7 +68,7 @@ const InputField: React.FC<InputProps> = ({
           readOnly={readonly}
           min={min}
           max={max}
-          className={`shadow-none focus outline-none focus:border-primary-500/80 border-neutral-800 rounded-[6px] text-base font-medium placeholder:text-xs placeholder:text-neutral-700 h-[43px] focus:shadow-md focus:shadow-primary-500/30 caret-primary-500 md:h-12 sm:text-base sm:py-4
+          className={`shadow-none focus outline-none focus:border-primary-500/80 border-neutral-800 rounded-[6px] text-base font-medium placeholder:text-xs placeholder:text-neutral-700 h-[43px] focus:shadow-md focus:shadow-primary-500/30 caret-primary-500 md:h-12 sm:text-base sm:py-4 bg-white
             ${className}
             ${
               error

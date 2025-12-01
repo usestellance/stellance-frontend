@@ -1,6 +1,6 @@
 import React from "react";
 import { IoMdCheckmarkCircle } from "react-icons/io";
-import { MdError, MdWarning, MdInfo } from "react-icons/md";
+import {  MdWarning, MdInfo } from "react-icons/md";
 import { Toast } from "../../../store/useToastStore"; // ✅ Import Toast, not ToastType
 
 const toastConfig = {
@@ -14,7 +14,8 @@ const toastConfig = {
     bg: "bg-error-50",
     bar: "bg-error-500",
     text: "text-error-500",
-    icon: MdError,
+    // icon: MdError,
+    icon: MdWarning,
   },
   warning: {
     bg: "bg-warning-50",

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { authRoutes } from "../../config/constants/routes";
 
 export default function Home() {
   return (
@@ -12,7 +13,7 @@ export default function Home() {
       />
       <p className="mt-10">
         Landing page, Go to{" "}
-        <Link className="font-bold" href="/auth/login">
+        <Link className="font-bold" href={authRoutes.LOGIN}>
           Login
         </Link>{" "}
       </p>
