@@ -16,7 +16,7 @@ const Card = () => {
 
 export const StatsCards = () => {
   return (
-    <div className="custom-container grid grid-cols-2 gap-y-5 gap-x-2.5 lg:grid-cols-4">
+    <div className="custom-container grid grid-cols-2 gap-y-5 gap-x-2.5 lg:grid-cols-4 xl:gap-6">
       <Card />
       <Card />
       <Card />
