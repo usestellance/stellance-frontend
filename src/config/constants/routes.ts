@@ -9,8 +9,11 @@ export const authRoutes = {
 
 export const dashboardRoutes = {
   HOME: "/dashboard",
-}
+};
 export const invoiceRoutes = {
   INVOICES: "/invoices",
   CREATE: "/invoices/create",
-}
+};
+export const profileRoutes = {
+  PROFILE: "/profile",
+};

@@ -73,7 +73,7 @@ export default function ResetPasswordForm() {
             name="password"
             render={({ field, fieldState }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>New Password</FormLabel>
 
                 <FormControl>
                   <div>
@@ -117,7 +117,7 @@ export default function ResetPasswordForm() {
             name="confirmPassword"
             render={({ field, fieldState }) => (
               <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
+                <FormLabel>Re-enter Password</FormLabel>
 
                 <FormControl>
                   <InputField
@@ -160,7 +160,7 @@ export default function ResetPasswordForm() {
           />
 
           <Button type="submit" isLoading={loading} className="w-full mt-2">
-            Reset Password
+            Update
           </Button>
         </form>
       </Form>

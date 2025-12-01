@@ -56,12 +56,15 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      className="bg-neutral-500 px-2   rounded-tr-[20px] rounded-br-[20px]
+      className="bg-neutral-500 shadow-lg  rounded-tr-[20px] rounded-br-[20px]
     md:rounded-tr-[20px] md:rounded-br-[20px]"
     >
       <SidebarHeader className="bg-neutral-500">
-        <div className="flex justify-center my-10">
-          <Logo />
+        <div className="flex justify-center my-10 flex-col items-center">
+          <Logo height="h-[30px] md:h-[40px] lg:h-[72px]" />
+          <p className="font-bold max-md:hidden lg:text-lg lg:-ml-2">
+            Stellance
+          </p>
         </div>
       </SidebarHeader>
       <SidebarContent className="bg-neutral-500 px-1">
