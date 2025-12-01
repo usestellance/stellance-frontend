@@ -9,8 +9,8 @@ export default function DashboardHeader() {
   const iconBg =
     "bg-primary-50/40 rounded-full flex justify-center items-center w-10 h-10 lg:w-[50px] lg:h-[50px] text-primary-500";
   return (
-    <header className="py-5 bg-green-00 w-full bg-neutral-500">
-      <div className="custom-container flex justify-between items-center bg-red300 w-full md:justify-end">
+    <header className="py-5 bg-green-00 w-full bg-neutral-500 ">
+      <div className="ml-auto px-4 sm:px-[30px] md:px-10 flex justify-between items-center bg-red300 w-full md:justify-end">
         <div className="md:hidden">
           <Logo />
         </div>

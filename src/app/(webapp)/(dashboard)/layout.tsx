@@ -8,10 +8,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <AppSidebar />
       <main className="bgblue400 w-full">
-        <div>
+        <div className="fixed inset-x-0  w-full z-10">
           <DashboardHeader />
         </div>
-        {children}
+        <div className="pt-16 lg:pt-20">{children}</div>
       </main>
     </SidebarProvider>
   );

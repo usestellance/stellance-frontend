@@ -57,7 +57,7 @@ export function AppSidebar() {
   return (
     <Sidebar
       className="bg-neutral-500 shadow-lg  rounded-tr-[20px] rounded-br-[20px]
-    md:rounded-tr-[20px] md:rounded-br-[20px]"
+    md:rounded-tr-[20px] md:rounded-br-[20px] z-50"
     >
       <SidebarHeader className="bg-neutral-500">
         <div className="flex justify-center my-10 flex-col items-center">
