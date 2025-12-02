@@ -7,7 +7,7 @@ import { PieSectorDataItem } from "recharts/types/polar/Pie";
 import {
   Card,
   CardContent,
-  CardDescription,
+//   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -88,7 +88,7 @@ export function ChartPieInteractive() {
         </div>
         <Select value={activeMonth} onValueChange={setActiveMonth}>
           <SelectTrigger
-            className="ml-auto h-7 w-[130px] rounded-lg pl-2.5"
+            className="ml-auto h-7 w-[130px] rounded-lg pl-2.5 "
             aria-label="Select a value"
           >
             <SelectValue placeholder="Select month" />
