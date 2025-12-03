@@ -20,7 +20,7 @@ const InvoiceList = ({ invoice }: InvoiceCardProps) => {
   return (
     <div
       onClick={previewInvoice}
-      className="bg-primary-20 rounded-[5px] flex justify-between pt-[15px] pb-[11px] px-5 h-[110px] hover:bg-primary-500 hover:text-neutral-500 duration-150 cursor-pointer lg:hidden"
+      className="bg-primary-20 rounded-[5px] flex justify-between pt-[15px] pb-[11px] px-5 h-[110px] hover:bg-primary-500 hover:text-neutral-500 duration-150 cursor-pointer xl:hidden"
     >
       <div className="flex flex-col justify-between">
         <p className="text-xs leading-[25px] mt-1">{invoice.invoice_number}</p>

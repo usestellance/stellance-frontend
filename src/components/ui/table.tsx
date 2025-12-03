@@ -8,7 +8,7 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <div
       data-slot="table-container"
-      className="relative w-full overflow-x-auto"
+      className="relative w-full overflow-x-auto "
     >
       <table
         data-slot="table"
@@ -21,11 +21,7 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
 
 function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   return (
-    <thead
-      data-slot="table-header"
-      className={cn("overflow-hidden", className)}
-      {...props}
-    />
+    <thead data-slot="table-header" className={cn("", className)} {...props} />
   );
 }
 
@@ -53,7 +49,7 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
     <tr
       data-slot="table-row"
       className={cn(
-        " data-[state=selected]:bg-muted transition-colors bg-primary-20 overflow-hidden",
+        " data-[state=selected]:bg-muted transition-colors overflow-hidden",
         className
       )}
       {...props}
@@ -79,7 +75,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
     <td
       data-slot="table-cell"
       className={cn(
-        "p-5 align-middle text-center whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "p-5 align-middle text-center whitespace-normal [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className
       )}
       {...props}

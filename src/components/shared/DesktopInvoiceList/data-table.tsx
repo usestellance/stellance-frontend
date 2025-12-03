@@ -36,11 +36,14 @@ export function DataTable<TData, TValue>({
   const router = useRouter();
 
   return (
-    <div className="overflow-hidden">
+    <div className="">
       <Table>
         <TableHeader className="">
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow
+              key={headerGroup.id}
+              className="[&>th:first-child]:rounded-bl-xl [&>th:first-child]:rounded-tl-xl [&>th:last-child]:rounded-br-xl [&>th:last-child]:rounded-tr-xl bg-primary-20"
+            >
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>
@@ -60,7 +63,8 @@ export function DataTable<TData, TValue>({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                className="hover:bg-primary-500 hover:text-neutral-500 border-t-10 border-neutral-500 cursor-pointer"
+                className="hover:bg-primary-500 hover:text-neutral-500 border-t-10 border-neutral-500 cursor-pointer 
+               [&>td:first-child]:rounded-bl-xl [&>td:first-child]:rounded-tl-xl [&>td:last-child]:rounded-br-xl [&>td:last-child]:rounded-tr-xl"
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
                 onClick={() =>
@@ -68,7 +72,7 @@ export function DataTable<TData, TValue>({
                 }
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell className="" key={cell.id}>
+                  <TableCell className=" bg-primary-20" key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

@@ -153,19 +153,24 @@ const LatestInvoices = () => {
         Latest Invoices
       </h4>
 
-      <div className="mt-10 md:mt-20 pb-20 lg:hidden">
-        <p className="font-light text-center leading-[25px] lg:text-2xl">
-          You have not created any invoice yet. <br /> All latest invoices would
-          be displayed here.
-        </p>
-      </div>
-      <div className="space-y-[15px]">
-        {mockInvoices.map((inv) => (
-          <InvoiceCard key={inv.id} invoice={inv} />
-        ))}
-      </div>
+      {mockInvoices?.length > 0 ? (
+        <div className="space-y-[15px]">
+          {mockInvoices.map((inv) => (
+            <InvoiceCard key={inv.id} invoice={inv} />
+          ))}
+        </div>
+      ) : (
+        <div className="mt-10 md:mt-20 pb-20 xl:hidden">
+          <p className="font-light text-center leading-[25px] lg:text-2xl">
+            You have not created any invoice yet. <br /> All latest invoices
+            would be displayed here.
+          </p>
+        </div>
+      )}
 
-      <DataTable data={mockInvoices} columns={columns} />
+      <div className="max-xl:hidden overflow-x-auto">
+        <DataTable data={mockInvoices} columns={columns} />
+      </div>
     </div>
   );
 };
