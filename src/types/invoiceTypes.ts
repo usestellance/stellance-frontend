@@ -26,6 +26,7 @@ export interface InvoiceType {
   total?: number;
   currency?: string;
   status?: StatusType;
+  description?: string;
   due_date?: string;
   service_fee?: number;
   created_at?: string;
