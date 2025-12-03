@@ -154,7 +154,7 @@ const LatestInvoices = () => {
       </h4>
 
       {mockInvoices?.length > 0 ? (
-        <div className="space-y-[15px]">
+        <div className="space-y-[15px] xl:hidden">
           {mockInvoices.map((inv) => (
             <InvoiceCard key={inv.id} invoice={inv} />
           ))}

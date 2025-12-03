@@ -42,7 +42,7 @@ export function DataTable<TData, TValue>({
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow
               key={headerGroup.id}
-              className="[&>th:first-child]:rounded-bl-xl [&>th:first-child]:rounded-tl-xl [&>th:last-child]:rounded-br-xl [&>th:last-child]:rounded-tr-xl bg-primary-20"
+              className="[&>th:first-child]:rounded-bl-xl [&>th:first-child]:rounded-tl-sm [&>th:last-child]:rounded-br-xl [&>th:last-child]:rounded-tr-sm bg-primary-20"
             >
               {headerGroup.headers.map((header) => {
                 return (
