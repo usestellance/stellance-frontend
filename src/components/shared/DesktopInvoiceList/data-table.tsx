@@ -57,7 +57,7 @@ export function DataTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody className="">
-          {!table.getRowModel().rows?.length ? (
+          {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
                 className="hover:bg-primary-500 hover:text-neutral-500 border-t-10 border-neutral-500 cursor-pointer"
