@@ -16,7 +16,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import InputField from "@/components/ui/custom/InputField";
-import { authRoutes} from "../../../config/constants/routes";
+import { authRoutes } from "../../../config/constants/routes";
 import { useRouter } from "next/navigation";
 import { useToast } from "../../../hooks/useToast";
 import { ResetPasswordSchema } from "../../../lib/validations/authValidations";
@@ -48,18 +48,16 @@ export default function ResetPasswordForm() {
     }, 1000);
   };
 
-   // Watch password value from RHF
-    const passwordValue = useWatch({
-      control: form.control,
-      name: "password",
-    });
-  
-    // Calculate strength using useMemo
-    const strength = useMemo(() => {
-      return getPasswordStrength(passwordValue ?? "");
-    }, [passwordValue]);
-  
-   
+  // Watch password value from RHF
+  const passwordValue = useWatch({
+    control: form.control,
+    name: "password",
+  });
+
+  // Calculate strength using useMemo
+  const strength = useMemo(() => {
+    return getPasswordStrength(passwordValue ?? "");
+  }, [passwordValue]);
 
   return (
     <div className="space-y-6">

@@ -5,6 +5,7 @@ import { invoiceRoutes } from "../../../../config/constants/routes";
 import { StatsCards } from "../../../../features/dashboard/components/StatsCards";
 import { ChartAreaInteractive } from "../../../../features/dashboard/components/AreaChart";
 import { ChartPieInteractive } from "../../../../features/dashboard/components/PieChart";
+import LatestInvoices from "../../../../features/dashboard/components/LatestInvoices";
 
 export default function Page() {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function Page() {
             <p className="sm:text-2xl lg:text-3xl line-clamp-1">
               Good day, John
             </p>
-            <p className="text-xs font-light sm:text-base">
+            <p className="text-sm font-light sm:text-base">
               Let&apos;s manage your invoices
             </p>
           </div>
@@ -44,6 +45,12 @@ export default function Page() {
         </div>
         <div className="lg:w-1/2 border-2 lg:border-[5px] border-primary-20 lg:rounded-[10px] overflow-hidden">
           <ChartPieInteractive />{" "}
+        </div>
+      </section>
+
+      <section className="mt-10 lg:mt-[60px]">
+        <div className="custom-container">
+          <LatestInvoices />
         </div>
       </section>
     </div>
