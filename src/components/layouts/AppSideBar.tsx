@@ -1,5 +1,5 @@
 "use client";
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { Calendar, Home, Inbox, Search } from "lucide-react";
 
 import {
   Sidebar,
@@ -37,11 +37,6 @@ const items = [
     url: "#",
     icon: Search,
   },
-  {
-    title: "Sign out",
-    url: "#",
-    icon: Settings,
-  },
 ];
 
 export function AppSidebar() {
@@ -56,7 +51,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      className="bg-neutral-500 shadow-lg  rounded-tr-[20px] rounded-br-[20px]
+      className="bg-neutral-500 shadow-xl  rounded-tr-[20px] rounded-br-[20px]
     md:rounded-tr-[20px] md:rounded-br-[20px] z-50"
     >
       <SidebarHeader className="bg-neutral-500">
@@ -82,6 +77,17 @@ export function AppSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link
+                href="/"
+                onClick={handleLinkClick} // Add click handler
+                className="h-[43px] flex justify-center items-center rounded-md transition-all data-[active=true]:bg-primary-50 data-[active=true]:text-primary-600 data-[active=true]:font-bold text-[20px] mt-16 text-error-400"
+              >
+                <span>Sign Out</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>
     </Sidebar>
