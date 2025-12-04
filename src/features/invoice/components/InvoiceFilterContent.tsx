@@ -16,6 +16,12 @@ import {
 } from "../../../components/ui/select";
 
 import { invoiceStatusOptions } from "../../../config/constants";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../../components/ui/tabs";
 
 const InvoiceFilterContent = () => {
   const { searchTerm, setSearchTerm, status, setStatus } = useInvoiceFilter();
@@ -29,26 +35,26 @@ const InvoiceFilterContent = () => {
           name="search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="border-0 bg-primary-20 placeholder:text-neutral-900 placeholder:font-normal pl-7 placeholder:text-xs"
-          placeholder="Search"
+          className="border-0 bg-primary-20 lg:h-12 placeholder:text-neutral-900 placeholder:font-normal pl-7 lg:pl-9 placeholder:text-xs lg:placeholder:text-base"
+          placeholder="Search by payer name or  invoice number..."
         />
-        <IoIosSearch className="absolute text-neutral-900 top-[45%] left-2 text-base" />
+        <IoIosSearch className="absolute text-neutral-900 top-[45%] lg:top-[40%] left-2 lg:left-3 text-base lg:text-xl" />
       </div>
 
       {/* STATUS SELECT */}
-      <div className="mt-5">
+      <div className="mt-5 xl:hidden">
         <Select
           value={status}
           onValueChange={(val: InvoiceStatus) => setStatus(val)}
         >
-          <SelectTrigger className="h-[30px] rounded-[6px] min-w-[100px] max-w-[150px] shadow-none border-neutral-800 text-xs font-medium bg-white px-2.5">
+          <SelectTrigger className="h-[30px] rounded-[6px] min-w-[100px] md:min-w-[200px] max-w-[150px] shadow-none border-neutral-800 text-xs font-medium bg-white px-2.5 md:text-base">
             <SelectValue />
           </SelectTrigger>
 
-          <SelectContent className="">
+          <SelectContent className="min-w-[100px] md:min-w-[200px]">
             {invoiceStatusOptions.map((opt) => (
               <SelectItem
-                className="data-[state=checked]:bg-primary-50 data-[state=checked]:text-primary font-meduim"
+                className="data-[state=checked]:bg-primary-50 data-[state=checked]:text-primary font-meduim md:text-base"
                 key={opt.value}
                 value={opt.value}
               >
@@ -57,6 +63,28 @@ const InvoiceFilterContent = () => {
             ))}
           </SelectContent>
         </Select>
+      </div>
+
+      {/* Tabs for desktop */}
+      <div className="max-xl:hidden mt-[30px]">
+        <Tabs defaultValue="all" className="w-full h-[54px]">
+          <TabsList className="w-full h-full bg-primary-20">
+            {invoiceStatusOptions.map((opt, i) => (
+              <TabsTrigger
+                key={i}
+                onClick={() => setStatus(opt.value)}
+                value={opt.value}
+                className="text-[20px] data-[state=active]:bg-primary-50   rounded-[10px] cursor-pointer"
+              >
+                {opt.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          <TabsContent value="account">
+            Make changes to your account here.
+          </TabsContent>
+          <TabsContent value="password">Change your password here.</TabsContent>
+        </Tabs>
       </div>
     </div>
   );

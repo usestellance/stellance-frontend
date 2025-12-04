@@ -4,7 +4,7 @@ import { InvoiceType } from "../../../types/invoiceTypes";
 import { DataTable } from "../../../components/shared/DesktopInvoiceList/data-table";
 import { columns } from "../../../components/shared/DesktopInvoiceList/columns";
 
-const mockInvoices: InvoiceType[] = [
+export const mockInvoices: InvoiceType[] = [
   {
     id: "inv_001",
     invoice_number: "INV-001",

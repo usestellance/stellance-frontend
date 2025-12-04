@@ -1,4 +1,4 @@
-import React from "react";
+'use client'
 import { StatusBadge } from "./InvoiceStatusBadge";
 import { InvoiceType } from "../../types/invoiceTypes";
 import { formatCurrency } from "../../lib/utils/helpers";
