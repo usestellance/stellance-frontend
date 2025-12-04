@@ -1,4 +1,5 @@
 import React from "react";
+import ChooseTemplate from "../../../../../../features/invoice/components/ChooseTemplate";
 
 export default function Page() {
   return (
@@ -13,6 +14,12 @@ export default function Page() {
       </section>
 
       <section className="mt-10">
+        <div className="max-w-[2000px] mx-auto pl-4 sm:pl-[30px] md:pl-10 bg-pink-40">
+          <ChooseTemplate />
+        </div>
+      </section>
+
+      <section>
         <div className="custom-container">hello</div>
       </section>
     </div>
