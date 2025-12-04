@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { authRoutes } from "../../../../config/constants/routes";
+import { authRoutes } from "../../../../config/routes";
 import ResetPasswordForm from "../../../../features/auth/components/ResetPasswordForm";
 
 export default function Page() {

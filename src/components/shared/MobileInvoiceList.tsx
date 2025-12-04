@@ -3,7 +3,7 @@ import { StatusBadge } from "./InvoiceStatusBadge";
 import { InvoiceType } from "../../types/invoiceTypes";
 import { formatCurrency } from "../../lib/utils/helpers";
 import { useRouter } from "next/navigation";
-import { invoiceRoutes } from "../../config/constants/routes";
+import { invoiceRoutes } from "../../config/routes";
 
 interface InvoiceCardProps {
   invoice: InvoiceType;

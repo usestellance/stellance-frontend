@@ -13,7 +13,8 @@ export const dashboardRoutes = {
 export const invoiceRoutes = {
   INVOICES: "/invoices",
   CREATE: "/invoices/create",
-  PREVIEW_INVOICE: (invoice_id:string) => `/invoices/${invoice_id}/preview`
+  CHOOSE_TEMPLATE: "/invoices/create/choose-template",
+  PREVIEW_INVOICE: (invoice_id: string) => `/invoices/${invoice_id}/preview`,
 };
 export const profileRoutes = {
   PROFILE: "/profile",

@@ -17,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import InputField from "@/components/ui/custom/InputField";
 import { FcGoogle } from "react-icons/fc";
-import { authRoutes, dashboardRoutes } from "../../../config/constants/routes";
+import { authRoutes, dashboardRoutes } from "../../../config/routes";
 import { useRouter } from "next/navigation";
 import { useToast } from "../../../hooks/useToast";
 import { SignInSchema } from "../../../lib/validations/authValidations";

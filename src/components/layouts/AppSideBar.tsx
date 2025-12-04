@@ -11,7 +11,7 @@ import {
   useSidebar, // Import this hook
 } from "@/components/ui/sidebar";
 import Logo from "../shared/Logo";
-import { dashboardRoutes, invoiceRoutes } from "../../config/constants/routes";
+import { dashboardRoutes, invoiceRoutes } from "../../config/routes";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 

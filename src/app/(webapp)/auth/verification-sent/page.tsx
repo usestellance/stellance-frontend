@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "../../../../hooks/useToast";
-import { authRoutes } from "../../../../config/constants/routes";
+import { authRoutes } from "../../../../config/routes";
 
 export default function Page() {
   const [loading, setLoading] = useState(false);

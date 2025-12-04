@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import SignUpForm from "../../../../features/auth/components/SignUpForm";
-import { authRoutes } from "../../../../config/constants/routes";
+import { authRoutes } from "../../../../config/routes";
 
 export default function Page() {
   return (

@@ -16,7 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { invoiceRoutes } from "../../../config/constants/routes";
+import { invoiceRoutes } from "../../../config/routes";
 import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {

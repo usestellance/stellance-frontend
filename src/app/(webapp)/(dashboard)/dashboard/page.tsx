@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { Button } from "../../../../components/ui/button";
-import { invoiceRoutes } from "../../../../config/constants/routes";
+import { invoiceRoutes } from "../../../../config/routes";
 import { StatsCards } from "../../../../features/dashboard/components/StatsCards";
 import { ChartAreaInteractive } from "../../../../features/dashboard/components/AreaChart";
 import { ChartPieInteractive } from "../../../../features/dashboard/components/PieChart";
@@ -24,7 +24,7 @@ export default function Page() {
           </div>
           <div>
             <Button
-              onClick={() => router.push(invoiceRoutes.CREATE)}
+              onClick={() => router.push(invoiceRoutes.CHOOSE_TEMPLATE)}
               className="lg:min-w-[200px]"
               variant="secondary"
             >

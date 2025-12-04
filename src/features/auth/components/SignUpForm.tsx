@@ -19,7 +19,7 @@ import InputField from "@/components/ui/custom/InputField";
 import { SignUpSchema } from "../../../lib/validations/authValidations";
 import { getPasswordStrength } from "../../../lib/utils";
 import { FcGoogle } from "react-icons/fc";
-import { authRoutes } from "../../../config/constants/routes";
+import { authRoutes } from "../../../config/routes";
 import { useRouter } from "next/navigation";
 import { useToast } from "../../../hooks/useToast";
 

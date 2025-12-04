@@ -16,7 +16,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import InputField from "@/components/ui/custom/InputField";
-import { authRoutes } from "../../../config/constants/routes";
+import { authRoutes } from "../../../config/routes";
 import { useRouter } from "next/navigation";
 import { useToast } from "../../../hooks/useToast";
 import { ResetPasswordSchema } from "../../../lib/validations/authValidations";

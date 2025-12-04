@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { authRoutes } from "../../config/constants/routes";
+import { authRoutes } from "../../config/routes";
 
 export default function Home() {
   return (

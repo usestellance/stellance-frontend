@@ -21,7 +21,7 @@ import { useToast } from "../../../hooks/useToast";
 import { SetUpAccountSchema } from "../../../lib/validations/authValidations";
 import { Combobox } from "../../../components/ui/custom/ComboBox";
 import { countryCodes } from "../../../config/constants/countries";
-import { authRoutes } from "../../../config/constants/routes";
+import { authRoutes } from "../../../config/routes";
 import { useRouter } from "next/navigation";
 
 type SetUpAccountValues = z.infer<typeof SetUpAccountSchema>;
