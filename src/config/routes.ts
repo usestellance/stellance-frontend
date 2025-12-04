@@ -19,3 +19,6 @@ export const invoiceRoutes = {
 export const profileRoutes = {
   PROFILE: "/profile",
 };
+export const notificationRoutes = {
+  NOTIFICATIONS: "/notifications",
+};

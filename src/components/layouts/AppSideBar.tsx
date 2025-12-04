@@ -4,6 +4,7 @@ import { Calendar, Home, Inbox, Search } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -78,15 +79,17 @@ export function AppSidebar() {
             </SidebarMenuItem>
           ))}
           <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <Link
-                href="/"
-                onClick={handleLinkClick} // Add click handler
-                className="h-[43px] flex justify-center items-center rounded-md transition-all data-[active=true]:bg-primary-50 data-[active=true]:text-primary-600 data-[active=true]:font-bold text-[20px] mt-16 text-error-400"
-              >
-                <span>Sign Out</span>
-              </Link>
-            </SidebarMenuButton>
+            <SidebarFooter className="">
+              <SidebarMenuButton asChild>
+                <Link
+                  href="/"
+                  onClick={handleLinkClick} // Add click handler
+                  className="h-[43px] flex justify-center items-center rounded-md transition-all data-[active=true]:bg-primary-50 data-[active=true]:text-primary-600 data-[active=true]:font-bold text-[20px] mt-16 text-error-400"
+                >
+                  <span>Sign Out</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarFooter>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>

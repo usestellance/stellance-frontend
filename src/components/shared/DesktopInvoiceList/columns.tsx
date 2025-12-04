@@ -14,7 +14,7 @@ export const columns: ColumnDef<InvoiceType>[] = [
       return (
         <div className="flex flex-col">
           <span className="font-medium">{row.original.payer_name}</span>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm text-neutral-900">
             {row.original.payer_email}
           </span>
         </div>

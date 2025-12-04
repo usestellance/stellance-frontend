@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 
 interface InputProps {
   name: string;
-  label: string;
+  label?: string;
   type?: string;
   placeholder?: string;
   value: string | number;
