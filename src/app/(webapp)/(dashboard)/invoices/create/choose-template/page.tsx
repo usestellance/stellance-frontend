@@ -3,10 +3,22 @@ import Image from "next/image";
 import { invoiceTemplates } from "../../../../../../config/templates";
 import ChooseTemplate from "../../../../../../features/invoice/components/ChooseTemplate";
 import { useTemplateStore } from "../../../../../../store/useTemplate";
+import { Button } from "../../../../../../components/ui/button";
+import { useRouter } from "next/navigation";
+import { invoiceRoutes } from "../../../../../../config/routes";
 
 export default function Page() {
   const { selectedTemplate } = useTemplateStore();
   const temp = invoiceTemplates.find((t) => t.id === selectedTemplate);
+  const router = useRouter();
+
+  const proceed = (p: boolean) => {
+    if (p) {
+      router.push(invoiceRoutes.CREATE);
+    } else {
+      router.push(invoiceRoutes.INVOICES);
+    }
+  };
 
   return (
     <div className="pb-20 ">
@@ -40,6 +52,18 @@ export default function Page() {
                 className="h-full w-full object-contain"
               />
             )}
+          </div>
+          <div className="flex max-w-full gap-[30px]  justify-center mt-[23px] lg:mt-10">
+            <Button onClick={() => proceed(true)} className="in-app-btn">
+              Use Invoice
+            </Button>
+            <Button
+              onClick={() => proceed(false)}
+              className="in-app-btn"
+              variant="outline"
+            >
+              Cancel
+            </Button>
           </div>
         </div>
       </section>
