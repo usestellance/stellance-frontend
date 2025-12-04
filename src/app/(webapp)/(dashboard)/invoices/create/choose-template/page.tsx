@@ -1,7 +1,13 @@
-import React from "react";
+"use client";
+import Image from "next/image";
+import { invoiceTemplates } from "../../../../../../config/templates";
 import ChooseTemplate from "../../../../../../features/invoice/components/ChooseTemplate";
+import { useTemplateStore } from "../../../../../../store/useTemplate";
 
 export default function Page() {
+  const { selectedTemplate } = useTemplateStore();
+  const temp = invoiceTemplates.find((t) => t.id === selectedTemplate);
+
   return (
     <div className="pb-20 ">
       <section className="bg-primary-500">
@@ -14,13 +20,28 @@ export default function Page() {
       </section>
 
       <section className="mt-10">
-        <div className="max-w-[2000px] mx-auto pl-4 sm:pl-[30px] md:pl-10 bg-pink-40">
+        <div className="w-full lg:max-w-fit mx-auto pl-4 sm:pl-[30px] md:pl-10 bg-pink-40">
           <ChooseTemplate />
         </div>
       </section>
 
-      <section>
-        <div className="custom-container">hello</div>
+      <section className="mt-8 md:mt-20 ">
+        <div className="custom-container overflow-x-auto">
+          <h3 className="lg:text-2xl font-light italic xl:text-center">
+            Preview Template
+          </h3>
+          <div className="w-full max-w-[955px] min-[770px]:max-w-[500px] lg:max-w-[995px] mx-auto">
+            {temp && (
+              <Image
+                src={temp.thumbnail}
+                alt={temp.name}
+                width={500}
+                height={500}
+                className="h-full w-full object-contain"
+              />
+            )}
+          </div>
+        </div>
       </section>
     </div>
   );
