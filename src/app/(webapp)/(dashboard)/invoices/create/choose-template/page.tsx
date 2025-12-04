@@ -42,29 +42,31 @@ export default function Page() {
           <h3 className="lg:text-2xl font-light italic xl:text-center">
             Preview Template
           </h3>
-          <div className="w-full max-w-[955px] min-[770px]:max-w-[500px] lg:max-w-[995px] mx-auto">
-            {temp && (
-              <Image
-                src={temp.thumbnail}
-                alt={temp.name}
-                width={500}
-                height={500}
-                className="h-full w-full object-contain"
-              />
-            )}
-          </div>
-          <div className="flex max-w-full gap-[30px]  justify-center mt-[23px] lg:mt-10">
-            <Button onClick={() => proceed(true)} className="in-app-btn">
-              Use Invoice
-            </Button>
-            <Button
-              onClick={() => proceed(false)}
-              className="in-app-btn"
-              variant="outline"
-            >
-              Cancel
-            </Button>
-          </div>
+          {temp && (
+            <>
+              <div className="w-full max-w-[955px] min-[770px]:max-w-[500px] lg:max-w-[995px] mx-auto">
+                <Image
+                  src={temp.thumbnail}
+                  alt={temp.name}
+                  width={500}
+                  height={500}
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              <div className="flex max-w-full gap-[30px]  justify-center mt-[23px] lg:mt-10">
+                <Button onClick={() => proceed(true)} className="in-app-btn">
+                  Use Invoice
+                </Button>
+                <Button
+                  onClick={() => proceed(false)}
+                  className="in-app-btn"
+                  variant="outline"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </section>
     </div>
