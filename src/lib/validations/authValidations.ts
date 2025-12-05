@@ -16,15 +16,26 @@ export const SignUpSchema = z
 
     password: z
       .string()
-      .nonempty("Password is required")
-      .min(8, "At least 8 characters")
+      .min(6, "Password must be at least 6 characters")
       .refine(
-        (value) => /[\d@$!%*?&]/.test(value), // number or symbol
-        "Contain a number or symbol"
+        (v) => /[A-Z]/.test(v),
+        "Must contain at least 1 uppercase letter"
       )
-      .refine((value) => isStrongPassword(value), "Password strength: Weak"),
+      .refine(
+        (v) => /[a-z]/.test(v),
+        "Must contain at least 1 lowercase letter"
+      )
+      .refine((v) => /\d/.test(v), "Must contain at least 1 number")
+      .refine(
+        (v) => /[@$!%*?&.,_\-+=#]/.test(v),
+        "Must contain at least 1 symbol"
+      ),
 
     confirmPassword: z.string().nonempty("Please confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
   })
 
   // ❌ Password must NOT contain email

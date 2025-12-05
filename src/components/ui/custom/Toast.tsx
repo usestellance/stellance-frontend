@@ -42,12 +42,12 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast }) => {
 
   return (
     <div
-      className={`h-[65px] w-full  rounded-tl-[12px] rounded-bl-[12px] px-5 py-2 flex items-center gap-5 ${config.bg} shadow-md animate-in slide-in-from-right duration-300`}
+      className={`min-h-[65px] w-full  rounded-tl-[12px] rounded-bl-[12px] px-5 py-2 flex items-center gap-5 ${config.bg} shadow-md animate-in slide-in-from-right duration-300`}
     >
       <div className={`w-[7px] h-[49px] ${config.bar} rounded-full`}></div>
       <div className={`${config.text} flex items-center gap-2.5 flex-1`}>
         <Icon size={24} className="min-w-6" />
-        <span className="text-sm font-medium line-clamp-2">
+        <span className="text-sm font-medium line-clamp">
           {toast.message}
         </span>
       </div>
