@@ -15,28 +15,23 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { initializeAuth, logout, setCredentials } = userAuth();
+  const { initializeAuth, logout, setCredentials, credentials } = userAuth();
 
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // ✅ Step 1: Mark auth as initialized on mount
   useEffect(() => {
     initializeAuth();
     setIsInitialized(true);
   }, []);
 
-  // ✅ Step 2: Check if access_token exists in cookies
   const accessToken = Cookies.get("access_token");
-  // ✅ Step 3: Fetch user if token is found
+
   const {
     isLoading: isUserLoading,
     isError: isUserError,
     data,
   } = useGetUser(isInitialized && !!accessToken);
 
-  console.log(data);
-
-  // ✅ Step 4: Redirect to login if no token or user fetch fails
   useEffect(() => {
     if (isInitialized && !accessToken) {
       logout();
@@ -47,12 +42,14 @@ export default function AuthProvider({
       logout();
       router.replace(authRoutes.LOGIN);
     }
+  }, [isInitialized, accessToken, isUserError]);
 
+  useEffect(() => {
     if (accessToken && data) setCredentials(accessToken, data);
-  }, [isInitialized, accessToken, isUserError, data]);
+  }, [data, accessToken, isInitialized]);
 
-  //   ✅ Step 6: Wait until everything is ready
-  if (!isInitialized || isUserLoading) {
+  // ✅ Wait until credentials are actually set
+  if (!isInitialized || isUserLoading || !credentials?.user.profile) {
     return <PageLoading />;
   }
 

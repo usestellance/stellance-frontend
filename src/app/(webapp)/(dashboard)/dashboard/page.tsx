@@ -9,9 +9,9 @@ import LatestInvoices from "../../../../features/dashboard/components/LatestInvo
 import { userAuth } from "../../../../store/userAuthStore";
 
 export default function Page() {
-  const { credentials } = userAuth();
   const router = useRouter();
-  console.log(credentials);
+  const { credentials } = userAuth();
+  // console.log(credentials);
 
   return (
     <div className="pb-20 ">
@@ -19,7 +19,7 @@ export default function Page() {
         <div className="custom-container text-neutral-comment flex justify-between items-center py-6 max-lg:mt-8 gap-2">
           <div className="flex flex-col gap-1">
             <p className="sm:text-2xl lg:text-3xl line-clamp-1">
-              Good day, John
+              Good day, {credentials?.user?.profile?.first_name || ""}
             </p>
             <p className="text-sm font-light sm:text-base">
               Let&apos;s manage your invoices

@@ -1,12 +1,17 @@
+"use client";
 import { SidebarTrigger } from "../ui/sidebar";
 import Logo from "../shared/Logo";
 import { PiUserCircleThin } from "react-icons/pi";
 import { IoNotificationsOutline } from "react-icons/io5";
 import Link from "next/link";
 import { notificationRoutes, profileRoutes } from "../../config/routes";
+import { userAuth } from "../../store/userAuthStore";
 
 export default function DashboardHeader() {
-  // add hover to header icons
+  const { credentials } = userAuth();
+
+  console.log(credentials);
+
   const iconBg =
     "bg-primary-50/40 rounded-full flex justify-center items-center w-10 h-10 lg:w-[50px] lg:h-[50px] text-primary-500 duration-150 hover:text-white hover:bg-primary-500 cursor-pointer";
   return (
@@ -46,7 +51,9 @@ export default function DashboardHeader() {
                 />
               </svg> */}
             </div>
-            <p className="max-md:hidden text-xl font-bold">John Doe</p>
+            <p className="max-md:hidden text-xl font-bold">
+              {credentials?.user?.profile?.first_name || ""}
+            </p>
           </Link>
           <div className={`${iconBg} md:hidden`}>
             <SidebarTrigger />

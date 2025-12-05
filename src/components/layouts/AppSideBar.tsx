@@ -15,6 +15,7 @@ import Logo from "../shared/Logo";
 import { dashboardRoutes, invoiceRoutes } from "../../config/routes";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { userAuth } from "../../store/userAuthStore";
 
 // Menu items.
 const items = [
@@ -43,6 +44,7 @@ const items = [
 export function AppSidebar() {
   const pathname = usePathname();
   const { setOpenMobile, isMobile } = useSidebar(); // Get sidebar controls
+  const { logout } = userAuth();
 
   const handleLinkClick = () => {
     if (isMobile) {
@@ -81,13 +83,12 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarFooter className="">
               <SidebarMenuButton asChild>
-                <Link
-                  href="/"
-                  onClick={handleLinkClick} // Add click handler
-                  className="h-[43px] flex justify-center items-center rounded-md transition-all data-[active=true]:bg-primary-50 data-[active=true]:text-primary-600 data-[active=true]:font-bold text-[20px] mt-16 text-error-400"
+                <p
+                  onClick={logout} // Add click handler
+                  className="h-[43px] flex justify-center items-center rounded-md transition-all data-[active=true]:bg-primary-50 data-[active=true]:text-primary-600 data-[active=true]:font-bold text-[20px] mt-16 text-error-400 cursor-pointer"
                 >
                   <span>Sign Out</span>
-                </Link>
+                </p>
               </SidebarMenuButton>
             </SidebarFooter>
           </SidebarMenuItem>
