@@ -10,7 +10,7 @@ import { userAuth } from "../../store/userAuthStore";
 export default function DashboardHeader() {
   const { credentials } = userAuth();
 
-  console.log(credentials);
+  // console.log(credentials);
 
   const iconBg =
     "bg-primary-50/40 rounded-full flex justify-center items-center w-10 h-10 lg:w-[50px] lg:h-[50px] text-primary-500 duration-150 hover:text-white hover:bg-primary-500 cursor-pointer";

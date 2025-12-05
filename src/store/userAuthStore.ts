@@ -36,7 +36,7 @@ export const userAuth = create<AuthState>((set) => ({
     Cookies.remove("access_token");
     queryClient.clear();
 
-    console.log("it got here", queryClient);
+    // console.log("it got here", queryClient);
     set(() => ({
       credentials: null,
       isInitialized: true,

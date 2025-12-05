@@ -236,7 +236,7 @@ export const useGetUser = (enabled = true) => {
     if (!response?.data?.data?.profile) {
       throw new Error("User profile data is missing");
     }
-    console.log(response)
+    // console.log(response)
     return response.data.data;
   };
 
