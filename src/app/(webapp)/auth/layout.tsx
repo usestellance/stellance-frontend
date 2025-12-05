@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Logo height="h-[30px] md:h-[40px]" />
           <p className="font-bold max-md:hidden">Stellance</p>
         </div>
-        {children}
+        <div className="max-w-[500px] mx-auto">{children}</div>
       </div>
       <div className="max-lg:hidden w-1/2 bg-primary-20"></div>
     </main>
