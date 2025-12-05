@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import {
   Form,
@@ -19,16 +19,15 @@ import InputField from "@/components/ui/custom/InputField";
 import { SignUpSchema } from "../../../lib/validations/authValidations";
 import { getPasswordStrength } from "../../../lib/utils";
 import { FcGoogle } from "react-icons/fc";
-import { authRoutes } from "../../../config/routes";
-import { useRouter } from "next/navigation";
-import { useToast } from "../../../hooks/useToast";
+import { useRegister } from "../hooks";
 
 type SignUpValues = z.infer<typeof SignUpSchema>;
 
 export default function SignUpForm() {
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const toast = useToast();
+  // const [loading, setLoading] = useState(false);
+  // const router = useRouter();
+  // const toast = useToast();
+  const { mutate, isPending } = useRegister();
 
   const form = useForm<SignUpValues>({
     resolver: zodResolver(SignUpSchema),
@@ -50,14 +49,17 @@ export default function SignUpForm() {
     return getPasswordStrength(passwordValue ?? "");
   }, [passwordValue]);
 
-  const onSubmit = (values: SignUpValues) => {
-    setLoading(true);
-    console.log("Submitted:", values);
-    setTimeout(() => {
-      setLoading(false);
-      toast.success("Sign up successful! Please verify your email.");
-      router.push(`${authRoutes.VERIFICATION_SENT}?email=${values.email}`);
-    }, 1000);
+  const onSubmit = async (values: SignUpValues) => {
+    const { email, password } = values;
+
+    mutate({ email, password });
+    // setLoading(true);
+    // console.log("Submitted:", values);
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   toast.success("Sign up successful! Please verify your email.");
+    //   router.push(`${authRoutes.VERIFICATION_SENT}?email=${values.email}`);
+    // }, 1000);
   };
 
   return (
@@ -167,7 +169,7 @@ export default function SignUpForm() {
             </p>
           </div>
 
-          <Button type="submit" isLoading={loading} className="w-full">
+          <Button type="submit" isLoading={isPending} className="w-full">
             Sign up
           </Button>
         </form>

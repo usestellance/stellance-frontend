@@ -1,6 +1,6 @@
 import React from "react";
 import { IoMdCheckmarkCircle } from "react-icons/io";
-import {  MdWarning, MdInfo } from "react-icons/md";
+import { MdWarning, MdInfo } from "react-icons/md";
 import { Toast } from "../../../store/useToastStore"; // ✅ Import Toast, not ToastType
 
 const toastConfig = {
@@ -36,7 +36,7 @@ interface ToastItemProps {
 }
 
 const ToastItem: React.FC<ToastItemProps> = ({ toast }) => {
-//   const removeToast = useToastStore((state) => state.removeToast);
+  //   const removeToast = useToastStore((state) => state.removeToast);
   const config = toastConfig[toast.type];
   const Icon = config.icon;
 
@@ -46,7 +46,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast }) => {
     >
       <div className={`w-[7px] h-[49px] ${config.bar} rounded-full`}></div>
       <div className={`${config.text} flex items-center gap-2.5 flex-1`}>
-        <Icon size={24} />
+        <Icon size={24} className="min-w-6" />
         <span className="text-sm font-medium line-clamp-2">
           {toast.message}
         </span>

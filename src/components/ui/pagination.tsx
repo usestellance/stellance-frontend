@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
+  // ChevronLeftIcon,
+  // ChevronRightIcon,
   MoreHorizontalIcon,
 } from "lucide-react";
 

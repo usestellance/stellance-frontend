@@ -3,7 +3,6 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 
 import {
   Form,
@@ -17,18 +16,15 @@ import {
 import { Button } from "@/components/ui/button";
 import InputField from "@/components/ui/custom/InputField";
 import { FcGoogle } from "react-icons/fc";
-import { authRoutes, dashboardRoutes } from "../../../config/routes";
-import { useRouter } from "next/navigation";
-import { useToast } from "../../../hooks/useToast";
+import { authRoutes } from "../../../config/routes";
 import { SignInSchema } from "../../../lib/validations/authValidations";
 import Link from "next/link";
+import { useLogin } from "../hooks";
 
 type SignInValues = z.infer<typeof SignInSchema>;
 
 export default function SignInForm() {
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const toast = useToast();
+  const { mutate, isPending } = useLogin();
 
   const form = useForm<SignInValues>({
     resolver: zodResolver(SignInSchema),
@@ -39,13 +35,8 @@ export default function SignInForm() {
   });
 
   const onSubmit = (values: SignInValues) => {
-    setLoading(true);
-    console.log("Submitted:", values);
-    setTimeout(() => {
-      setLoading(false);
-      toast.success("Sign in successful!");
-      router.push(dashboardRoutes.HOME);
-    }, 1000);
+   const { email, password } = values;
+   mutate({ email, password });
   };
 
   return (
@@ -113,7 +104,7 @@ export default function SignInForm() {
             </Link>
           </div>
 
-          <Button type="submit" isLoading={loading} className="w-full">
+          <Button type="submit" isLoading={isPending} className="w-full">
             Sign in
           </Button>
         </form>

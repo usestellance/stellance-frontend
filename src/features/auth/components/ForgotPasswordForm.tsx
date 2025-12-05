@@ -16,17 +16,20 @@ import {
 
 import { Button } from "@/components/ui/button";
 import InputField from "@/components/ui/custom/InputField";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useToast } from "../../../hooks/useToast";
 
 import { ForgotPasswordSchema } from "../../../lib/validations/authValidations";
+import { axiosInstance } from "../../../config/axios";
+import { authRoutes, backendRoutes } from "../../../config/routes";
+import axios from "axios";
 
 type ForgotPasswordValues = z.infer<typeof ForgotPasswordSchema>;
 
 export default function ForgotPasswordForm() {
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
-//   const router = useRouter();
+    const router = useRouter();
   const toast = useToast();
 
   const form = useForm<ForgotPasswordValues>({
@@ -47,14 +50,28 @@ export default function ForgotPasswordForm() {
     }
   }, [cooldown]);
 
-  const onSubmit = (values: ForgotPasswordValues) => {
+  const onSubmit = async (values: ForgotPasswordValues) => {
     setLoading(true);
-    console.log("Submitted:", values);
-    setTimeout(() => {
+    try {
+      const res = await axiosInstance.get(
+        backendRoutes.AUTH_ROUTES.RESET_PASSWORD_EMAIL(values.email)
+      );
+
+      if (res.data) {
+        setLoading(false);
+        toast.success(res?.data?.message);
+        router.push(authRoutes.RESET_PASSWORD);
+      }
+      // console.log(res);
+    } catch (error) {
       setLoading(false);
-      setCooldown(60); // Start 60-second cooldown
-      toast.success("Reset link sent to your email!");
-    }, 1000);
+      const errorMessage =
+        axios.isAxiosError(error) && error?.response?.data?.message
+          ? error?.response?.data?.message
+          : "An unknown error occurred.";
+      toast.error(errorMessage);
+      //   console.log(error?.response?.data);
+    }
   };
 
   const formatTime = (seconds: number) => {
