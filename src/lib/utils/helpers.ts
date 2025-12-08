@@ -39,3 +39,23 @@ export function maskMiddle(
   return `${start}${masked}${end}`;
 }
 
+
+// --------------------------
+// Helper → Time Ago
+// --------------------------
+export const getTimeAgo = (timestamp: string) => {
+  const now = new Date();
+  const notificationTime = new Date(timestamp);
+  const diffMs = now.getTime() - notificationTime.getTime();
+  const minutes = Math.floor(diffMs / 60000);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes} min ago`;
+  if (hours < 24) return `${hours} hr${hours > 1 ? "s" : ""} ago`;
+  if (days === 1) return "yesterday";
+  if (days < 7) return `${days} days ago`;
+
+  return notificationTime.toLocaleDateString();
+};
