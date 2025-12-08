@@ -89,8 +89,10 @@ export function Combobox({
                   key={option.value}
                   value={option.value}
                   keywords={[option.label, option.value]}
-                  onSelect={(currentValue) => {
-                    onChange(currentValue === value ? "" : currentValue);
+                  onSelect={() => {
+                    // ✅ FIX: Use option.value directly instead of currentValue
+                    // CommandItem lowercases the currentValue, causing mismatch
+                    onChange(option.value === value ? "" : option.value);
                     setOpen(false);
                   }}
                 >

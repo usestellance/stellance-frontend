@@ -6,8 +6,9 @@ import { queryClient } from "../components/providers/ReactQueryProvider";
 type AuthState = {
   credentials: {
     access_token: string;
-    user: IUser;
+    user: IUser | null;
   } | null;
+
   isInitialized: boolean;
   setCredentials: (access_token: string, user: IUser) => void;
   logout: () => void;
@@ -45,12 +46,12 @@ export const userAuth = create<AuthState>((set) => ({
 
   initializeAuth: () => {
     const access_token = Cookies.get("access_token");
+
     if (access_token) {
-      // Don’t set user here — will be fetched via /profile/me
       set(() => ({
         credentials: {
           access_token,
-          user: {} as IUser,
+          user: null, // <-- START WITH NULL
         },
         isInitialized: true,
       }));

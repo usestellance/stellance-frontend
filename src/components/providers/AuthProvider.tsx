@@ -49,7 +49,7 @@ export default function AuthProvider({
   }, [data, accessToken, isInitialized]);
 
   // ✅ Wait until credentials are actually set
-  if (!isInitialized || isUserLoading || !credentials?.user.profile) {
+  if (!isInitialized || isUserLoading || !credentials?.user?.profile) {
     return <PageLoading />;
   }
 

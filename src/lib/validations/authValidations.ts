@@ -126,3 +126,37 @@ export const SetUpAccountSchema = z.object({
 });
 
 export type SetUpAccountValues = z.infer<typeof SetUpAccountSchema>;
+
+export const UpdateUserSchema = z.object({
+  email: z
+    .string()
+    .email("Invalid email address")
+    .nonempty("Email is required"),
+
+  first_name: z
+    .string()
+    .min(2, "First name must be at least 2 characters")
+    .max(50, "First name is too long"),
+
+  last_name: z
+    .string()
+    .min(2, "Last name must be at least 2 characters")
+    .max(50, "Last name is too long"),
+
+  business_name: z
+    .string()
+    .min(2, "Business name must be at least 2 characters")
+    .max(100, "Business name is too long").optional(),
+
+  phone_number: z
+    .string()
+    .nonempty("Phone number is required")
+    .regex(/^\+?\d{7,15}$/, "Invalid phone number").optional(),
+
+  country: z.string().min(2, "Country is required"),
+
+  wallet_address: z
+    .string()
+    .nonempty("Wallet address is required")
+    .regex(/^(0x)?[0-9a-fA-F]{40}$/, "Invalid wallet address"),
+});

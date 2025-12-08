@@ -8,6 +8,7 @@ const Logo = ({ height = "h-[30px]" }: { height?: string }) => {
           src="/images/logo-primary.svg"
           alt="Stellance Logo"
           width={100}
+          loading="eager"
           height={100}
           className="h-full w-full object-contain"
         />
