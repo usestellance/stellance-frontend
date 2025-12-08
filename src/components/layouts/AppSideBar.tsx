@@ -15,7 +15,7 @@ import Logo from "../shared/Logo";
 import { dashboardRoutes, invoiceRoutes } from "../../config/routes";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { userAuth } from "../../store/userAuthStore";
+import { useLogout } from "../../store/userAuthStore";
 
 // Menu items.
 const items = [
@@ -44,7 +44,7 @@ const items = [
 export function AppSidebar() {
   const pathname = usePathname();
   const { setOpenMobile, isMobile } = useSidebar(); // Get sidebar controls
-  const { logout } = userAuth();
+  const logout = useLogout();
 
   const handleLinkClick = () => {
     if (isMobile) {

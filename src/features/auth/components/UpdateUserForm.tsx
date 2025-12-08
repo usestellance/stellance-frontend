@@ -22,8 +22,10 @@ import { UpdateUserSchema } from "../../../lib/validations/authValidations";
 import { Combobox } from "../../../components/ui/custom/ComboBox";
 import { countryCodes } from "../../../config/constants/countries";
 import { authRoutes } from "../../../config/routes";
-import { userAuth } from "../../../store/userAuthStore";
 import ChangePasswordDialog from "./ChangePasswordDialog";
+import { maskMiddle } from "../../../lib/utils/helpers";
+import { useUpdateProfile } from "../hooks";
+import { useAuthStore } from "../../../store/userAuthStore";
 
 type SetUpAccountValues = z.infer<typeof UpdateUserSchema>;
 
@@ -35,16 +37,10 @@ const countryOptions = countryCodes.map((country) => ({
 }));
 
 export default function UpdateUserForm() {
-  // ✅ FIXED: Call ALL hooks at the top level, in a consistent order
-  const router = useRouter();
-  const toast = useToast();
-  const [loading, setLoading] = useState(false);
-
-  // Now call Zustand store hook
-  const credentials = userAuth((state) => state.credentials);
+  const { mutate, isPending } = useUpdateProfile();
+  const credentials = useAuthStore((state) => state.credentials);
   const user = credentials?.user?.profile;
   const wallet = credentials?.user?.wallet;
-  console.log(user);
 
   const form = useForm<SetUpAccountValues>({
     resolver: zodResolver(UpdateUserSchema),
@@ -60,13 +56,15 @@ export default function UpdateUserForm() {
   });
 
   const onSubmit = (values: SetUpAccountValues) => {
-    setLoading(true);
-    console.log("Submitted:", values);
-    setTimeout(() => {
-      setLoading(false);
-      toast.success("Account setup successful!");
-      router.push(authRoutes.CREATE_FIRST_INVOICE);
-    }, 1000);
+    const { business_name, country, first_name, last_name, phone_number } =
+      values;
+    mutate({
+      business_name,
+      country,
+      first_name,
+      last_name,
+      phone_number,
+    });
   };
 
   useEffect(() => {
@@ -78,7 +76,7 @@ export default function UpdateUserForm() {
         business_name: user?.business_name || "",
         phone_number: user?.phone_number || "",
         country: user?.country?.toLowerCase() ?? "",
-        wallet_address: wallet?.address || "",
+        wallet_address: maskMiddle(wallet?.address?.trim() || ""),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -294,7 +292,7 @@ export default function UpdateUserForm() {
             </div> */}
             <Button
               type="submit"
-              isLoading={loading}
+              isLoading={isPending}
               className="w-full max-w-[500px] mx-auto"
             >
               Update

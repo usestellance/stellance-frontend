@@ -6,11 +6,11 @@ import Cookies from "js-cookie";
 
 export default function useAxiosAuth() {
   useEffect(() => {
-    const accessToken = Cookies.get("access_token"); // 👈 get token from cookies
-
-
     const requestIntercept = axiosAuth.interceptors.request.use(
       (config) => {
+        // 👇 Read token on EACH request, not just on mount
+        const accessToken = Cookies.get("access_token");
+
         if (accessToken && !config.headers["Authorization"]) {
           config.headers["Authorization"] = `Bearer ${accessToken}`;
         }
@@ -22,12 +22,35 @@ export default function useAxiosAuth() {
     return () => {
       axiosAuth.interceptors.request.eject(requestIntercept);
     };
-  }, []);
+  }, []); // Empty dependency array is fine now
 
   return axiosAuth;
 }
 
-// "use client";
+// export default function useAxiosAuth() {
+//   useEffect(() => {
+//     const accessToken = Cookies.get("access_token"); // 👈 get token from cookies
+
+
+//     const requestIntercept = axiosAuth.interceptors.request.use(
+//       (config) => {
+//         if (accessToken && !config.headers["Authorization"]) {
+//           config.headers["Authorization"] = `Bearer ${accessToken}`;
+//         }
+//         return config;
+//       },
+//       (error) => Promise.reject(error)
+//     );
+
+//     return () => {
+//       axiosAuth.interceptors.request.eject(requestIntercept);
+//     };
+//   }, []);
+
+//   return axiosAuth;
+// }
+
+// // "use client";
 
 // import { axiosAuth } from "@/config/axios";
 // import { useEffect } from "react";

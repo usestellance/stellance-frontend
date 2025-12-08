@@ -157,6 +157,6 @@ export const UpdateUserSchema = z.object({
 
   wallet_address: z
     .string()
-    .nonempty("Wallet address is required")
-    .regex(/^(0x)?[0-9a-fA-F]{40}$/, "Invalid wallet address"),
+    // .nonempty("Wallet address is required")
+    // .regex(/^(0x)?[0-9a-fA-F]{40}$/, "Invalid wallet address"),
 });

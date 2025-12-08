@@ -16,8 +16,9 @@ import {
   IUser,
   UserFormValues,
 } from "../../../types/userTypes";
-import { userAuth } from "../../../store/userAuthStore";
+import { useLogout } from "../../../store/userAuthStore";
 import useAxiosAuth from "../../../hooks/useAxiosAuth";
+
 export const useRegister = () => {
   const router = useRouter();
   const toast = useToast();
@@ -115,7 +116,7 @@ export const useLogin = () => {
 };
 
 export const useCompleteProfile = () => {
-  const { logout } = userAuth();
+  const logout = useLogout();
   const { post } = useAxiosAuth();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -146,7 +147,7 @@ export const useCompleteProfile = () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
 
       toast.success(data.message);
-      router.push(walletRoutes.WALLET);
+      router.push(authRoutes.CREATE_FIRST_INVOICE);
     },
     onError: (error) => {
       const errorMessage =
@@ -167,22 +168,25 @@ export const useCompleteProfile = () => {
 };
 
 export const useUpdateProfile = () => {
-  const { logout } = userAuth();
-  const { put } = useAxiosAuth();
   const router = useRouter();
-  const queryClient = useQueryClient();
   const toast = useToast();
+  const queryClient = useQueryClient();
+  const axiosAuth = useAxiosAuth();
+  const logout = useLogout();
 
   // Define the function to handle the registration API call
   const handleUpdateProfile = async (data: UserFormValues) => {
     // const response = await get('/auth/clear')
-    const response = await put(backendRoutes.PROFILE_ROUTES.UPDATE_PROFILE, {
-      first_name: data.first_name,
-      last_name: data.last_name,
-      phone_number: data.phone_number,
-      business_name: data.business_name,
-      country: data.country,
-    });
+    const response = await axiosAuth.put(
+      backendRoutes.PROFILE_ROUTES.UPDATE_PROFILE,
+      {
+        first_name: data.first_name,
+        last_name: data.last_name,
+        phone_number: data.phone_number,
+        business_name: data.business_name,
+        country: data.country,
+      }
+    );
     // console.log(response);
     return response.data;
   };
@@ -200,7 +204,7 @@ export const useUpdateProfile = () => {
 
       // console.log(access_token, user);
       // setCredentials(access_token, user);
-      toast.success(data.message);
+      toast.success(data?.message || "");
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
     onError: (error) => {
@@ -208,7 +212,7 @@ export const useUpdateProfile = () => {
         axios.isAxiosError(error) && error?.response?.data?.message
           ? error?.response?.data?.message
           : "An unknown error occurred.";
-      toast.error(errorMessage);
+      toast.error(errorMessage || "");
       if (error.response?.status === 401) {
         router.push(authRoutes.LOGIN);
         logout();
@@ -221,15 +225,10 @@ export const useUpdateProfile = () => {
   return mutation;
 };
 
-
-
-
-
 export const useGetUser = (enabled = true) => {
-    // const toast = useToast();
-    const { get } = useAxiosAuth();
-    // const setCredentials = userAuth((state) => state.setCredentials);
-
+  // const toast = useToast();
+  const { get } = useAxiosAuth();
+  // const setCredentials = userAuth((state) => state.setCredentials);
 
   const handleGetUser = async (): Promise<IUser> => {
     const response = await get(backendRoutes.PROFILE_ROUTES.GET_USER);
@@ -251,19 +250,18 @@ export const useGetUser = (enabled = true) => {
     refetchInterval: 1000 * 60 * 5,
   });
 
+  //   useEffect(() => {
+  //     if (query.isSuccess && query.data) {
+  //       const token = Cookies.get("access_token");
+  //     //   if (token) {
+  //     //     setCredentials(token, query.data);
+  //     //   }
+  //     }
 
-//   useEffect(() => {
-//     if (query.isSuccess && query.data) {
-//       const token = Cookies.get("access_token");
-//     //   if (token) {
-//     //     setCredentials(token, query.data);
-//     //   }
-//     }
-
-//     if (query.isError) {
-//       toast.error("Failed to fetch user profile.");
-//     }
-//   }, [query.isSuccess, query.isError, query.data]);
+  //     if (query.isError) {
+  //       toast.error("Failed to fetch user profile.");
+  //     }
+  //   }, [query.isSuccess, query.isError, query.data]);
 
   return query;
 };

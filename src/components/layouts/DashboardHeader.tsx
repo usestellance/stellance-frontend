@@ -5,11 +5,10 @@ import { PiUserCircleThin } from "react-icons/pi";
 import { IoNotificationsOutline } from "react-icons/io5";
 import Link from "next/link";
 import { notificationRoutes, profileRoutes } from "../../config/routes";
-import { userAuth } from "../../store/userAuthStore";
+import { useAuthStore } from "../../store/userAuthStore";
 
 export default function DashboardHeader() {
-  const { credentials } = userAuth();
-
+  const credentials = useAuthStore((state) => state.credentials);
   // console.log(credentials);
 
   const iconBg =

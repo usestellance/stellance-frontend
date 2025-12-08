@@ -4,10 +4,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { userAuth } from "../../store/userAuthStore";
 import { authRoutes } from "../../config/routes";
 import PageLoading from "../shared/PageLoading";
 import { useGetUser } from "../../features/auth/hooks";
+import { useAuthStore, useLogout } from "../../store/userAuthStore";
 
 export default function AuthProvider({
   children,
@@ -15,7 +15,10 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { initializeAuth, logout, setCredentials, credentials } = userAuth();
+  const logout = useLogout();
+  const credentials = useAuthStore((state) => state.credentials);
+  const setCredentials = useAuthStore((state) => state.setCredentials);
+  const initializeAuth = useAuthStore((state) => state.initializeAuth);
 
   const [isInitialized, setIsInitialized] = useState(false);
 

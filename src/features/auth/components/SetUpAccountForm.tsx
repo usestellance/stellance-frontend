@@ -23,6 +23,7 @@ import { Combobox } from "../../../components/ui/custom/ComboBox";
 import { countryCodes } from "../../../config/constants/countries";
 import { authRoutes } from "../../../config/routes";
 import { useRouter } from "next/navigation";
+import { useCompleteProfile } from "../hooks";
 
 type SetUpAccountValues = z.infer<typeof SetUpAccountSchema>;
 
@@ -34,9 +35,7 @@ const countryOptions = countryCodes.map((country) => ({
 }));
 
 export default function SetUpAccountForm() {
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const toast = useToast();
+  const { mutate, isPending } = useCompleteProfile();
 
   const form = useForm<SetUpAccountValues>({
     resolver: zodResolver(SetUpAccountSchema),
@@ -50,13 +49,9 @@ export default function SetUpAccountForm() {
   });
 
   const onSubmit = (values: SetUpAccountValues) => {
-    setLoading(true);
-    console.log("Submitted:", values);
-    setTimeout(() => {
-      setLoading(false);
-      toast.success("Account setup successful!");
-      router.push(authRoutes.CREATE_FIRST_INVOICE);
-    }, 1000);
+    const { business_name, country, first_name, last_name, phone_number } =
+      values;
+    mutate({ business_name, country, first_name, last_name, phone_number });
   };
 
   return (
@@ -197,7 +192,7 @@ export default function SetUpAccountForm() {
             )}
           />
 
-          <Button type="submit" isLoading={loading} className="w-full mt-2">
+          <Button type="submit" isLoading={isPending} className="w-full mt-2">
             Submit
           </Button>
         </form>
