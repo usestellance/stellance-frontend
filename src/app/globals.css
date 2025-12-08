@@ -98,8 +98,6 @@ body {
   @apply text-[22px] font-bold md:font-normal md:text-3xl lg:text-[36px];
 }
 
-
-
 .in-app-btn {
   @apply w-fit min-w-[130px] sm:min-w-[200px] lg:min-w-[260px];
 }

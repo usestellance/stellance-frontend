@@ -1,8 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const Logo = ({ height = "h-[30px]" }: { height?: string }) => {
   return (
-    <div>
+    <Link href="/">
       <div className={`${height} w-fit bgred-400`}>
         <Image
           src="/images/logo-primary.svg"
@@ -13,7 +14,7 @@ const Logo = ({ height = "h-[30px]" }: { height?: string }) => {
           className="h-full w-full object-contain"
         />
       </div>
-    </div>
+    </Link>
   );
 };
 

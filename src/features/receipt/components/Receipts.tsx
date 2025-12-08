@@ -35,7 +35,9 @@ const Receipts = () => {
 
   return (
     <div>
-      <ReceiptFilter />
+      <div className="mt-10">
+        <ReceiptFilter />
+      </div>
 
       <div className="mt-[30px]">
         {noResults ? (
