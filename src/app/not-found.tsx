@@ -18,10 +18,13 @@ export default function Notfound() {
           </h1>
           <p className="text-center font-light lg:text-[36px]">
             Sorry, the content you&apos;re looking for doesn&apos;t exist.
-            <br className="max-lg:hidden" />
-            Either it was removed, or you mistyped the link.
+            <br className="max-lg:hidden" /> Either it was removed, or you
+            mistyped the link.
           </p>
-          <Button onClick={() => router.back()} className="max-w-[500px] mt-10">
+          <Button
+            onClick={() => router.back()}
+            className="max-w-[250px] sm:max-w-[500px] mt-10"
+          >
             Go Back
           </Button>
         </div>
