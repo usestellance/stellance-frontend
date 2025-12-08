@@ -7,7 +7,7 @@ export default function Page() {
     <div className="pt-5 pb-20">
       <div className="custom-container">
         <h2 className="h2-app">Notifications</h2>
-        <section className="py[15px] mt-5 sm:mt-10">
+        <section className="mt-5 sm:mt-10">
           <Notifications />
         </section>
       </div>

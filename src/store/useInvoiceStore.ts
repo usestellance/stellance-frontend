@@ -41,3 +41,22 @@ export const useInvoiceFilter = create<InvoiceFilterState>((set) => ({
       status: "all",
     }),
 }));
+
+export const useReceiptFilter = create<InvoiceFilterState>((set) => ({
+  page: 1,
+  size: 10,
+  searchTerm: "",
+  status: "paid",
+
+  setSearchTerm: (value) => set({ searchTerm: value }),
+  setStatus: (value) => set({ status: value }),
+  setPage: (page) => set({ page }),
+//   setOrderBy: (order_by) => set({ order_by }),
+//   setPageCount: (page_count) => set({ page_count }),
+
+  resetFilters: () =>
+    set({
+      searchTerm: "",
+      status: "paid",
+    }),
+}));

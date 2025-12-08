@@ -12,7 +12,12 @@ import {
   useSidebar, // Import this hook
 } from "@/components/ui/sidebar";
 import Logo from "../shared/Logo";
-import { dashboardRoutes, invoiceRoutes } from "../../config/routes";
+import {
+  dashboardRoutes,
+  invoiceRoutes,
+  receiptRoutes,
+  walletRoutes,
+} from "../../config/routes";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useLogout } from "../../store/userAuthStore";
@@ -31,12 +36,12 @@ const items = [
   },
   {
     title: "Wallet",
-    url: "#",
+    url: walletRoutes.WALLET,
     icon: Calendar,
   },
   {
     title: "Receipt",
-    url: "#",
+    url: receiptRoutes.RECEIPTS,
     icon: Search,
   },
 ];

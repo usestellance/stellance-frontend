@@ -24,6 +24,9 @@ export const profileRoutes = {
 export const walletRoutes = {
   WALLET: "/wallet",
 };
+export const receiptRoutes = {
+  RECEIPTS: "/receipts",
+};
 export const notificationRoutes = {
   NOTIFICATIONS: "/notifications",
 };
