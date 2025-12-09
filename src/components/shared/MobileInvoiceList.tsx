@@ -1,9 +1,9 @@
-'use client'
+"use client";
 import { StatusBadge } from "./InvoiceStatusBadge";
 import { InvoiceType } from "../../types/invoiceTypes";
 import { formatCurrency } from "../../lib/utils/helpers";
 import { useRouter } from "next/navigation";
-import { invoiceRoutes } from "../../config/routes";
+import { invoiceRoutes, receiptRoutes } from "../../config/routes";
 
 interface InvoiceCardProps {
   invoice: InvoiceType;
@@ -14,7 +14,11 @@ const InvoiceList = ({ invoice }: InvoiceCardProps) => {
   const router = useRouter();
 
   const previewInvoice = () => {
-    router.push(invoiceRoutes.PREVIEW_INVOICE(invoice.id || ""));
+    if (invoice.status === "paid") {
+      router.push(receiptRoutes.PREVIEW_RECEIPT(invoice.id || ""));
+    } else {
+      router.push(invoiceRoutes.PREVIEW_INVOICE(invoice.id || ""));
+    }
   };
 
   return (

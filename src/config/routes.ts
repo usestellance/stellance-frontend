@@ -26,6 +26,7 @@ export const walletRoutes = {
 };
 export const receiptRoutes = {
   RECEIPTS: "/receipts",
+  PREVIEW_RECEIPT: (receipt_id: string) => `/receipts/${receipt_id}`,
 };
 export const notificationRoutes = {
   NOTIFICATIONS: "/notifications",
