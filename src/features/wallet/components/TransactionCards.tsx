@@ -5,7 +5,7 @@ import { ITransaction } from "../../../types/transactionTypes";
 const TransactionCards: FC<ITransaction> = (transaction) => {
   const { type, amount } = transaction;
 
-  console.log(transaction);
+//   console.log(transaction);
   return (
     <div className="bg-primary-20 rounded-[5px] lg:rounded-[10px] py-[13px] pl-2.5 pr-5 flex items-center justify-between lg:py-5 lg:px-7">
       <div className="flex gap-2.5">
