@@ -254,3 +254,28 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  height: 5px;
+  border-radius: 30px;
+  width: 100%;
+  max-width: 200px;
+  --c: no-repeat linear-gradient(#000a2f 0 0);
+  /* background: var(--c), var(--c), #e6e6e6; */
+  background:  var(--c), var(--c), #e6e6e6;
+  background-size: 60% 100%;
+  animation: l16 3s infinite;
+  margin: 0 auto;
+}
+@keyframes l16 {
+  0% {
+    background-position: -150% 0, -150% 0;
+  }
+  66% {
+    background-position: 250% 0, -150% 0;
+  }
+  100% {
+    background-position: 250% 0, 250% 0;
+  }
+}

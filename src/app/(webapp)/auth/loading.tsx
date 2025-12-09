@@ -1,5 +1,5 @@
 import PageLoading from "../../../components/shared/PageLoading";
 
 export default function Loading() {
-  return <PageLoading showLogo={false} />;
+  return <PageLoading showLogo={false} />
 }

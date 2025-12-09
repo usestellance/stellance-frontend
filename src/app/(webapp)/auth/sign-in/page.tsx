@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { authRoutes } from "../../../../config/routes";
 import SignInForm from "../../../../features/auth/components/SignInForm";
+import PageLoading from "../../../../components/shared/PageLoading";
 
 export default function Page() {
   return (

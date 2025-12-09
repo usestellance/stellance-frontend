@@ -14,6 +14,11 @@ export default function PageLoading({
       <div
         className={`h-[80%] flex flex-col bg-red300 justify-center items-center"`}
       >
+        <div className="loader"></div>
+      </div>
+      {/* <div
+        className={`h-[80%] flex flex-col bg-red300 justify-center items-center"`}
+      >
         <svg
           className="svg-loader mx-auto"
           width="100"
@@ -38,7 +43,7 @@ export default function PageLoading({
             </clipPath>
           </defs>
         </svg>
-      </div>
+      </div> */}
     </div>
   );
 }
