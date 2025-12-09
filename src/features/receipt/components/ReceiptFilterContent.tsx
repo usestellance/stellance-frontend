@@ -1,28 +1,9 @@
 "use client";
-
+import { BiPrinter } from "react-icons/bi";
 import InputField from "../../../components/ui/custom/InputField";
 import { IoIosSearch } from "react-icons/io";
-import {
-  useInvoiceFilter,
-  InvoiceStatus,
-  useReceiptFilter,
-} from "../../../store/useInvoiceStore";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../../components/ui/select";
-
-import { invoiceStatusOptions } from "../../../config/constants";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../../../components/ui/tabs";
+import { useReceiptFilter } from "../../../store/useInvoiceStore";
+import { ExportReceipt } from "./ExportReceipt";
 
 const ReceiptFilterContent = () => {
   const { searchTerm, setSearchTerm } = useReceiptFilter();
@@ -40,6 +21,13 @@ const ReceiptFilterContent = () => {
           placeholder="Search by payer name or  invoice number..."
         />
         <IoIosSearch className="absolute text-neutral-900 top-[45%] lg:top-[40%] left-2 lg:left-3 text-base lg:text-xl" />
+      </div>
+
+      <div className="mt-[30px] flex justify-end gap-2.5 lg:gap-5">
+        <ExportReceipt />
+        <div className="rounded-[5px] w-11 h-9 flex items-center justify-center cursor-pointer lg:rounded-xl bg-primary-50 hover:bg-primary-500 hover:text-white text-primary-500  lg:w-[60px] lg:h-[52px] duration-200">
+          <BiPrinter className="text-xl" />
+        </div>
       </div>
     </div>
   );
