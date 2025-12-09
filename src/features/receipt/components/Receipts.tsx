@@ -36,14 +36,12 @@ const Receipts = () => {
   return (
     <div>
       <div className="mt-10">
-        <ReceiptFilter />
+        {/* Pass filteredData to ReceiptFilter */}
+        <ReceiptFilter filteredData={filteredData} />
       </div>
 
       <div className="mt-[30px]">
         {noResults ? (
-          // ================================
-          // EMPTY STATE
-          // ================================
           <div className="mt-14 flex flex-col items-center gap-8 md:mt-20 lg:mt-24">
             <Image
               src="/images/no-Invoice-svg.svg"
@@ -60,23 +58,17 @@ const Receipts = () => {
             </p>
           </div>
         ) : (
-          // ================================
-          // DATA LIST
-          // ================================
           <>
-            {/* MOBILE LIST */}
             <div className="space-y-[15px] xl:hidden">
               {filteredData.map((inv) => (
                 <InvoiceCard key={inv.id} invoice={inv} />
               ))}
             </div>
 
-            {/* DESKTOP TABLE */}
             <div className="max-xl:hidden overflow-x-auto">
               <DataTable data={filteredData} columns={columns} />
             </div>
 
-            {/* PAGINATION */}
             <div className="mt-10 lg:mt-[60px]">
               <ReceiptPagination />
             </div>

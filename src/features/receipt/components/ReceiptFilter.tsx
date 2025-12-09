@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { InvoiceType } from "../../../types/invoiceTypes";
 
 // Create a loading placeholder that matches your component's layout
 const LoadingPlaceholder = () => <div></div>;
@@ -11,8 +12,12 @@ const ReceiptFilterContent = dynamic(() => import("./ReceiptFilterContent"), {
   loading: () => <LoadingPlaceholder />,
 });
 
-const ReceiptFilter = () => {
-  return <ReceiptFilterContent />;
+interface ReceiptFilterProps {
+  filteredData: InvoiceType[];
+}
+
+const ReceiptFilter = ({ filteredData }: ReceiptFilterProps) => {
+  return <ReceiptFilterContent filteredData={filteredData} />;
 };
 
 export default ReceiptFilter;

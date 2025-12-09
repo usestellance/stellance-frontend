@@ -32,6 +32,11 @@ export const notificationRoutes = {
   NOTIFICATIONS: "/notifications",
 };
 
+export const clientRoutes = {
+  PREVIEW_RECEIPT: (id: string) => `/client/${id}/receipt`,
+  PREVIEW_INVOICE: (id: string) => `/client/${id}/invoice`,
+};
+
 export const backendRoutes = {
   AUTH_ROUTES: {
     SIGN_UP: "/auth/signup",
