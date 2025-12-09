@@ -8,6 +8,7 @@ import { formatWalletCurrency, maskMiddle } from "../../../lib/utils/helpers";
 import { RiFileCopyLine } from "react-icons/ri";
 import WalletRadio from "./WalletRadio";
 import { useWalletStore } from "../../../store/useWalletStore";
+import RecentTransactions from "./RecentTransactions";
 
 const WalletPreview = () => {
   const toast = useToast();
@@ -39,13 +40,13 @@ const WalletPreview = () => {
   };
 
   return (
-    <div>
+    <div className="max-w-[1200px] mx-auto">
       <section>
         <h2 className="h2-app">Wallet</h2>
         {walletDetails?.address && (
           <button
             onClick={handleCopy}
-            className="cursor-pointer flex items-center gap-1 text-primary-500 hover:text-primary-300 mt-1 md:mt-3 duration-150 active:text-primary dark:active:text-white "
+            className="cursor-pointer flex items-center gap-1 text-primary-500 hover:text-primary-300 mt-1 md:mt-3 duration-150  "
           >
             <p className="text-xs md:text-lg font-medium  lg:text-2xl ">
               {maskMiddle(walletDetails?.address)}
@@ -55,7 +56,7 @@ const WalletPreview = () => {
         )}
       </section>
       {/* Wallet Balance */}
-      <section className="bg-primary-20 rounded-[5px] px-4 pt-2.5 pb-6 lg:rounded-[10px] mt-[34px] lg:pt-5 lg:pb-[33px] lg:mt-10">
+      <section className="bg-primary-20 rounded-[5px] px-4 pt-2.5 pb-6 lg:rounded-[10px] mt-[34px] lg:pt-5 lg:pb-[33px] lg:mt-10 ">
         <div className="flex justify-end">
           <WalletRadio />
         </div>
@@ -67,6 +68,10 @@ const WalletPreview = () => {
             {formatWalletCurrency(balance() || 0, wallet) || "******"}
           </h5>
         </div>
+      </section>
+
+      <section className="mt-10 lg:mt-20">
+        <RecentTransactions />
       </section>
     </div>
   );
