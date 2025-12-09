@@ -26,8 +26,8 @@ export const formatCurrencyStructure = (value: number | string): string => {
 
 export function maskMiddle(
   text: string,
-  visibleStart = 7,
-  visibleEnd = 10
+  visibleStart = 5,
+  visibleEnd = 5
 ): string {
   if (text?.length <= visibleStart + visibleEnd) return text;
 
@@ -38,7 +38,6 @@ export function maskMiddle(
 
   return `${start}${masked}${end}`;
 }
-
 
 // --------------------------
 // Helper → Time Ago
@@ -59,3 +58,19 @@ export const getTimeAgo = (timestamp: string) => {
 
   return notificationTime.toLocaleDateString();
 };
+
+export function formatWalletCurrency(
+  amount: number | undefined,
+  wallet: "$" | "xlm"
+): string {
+  if (amount === undefined || isNaN(amount)) {
+    return wallet === "$" ? "$ 0.00" : "XLM 0.00";
+  }
+
+  const formatted = new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
+
+  return wallet === "$" ? `$ ${formatted}` : `XLM ${formatted}`;
+}
