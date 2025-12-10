@@ -50,7 +50,7 @@ const Invoices = () => {
           </>
         ) : (
           // EMPTY UI
-          <div className="mt-14 flex flex-col items-center gap-8 md:mt-20 lg:mt-24">
+          <div className="mt-14 flex flex-col items-center gap-8 md:mt-20 lg:mt-24 max-w-[163px] mx-auto">
             <Image
               src="/images/no-Invoice-svg.svg"
               alt="No Invoice"
@@ -58,7 +58,7 @@ const Invoices = () => {
               width={200}
               className="w-full h-full object-contain"
             />
-            <p className="md:w-1/2 text-center text-sm font-light md:text-xl">
+            <p className="text-center text-sm font-light md:text-xl">
               {!searchTerm && status === "all"
                 ? "You have not created any invoice yet. All created invoices would be displayed here."
                 : "No Invoice Found."}
