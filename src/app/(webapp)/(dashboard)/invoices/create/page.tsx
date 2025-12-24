@@ -1,7 +1,9 @@
-import React from 'react'
+import CreateInvoiceForm from "../../../../../features/invoice/components/CreateInvoiceForm";
 
 export default function Page() {
   return (
-    <div>create invoice</div>
-  )
+    <div className="pt-8 pb-20">
+      <CreateInvoiceForm />
+    </div>
+  );
 }

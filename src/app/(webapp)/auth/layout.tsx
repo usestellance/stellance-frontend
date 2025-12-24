@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "../../../components/shared/Logo";
+import Image from "next/image";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,7 +12,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
         <div className="max-w-[500px] mx-auto">{children}</div>
       </div>
-      <div className="max-lg:hidden w-1/2 bg-primary-20"></div>
+      <div
+        style={{
+          backgroundImage: "url('/images/auth-bg.png')",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        className="max-lg:hidden w-1/2 bg-primary-600"
+      ></div>
     </main>
   );
 }
