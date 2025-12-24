@@ -14,7 +14,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
       <div
         style={{
-          backgroundImage: "url('/images/auth-bg.png')",
+          backgroundImage:
+            "linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), url('/images/auth-bg-2.png')",
+            // "linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('/images/auth-bg.png')",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
