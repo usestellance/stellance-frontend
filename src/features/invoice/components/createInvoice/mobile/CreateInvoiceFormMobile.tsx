@@ -108,7 +108,7 @@ export default function CreateInvoiceFormMobile() {
 
                         <label
                           htmlFor="logo-upload"
-                          className={`inline-flex flex-col items-center justify-center rounded-[5px] cursor-pointer gap-1 min-h-[70px] min-w-20 border-2 border-dashed border-primary-50 sm:min-w-40 sm:min-h-[120px] ${
+                          className={`inline-flex flex-col items-center justify-center rounded-[5px] cursor-pointer gap-1 min-h-[70px] min-w-20 max-w-20 border-2 border-dashed border-primary-50 sm:min-w-40 sm:min-h-[120px] sm:max-w-40 ${
                             preview ? "bg-transparent" : "bg-primary-20"
                           }`}
                         >
@@ -147,7 +147,7 @@ export default function CreateInvoiceFormMobile() {
                     <InputField
                       {...field}
                       placeholder="Recipient Name"
-                      error={fieldState.error?.message ?? null}
+                      error={fieldState.error?.message}
                     />
                   </FormControl>
                 </FormItem>
@@ -195,7 +195,7 @@ export default function CreateInvoiceFormMobile() {
             <h3 className="mt-10 text-sm lg:text-[22px]">Invoice Items</h3>
 
             <div className="flex flex-col gap-[26px] mt-5">
-              {form.getValues("items").map((item, i) => (
+              {items.map((item, i) => (
                 <InvoiceItemsCard
                   key={i}
                   amount={item.amount}
@@ -302,7 +302,11 @@ export default function CreateInvoiceFormMobile() {
             >
               Preview
             </Button>
-            <Button onClick={() => "hello"} className="in-app-btn">
+            <Button
+              type="submit"
+              // onClick={() => console.log("sumbit")}
+              className="in-app-btn"
+            >
               Proceed
             </Button>
           </div>

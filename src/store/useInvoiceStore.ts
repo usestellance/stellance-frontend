@@ -76,7 +76,7 @@ interface InvoiceItemsStore {
 }
 
 export const useInvoiceItems = create<InvoiceItemsStore>((set) => ({
-  items: [...invoiceItems],
+  items: [],
   editingIndex: null,
 
   addItem: (item) =>

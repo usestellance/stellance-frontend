@@ -162,7 +162,7 @@ export default function AddInvoiceItemDrawer({
                 <InputField
                   {...field}
                   type="number"
-                  value={field.value}
+                  value={field.value ?? 0}
                   onChange={(e) => field.onChange(e.target.valueAsNumber)}
                   error={fieldState.error?.message}
                 />
@@ -186,7 +186,7 @@ export default function AddInvoiceItemDrawer({
                 <InputField
                   {...field}
                   type="number"
-                  value={field.value}
+                  value={field.value ?? 0}
                   onChange={(e) => field.onChange(e.target.valueAsNumber)}
                   error={fieldState.error?.message}
                 />
@@ -204,7 +204,7 @@ export default function AddInvoiceItemDrawer({
                 <InputField
                   {...field}
                   type="number"
-                  value={field.value}
+                  value={field.value ?? 0}
                   onChange={(e) => field.onChange(e.target.valueAsNumber)}
                   error={fieldState.error?.message}
                 />

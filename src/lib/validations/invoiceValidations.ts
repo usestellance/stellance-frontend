@@ -28,7 +28,7 @@ export const invoiceSchema = z.object({
   logo: logoSchema,
 
   // Invoice details (add more fields as needed)
-  invoiceNumber: z.string().min(1, "Invoice number is required"),
+  invoiceNumber: z.string().min(1, { message: "Invoice number is required" }),
   //   invoiceDate: z.date({
   //     required_error: "Invoice date is required",
   //   }),
@@ -37,8 +37,8 @@ export const invoiceSchema = z.object({
   //   }),
 
   // Client/Customer details
-  clientName: z.string().min(1, "Client name is required"),
-  email: z.string().email("Invalid email address").optional(),
+  clientName: z.string().min(1, { message: "Client name is required" }),
+  email: z.string().email({ message: "Invalid email address" }).optional(),
   address: z.string().optional(),
 
   // Invoice items (expandable)
