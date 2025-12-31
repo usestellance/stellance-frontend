@@ -108,7 +108,7 @@ export default function CreateInvoiceFormMobile() {
 
                         <label
                           htmlFor="logo-upload"
-                          className={`inline-flex flex-col items-center justify-center rounded-[5px] cursor-pointer gap-1 min-h-[70px] min-w-20 max-w-20 border-2 border-dashed border-primary-50 sm:min-w-40 sm:min-h-[120px] sm:max-w-40 ${
+                          className={`inline-flex flex-col items-center justify-center rounded-[5px] cursor-pointer gap-1 min-h-[70px] max-h-[70px] min-w-20 max-w-20 border-2 border-dashed border-primary-50 sm:min-w-40 sm:min-h-[120px] sm:max-w-40 sm:max-h-[120px] ${
                             preview ? "bg-transparent" : "bg-primary-20"
                           }`}
                         >
