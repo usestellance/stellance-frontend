@@ -77,7 +77,7 @@ const InputField: React.FC<InputProps> = ({
             }
             ${
               readonly
-                ? "bg-gray-200 text-gray-500 font-semibold cursor-not-allowed"
+                ? "bg-neutral-600 text-black font-semibold cursor-not-allowed"
                 : ""
             }
           `}

@@ -40,7 +40,7 @@ const WalletPreview = () => {
   };
 
   return (
-    <div className="max-w-[1200px] mx-auto">
+    <div className="max-w[1200px] mx-auto">
       <section>
         <h2 className="h2-app">Wallet</h2>
         {walletDetails?.address && (

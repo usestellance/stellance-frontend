@@ -29,12 +29,12 @@ export const invoiceSchema = z.object({
 
   // Invoice details (add more fields as needed)
   invoiceNumber: z.string().min(1, "Invoice number is required"),
-//   invoiceDate: z.date({
-//     required_error: "Invoice date is required",
-//   }),
-//   dueDate: z.date({
-//     required_error: "Due date is required",
-//   }),
+  //   invoiceDate: z.date({
+  //     required_error: "Invoice date is required",
+  //   }),
+  //   dueDate: z.date({
+  //     required_error: "Due date is required",
+  //   }),
 
   // Client/Customer details
   clientName: z.string().min(1, "Client name is required"),
@@ -45,18 +45,19 @@ export const invoiceSchema = z.object({
   items: z
     .array(
       z.object({
+        invoice_type: z.enum(["per_hour", "per_unit"], "Invalid invoice type"),
         description: z.string().min(1, "Description is required"),
         quantity: z.number().min(1, "Quantity must be at least 1"),
-        unitPrice: z.number().min(0, "Price must be positive"),
+        unit_price: z.number().min(0, "Price must be positive"),
         amount: z.number(),
+        discount: z.number().optional(),
       })
     )
     .min(1, "At least one item is required"),
 
   // Totals
   subtotal: z.number(),
-  tax: z.number().optional(),
-  discount: z.number().optional(),
+  charge: z.number().optional(),
   total: z.number(),
 
   // Additional fields
@@ -67,3 +68,52 @@ export const invoiceSchema = z.object({
 });
 
 export type InvoiceFormValues = z.infer<typeof invoiceSchema>;
+
+// export const itemSchema = z.object({
+//   description: z
+//     .string()
+//     .min(1, "Description is required")
+//     .min(3, "Description must be at least 3 characters")
+//     .max(500, "Description must not exceed 500 characters"),
+//   quantity: z
+//     // .number()
+//     // .min(1, "Quantity must be at least 1")
+//     // .positive("Quantity must be a positive number"),
+//   // unit_price: z
+//   //   .number()
+//   //   .min(0, "Unit price cannot be negative")
+//   //   .positive("Unit price must be greater than 0"),
+//   // discount: z
+//   //   .number({
+//   //     message: "Discount is required",
+//   //   })
+//   //   .min(0, "Discount cannot be negative")
+//   //   .max(100, "Discount cannot exceed 100%"),
+//   // amount: z
+//   //   .number()
+//   //   .min(0, "Amount cannot be negative"),
+//   // invoice_type: z.enum(
+//   //   ["per_hour", "per_unit"],
+//   //   "Please select a valid invoice type"
+//   // ),
+// });
+
+// export type ItemValues = z.infer<typeof itemSchema>;
+
+export const itemSchema = z.object({
+  invoice_type: z.enum(["per_hour", "per_unit"], "Invalid invoice type"),
+
+  description: z.string().min(3, "Description must be at least 3 characters"),
+
+  // quantity: z.number().min(1, "Quantity must be at least 1"),
+  quantity: z.coerce.number().min(1, "Quantity must be at least 1"),
+
+  unit_price: z.coerce.number().min(1, "Unit price must be greater 0"),
+  discount: z.coerce
+    .number()
+    .min(0, "Discount must be 0 or greater")
+    .max(100, "Discount cannot be more than 100%"),
+  amount: z.coerce.number().min(0, "Amount must be 0 or greater"),
+});
+
+// export type ItemValues = z.infer<typeof itemSchema>;

@@ -76,7 +76,7 @@ const SelectField: React.FC<SelectProps> = ({
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
 
-        <SelectContent>
+        <SelectContent className="w-full">
           {options.map((opt) => (
             <SelectItem key={opt.value} value={opt.value}>
               {opt.label}

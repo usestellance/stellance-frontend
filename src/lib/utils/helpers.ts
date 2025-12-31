@@ -1,3 +1,6 @@
+import { SERVICE_CHARGE } from "../../config/constants";
+import { InvoiceItemsTypes } from "../../types/invoiceTypes";
+
 // FORMAT CURRENCY
 export function formatCurrency(
   value: number,
@@ -73,4 +76,29 @@ export function formatWalletCurrency(
   }).format(amount);
 
   return wallet === "$" ? `$ ${formatted}` : `XLM ${formatted}`;
+}
+
+
+// Calculates subtotal (sum of all item amounts after individual discounts)
+export function calculateTotal(items: InvoiceItemsTypes[]): number {
+  return items.reduce((total, item) => {
+    const itemTotal =
+      item.quantity * item.unit_price * ((100 - item.discount) / 100);
+    return total + itemTotal;
+  }, 0);
+}
+
+export function calculateServiceFee(
+  subtotal: number
+    // feePercentage: number
+): number {
+  return (subtotal * SERVICE_CHARGE) / 100;
+}
+
+export function calculateNetTotal(
+  subtotal: number,
+  serviceFee: number
+): number {
+  return subtotal - serviceFee;
+  // return subtotal;
 }

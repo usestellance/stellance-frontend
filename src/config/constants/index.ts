@@ -1,6 +1,5 @@
 import { InvoiceStatus } from "../../store/useInvoiceStore";
 
-
 export const invoiceStatusOptions: { label: string; value: InvoiceStatus }[] = [
   { label: "All", value: "all" },
   { label: "Paid", value: "paid" },
@@ -11,3 +10,5 @@ export const invoiceStatusOptions: { label: string; value: InvoiceStatus }[] = [
   { label: "Overdue", value: "overdue" },
   { label: "Cancelled", value: "cancelled" },
 ];
+
+export const SERVICE_CHARGE = 10;
