@@ -89,7 +89,7 @@ export default function AddInvoiceItemDrawer({
       addItem(values); // Add new item
       toast.success("Item added");
     }
-    
+
     setEditingIndex(null);
     onOpenChange(false);
     form.reset({
@@ -126,6 +126,7 @@ export default function AddInvoiceItemDrawer({
                   onChange={field.onChange}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -146,7 +147,6 @@ export default function AddInvoiceItemDrawer({
                   error={fieldState.error?.message ?? null}
                 />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}
@@ -173,6 +173,7 @@ export default function AddInvoiceItemDrawer({
                   value={Number(field.value)}
                   /> */}
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -191,6 +192,7 @@ export default function AddInvoiceItemDrawer({
                   error={fieldState.error?.message}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -209,6 +211,7 @@ export default function AddInvoiceItemDrawer({
                   error={fieldState.error?.message}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -228,6 +231,7 @@ export default function AddInvoiceItemDrawer({
                   readonly
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

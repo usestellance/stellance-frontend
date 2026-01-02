@@ -28,7 +28,7 @@ export const invoiceSchema = z.object({
   logo: logoSchema,
 
   // Invoice details (add more fields as needed)
-  invoiceNumber: z.string().min(1, { message: "Invoice number is required" }),
+  // invoiceNumber: z.string().min(1, { message: "Invoice number is required" }),
   //   invoiceDate: z.date({
   //     required_error: "Invoice date is required",
   //   }),
@@ -37,32 +37,28 @@ export const invoiceSchema = z.object({
   //   }),
 
   // Client/Customer details
-  clientName: z.string().min(1, { message: "Client name is required" }),
+  clientName: z.string().min(2, { message: "Client name is required" }),
   email: z.string().email({ message: "Invalid email address" }).optional(),
   address: z.string().optional(),
 
-  // Invoice items (expandable)
-  items: z
-    .array(
-      z.object({
-        invoice_type: z.enum(["per_hour", "per_unit"], "Invalid invoice type"),
-        description: z.string().min(1, "Description is required"),
-        quantity: z.number().min(1, "Quantity must be at least 1"),
-        unit_price: z.number().min(0, "Price must be positive"),
-        amount: z.number(),
-        discount: z.number().optional(),
-      })
-    )
-    .min(1, "At least one item is required"),
+  // // Invoice items (expandable)
+  items: z.array(z.object({
+    invoice_type: z.enum(["per_hour", "per_unit"]),
+    description: z.string(),
+    quantity: z.number(),
+    unit_price: z.number(),
+    discount: z.number(),
+    amount: z.number(),
+  })).min(1, "At least one item is required"),
 
-  // Totals
+  // // Totals
   subtotal: z.number(),
   charge: z.number().optional(),
   total: z.number(),
 
-  // Additional fields
+  // // Additional fields
   notes: z.string().optional(),
-  dueDate: z.string().optional(),
+  dueDate: z.string(),
 
   // Add more fields here as you expand...
 });

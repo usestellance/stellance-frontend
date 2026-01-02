@@ -21,6 +21,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "../../../../../components/ui/form";
 import InputField from "../../../../../components/ui/custom/InputField";
 import { Textarea } from "../../../../../components/ui/textarea";
@@ -28,10 +29,22 @@ import { Button } from "../../../../../components/ui/button";
 import InvoiceItemsCard from "./InvoiceItemsCard";
 import { invoiceItems } from "../../../../../lib/utils";
 import AddInvoiceItemDrawer from "./AddInvoiceItemDrawer";
+import { useRouter } from "next/navigation";
+import { invoiceRoutes } from "../../../../../config/routes";
+import { useToast } from "../../../../../hooks/useToast";
 
 export default function CreateInvoiceFormMobile() {
-  const { items, openDrawer, setOpenDrawer, setEditingIndex, removeItem } =
-    useInvoiceItems();
+  const {
+    items,
+    openDrawer,
+    setOpenDrawer,
+    setEditingIndex,
+    removeItem,
+    clearItems,
+  } = useInvoiceItems();
+  const toast = useToast();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const total = calculateTotal(items);
   const serviceFee = (total * SERVICE_CHARGE) / 100;
@@ -42,7 +55,7 @@ export default function CreateInvoiceFormMobile() {
     resolver: zodResolver(invoiceSchema),
     defaultValues: {
       logo: undefined,
-      invoiceNumber: "",
+      // invoiceNumber: "",
       clientName: "",
       email: "",
       address: "",
@@ -56,7 +69,8 @@ export default function CreateInvoiceFormMobile() {
     },
   });
 
-  // console.log("RHF ITEMS:", form.watch("items"));
+  console.log("items", items);
+  console.log("RHF ITEMS:", form.watch("items"));
 
   // 🔁 Sync Zustand items → RHF
   useEffect(() => {
@@ -64,7 +78,14 @@ export default function CreateInvoiceFormMobile() {
   }, [items]);
 
   function onSubmit(values: InvoiceFormValues) {
-    console.log("FINAL SUBMISSION:", values);
+    setLoading(true);
+    console.log("Submitted invoice:", values);
+    setTimeout(() => {
+      setLoading(false);
+      router.push(invoiceRoutes.INVOICES);
+      toast.success("Invoice Created Successfully");
+      clearItems();
+    }, 2000);
   }
 
   return (
@@ -85,7 +106,7 @@ export default function CreateInvoiceFormMobile() {
                 const [preview, setPreview] = useState<string | null>(null);
 
                 return (
-                  <FormItem>
+                  <FormItem className="flex flex-col items-end ">
                     <FormControl>
                       <div>
                         <input
@@ -128,6 +149,7 @@ export default function CreateInvoiceFormMobile() {
                         </label>
                       </div>
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 );
               }}
@@ -139,18 +161,23 @@ export default function CreateInvoiceFormMobile() {
             <FormField
               control={form.control}
               name="clientName"
-              render={({ field, fieldState }) => (
-                <FormItem>
-                  <FormLabel>Bill To</FormLabel>
-                  <FormControl>
-                    <InputField
-                      {...field}
-                      placeholder="Recipient Name"
-                      error={fieldState.error?.message}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
+              render={({ field, fieldState }) => {
+                // console.log("FIELD STATE:", fieldState, field);
+                return (
+                  <FormItem>
+                    <FormLabel>Bill To</FormLabel>
+                    <FormControl>
+                      <InputField
+                        {...field}
+                        placeholder="Recipient Name"
+                        error={fieldState.error?.message ?? null}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
             />
 
             <FormField
@@ -167,6 +194,8 @@ export default function CreateInvoiceFormMobile() {
                       error={fieldState.error?.message ?? null}
                     />
                   </FormControl>
+
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -184,6 +213,7 @@ export default function CreateInvoiceFormMobile() {
                       error={fieldState.error?.message ?? null}
                     />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -194,7 +224,7 @@ export default function CreateInvoiceFormMobile() {
             <h3 className="mt-10 text-sm lg:text-[22px]">Invoice Items</h3>
 
             <div className="flex flex-col gap-[26px] mt-5">
-              {items.map((item, i) => (
+              {form.getValues("items").map((item, i) => (
                 <InvoiceItemsCard
                   key={i}
                   amount={item.amount}
@@ -214,6 +244,7 @@ export default function CreateInvoiceFormMobile() {
 
             <div>
               <Button
+                type="button"
                 onClick={() => setOpenDrawer(true)}
                 className="bg-primary-50 text-black-500 font-medium text-xs w-[123px] h-9 mt-8 mb-3"
               >
@@ -242,9 +273,11 @@ export default function CreateInvoiceFormMobile() {
                 render={({ field }) => (
                   <InputField
                     {...field}
+                    value={field.value ?? SERVICE_CHARGE}
                     type="number"
                     className="w-12 h-[31px] text-xs text-center"
                     readonly
+                    disabled
                   />
                 )}
               />
@@ -301,11 +334,7 @@ export default function CreateInvoiceFormMobile() {
             >
               Preview
             </Button>
-            <Button
-              type="submit"
-              // onClick={() => console.log("sumbit")}
-              className="in-app-btn"
-            >
+            <Button type="submit" isLoading={loading} className="in-app-btn">
               Proceed
             </Button>
           </div>
