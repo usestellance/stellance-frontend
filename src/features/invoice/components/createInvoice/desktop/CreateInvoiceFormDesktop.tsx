@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoUpload } from "react-icons/go";
 import { useInvoiceItems } from "../../../../../store/useInvoiceStore";
@@ -23,6 +23,8 @@ import {
   FormLabel,
   FormMessage,
 } from "../../../../../components/ui/form";
+import { useFieldArray } from "react-hook-form";
+
 import InputField from "../../../../../components/ui/custom/InputField";
 import { Textarea } from "../../../../../components/ui/textarea";
 import { Button } from "../../../../../components/ui/button";
@@ -32,24 +34,14 @@ import { invoiceItems } from "../../../../../lib/utils";
 import { useRouter } from "next/navigation";
 import { invoiceRoutes } from "../../../../../config/routes";
 import { useToast } from "../../../../../hooks/useToast";
+import { InvoiceItemsTypes } from "../../../../../types/invoiceTypes";
+import { FiTrash } from "react-icons/fi";
+import SelectField from "../../../../../components/ui/custom/SelectField";
 
 export default function CreateInvoiceFormDesktop() {
-  const {
-    items,
-    openDrawer,
-    setOpenDrawer,
-    setEditingIndex,
-    removeItem,
-    clearItems,
-  } = useInvoiceItems();
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  const total = calculateTotal(items);
-  const serviceFee = (total * SERVICE_CHARGE) / 100;
-
-  const netTotal = formatCurrency(calculateNetTotal(total, serviceFee));
 
   const form = useForm<InvoiceFormValues>({
     resolver: zodResolver(invoiceSchema),
@@ -68,14 +60,25 @@ export default function CreateInvoiceFormDesktop() {
       total: 0,
     },
   });
+  const {
+    fields: items,
+    append,
+    remove,
+    update,
+  } = useFieldArray({
+    control: form.control,
+    name: "items",
+  });
 
-  console.log("items", items);
-  console.log("RHF ITEMS:", form.watch("items"));
+  // const items = form.getValues("items");
 
-  // 🔁 Sync Zustand items → RHF
-  useEffect(() => {
-    form.setValue("items", items as InvoiceFormValues["items"]);
-  }, [items]);
+  // console.log("items", items);
+  // console.log("RHF ITEMS:", form.watch("items"));
+
+  // // 🔁 Sync Zustand items → RHF
+  // useEffect(() => {
+  //   form.setValue("items", items as InvoiceFormValues["items"]);
+  // }, [items]);
 
   function onSubmit(values: InvoiceFormValues) {
     setLoading(true);
@@ -88,8 +91,71 @@ export default function CreateInvoiceFormDesktop() {
     }, 2000);
   }
 
+  const watchedItems = useWatch({
+    control: form.control,
+    name: "items",
+  });
+
+  useEffect(() => {
+    watchedItems?.forEach((item, index) => {
+      const amount =
+        (item.quantity ?? 0) *
+        (item.unit_price ?? 0) *
+        ((100 - (item.discount ?? 0)) / 100);
+
+      if (amount !== item.amount) {
+        form.setValue(`items.${index}.amount`, amount, {
+          shouldDirty: false,
+          shouldTouch: false,
+        });
+      }
+    });
+  }, [watchedItems, form]);
+
+  // const handleItemChange = (
+  //   index: number,
+  //   field: keyof InvoiceItemsTypes,
+  //   value: string | number
+  // ) => {
+  //   const current = form.getValues(`items.${index}`);
+
+  //   const updated = {
+  //     ...current,
+  //     [field]:
+  //       field === "quantity" ||
+  //       field === "unit_price" ||
+  //       field === "discount" ||
+  //       field === "amount"
+  //         ? Number(value)
+  //         : value,
+  //   };
+
+  //   updated.amount =
+  //     (updated.quantity ?? 0) *
+  //     (updated.unit_price ?? 0) *
+  //     ((100 - (updated.discount ?? 0)) / 100);
+
+  //   update(index, updated);
+  // };
+
+  const removeItem = (index: number) => {
+    const updatedItems = [...(form.getValues("items") || [])];
+    updatedItems.splice(index, 1);
+    form.setValue("items", updatedItems);
+  };
+
+  const total = calculateTotal(watchedItems ?? []);
+
+  const serviceFee = (total * SERVICE_CHARGE) / 100;
+
+  const netTotal = formatCurrency(calculateNetTotal(total, serviceFee));
+
+  const clearItems = () => {
+    form.setValue("items", []);
+  };
+
   return (
-    <div className="max-w-[1200px] mx-auto">
+    <div className="max-w-[2000px] mx-auto">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           {/* HEADER */}
@@ -157,7 +223,7 @@ export default function CreateInvoiceFormDesktop() {
           </div>
 
           {/* CLIENT DETAILS */}
-          <div className="space-y-4 lg:w-1/2 custom-container">
+          <div className="space-y-8 custom-container">
             <FormField
               control={form.control}
               name="clientName"
@@ -169,6 +235,7 @@ export default function CreateInvoiceFormDesktop() {
                     <FormControl>
                       <InputField
                         {...field}
+                        className="max-w-1/2"
                         placeholder="Recipient Name"
                         error={fieldState.error?.message ?? null}
                       />
@@ -189,6 +256,7 @@ export default function CreateInvoiceFormDesktop() {
                   <FormControl>
                     <InputField
                       {...field}
+                      className="max-w-1/2"
                       type="email"
                       placeholder="Recipient Email"
                       error={fieldState.error?.message ?? null}
@@ -209,6 +277,7 @@ export default function CreateInvoiceFormDesktop() {
                   <FormControl>
                     <InputField
                       {...field}
+                      className="max-w-1/2"
                       placeholder="Recipient Country / Address"
                       error={fieldState.error?.message ?? null}
                     />
@@ -221,50 +290,166 @@ export default function CreateInvoiceFormDesktop() {
 
           {/* ITEMS */}
           <div className="custom-container">
-            <h3 className="mt-10 text-sm lg:text-[22px]">Invoice Items</h3>
+            <h3 className="mt-20 text-[22px]">Invoice Items</h3>
 
-            <div className="flex flex-col gap-[26px] mt-5">
-              {/* {form.getValues("items").map((item, i) => (
-                <InvoiceItemsCard
-                  key={i}
-                  amount={item.amount}
-                  description={item.description}
-                  discount={item.discount || 0}
-                  invoice_type={item.invoice_type}
-                  quantity={item.quantity}
-                  unit_price={item.unit_price}
-                  editItem={() => {
-                    setEditingIndex(i);
-                    setOpenDrawer(true);
-                  }}
-                  removeItem={() => removeItem(i)}
-                />
-              ))} */}
+            <div className="flex flex-col gap-4 xl:gap-8 divide-y mb-8 divide-primary-600">
+              {items.map((item, index) => (
+                <div key={item.id} className="pb-16 mt-8">
+                  {/* <div className="flex flex-col gap-6"> */}
+                  <div className="flex gap-8 justify-between items-center">
+                    <div className="flex-1 mt-1">
+                      <FormField
+                        control={form.control}
+                        name={`items.${index}.invoice_type`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="">Invoice Type</FormLabel>
+                            <FormControl>
+                              <SelectField
+                                className="w-full mt-2"
+                                name="invoice_type"
+                                options={[
+                                  { label: "Per Unit", value: "per_unit" },
+                                  { label: "Per Hour", value: "per_hour" },
+                                ]}
+                                value={field.value}
+                                onChange={field.onChange}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="flex-1">
+                      {/* DESCRIPTION */}
+                      <FormField
+                        control={form.control}
+                        name={`items.${index}.description`}
+                        render={({ field, fieldState }) => (
+                          <InputField
+                            {...field}
+                            label="Description"
+                            placeholder="Brief description"
+                            error={fieldState.error?.message}
+                          />
+                        )}
+                      />
+                      <FormMessage />
+                    </div>
+                  </div>
+
+                  <div className="flex mt-4 justify-between gap-4 xl:gap-8">
+                    {/* QUANTITY */}
+                    <div className="flex-1">
+                      <FormField
+                        control={form.control}
+                        name={`items.${index}.quantity`}
+                        render={({ field }) => (
+                          <InputField
+                            {...field}
+                            type="number"
+                            label="Quantity"
+                            min={1}
+                          />
+                        )}
+                      />
+                      <FormMessage />
+                    </div>
+
+                    {/* UNIT PRICE */}
+                    <div className="flex-1">
+                      <FormField
+                        control={form.control}
+                        name={`items.${index}.unit_price`}
+                        render={({ field }) => (
+                          <InputField
+                            {...field}
+                            type="number"
+                            label="Unit Price"
+                            min={0}
+                          />
+                        )}
+                      />
+                    </div>
+
+                    {/* DISCOUNT */}
+                    <div className="flex-1">
+                      <FormField
+                        control={form.control}
+                        name={`items.${index}.discount`}
+                        render={({ field }) => (
+                          <InputField
+                            {...field}
+                            type="number"
+                            label="Discount (%)"
+                            min={0}
+                          />
+                        )}
+                      />
+                    </div>
+
+                    {/* AMOUNT (READONLY) */}
+                    <div className="flex-1">
+                      <FormField
+                        control={form.control}
+                        name={`items.${index}.amount`}
+                        render={({ field }) => (
+                          <InputField
+                            {...field}
+                            label="Amount"
+                            value={formatCurrency(field.value)}
+                            readonly
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+
+                  {items.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => remove(index)}
+                      className="flex items-center gap-2 text-error-400 mt-5"
+                    >
+                      <FiTrash /> Remove Item
+                    </button>
+                  )}
+                </div>
+                // </div>
+              ))}
             </div>
 
-            <div>
-              <Button
-                type="button"
-                onClick={() => setOpenDrawer(true)}
-                className="bg-primary-50 text-black-500 font-medium text-xs w-[123px] h-9 mt-8 mb-3"
-              >
-                Add New Item
-              </Button>
-            </div>
+            <Button
+              type="button"
+              onClick={() =>
+                append({
+                  invoice_type: "per_hour",
+                  description: "",
+                  quantity: 1,
+                  unit_price: 0,
+                  discount: 0,
+                  amount: 0,
+                })
+              }
+              className="bg-primary-50 text-black-500 hover:text-white font-medium text-lg w-[207px] h-[62px]"
+            >
+              Add New Item
+            </Button>
           </div>
 
-          <hr className="border-neutral-600" />
+          <hr className="border-neutral-600 mt-[60px]" />
 
           {/* SUBTOTAL */}
-          <div className="custom-container text-sm flex justify-between">
+          <div className="place-self-end px-4 sm:px-[30px] md:px-10 py-5 text-xl flex justify-between w-1/2">
             <span>Sub Total</span>
             <span className="font-bold">{formatCurrency(total)}</span>
           </div>
 
-          <hr className="border-neutral-600" />
+          <hr className="border-neutral-600 w-1/2 place-self-end" />
 
           {/* DISCOUNT */}
-          <div className="custom-container text-sm flex justify-between items-center">
+          <div className="place-self-end px-4 sm:px-[30px] md:px-10 text-xl py-5 flex justify-between w-1/2">
             <div className="flex gap-2 items-center ">
               <span className="inline-block">Charge (%)</span>
               <FormField
@@ -275,7 +460,7 @@ export default function CreateInvoiceFormDesktop() {
                     {...field}
                     value={field.value ?? SERVICE_CHARGE}
                     type="number"
-                    className="w-12 h-[31px] text-xs text-center"
+                    className="w-24 h-[31px] text-xl text-center"
                     readonly
                     disabled
                   />
@@ -287,8 +472,8 @@ export default function CreateInvoiceFormDesktop() {
 
           {/* TOTAL */}
           <div className="custom-container">
-            <div className="my-10 border rounded-[5px] border-primary-500 text-sm flex justify-between items-center">
-              <span className="bg-primary-500 px-[18px] py-[11px] font-bold text-neutral-500">
+            <div className="place-self-end w-1/2 my-10 border rounded-[10px] overflow-hidden border-primary-500 text-xl flex justify-between items-center">
+              <span className="bg-primary-500 px-[38px] py-[15px] font-bold text-neutral-500">
                 Total
               </span>
               <span className="font-bold px-[15px] py-[11px] line-clamp-1">
@@ -298,7 +483,7 @@ export default function CreateInvoiceFormDesktop() {
           </div>
 
           {/* DUE DATE + NOTES */}
-          <div className="space-y-4 lg:w-1/2 custom-container">
+          <div className="space-y-8 custom-container">
             <FormField
               control={form.control}
               name="dueDate"
@@ -328,7 +513,7 @@ export default function CreateInvoiceFormDesktop() {
 
           <div className="flex max-w-full gap-[30px]  justify-center mt-10 lg:mt-[60px]">
             <Button
-              onClick={() => "hello"}
+              onClick={() => console.log("hello")}
               className="in-app-btn"
               variant="outline"
             >
@@ -340,8 +525,6 @@ export default function CreateInvoiceFormDesktop() {
           </div>
         </form>
       </Form>
-
-      {/* <AddInvoiceItemDrawer open={openDrawer} onOpenChange={setOpenDrawer} /> */}
     </div>
   );
 }
