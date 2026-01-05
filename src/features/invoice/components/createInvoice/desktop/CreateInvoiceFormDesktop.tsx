@@ -24,13 +24,10 @@ import {
   FormMessage,
 } from "../../../../../components/ui/form";
 import { useFieldArray } from "react-hook-form";
-
 import InputField from "../../../../../components/ui/custom/InputField";
 import { Textarea } from "../../../../../components/ui/textarea";
 import { Button } from "../../../../../components/ui/button";
-// import InvoiceItemsCard from "./InvoiceItemsCard";
 import { invoiceItems } from "../../../../../lib/utils";
-// import AddInvoiceItemDrawer from "./AddInvoiceItemDrawer";
 import { useRouter } from "next/navigation";
 import { invoiceRoutes } from "../../../../../config/routes";
 import { useToast } from "../../../../../hooks/useToast";
@@ -70,16 +67,6 @@ export default function CreateInvoiceFormDesktop() {
     name: "items",
   });
 
-  // const items = form.getValues("items");
-
-  // console.log("items", items);
-  // console.log("RHF ITEMS:", form.watch("items"));
-
-  // // 🔁 Sync Zustand items → RHF
-  // useEffect(() => {
-  //   form.setValue("items", items as InvoiceFormValues["items"]);
-  // }, [items]);
-
   function onSubmit(values: InvoiceFormValues) {
     setLoading(true);
     console.log("Submitted invoice:", values);
@@ -112,32 +99,6 @@ export default function CreateInvoiceFormDesktop() {
     });
   }, [watchedItems, form]);
 
-  // const handleItemChange = (
-  //   index: number,
-  //   field: keyof InvoiceItemsTypes,
-  //   value: string | number
-  // ) => {
-  //   const current = form.getValues(`items.${index}`);
-
-  //   const updated = {
-  //     ...current,
-  //     [field]:
-  //       field === "quantity" ||
-  //       field === "unit_price" ||
-  //       field === "discount" ||
-  //       field === "amount"
-  //         ? Number(value)
-  //         : value,
-  //   };
-
-  //   updated.amount =
-  //     (updated.quantity ?? 0) *
-  //     (updated.unit_price ?? 0) *
-  //     ((100 - (updated.discount ?? 0)) / 100);
-
-  //   update(index, updated);
-  // };
-
   const removeItem = (index: number) => {
     const updatedItems = [...(form.getValues("items") || [])];
     updatedItems.splice(index, 1);
@@ -157,7 +118,12 @@ export default function CreateInvoiceFormDesktop() {
   return (
     <div className="max-w-[2000px] mx-auto">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <form
+          onSubmit={form.handleSubmit(onSubmit, (e) => {
+            console.log("FORM ERRORS:", e);
+          })}
+          className="space-y-5"
+        >
           {/* HEADER */}
           <div className="flex justify-between gap-5 custom-container">
             <h2 className="text-lg sm:text-2xl lg:text-[36px]">
@@ -307,7 +273,8 @@ export default function CreateInvoiceFormDesktop() {
                             <FormControl>
                               <SelectField
                                 className="w-full mt-2"
-                                name="invoice_type"
+                                // name="invoice_type"
+                                {...field}
                                 options={[
                                   { label: "Per Unit", value: "per_unit" },
                                   { label: "Per Hour", value: "per_hour" },
@@ -351,9 +318,13 @@ export default function CreateInvoiceFormDesktop() {
                             type="number"
                             label="Quantity"
                             min={1}
+                            onChange={(e) =>
+                              field.onChange(e.target.valueAsNumber)
+                            }
                           />
                         )}
                       />
+
                       <FormMessage />
                     </div>
 
@@ -368,6 +339,9 @@ export default function CreateInvoiceFormDesktop() {
                             type="number"
                             label="Unit Price"
                             min={0}
+                            onChange={(e) =>
+                              field.onChange(e.target.valueAsNumber)
+                            }
                           />
                         )}
                       />
@@ -384,6 +358,9 @@ export default function CreateInvoiceFormDesktop() {
                             type="number"
                             label="Discount (%)"
                             min={0}
+                            onChange={(e) =>
+                              field.onChange(e.target.valueAsNumber)
+                            }
                           />
                         )}
                       />
@@ -397,6 +374,7 @@ export default function CreateInvoiceFormDesktop() {
                         render={({ field }) => (
                           <InputField
                             {...field}
+                            type="string"
                             label="Amount"
                             value={formatCurrency(field.value)}
                             readonly
