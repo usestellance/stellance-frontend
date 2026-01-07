@@ -6,7 +6,7 @@ import { axiosInstance } from "../../../config/axios";
 import {
   authRoutes,
   backendRoutes,
-  dashboardRoutes,
+  overviewRoutes,
   walletRoutes,
 } from "../../../config/routes";
 import { useToast } from "../../../hooks/useToast";
@@ -100,7 +100,7 @@ export const useLogin = () => {
       if (!isProfileComplete) {
         router.push(authRoutes.COMPLETE_PROFILE);
       } else {
-        router.push(dashboardRoutes.HOME);
+        router.push(overviewRoutes.OVERVIEW);
       }
     },
     onError: (error) => {

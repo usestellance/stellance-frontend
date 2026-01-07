@@ -13,10 +13,9 @@ const logoSchema = z
         "image/jpg",
         "image/png",
         "image/webp",
-        "image/svg+xml",
       ].includes(file.type),
     {
-      message: "Logo must be .jpg, .png, .webp, or .svg format",
+      message: "Logo must be .jpg, .png or .webp format",
     }
   )
   .optional()

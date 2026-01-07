@@ -35,6 +35,12 @@ const desktopData = [
   { month: "april", desktop: 173, fill: "var(--color-april)" },
   { month: "may", desktop: 209, fill: "var(--color-may)" },
 ];
+// const desktopData = [
+//   { status: "Pending", value: 186 },
+//   { status: "paid", value: 305 },
+//   { status: "overdue", value: 237 },
+//   { status: "sent", value: 173 },
+// ];
 
 const chartConfig = {
   visitors: {

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Logo = ({ height = "h-[30px]" }: { height?: string }) => {
   return (
-    <Link href="/">
+    <Link href="/dashboard">
       <div className={`${height} w-fit bgred-400`}>
         <Image
           src="/images/logo-primary.svg"

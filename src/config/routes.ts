@@ -9,8 +9,8 @@ export const authRoutes = {
   COMPLETE_PROFILE: "/auth/setup-account",
 };
 
-export const dashboardRoutes = {
-  HOME: "/dashboard",
+export const overviewRoutes = {
+  OVERVIEW: "/overview",
 };
 export const invoiceRoutes = {
   INVOICES: "/invoices",

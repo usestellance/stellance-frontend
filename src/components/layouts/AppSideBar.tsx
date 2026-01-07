@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/sidebar";
 import Logo from "../shared/Logo";
 import {
-  dashboardRoutes,
   invoiceRoutes,
+  overviewRoutes,
   receiptRoutes,
   walletRoutes,
 } from "../../config/routes";
@@ -25,8 +25,8 @@ import { useLogout } from "../../store/userAuthStore";
 // Menu items.
 const items = [
   {
-    title: "Dashboard",
-    url: dashboardRoutes.HOME,
+    title: "Overview",
+    url: overviewRoutes.OVERVIEW,
     icon: Home,
   },
   {
@@ -59,7 +59,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      className="bg-neutral-500 shadow-xl  rounded-tr-[20px] rounded-br-[20px]
+      className="bg-neutral-500 shadow-md  rounded-tr-[20px] rounded-br-[20px]
     md:rounded-tr-[20px] md:rounded-br-[20px] z-50"
     >
       <SidebarHeader className="bg-neutral-500">
