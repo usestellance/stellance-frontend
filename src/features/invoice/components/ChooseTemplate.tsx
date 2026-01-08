@@ -39,7 +39,7 @@ const ChooseTemplate = () => {
               "
             >
               <div
-                className={`w-full rounded-[5px] border transition-all duration-150 ${
+                className={`w-full rounded-[5px] border transition-all duration-150 overflow-hidden ${
                   isSelected ? "border-primary" : "border-primary-20"
                 }`}
               >
