@@ -2,7 +2,7 @@
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { Button } from "../../../../components/ui/button";
 import Link from "next/link";
-import { dashboardRoutes, invoiceRoutes } from "../../../../config/routes";
+import {  invoiceRoutes, overviewRoutes } from "../../../../config/routes";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
@@ -18,7 +18,7 @@ export default function Page() {
         Create your first invoice
       </Button>
       <Link
-        href={dashboardRoutes.HOME}
+        href={overviewRoutes.OVERVIEW}
         className="underline font-bold underline-offset-4 text-sm"
       >
         Later
