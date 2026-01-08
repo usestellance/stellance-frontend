@@ -35,10 +35,10 @@ export default function Page() {
   };
 
   return (
-    <div className="pt-5 custom-container pb-20">
+    <div className="pt-5 px-4 sm:px-[30px] lg:px-10 md:max-w-[500px]  lg:max-w-[650px] xl:max-w-[800px] mx-auto pb-20">
       <GoBack />
-      <div className="mt-5">
-        <StatusBadge status={invoice?.status || 'draft'} variant="filled" />
+      <div className="mt-5 flex place-self-start md:mt-10">
+        <StatusBadge status={invoice?.status || "draft"} variant="filled" />
       </div>
       <section className="mt-8 flex justify-between">
         <h3 className="">{invoice?.invoice_number}</h3>
@@ -54,9 +54,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mt-8 md:px-4 md:max-w-[500px]  lg:max-w-[650px] xl:max-w-[800px] mx-auto">
-        {getTemplate()}
-      </section>
+      <section className="mt-8 px-2">{getTemplate()}</section>
     </div>
   );
 }
