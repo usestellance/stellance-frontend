@@ -1,9 +1,220 @@
-import React from 'react'
+import React from "react";
+import Logo from "../../../../components/shared/Logo";
+import {
+  formatCurrency,
+  numberToWordsUSD,
+} from "../../../../lib/utils/helpers";
+import { SERVICE_CHARGE } from "../../../../config/constants";
+import { InvoiceType } from "../../../../types/invoiceTypes";
+import { invoiceItems } from "../../../../lib/utils";
 
 const Template03 = () => {
-  return (
-    <div>Template03</div>
-  )
-}
+  const invoice = invoiceItems.find((i) => i);
+  // console.log(invoice);
 
-export default Template03
+  return (
+    <div className="mt-10 rounded-[5px]  pt-1.5 pb-10 sm:pt-4 lg:pt-6 invoice-shadow mx-auto md:rounded-[10px] lg:rounded-[20px] ">
+      <div className="flex justify-between items-center px-2.5 md:px-4 lg:px-5">
+        <Logo height="h-[18px]  sm:h-[24px] lg:h-[28px]" />
+        <p className="font-bold text-lg lg:text-2xl text-primary-500">
+          Stellance
+        </p>
+      </div>
+
+      <section className="px-2.5 sm:px-4 lg:px-5 mt-5 gap-10 md:mt-7 lg:mt-10">
+        <div className="flex justify-between items-start">
+          <p className="font-bold text-sm sm:text-base lg:text-2xl text-primary-500">
+            INVOICE
+          </p>
+          <div className="flex justify-end flex-col items-end">
+            <p className="text-xs sm:text-sm lg:text-base font-medium">
+              Invoice No: #####
+            </p>
+            <p className="text-[10px] sm:text-xs lg:text-sm mt-1 font-light text-neutral-900">
+              Wallet Address: GPDDKN*******sj9589
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* client details */}
+      <section className="mt-8 md:mt-10 flex justify-between px-2.5 md:px-4">
+        <div className="text-[10px] sm:text-sm lg:text-base font-light">
+          <p>Billed By:</p>
+          <p className="font-medium">John Doe</p>
+          <p>johndoe@gmail.com</p>
+          <p>United States</p>
+        </div>
+        <div className="flex flex-col items-end">
+          <div className="w-[45px] h-[35px] sm:h-[50px] sm:w-[60px] lg:w-20 lg:h-[70px] rounded-[3.35px] bg-primary-50"></div>
+          <p className="text-[8px] sm:text-xs lg:text-sm mt-1.5 line-clamp-1">
+            JohnTech Solutions
+          </p>
+        </div>
+      </section>
+      <section className="mt-4 md:mt-10 flex justify-between px-2.5 md:px-4">
+        <div className="text-[10px] sm:text-sm lg:text-base font-light">
+          <p className="mt-4 md:mt-10">
+            Date Issued:
+            <span className="font-medium">June 13, 2025</span>{" "}
+          </p>
+          <p className="mt-4 md:mt-10">
+            Due Date: <span className="font-medium">June 13, 2025</span>{" "}
+          </p>
+        </div>
+        <div className="text-[10px] sm:text-sm lg:text-base font-light flex flex-col items-end">
+          <p>Billed To:</p>
+          <p className="font-medium">Joseph Morgan</p>
+          <p>josephmorgan@gmail.com</p>
+          <p>United States</p>
+        </div>
+      </section>
+
+      <section className="mt-8 px-2 lg:mt-12 lg:px-4">
+        {/* <InvoiceItems inv={invoice} /> */}
+        <InvoiceItems />
+      </section>
+
+      <section className="px-2.5 md:px-4 text-sm sm:text-base text-neutral-900 mt-4 md:mt-5">
+        <h5>Note:</h5>
+        <p className="italic">Thanks for Patronizing</p>
+      </section>
+    </div>
+  );
+};
+
+export default Template03;
+
+// function InvoiceItems({ inv }: { inv: InvoiceType }) {
+function InvoiceItems() {
+  const subTotal = invoiceItems.reduce((acc, item) => {
+    const unitPrice = Number(item.unit_price) || 0;
+    const quantity = Number(item.quantity) || 0;
+    const discount = Number(item.discount) || 0;
+
+    const amountBeforeDiscount = unitPrice * quantity;
+    const discountAmount = (discount / 100) * amountBeforeDiscount;
+
+    return acc + (amountBeforeDiscount - discountAmount);
+  }, 0);
+
+  // 2. Calculate service fee
+  const serviceFee = (SERVICE_CHARGE / 100) * subTotal;
+
+  // 3. Calculate total
+  const total = subTotal - serviceFee;
+
+  return (
+    <div className="bg-[#D9E4F8] rounded-[5px] pb-12 lg:pb-[83px]">
+      <div className="overflow-x-auto scroll pb-4">
+        <table className=" bg-[#D9E4F8] min-w-full border-collapse border-spacing-y2 overflow-hidden rounded-[5px]">
+          <thead className="bg-[#D1E2FF] overflow-hidden ">
+            <tr className="">
+              <th
+                scope="col"
+                className="px-2 py-[15px] text-xs  lg:text-base text-center font-bold whitespace-nowrap "
+              >
+                Type
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-[15px] text-sm lg:text-base text-center font-bold whitespace-nowrap "
+              >
+                Description
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-[15px] text-sm lg:text-base text-center font-bold whitespace-nowrap "
+              >
+                Unit Price
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-[15px] text-sm lg:text-base text-center font-bold whitespace-nowrap "
+              >
+                Discount (%)
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-[15px] text-sm lg:text-base text-center font-bold whitespace-nowrap "
+              >
+                Quantity
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-[15px] text-sm lg:text-base text-center font-bold whitespace-nowrap "
+              >
+                Amount
+              </th>
+            </tr>
+          </thead>
+
+          {/* Table Body */}
+          {/* <tbody className="divide-y divide-[#BFBFBF99]"> */}
+          <tbody className="divide-y divide-neutral-600">
+            {invoiceItems?.map((inv, i) => (
+              <tr key={i} className="bg-primary-50 font-medium">
+                <td className="px-4 py-[15px] whitespace-nowrap text-xs lg:text-base text-center">
+                  {inv.invoice_type === "per_unit" ? "Per Unit" : "Per Hour"}
+                </td>
+                <td className="px-4 py-[15px] whitespace-nowrap text-xs lg:text-base text-center">
+                  {inv.description || ""}
+                </td>
+                <td className="px-4 py-[15px] text-xs lg:text-base text-center">
+                  {formatCurrency(inv.unit_price || 0)}
+                </td>
+                <td className="px-4 py-[15px] text-xs lg:text-base text-center">
+                  {inv.quantity || 0}
+                </td>
+                <td className="px-4 py-[15px] text-xs lg:text-base text-center">
+                  {inv.discount || 0}
+                </td>
+                <td className="px-4 py-[15px] text-xs lg:text-base text-center">
+                  {formatCurrency(inv.amount || 0)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="bg-red400 w-full custom-container">
+        <div className="flex justify-end py-[18px]">
+          <div className="flex items-center gap-[81px] justify-end">
+            <p className="text-xs font-bold text-text-strong lg:text-lg">
+              Sub Total
+            </p>
+            <p className="text-xs font-bold text-text-strong lg:text-lg">
+              {formatCurrency(subTotal)}
+            </p>
+          </div>
+        </div>
+      </div>
+      {/* <div className="flex justify-end">
+        <hr className="text-[#BFBFBF99] w-[230px] lg:w-[558px]" />
+      </div> */}
+      <div className="flex justify-end py-[18px] custom-container">
+        <div className="flex items-center gap-[81px] justify-end">
+          <p className="text-xs font-bold text-text-strong lg:text-lg">{`Service Fee (${SERVICE_CHARGE}) %`}</p>
+          <p className="text-xs font-bold text-text-strong lg:text-lg">
+            {/* {formatCurrency(inv?.service_fee || 0)} */}
+            {formatCurrency(serviceFee)}
+          </p>
+        </div>
+      </div>
+      <div className="custom-container mt-2 w-full flex flex-col items-end justify-end">
+        <div className="w-full max-w-[273px] lg:max-w-[558px] flex justifybetween h-[43px] overflow-hidden items-center rounded-[6px] ">
+          <h5 className="text-sm font-bold leading-[25px] py-3 px-4 w-20 md:text-lg">
+            Total
+          </h5>
+          <h5 className="truncate w-full text-end text-sm font-bold leading-[25px] md:text-base lg:text-lg ">
+            {formatCurrency(total || 0)}
+          </h5>
+        </div>
+
+        <p className="text-xs font-medium text-end italic mt-2 md:mt-5 md:text-sm lg:text-base">
+          {numberToWordsUSD(total)}
+        </p>
+      </div>
+    </div>
+  );
+}

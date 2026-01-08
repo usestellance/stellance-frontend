@@ -9,6 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
   useSidebar, // Import this hook
 } from "@/components/ui/sidebar";
 import Logo from "../shared/Logo";

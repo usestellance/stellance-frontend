@@ -102,3 +102,94 @@ export function calculateNetTotal(
   return subtotal - serviceFee;
   // return subtotal;
 }
+
+export function numberToWordsUSD(amount: number): string {
+  if (amount === 0) return "Zero Dollars Only";
+
+  const ones = [
+    "",
+    "One",
+    "Two",
+    "Three",
+    "Four",
+    "Five",
+    "Six",
+    "Seven",
+    "Eight",
+    "Nine",
+    "Ten",
+    "Eleven",
+    "Twelve",
+    "Thirteen",
+    "Fourteen",
+    "Fifteen",
+    "Sixteen",
+    "Seventeen",
+    "Eighteen",
+    "Nineteen",
+  ];
+
+  const tens = [
+    "",
+    "",
+    "Twenty",
+    "Thirty",
+    "Forty",
+    "Fifty",
+    "Sixty",
+    "Seventy",
+    "Eighty",
+    "Ninety",
+  ];
+
+  const scales = ["", "Thousand", "Million", "Billion"];
+
+  const convertHundreds = (num: number): string => {
+    let result = "";
+
+    if (num >= 100) {
+      result += `${ones[Math.floor(num / 100)]} Hundred `;
+      num %= 100;
+    }
+
+    if (num >= 20) {
+      result += `${tens[Math.floor(num / 10)]} `;
+      num %= 10;
+    }
+
+    if (num > 0) {
+      result += `${ones[num]} `;
+    }
+
+    return result.trim();
+  };
+
+  const [integerPart, decimalPart] = amount.toFixed(2).split(".");
+  let num = parseInt(integerPart, 10);
+
+  let words = "";
+  let scaleIndex = 0;
+
+  while (num > 0) {
+    const chunk = num % 1000;
+
+    if (chunk > 0) {
+      words = `${convertHundreds(chunk)} ${scales[scaleIndex]} ${words}`;
+    }
+
+    num = Math.floor(num / 1000);
+    scaleIndex++;
+  }
+
+  let result = words.trim();
+
+  const cents = parseInt(decimalPart, 10);
+
+  if (cents > 0) {
+    result += ` Dollars and ${convertHundreds(cents)} Cents Only`;
+  } else {
+    result += " Dollars Only";
+  }
+
+  return result.replace(/\s+/g, " ").trim();
+}

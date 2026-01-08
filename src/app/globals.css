@@ -88,7 +88,7 @@ body {
 }
 
 .custom-container {
-  @apply max-w-[2000px] mx-auto px-4 sm:px-[30px] md:px-10;
+  @apply max-w-[2000px] mx-auto px-4 sm:px-[30px] lg:px-10;
 }
 
 .h2-auth {
@@ -102,12 +102,44 @@ body {
   @apply w-fit min-w-[130px] sm:min-w-[200px] lg:min-w-[260px];
 }
 
+.invoice-shadow {
+  box-shadow: rgb(203, 203, 203, 0.5) 0px 7px 29px 0px;
+}
+
 .hide-scroll::-webkit-scrollbar {
   display: none;
   scrollbar-width: 1px;
   scroll-behavior: smooth;
   scrollbar-color: #18234f;
 }
+
+
+.scroll {
+  scrollbar-width: thin;         /* auto | thin | none */
+  scrollbar-color: #D9E4F8 #18234f;  /* thumb color and track color */
+}
+
+/* WebKit Browsers */
+.scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: white;
+  border-radius: 5px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 5px;
+  border: 2px solid white; /* optional: adds padding */
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
 
 [data-sidebar="mobile"] {
   border-top-right-radius: 20px !important;
@@ -263,7 +295,7 @@ body {
   max-width: 200px;
   --c: no-repeat linear-gradient(#000a2f 0 0);
   /* background: var(--c), var(--c), #e6e6e6; */
-  background:  var(--c), var(--c), #e6e6e6;
+  background: var(--c), var(--c), #e6e6e6;
   background-size: 60% 100%;
   animation: l16 3s infinite;
   margin: 0 auto;
