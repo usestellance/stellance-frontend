@@ -18,12 +18,12 @@ export default function Page() {
         </p>
       </section>
 
-      <section className="md:px-4 md:max-w-[500px]  lg:max-w-[650px] xl:max-w-[800px] mx-auto">
+      <section className="mt-10 md:px-4 md:max-w-[500px]  lg:max-w-[650px] xl:max-w-[800px] mx-auto">
         {/* <Template01 /> */}
         {/* <Template02  /> */}
         {/* <Template03  /> */}
         {/* <Template04  /> */}
-        <Template05  />
+        <Template05 />
       </section>
     </div>
   );

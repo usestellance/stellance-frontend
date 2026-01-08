@@ -13,6 +13,7 @@ export interface InvoiceItemsTypes {
 }
 
 export interface InvoiceType {
+  templateId: string;
   approved?: boolean;
   id?: string;
   invoice_number?: string;
@@ -32,7 +33,7 @@ export interface InvoiceType {
   created_at?: string;
   updated_at?: string;
   invoice_items?: InvoiceItemsTypes[];
-  items?: InvoiceItemsTypes[];
+  items: InvoiceItemsTypes[];
   createdBy?: {
     business_name: string;
     wallet_address: string;

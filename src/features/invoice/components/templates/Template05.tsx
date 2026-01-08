@@ -13,7 +13,7 @@ const Template05 = () => {
   // console.log(invoice);
 
   return (
-    <div className="mt-10 rounded-[5px]  pt-1.5 pb-10 sm:pt-4 lg:pt-6 invoice-shadow mx-auto md:rounded-[10px] lg:rounded-[20px] ">
+    <div className=" rounded-[5px]  pt-1.5 pb-10 sm:pt-4 lg:pt-6 invoice-shadow mx-auto md:rounded-[10px] lg:rounded-[20px] ">
       <div className="flex justify-between items-center px-2.5 md:px-4 lg:px-5">
         <Logo height="h-[18px]  sm:h-[24px] lg:h-[28px]" />
         <p className="font-bold text-lg lg:text-2xl text-primary-500">
