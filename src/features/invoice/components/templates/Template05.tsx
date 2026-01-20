@@ -1,16 +1,14 @@
-import React from "react";
 import Logo from "../../../../components/shared/Logo";
 import {
   formatCurrency,
+  formatDate,
   numberToWordsUSD,
 } from "../../../../lib/utils/helpers";
 import { SERVICE_CHARGE } from "../../../../config/constants";
 import { InvoiceType } from "../../../../types/invoiceTypes";
-import { invoiceItems } from "../../../../lib/utils";
 
-const Template05 = () => {
-  const invoice = invoiceItems.find((i) => i);
-  // console.log(invoice);
+const Template05 = ({ invoice }: { invoice: InvoiceType }) => {
+  console.log(invoice);
 
   return (
     <div className=" rounded-[5px]  pt-1.5 pb-10 sm:pt-4 lg:pt-6 invoice-shadow mx-auto md:rounded-[10px] lg:rounded-[20px] ">
@@ -29,9 +27,19 @@ const Template05 = () => {
         </div>
 
         <div className="flex flex-col items-center sm:items-end px-2.5 sm:px-4 lg:px-5">
-          <div className="w-[45px] h-[35px] sm:h-[50px] sm:w-[60px] lg:w-20 lg:h-[70px] rounded-[3.35px] bg-primary-50"></div>
+          <div
+            className={`w-[45px] h-[35px] sm:h-[50px] sm:w-[60px] lg:w-20 lg:h-[70px] rounded-[3.35px] ${!invoice?.logo_url && "bg-primary-50"}`}
+          >
+            <img
+              src={invoice?.logo_url || "/images/logo-primary.svg"}
+              alt={invoice?.title || ""}
+              className="h-full w-full object-contain"
+            />
+          </div>
           <p className="text-[8px] sm:text-xs lg:text-sm mt-1.5 line-clamp-1">
-            JohnTech Solutions
+            {invoice?.createdBy?.business_name ||
+              invoice?.createdBy?.name ||
+              ""}
           </p>
         </div>
       </section>
@@ -39,18 +47,24 @@ const Template05 = () => {
       <section className="flex flex-col gap-1 px-2.5 sm:px-4 lg:px-5 max-w-1/2">
         <p className="flex justify-between text-[10px] sm:text-sm lg:text-base">
           <span>Invoice No:</span>
-          <span>#####</span>
+          <span>{invoice?.invoice_number || "#####"} </span>
         </p>
         <p className="flex justify-between text-[10px] sm:text-sm lg:text-base">
           <span>Issued Date:</span>
-          <span className="font-medium">June 13, 2025</span>{" "}
+          <span className="font-medium">
+            {" "}
+            {formatDate(invoice?.created_at || "")}
+          </span>{" "}
         </p>
         <p className="flex justify-between text-[10px] sm:text-sm lg:text-base">
           <span>Due Date:</span>
-          <span className="font-medium">June 13, 2025</span>{" "}
+          <span className="font-medium">
+            {" "}
+            {formatDate(invoice?.due_date || "")}
+          </span>{" "}
         </p>
-        <p className="text-[8px] sm:text-xs lg:text-sm md:mt-1 font-light text-neutral-900">
-          Wallet Address: GPDDKN*******sj9589
+        <p className="text-[8px] sm:text-xs lg:text-sm md:mt-1">
+          {invoice?.title || ""}
         </p>
       </section>
 
@@ -59,30 +73,32 @@ const Template05 = () => {
         <div className="flex justify-between">
           <div className="text-[10px] sm:text-sm lg:text-base font-light">
             <p>From:</p>
-            <p className="font-medium">John Doe</p>
-            <p>johndoe@gmail.com</p>
-            <p>United States</p>
+            <p className="font-medium">
+              {invoice?.createdBy?.name || "John Doe"}
+            </p>
+            <p>{invoice?.createdBy?.email || "johndoe@gmail.com"}</p>
+            <p>{invoice?.createdBy?.location || "United States"}</p>
           </div>
         </div>
         {/*  */}
         <div className="text-[10px] sm:text-sm lg:text-base font-light flex flex-col">
           <p>Billed To:</p>
-          <p className="font-medium">Joseph Morgan</p>
-          <p>josephmorgan@gmail.com</p>
-          <p>United States</p>
+          <p className="font-medium">{invoice?.payer_name || ""}</p>
+          <p>{invoice?.payer_email || ""}</p>
+          <p>{invoice?.country || ""}</p>
         </div>
       </section>
 
       <section className="mt-8 px-2 lg:mt-12 lg:px-4">
-        {/* <InvoiceItems inv={invoice} /> */}
-        <InvoiceItems />
+        <InvoiceItems inv={invoice} />
+        {/* <InvoiceItems /> */}
       </section>
 
       <section className="flex items-center gap-2 text-sm sm:text-base text-neutral-900 mt-5">
         <div className="bg-primary-20 h-10 w-11"></div>
         <div className="">
           <h5>Note:</h5>
-          <p className="italic">Thanks for Patronizing</p>
+          <p className="italic">{invoice?.note || ""}</p>
         </div>
       </section>
     </div>
@@ -91,9 +107,9 @@ const Template05 = () => {
 
 export default Template05;
 
-// function InvoiceItems({ inv }: { inv: InvoiceType }) {
-function InvoiceItems() {
-  const subTotal = invoiceItems.reduce((acc, item) => {
+function InvoiceItems({ inv }: { inv: InvoiceType }) {
+  // function InvoiceItems() {
+  const subTotal = inv?.items?.reduce((acc, item) => {
     const unitPrice = Number(item.unit_price) || 0;
     const quantity = Number(item.quantity) || 0;
     const discount = Number(item.discount) || 0;
@@ -105,10 +121,10 @@ function InvoiceItems() {
   }, 0);
 
   // 2. Calculate service fee
-  const serviceFee = (SERVICE_CHARGE / 100) * subTotal;
+  const serviceFee = (SERVICE_CHARGE / 100) * (subTotal || 0);
 
   // 3. Calculate total
-  const total = subTotal - serviceFee;
+  const total = (subTotal || 0) - serviceFee;
 
   return (
     <div className="">
@@ -132,6 +148,12 @@ function InvoiceItems() {
                 scope="col"
                 className="px-4 py-[15px] text-sm lg:text-base text-center font-bold whitespace-nowrap "
               >
+                Quantity
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-[15px] text-sm lg:text-base text-center font-bold whitespace-nowrap "
+              >
                 Unit Price
               </th>
               <th
@@ -139,12 +161,6 @@ function InvoiceItems() {
                 className="px-4 py-[15px] text-sm lg:text-base text-center font-bold whitespace-nowrap "
               >
                 Discount (%)
-              </th>
-              <th
-                scope="col"
-                className="px-4 py-[15px] text-sm lg:text-base text-center font-bold whitespace-nowrap "
-              >
-                Quantity
               </th>
               <th
                 scope="col"
@@ -158,7 +174,7 @@ function InvoiceItems() {
           {/* Table Body */}
           {/* <tbody className="divide-y divide-[#BFBFBF99]"> */}
           <tbody className="divide-y divide-neutral-600">
-            {invoiceItems?.map((inv, i) => (
+            {inv?.items?.map((inv, i) => (
               <tr key={i} className=" font-medium">
                 <td className="px-4 py-[15px] whitespace-nowrap text-xs lg:text-base text-center">
                   {inv.invoice_type === "per_unit" ? "Per Unit" : "Per Hour"}
@@ -167,10 +183,10 @@ function InvoiceItems() {
                   {inv.description || ""}
                 </td>
                 <td className="px-4 py-[15px] text-xs lg:text-base text-center">
-                  {formatCurrency(inv.unit_price || 0)}
+                  {inv.quantity || 0}
                 </td>
                 <td className="px-4 py-[15px] text-xs lg:text-base text-center">
-                  {inv.quantity || 0}
+                  {formatCurrency(inv.unit_price || 0)}
                 </td>
                 <td className="px-4 py-[15px] text-xs lg:text-base text-center">
                   {inv.discount || 0}
@@ -190,7 +206,7 @@ function InvoiceItems() {
               SUB TOTAL
             </p>
             <p className="text-xs font-bold text-text-strong lg:text-lg">
-              {formatCurrency(subTotal)}
+              {formatCurrency(subTotal || 0)}
             </p>
           </div>
         </div>

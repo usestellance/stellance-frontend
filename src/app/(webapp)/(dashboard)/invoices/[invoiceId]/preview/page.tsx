@@ -6,31 +6,34 @@ import GoBack from "../../../../../../components/ui/custom/GoBack";
 import { StatusBadge } from "../../../../../../components/shared/InvoiceStatusBadge";
 import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
-import { invoiceItems } from "../../../../../../lib/utils";
-import { mockInvoices } from "../../../../../../features/overview/components/LatestInvoices";
 import Template01 from "../../../../../../features/invoice/components/templates/Template01";
 import Template02 from "../../../../../../features/invoice/components/templates/Template02";
 import Template04 from "../../../../../../features/invoice/components/templates/Template04";
 import Template03 from "../../../../../../features/invoice/components/templates/Template03";
+import { useGetInvoice } from "../../../../../../features/invoice/hooks";
 
 export default function Page() {
   const params = useParams();
-  const id = params.invoiceId;
-  const invoice = mockInvoices.find((inv) => inv.id === id);
-  // console.log(invoice);
+  const id = Array.isArray(params.invoiceId)
+    ? params.invoiceId[0]
+    : params.invoiceId;
+
+  const { data } = useGetInvoice({ invoice_id: id || "" });
+  const invoice = data;
+  // console.log('data',invoice);
 
   const getTemplate = () => {
     switch (invoice?.template_id) {
       case "template_002":
-        return <Template02 />;
+        return <Template02 invoice={invoice} />;
       case "template_003":
-        return <Template03 />;
+        return <Template03 invoice={invoice} />;
       case "template_004":
-        return <Template04 />;
+        return <Template04 invoice={invoice} />;
       case "template_005":
-        return <Template05 />;
+        return <Template05 invoice={invoice} />;
       default:
-        return <Template01 />;
+        return <Template01 invoice={invoice} />;
     }
   };
 
@@ -55,6 +58,9 @@ export default function Page() {
       </section>
 
       <section className="mt-8 px-2">{getTemplate()}</section>
+      {/* <section className="mt-8 px-2">
+        <Template05 invoice={invoice} />
+      </section> */}
     </div>
   );
 }

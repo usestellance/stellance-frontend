@@ -30,6 +30,8 @@ export interface InvoiceType {
   sub_total?: number;
   total?: number;
   currency?: string;
+  note?: string;
+  logo_url?: string;
   status?: StatusType;
   description?: string;
   due_date?: string;
@@ -40,7 +42,7 @@ export interface InvoiceType {
   items?: InvoiceItemsTypes[];
   createdBy?: {
     business_name: string;
-    wallet_address: string;
+    // wallet_address: string;
     email: string;
     location: string;
     name: string;

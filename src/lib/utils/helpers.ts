@@ -205,3 +205,11 @@ export function formatDate(raw: string | Date | null | undefined): string {
     day: "numeric",
   }).format(date);
 }
+
+export const capitalizeWords = (text: string) => {
+  return text
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};

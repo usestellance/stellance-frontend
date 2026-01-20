@@ -1,25 +1,17 @@
 "use client";
 import Logo from "../../../../components/shared/Logo";
 import {
+  capitalizeWords,
   formatCurrency,
   formatDate,
   maskMiddle,
   numberToWordsUSD,
 } from "../../../../lib/utils/helpers";
 import { SERVICE_CHARGE } from "../../../../config/constants";
-import { invoiceItems } from "../../../../lib/utils";
-import { useAuthStore } from "../../../../store/userAuthStore";
-import { useParams } from "next/navigation";
-import { mockInvoices } from "../../../overview/components/LatestInvoices";
 import { InvoiceType } from "../../../../types/invoiceTypes";
 
-const Template02 = () => {
-  const credentials = useAuthStore((state) => state.credentials);
-  const params = useParams();
-  const id = params.invoiceId;
-  const invoice = mockInvoices.find((inv) => inv.id === id);
-  const user = credentials?.user?.profile;
-  const wallet = credentials?.user?.wallet;
+const Template02 = ({ invoice }: { invoice: InvoiceType }) => {
+  // console.log(invoice);
 
   return (
     <div className="rounded-[5px]  pt-1.5 pb-10 sm:pt-4 lg:pt-6 invoice-shadow mx-auto md:rounded-[10px] lg:rounded-[20px] ">
@@ -40,13 +32,20 @@ const Template02 = () => {
           </p>
         </div>
         <div className="flex flex-col mt-5">
-          <div className="w-[45px] h-[35px] sm:h-[50px] sm:w-[60px] lg:w-20 lg:h-[70px] rounded-[3.35px] bg-primary-50"></div>
+          <div
+            className={`w-[45px] h-[35px] sm:h-[50px] sm:w-[60px] lg:w-20 lg:h-[70px] rounded-[3.35px] ${!invoice?.logo_url ? "bg-primary-20" : "bg-primary-20"}`}
+          >
+            <img
+              src={invoice?.logo_url || "/images/logo-primary.svg"}
+              alt={invoice?.title || ""}
+              className="h-full w-full object-contain"
+            />
+          </div>
           <p className="text-[8px] sm:text-xs lg:text-sm mt-1.5 line-clamp-1">
-            {user?.business_name ||
-              (user?.first_name || "") + " " + (user?.last_name || "")}
+            {capitalizeWords(invoice?.createdBy?.business_name || "")}
           </p>
-          <p className="text-[8px] sm:text-xs lg:text-sm md:mt-1 font-light text-neutral-900">
-            Wallet Address: {maskMiddle(wallet?.address || "")}
+          <p className="text-[8px] sm:text-xs lg:text-sm md:mt-1">
+            {capitalizeWords(invoice?.title || "")}
           </p>
         </div>
       </section>
@@ -56,11 +55,10 @@ const Template02 = () => {
         <div className="text-[10px] sm:text-sm lg:text-base font-light">
           <p>Billed By:</p>
           <p className="font-medium">
-            {" "}
-            {(user?.first_name || "") + " " + (user?.last_name || "")}
+            {capitalizeWords(invoice?.createdBy?.name || "")}
           </p>
-          <p>{user?.email || ""}</p>
-          <p>{user?.country || ""}</p>
+          <p>{invoice?.createdBy?.email || ""}</p>
+          <p>{capitalizeWords(invoice?.createdBy?.location || "")}</p>
           <p className="mt-4 md:mt-10">
             Date Issued:
             <span className="font-medium">
@@ -140,6 +138,12 @@ function InvoiceItems({ inv }: { inv: InvoiceType }) {
                 scope="col"
                 className="px-4 py-[15px] text-sm lg:text-base text-center font-bold whitespace-nowrap "
               >
+                Quantity
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-[15px] text-sm lg:text-base text-center font-bold whitespace-nowrap "
+              >
                 Unit Price
               </th>
               <th
@@ -147,12 +151,6 @@ function InvoiceItems({ inv }: { inv: InvoiceType }) {
                 className="px-4 py-[15px] text-sm lg:text-base text-center font-bold whitespace-nowrap "
               >
                 Discount (%)
-              </th>
-              <th
-                scope="col"
-                className="px-4 py-[15px] text-sm lg:text-base text-center font-bold whitespace-nowrap "
-              >
-                Quantity
               </th>
               <th
                 scope="col"
@@ -175,10 +173,10 @@ function InvoiceItems({ inv }: { inv: InvoiceType }) {
                   {inv.description || ""}
                 </td>
                 <td className="px-4 py-[15px] text-xs lg:text-base text-center border">
-                  {formatCurrency(inv.unit_price || 0)}
+                  {inv.quantity || 0}
                 </td>
                 <td className="px-4 py-[15px] text-xs lg:text-base text-center border">
-                  {inv.quantity || 0}
+                  {formatCurrency(inv.unit_price || 0)}
                 </td>
                 <td className="px-4 py-[15px] text-xs lg:text-base text-center border">
                   {inv.discount || 0}
