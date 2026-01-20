@@ -212,7 +212,7 @@ const SendInvoiceDialog = ({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="pb-20">
+      <DrawerContent className="">
         <DrawerHeader className="text-left">
           <DrawerTitle>Add members to this invoice</DrawerTitle>
           <DrawerDescription>
@@ -221,12 +221,10 @@ const SendInvoiceDialog = ({
           </DrawerDescription>
         </DrawerHeader>
 
-        {/* <div className="bg-red300"> */}
-          <div className="p-4 space-y-4 overflow-y-auto">
-            {emailInputContent}
-          </div>
+        <div className="bg-red-300 min-h-fit overflow-y-auto ">
+          <div className="p-4 space-y-4">{emailInputContent}</div>
 
-          <DrawerFooter className="">
+          <DrawerFooter className="pb-20">
             <div className="flex justify-center gap-6">
               <Button
                 type="button"
@@ -248,7 +246,7 @@ const SendInvoiceDialog = ({
               </Button>
             </div>
           </DrawerFooter>
-        {/* </div> */}
+        </div>
       </DrawerContent>
     </Drawer>
   );
