@@ -83,6 +83,7 @@
 
 body {
   font-family: "Satoshi-Variable", sans-serif;
+  /* font-family: Helvetica, sans-serif, sans-serif; */
   overflow-x: hidden;
   @apply bg-neutral-500 text-black-500;
 }
@@ -113,10 +114,9 @@ body {
   scrollbar-color: #18234f;
 }
 
-
 .scroll {
-  scrollbar-width: thin;         /* auto | thin | none */
-  scrollbar-color: #D9E4F8 #18234f;  /* thumb color and track color */
+  scrollbar-width: thin; /* auto | thin | none */
+  scrollbar-color: #d9e4f8 #18234f; /* thumb color and track color */
 }
 
 /* WebKit Browsers */
@@ -139,7 +139,6 @@ body {
 .scroll::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
-
 
 [data-sidebar="mobile"] {
   border-top-right-radius: 20px !important;

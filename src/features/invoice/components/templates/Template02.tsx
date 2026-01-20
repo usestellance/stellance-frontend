@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Logo from "../../../../components/shared/Logo";
 import {
   formatCurrency,
@@ -10,16 +10,16 @@ import { SERVICE_CHARGE } from "../../../../config/constants";
 import { invoiceItems } from "../../../../lib/utils";
 import { useAuthStore } from "../../../../store/userAuthStore";
 import { useParams } from "next/navigation";
-import { mockInvoices } from "../../../dashboard/components/LatestInvoices";
+import { mockInvoices } from "../../../overview/components/LatestInvoices";
 import { InvoiceType } from "../../../../types/invoiceTypes";
 
 const Template02 = () => {
   const credentials = useAuthStore((state) => state.credentials);
-   const params = useParams();
-   const id = params.invoiceId;
-   const invoice = mockInvoices.find((inv) => inv.id === id);
-   const user = credentials?.user?.profile;
-   const wallet = credentials?.user?.wallet;
+  const params = useParams();
+  const id = params.invoiceId;
+  const invoice = mockInvoices.find((inv) => inv.id === id);
+  const user = credentials?.user?.profile;
+  const wallet = credentials?.user?.wallet;
 
   return (
     <div className="rounded-[5px]  pt-1.5 pb-10 sm:pt-4 lg:pt-6 invoice-shadow mx-auto md:rounded-[10px] lg:rounded-[20px] ">
@@ -100,7 +100,7 @@ const Template02 = () => {
 export default Template02;
 
 function InvoiceItems({ inv }: { inv: InvoiceType }) {
-// function InvoiceItems() {
+  // function InvoiceItems() {
   const subTotal = inv?.items?.reduce((acc, item) => {
     const unitPrice = Number(item.unit_price) || 0;
     const quantity = Number(item.quantity) || 0;
@@ -113,10 +113,10 @@ function InvoiceItems({ inv }: { inv: InvoiceType }) {
   }, 0);
 
   // 2. Calculate service fee
-  const serviceFee = (SERVICE_CHARGE / 100) * subTotal;
+  const serviceFee = (SERVICE_CHARGE / 100) * (subTotal || 0);
 
   // 3. Calculate total
-  const total = subTotal - serviceFee;
+  const total = (subTotal || 0) - serviceFee;
 
   return (
     <div className="rounded-[5px] pb-12 lg:pb-[83px]">
@@ -198,7 +198,7 @@ function InvoiceItems({ inv }: { inv: InvoiceType }) {
               Sub Total
             </p>
             <p className="text-xs font-bold text-text-strong lg:text-lg">
-              {formatCurrency(subTotal)}
+              {formatCurrency(subTotal || 0)}
             </p>
           </div>
         </div>

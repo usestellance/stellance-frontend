@@ -3,7 +3,7 @@ import { GoShareAndroid } from "react-icons/go";
 import { AiFillCopy } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { mockInvoices } from "../../dashboard/components/LatestInvoices";
+import { mockInvoices } from "../../overview/components/LatestInvoices";
 import { clientRoutes } from "../../../config/routes";
 import { useToast } from "../../../hooks/useToast";
 

@@ -7,7 +7,7 @@ import { StatusBadge } from "../../../../../../components/shared/InvoiceStatusBa
 import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { invoiceItems } from "../../../../../../lib/utils";
-import { mockInvoices } from "../../../../../../features/dashboard/components/LatestInvoices";
+import { mockInvoices } from "../../../../../../features/overview/components/LatestInvoices";
 import Template01 from "../../../../../../features/invoice/components/templates/Template01";
 import Template02 from "../../../../../../features/invoice/components/templates/Template02";
 import Template04 from "../../../../../../features/invoice/components/templates/Template04";
@@ -20,7 +20,7 @@ export default function Page() {
   // console.log(invoice);
 
   const getTemplate = () => {
-    switch (invoice?.templateId) {
+    switch (invoice?.template_id) {
       case "template_002":
         return <Template02 />;
       case "template_003":
@@ -58,3 +58,5 @@ export default function Page() {
     </div>
   );
 }
+
+//Success in house of wonder

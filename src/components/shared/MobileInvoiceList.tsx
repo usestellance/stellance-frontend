@@ -1,7 +1,7 @@
 "use client";
 import { StatusBadge } from "./InvoiceStatusBadge";
 import { InvoiceType } from "../../types/invoiceTypes";
-import { formatCurrency } from "../../lib/utils/helpers";
+import { formatCurrency, formatDate } from "../../lib/utils/helpers";
 import { useRouter } from "next/navigation";
 import { invoiceRoutes, receiptRoutes } from "../../config/routes";
 
@@ -24,18 +24,24 @@ const InvoiceList = ({ invoice }: InvoiceCardProps) => {
   return (
     <div
       onClick={previewInvoice}
-      className="bg-primary-20 rounded-[5px] flex justify-between pt-[15px] pb-[11px] px-5 h-[110px] hover:bg-primary-500 hover:text-neutral-500 duration-150 cursor-pointer"
+      className="bg-primary-20 rounded-[5px] flex justify-between py-[15px] px-5 min-h-[110px] hover:bg-primary-500 hover:text-neutral-500 duration-150 cursor-pointer"
     >
       <div className="flex flex-col justify-between">
         <p className="text-xs leading-[25px] mt-1">{invoice.invoice_number}</p>
         <StatusBadge status={invoice.status || "pending"} variant="outlined" />
-        <p className="text-xs">Date Issued: {invoice.created_at}</p>
+        <p className="text-xs max-[350px]:mt-2">
+          Date Issued: <br className="min-[350px]:hidden" />{" "}
+          {formatDate(invoice.created_at)}
+        </p>
       </div>
-      <div className="flex flex-col items-end justify-between text-sm gap-0.5">
+      <div className="flex flex-col items-end justify-between text-sm gap-1">
         <p>To:</p>
         <p className="font-bold">{invoice.payer_name}</p>
         <p className="font-bold">{formatCurrency(invoice.total || 0)}</p>
-        <p className="text-xs">Due Date: {invoice.due_date}</p>
+        <p className="text-xs text-end max-[350px]:mt-2">
+          Due Date: <br className="min-[350px]:hidden" />{" "}
+          {formatDate(invoice.due_date || "")}
+        </p>
       </div>
     </div>
   );

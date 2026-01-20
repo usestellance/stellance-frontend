@@ -36,19 +36,24 @@ export const invoiceSchema = z.object({
   //   }),
 
   // Client/Customer details
+  title: z.string().min(2, { message: "Title is required" }),
   clientName: z.string().min(2, { message: "Client name is required" }),
   email: z.string().email({ message: "Invalid email address" }).optional(),
   address: z.string().optional(),
 
   // // Invoice items (expandable)
-  items: z.array(z.object({
-    invoice_type: z.enum(["per_hour", "per_unit"]),
-    description: z.string(),
-    quantity: z.number(),
-    unit_price: z.number(),
-    discount: z.number(),
-    amount: z.number(),
-  })).min(1, "At least one item is required"),
+  items: z
+    .array(
+      z.object({
+        invoice_type: z.enum(["per_hour", "per_unit"]),
+        description: z.string(),
+        quantity: z.number(),
+        unit_price: z.number(),
+        discount: z.number(),
+        amount: z.number(),
+      }),
+    )
+    .min(1, "At least one item is required"),
 
   // // Totals
   subtotal: z.number(),
@@ -57,7 +62,22 @@ export const invoiceSchema = z.object({
 
   // // Additional fields
   notes: z.string().optional(),
-  dueDate: z.string(),
+  dueDate: z.string().refine(
+    (value) => {
+      const due = new Date(value);
+      const today = new Date();
+
+      // normalize time to avoid same-day issues
+      today.setHours(0, 0, 0, 0);
+      due.setHours(0, 0, 0, 0);
+
+      return due >= today;
+    },
+    {
+      message: "Due date cannot be in the past",
+    },
+  ),
+  // dueDate: z.string(),
 
   // Add more fields here as you expand...
 });

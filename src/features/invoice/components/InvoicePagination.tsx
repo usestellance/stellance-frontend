@@ -9,32 +9,44 @@ import {
 } from "@/components/ui/pagination";
 import { useInvoiceFilter } from "../../../store/useInvoiceStore";
 
-const InvoicePagination = () => {
+const InvoicePagination = ({ pageNumber }: { pageNumber: number }) => {
   const { page, setPage } = useInvoiceFilter();
+
+  const isFirstPage = page <= 1;
+  const isLastPage = page >= pageNumber;
+
   return (
-    <Pagination className="">
+    <Pagination>
       <PaginationContent className="w-full flex justify-between">
         <PaginationItem>
           <PaginationPrevious
             onClick={() => {
-              if (page > 1) {
-                setPage(page - 1);
-              }
+              if (!isFirstPage) setPage(page - 1);
             }}
-            className={`${
-              page > 1 ? "text-primary-500" : "text-neutral-800"
-            } bg-neutral-comment`}
+            className={`bg-neutral-comment ${
+              isFirstPage
+                ? "pointer-events-none opacity-50 cursor-not-allowed"
+                : "text-primary-500"
+            }`}
           />
         </PaginationItem>
+
         <PaginationItem>
           <div className="text-xs font-medium md:text-sm">
-            Page {page} of 10
+            Page {page} of {pageNumber}
           </div>
         </PaginationItem>
+
         <PaginationItem>
           <PaginationNext
-            onClick={() => setPage(page + 1)}
-            className="bg-neutral-comment"
+            onClick={() => {
+              if (!isLastPage) setPage(page + 1);
+            }}
+            className={`bg-neutral-comment ${
+              isLastPage
+                ? "pointer-events-none opacity-50 cursor-not-allowed"
+                : "text-primary-500"
+            }`}
           />
         </PaginationItem>
       </PaginationContent>

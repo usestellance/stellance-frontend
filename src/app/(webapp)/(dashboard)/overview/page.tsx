@@ -2,10 +2,10 @@
 import { useRouter } from "next/navigation";
 import { Button } from "../../../../components/ui/button";
 import { invoiceRoutes } from "../../../../config/routes";
-import { StatsCards } from "../../../../features/dashboard/components/StatsCards";
-import { ChartAreaInteractive } from "../../../../features/dashboard/components/AreaChart";
-import { ChartPieInteractive } from "../../../../features/dashboard/components/PieChart";
-import LatestInvoices from "../../../../features/dashboard/components/LatestInvoices";
+import { StatsCards } from "../../../../features/overview/components/StatsCards";
+import { ChartAreaInteractive } from "../../../../features/overview/components/AreaChart";
+import { ChartPieInteractive } from "../../../../features/overview/components/PieChart";
+import LatestInvoices from "../../../../features/overview/components/LatestInvoices";
 import { useAuthStore } from "../../../../store/userAuthStore";
 
 export default function Page() {

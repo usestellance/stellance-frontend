@@ -34,17 +34,20 @@ import { useToast } from "../../../../../hooks/useToast";
 import { InvoiceItemsTypes } from "../../../../../types/invoiceTypes";
 import { FiTrash } from "react-icons/fi";
 import SelectField from "../../../../../components/ui/custom/SelectField";
+import { useCreateInvoice } from "../../../hooks";
+import { Label } from "../../../../../components/ui/label";
+import { Checkbox } from "../../../../../components/ui/checkbox";
 
 export default function CreateInvoiceFormDesktop() {
   const toast = useToast();
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const createInvoice = useCreateInvoice();
+  const [make_default, setMake_default] = useState(true);
 
   const form = useForm<InvoiceFormValues>({
     resolver: zodResolver(invoiceSchema),
     defaultValues: {
       logo: undefined,
-      // invoiceNumber: "",
+      title: "",
       clientName: "",
       email: "",
       address: "",
@@ -68,14 +71,33 @@ export default function CreateInvoiceFormDesktop() {
   });
 
   function onSubmit(values: InvoiceFormValues) {
-    setLoading(true);
-    console.log("Submitted invoice:", values);
-    setTimeout(() => {
-      setLoading(false);
-      router.push(invoiceRoutes.INVOICES);
-      toast.success("Invoice Created Successfully");
-      clearItems();
-    }, 2000);
+    // console.log("Items from Zustand:", items);
+    // console.log("Items length:", items.length);
+    // console.log("Form values:", values);
+    if (watchedItems.length === 0) {
+      toast.error("Please add at least one invoice item");
+    }
+
+    const stored = localStorage.getItem("invoice-template");
+    const template_id = stored
+      ? JSON.parse(stored).state.selectedTemplate
+      : "template_001";
+
+    const payload = {
+      title: values.title,
+      payer_name: values.clientName,
+      payer_email: values.email,
+      country: values.address,
+      due_date: values.dueDate,
+      invoice_items: values.items,
+      service_fee: serviceFee,
+      template_id,
+      logo: values.logo,
+      make_default,
+    };
+
+    createInvoice.mutate(payload);
+    clearItems();
   }
 
   const watchedItems = useWatch({
@@ -121,6 +143,9 @@ export default function CreateInvoiceFormDesktop() {
         <form
           onSubmit={form.handleSubmit(onSubmit, (e) => {
             console.log("FORM ERRORS:", e);
+            if (watchedItems.length === 0) {
+              toast.error("Please add at least one invoice item");
+            }
           })}
           className="space-y-5"
         >
@@ -182,6 +207,24 @@ export default function CreateInvoiceFormDesktop() {
                       </div>
                     </FormControl>
                     <FormMessage />
+
+                    <div className="flex items-center gap-2 w-full justify-center">
+                      <Checkbox
+                        id="make_default"
+                        checked={make_default}
+                        onCheckedChange={(checked) => {
+                          setMake_default(checked === true);
+                        }}
+                        className="data-[state=checked]:text-primary-500 data-[state=checked]:bg-white size-4 data-[state=checked]:border-primary-100"
+                      />
+
+                      <Label
+                        htmlFor="make_default"
+                        className="whitespace-nowrap"
+                      >
+                        Set as default
+                      </Label>
+                    </div>
                   </FormItem>
                 );
               }}
@@ -225,6 +268,27 @@ export default function CreateInvoiceFormDesktop() {
                       className="max-w-1/2"
                       type="email"
                       placeholder="Recipient Email"
+                      error={fieldState.error?.message ?? null}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <InputField
+                      {...field}
+                      className="max-w-1/2"
+                      type="text"
+                      placeholder="Invoice Title"
                       error={fieldState.error?.message ?? null}
                     />
                   </FormControl>
@@ -471,6 +535,7 @@ export default function CreateInvoiceFormDesktop() {
                   <FormControl>
                     <InputField {...field} type="date" />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -497,7 +562,11 @@ export default function CreateInvoiceFormDesktop() {
             >
               Preview
             </Button>
-            <Button type="submit" isLoading={loading} className="in-app-btn">
+            <Button
+              type="submit"
+              isLoading={createInvoice.isPending}
+              className="in-app-btn"
+            >
               Proceed
             </Button>
           </div>

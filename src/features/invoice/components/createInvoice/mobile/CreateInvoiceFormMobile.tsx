@@ -32,6 +32,9 @@ import AddInvoiceItemDrawer from "./AddInvoiceItemDrawer";
 import { useRouter } from "next/navigation";
 import { invoiceRoutes } from "../../../../../config/routes";
 import { useToast } from "../../../../../hooks/useToast";
+import { useCreateInvoice } from "../../../hooks";
+import { Checkbox } from "../../../../../components/ui/checkbox";
+import { Label } from "../../../../../components/ui/label";
 
 export default function CreateInvoiceFormMobile() {
   const {
@@ -43,19 +46,19 @@ export default function CreateInvoiceFormMobile() {
     clearItems,
   } = useInvoiceItems();
   const toast = useToast();
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-
+  // const [loading, setLoading] = useState(false);
+  // const router = useRouter();
+  const createInvoice = useCreateInvoice();
   const total = calculateTotal(items);
   const serviceFee = (total * SERVICE_CHARGE) / 100;
-
+  const [make_default, setMake_default] = useState(true);
   const netTotal = formatCurrency(calculateNetTotal(total, serviceFee));
 
   const form = useForm<InvoiceFormValues>({
     resolver: zodResolver(invoiceSchema),
     defaultValues: {
       logo: undefined,
-      // invoiceNumber: "",
+      title: "",
       clientName: "",
       email: "",
       address: "",
@@ -69,26 +72,82 @@ export default function CreateInvoiceFormMobile() {
     },
   });
 
-  console.log("items", items);
-  console.log("RHF ITEMS:", form.watch("items"));
+  // console.log("items", items);
+  // console.log("RHF ITEMS:", form.watch("items"));
 
   // 🔁 Sync Zustand items → RHF
   useEffect(() => {
     form.setValue("items", items as InvoiceFormValues["items"]);
   }, [items]);
 
-  function onSubmit(values: InvoiceFormValues) {
-    setLoading(true);
-    console.log("Submitted invoice:", values);
-    setTimeout(() => {
-      setLoading(false);
-      router.push(invoiceRoutes.INVOICES);
-      toast.success("Invoice Created Successfully");
-      clearItems();
-    }, 2000);
-  }
+  // function onSubmit(values: InvoiceFormValues) {
+  //   console.log("Items from Zustand:", items);
+  //   console.log("Items length:", items.length);
+  //   console.log("Form values:", values);
+  //   const stored = localStorage.getItem("invoice-template");
 
-  
+  //   const template_id = stored
+  //     ? JSON.parse(stored).state.selectedTemplate
+  //     : "template_001";
+
+  //     createInvoice.mutate({
+  //     title: values.title, // or dynamic title
+  //     payer_name: values.clientName,
+  //     payer_email: values.email,
+  //     country: values.address,
+  //     due_date: values.dueDate,
+  //     invoice_items: values.items,
+  //     service_fee: serviceFee,
+  //     template_id, // REQUIRED
+  //     logo: values.logo,
+  //     filename: values.logo?.name,
+  //     make_default,
+  //     items: values.items,
+  //   });
+  //   // setLoading(true);
+  //   // console.log("Submitted invoice:", values);
+  //   // setTimeout(() => {
+  //   //   setLoading(false);
+  //   //   router.push(invoiceRoutes.INVOICES);
+  //   //   toast.success("Invoice Created Successfully");
+  //   //   clearItems();
+  //   // }, 2000);
+  // }
+
+  // console.log("FORM VALUES:", form.getValues());
+  function onSubmit(values: InvoiceFormValues) {
+    // console.log("Items from Zustand:", items);
+    // console.log("Items length:", items.length);
+    // console.log("Form values:", values);
+
+    if (items.length === 0) {
+      toast.error("Please add at least one invoice item");
+      return;
+    }
+
+    const stored = localStorage.getItem("invoice-template");
+    const template_id = stored
+      ? JSON.parse(stored).state.selectedTemplate
+      : "template_001";
+
+    const payload = {
+      title: values.title,
+      payer_name: values.clientName,
+      payer_email: values.email,
+      country: values.address,
+      due_date: values.dueDate,
+      invoice_items: items,
+      service_fee: serviceFee,
+      template_id,
+      logo: values.logo,
+      make_default,
+    };
+
+    // console.log("temp", template_id);
+    // console.log("Invoice items being sent:", JSON.stringify(items));
+
+    createInvoice.mutate(payload);
+  }
 
   return (
     <div className="max-w-[1200px] mx-auto">
@@ -152,6 +211,24 @@ export default function CreateInvoiceFormMobile() {
                       </div>
                     </FormControl>
                     <FormMessage />
+
+                    <div className="flex items-center gap-1">
+                      <Checkbox
+                        id="make_default"
+                        checked={make_default}
+                        onCheckedChange={(checked) => {
+                          setMake_default(checked === true);
+                        }}
+                        className="data-[state=checked]:text-primary-500 data-[state=checked]:bg-white size-4 data-[state=checked]:border-primary-100"
+                      />
+
+                      <Label
+                        htmlFor="make_default"
+                        className="text-[10px] whitespace-nowrap"
+                      >
+                        Set as default
+                      </Label>
+                    </div>
                   </FormItem>
                 );
               }}
@@ -204,6 +281,26 @@ export default function CreateInvoiceFormMobile() {
 
             <FormField
               control={form.control}
+              name="title"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <InputField
+                      {...field}
+                      type="text"
+                      placeholder="Invoice Title"
+                      error={fieldState.error?.message ?? null}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="address"
               render={({ field, fieldState }) => (
                 <FormItem>
@@ -226,7 +323,7 @@ export default function CreateInvoiceFormMobile() {
             <h3 className="mt-10 text-sm lg:text-[22px]">Invoice Items</h3>
 
             <div className="flex flex-col gap-[26px] mt-5">
-              {form.getValues("items").map((item, i) => (
+              {items.map((item, i) => (
                 <InvoiceItemsCard
                   key={i}
                   amount={item.amount}
@@ -310,6 +407,7 @@ export default function CreateInvoiceFormMobile() {
                   <FormControl>
                     <InputField {...field} type="date" />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -336,7 +434,11 @@ export default function CreateInvoiceFormMobile() {
             >
               Preview
             </Button>
-            <Button type="submit" isLoading={loading} className="in-app-btn">
+            <Button
+              type="submit"
+              isLoading={createInvoice.isPending}
+              className="in-app-btn"
+            >
               Proceed
             </Button>
           </div>

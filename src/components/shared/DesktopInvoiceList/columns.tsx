@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { InvoiceType } from "../../../types/invoiceTypes";
 import { StatusBadge, StatusType } from "../InvoiceStatusBadge";
+import { formatCurrency } from "../../../lib/utils/helpers";
 
 export const columns: ColumnDef<InvoiceType>[] = [
   {
@@ -22,21 +23,31 @@ export const columns: ColumnDef<InvoiceType>[] = [
     },
   },
   {
-    accessorKey: "description",
-    header: "Description",
+    accessorKey: "title",
+    header: "Title",
   },
   {
     accessorKey: "created_at",
     header: "Date Issued",
     cell: ({ row }) => {
-      return new Date(row.getValue("created_at")).toLocaleDateString();
+      const date = new Date(row.getValue("created_at"));
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "2-digit",
+        year: "numeric",
+      });
     },
   },
   {
     accessorKey: "due_date",
     header: "Due Date",
     cell: ({ row }) => {
-      return new Date(row.getValue("due_date")).toLocaleDateString();
+      const date = new Date(row.getValue("created_at"));
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "2-digit",
+        year: "numeric",
+      });
     },
   },
   {
@@ -44,11 +55,14 @@ export const columns: ColumnDef<InvoiceType>[] = [
     header: "Amount",
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("total"));
-      const currency = row.original.currency;
-      return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: currency,
-      }).format(amount);
+      const currency = formatCurrency(amount);
+
+      return <span>{currency}</span>;
+      // const currency = row.original.currency;
+      // return new Intl.NumberFormat("en-US", {
+      //   style: "currency",
+      //   currency: currency,
+      // }).format(amount);
     },
   },
   {

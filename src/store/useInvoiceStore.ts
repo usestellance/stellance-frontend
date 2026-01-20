@@ -16,6 +16,7 @@ interface InvoiceFilterState {
   searchTerm: string;
   status: InvoiceStatus;
   page: number;
+  order_by: "desc" | "asc";
   size: number;
   setPage: (page: number) => void;
   //   setOrderBy: (order: "asc" | "dsc") => void;
@@ -27,6 +28,7 @@ interface InvoiceFilterState {
 
 export const useInvoiceFilter = create<InvoiceFilterState>((set) => ({
   page: 1,
+  order_by: "desc",
   size: 10,
   searchTerm: "",
   status: "all",
@@ -47,13 +49,14 @@ export const useInvoiceFilter = create<InvoiceFilterState>((set) => ({
 export const useReceiptFilter = create<InvoiceFilterState>((set) => ({
   page: 1,
   size: 10,
+  order_by: "desc",
   searchTerm: "",
   status: "paid",
 
   setSearchTerm: (value) => set({ searchTerm: value }),
   setStatus: (value) => set({ status: value }),
   setPage: (page) => set({ page }),
-  //   setOrderBy: (order_by) => set({ order_by }),
+  // setOrderBy: (order_by) => set({ order_by }),
   //   setPageCount: (page_count) => set({ page_count }),
 
   resetFilters: () =>
@@ -89,11 +92,11 @@ export const useInvoiceItems = create<InvoiceItemsStore>((set) => ({
       state.editingIndex !== null
         ? {
             items: state.items.map((it, idx) =>
-              idx === state.editingIndex ? item : it
+              idx === state.editingIndex ? item : it,
             ),
             editingIndex: null,
           }
-        : state
+        : state,
     ),
 
   setEditingIndex: (index) => set({ editingIndex: index }),

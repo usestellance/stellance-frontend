@@ -11,7 +11,7 @@ import { SERVICE_CHARGE } from "../../../../config/constants";
 import { InvoiceType } from "../../../../types/invoiceTypes";
 import { invoiceItems } from "../../../../lib/utils";
 import { useParams } from "next/navigation";
-import { mockInvoices } from "../../../dashboard/components/LatestInvoices";
+import { mockInvoices } from "../../../overview/components/LatestInvoices";
 import { useAuthStore } from "../../../../store/userAuthStore";
 
 const Template01 = () => {

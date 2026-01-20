@@ -1,5 +1,5 @@
 import InvoiceCard from "../../../components/shared/MobileInvoiceList";
-import { mockInvoices } from "../../dashboard/components/LatestInvoices";
+import { mockInvoices } from "../../overview/components/LatestInvoices";
 import { DataTable } from "../../../components/shared/DesktopInvoiceList/data-table";
 import { columns } from "../../../components/shared/DesktopInvoiceList/columns";
 import { useReceiptFilter } from "../../../store/useInvoiceStore";

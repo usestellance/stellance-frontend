@@ -8,6 +8,131 @@ import { InvoiceResponseType, InvoiceType } from "../../../types/invoiceTypes";
 import { useToast } from "../../../hooks/useToast";
 import { authRoutes, invoiceRoutes } from "../../../config/routes";
 import { axiosInstance } from "../../../config/axios";
+import { useInvoiceFilter } from "../../../store/useInvoiceStore";
+
+// export const useCreateInvoice = () => {
+//   const toast = useToast();
+//   const credentials = useAuthStore((state) => state.credentials);
+//   const logout = useLogout();
+//   const axiosAuth = useAxiosAuth();
+//   const router = useRouter();
+//   const queryClient = useQueryClient();
+//   const is_profile_complete = credentials?.user?.profile_complete;
+
+//   // Define the function to handle the registration API call
+
+//   const handleCreateInvoice = async (data: InvoiceType) => {
+//     // const response = await get('/auth/clear')
+//     const response = await axiosAuth.post("/invoice", {
+//       title: data.title,
+//       payer_name: data.payer_name,
+//       payer_email: data.payer_email,
+//       country: data.country,
+//       invoice_items: data.invoice_items,
+//       due_date: data.due_date,
+//       service_fee: data.service_fee,
+//     });
+//     // console.log(response);
+//     return response.data;
+//   };
+
+//   // Use React Query's useMutation hook with additional configurations
+//   const mutation = useMutation<
+//     InvoiceResponseType,
+//     AxiosError<InvoiceResponseType>,
+//     InvoiceType
+//   >({
+//     mutationFn: handleCreateInvoice,
+//     onSuccess: (data: InvoiceResponseType) => {
+//       // console.log(data);
+
+//       queryClient.invalidateQueries({ queryKey: ["invoices"] });
+//       toast.success(data.message);
+//       router.push(invoiceRoutes.INVOICES);
+//     },
+//     onError: (error) => {
+//       const errorMessage =
+//         axios.isAxiosError(error) && error?.response?.data?.message
+//           ? error?.response?.data?.message
+//           : "An unknown error occurred.";
+//       if (error.response?.status === 401) {
+//         toast.error("Unauthorized Access");
+//         router.push(authRoutes.LOGIN);
+//         logout();
+//       } else {
+//         if (is_profile_complete) {
+//           toast.error(errorMessage);
+//         }
+//       }
+//       // console.log(error?.response);
+//     },
+//   });
+
+//   // Return the mutation object to use in components
+//   return mutation;
+// };
+
+// export const useCreateInvoice = () => {
+//   const toast = useToast();
+//   const credentials = useAuthStore((state) => state.credentials);
+//   const logout = useLogout();
+//   const axiosAuth = useAxiosAuth();
+//   const router = useRouter();
+//   const queryClient = useQueryClient();
+//   const is_profile_complete = credentials?.user?.profile_complete;
+
+//   const handleCreateInvoice = async (data: InvoiceType) => {
+//     const formData = new FormData();
+
+//     formData.append("title", data.title || "");
+//     formData.append("payer_name", data.payer_name || "");
+//     formData.append("payer_email", data.payer_email || "");
+//     formData.append("country", data.country || "");
+//     formData.append("due_date", data.due_date || "");
+//     formData.append("template_id", data.template_id || ""); // REQUIRED
+//     formData.append("service_fee", String(data.service_fee));
+//     formData.append("make_default", String(data.make_default));
+//     formData.append("invoice_items", JSON.stringify(data.invoice_items));
+//     formData.append("template_id", JSON.stringify(data.template_id));
+//     if (data.logo) {
+//       formData.append("logo", data.logo);
+//       formData.append("filename", data.logo);
+//     }
+
+//     const response = await axiosAuth.post("/invoice", formData, {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//       },
+//     });
+
+//     // console.log("CREATE INVOICE RESPONSE:", response);
+//     console.log("CREATE INVOICE RESPONSE:", data);
+
+//     // return response.data;
+//   };
+
+//   return useMutation({
+//     mutationFn: handleCreateInvoice,
+//     onSuccess: (data) => {
+//       queryClient.invalidateQueries({ queryKey: ["invoices"] });
+//       // toast.success(data.message);
+//       toast.success('data.message');
+//       // router.push(invoiceRoutes.INVOICES);
+//     },
+//     onError: (error: any) => {
+//       const errorMessage =
+//         error?.response?.data?.message ?? "An unknown error occurred.";
+
+//       if (error.response?.status === 401) {
+//         toast.error("Unauthorized Access");
+//         logout();
+//         router.push(authRoutes.LOGIN);
+//       } else if (is_profile_complete) {
+//         toast.error(errorMessage);
+//       }
+//     },
+//   });
+// };
 
 export const useCreateInvoice = () => {
   const toast = useToast();
@@ -18,64 +143,69 @@ export const useCreateInvoice = () => {
   const queryClient = useQueryClient();
   const is_profile_complete = credentials?.user?.profile_complete;
 
-  // Define the function to handle the registration API call
-
   const handleCreateInvoice = async (data: InvoiceType) => {
-    // const response = await get('/auth/clear')
-    const response = await axiosAuth.post("/invoice", {
-      title: data.title,
-      payer_name: data.payer_name,
-      payer_email: data.payer_email,
-      country: data.country,
-      invoice_items: data.invoice_items,
-      due_date: data.due_date,
-      service_fee: data.service_fee,
+    const formData = new FormData();
+
+    formData.append("title", data.title || "");
+    formData.append("payer_name", data.payer_name || "");
+    formData.append("payer_email", data.payer_email || "");
+    formData.append("country", data.country || "");
+    formData.append("due_date", data.due_date || "");
+    formData.append("template_id", data.template_id || ""); // REQUIRED - only once, as string
+    formData.append("service_fee", String(data.service_fee));
+    formData.append("make_default", String(data.make_default));
+
+    // ✅ Stringify invoice_items properly
+    formData.append(
+      "invoice_items",
+      data.invoice_items ? JSON.stringify(data.invoice_items) : "[]",
+    );
+
+    // ✅ Handle logo file correctly
+    if (data.logo && data.logo instanceof File) {
+      formData.append("logo", data.logo, data.filename); // File object with filename
+    }
+
+    const response = await axiosAuth.post("/invoice", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
-    // console.log(response);
+
+    // console.log("CREATE INVOICE RESPONSE:", response.data);
     return response.data;
   };
 
-  // Use React Query's useMutation hook with additional configurations
-  const mutation = useMutation<
-    InvoiceResponseType,
-    AxiosError<InvoiceResponseType>,
-    InvoiceType
-  >({
+  return useMutation({
     mutationFn: handleCreateInvoice,
-    onSuccess: (data: InvoiceResponseType) => {
-      // console.log(data);
-
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
-      toast.success(data.message);
+      toast.success(data.message || "Invoice created successfully");
       router.push(invoiceRoutes.INVOICES);
     },
-    onError: (error) => {
+    onError: (error: any) => {
       const errorMessage =
-        axios.isAxiosError(error) && error?.response?.data?.message
-          ? error?.response?.data?.message
-          : "An unknown error occurred.";
+        error?.response?.data?.message ?? "An unknown error occurred.";
+
       if (error.response?.status === 401) {
         toast.error("Unauthorized Access");
-        router.push(authRoutes.LOGIN);
         logout();
-      } else {
-        if (is_profile_complete) {
-          toast.error(errorMessage);
-        }
+        router.push(authRoutes.LOGIN);
+      } else if (is_profile_complete) {
+        toast.error(errorMessage);
       }
-      // console.log(error?.response);
+
+      // Log the error for debugging
+      console.error("Invoice creation error:", error.response?.data);
     },
   });
-
-  // Return the mutation object to use in components
-  return mutation;
 };
 
 export const useGetInvoices = ({
   order_by = "desc",
-  page = 1,
-  page_count = 10,
-  status = "",
+  // page = 1,
+  page_count = 2,
+  status = "all",
 }: {
   order_by?: string;
   page?: number;
@@ -85,6 +215,7 @@ export const useGetInvoices = ({
   // const router = useRouter();
   const credentials = useAuthStore((state) => state.credentials);
   const { get } = useAxiosAuth();
+  const { page } = useInvoiceFilter();
   // const { order_by, page, page_count, status } = useFetchInvoiceParams();
 
   const user_id = credentials?.user?.profile?.id;
@@ -94,12 +225,13 @@ export const useGetInvoices = ({
     if (user_id) params.append("user_id", user_id);
     if (order_by) params.append("order_by", order_by);
     if (page_count) params.append("page_count", page_count.toString());
-    if (status) params.append("status", status);
+    // if (status) params.append("status", status);
     if (page) params.append("page", page.toString());
 
     const url = `/invoice?${params.toString()}`;
+    // const url = `/invoice`;
     const res = await get(url);
-
+    console.log(res);
     return res.data.data;
   };
 
