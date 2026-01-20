@@ -11,7 +11,7 @@ import { SERVICE_CHARGE } from "../../../../config/constants";
 import { InvoiceType } from "../../../../types/invoiceTypes";
 
 const Template01 = ({ invoice }: { invoice: InvoiceType }) => {
-  console.log(invoice);
+  // console.log(invoice);
 
   return (
     <div className="rounded-[5px]  pt-1.5 pb-10 sm:pt-4 lg:pt-6 invoice-shadow mx-auto md:rounded-[10px] lg:rounded-[20px] ">

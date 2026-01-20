@@ -302,22 +302,19 @@ export const useGetInvoiceForClient = ({
   });
 };
 
-export const useSendInvoice = (invoiceId: string, email?: string) => {
+export const useSendInvoice = (invoiceId: string) => {
   const toast = useToast();
   const logout = useLogout();
-  const { get } = useAxiosAuth();
+  const { post } = useAxiosAuth();
   const router = useRouter();
   const queryClient = useQueryClient();
 
   // Define the function to handle the send invoice API call
-  const handleSendInvoice = async () => {
-    // Build the URL conditionally based on whether email is provided
-    const url = email
-      ? `/invoice/send/${invoiceId}?email=${email}`
-      : `/invoice/send/${invoiceId}`;
-
-    const response = await get(url);
-    // console.log(response);
+  const handleSendInvoice = async ({ emails }: { emails: string[] }) => {
+    const response = await post(`/invoice/send/${invoiceId}`, {
+      emails: emails,
+    });
+    console.log(response);
     return response.data;
   };
 
@@ -325,15 +322,14 @@ export const useSendInvoice = (invoiceId: string, email?: string) => {
   const mutation = useMutation<
     InvoiceResponseType,
     AxiosError<InvoiceResponseType>,
-    void // No parameters needed since we're using closure
+    { emails: string[] } // Accept emails object as parameter
   >({
     mutationFn: handleSendInvoice,
     onSuccess: (data: InvoiceResponseType) => {
-      // console.log(data);
       toast.success(data.message);
 
       queryClient.invalidateQueries({ queryKey: ["invoice", "invoices"] });
-      window.location.reload();
+      // window.location.reload();
     },
     onError: (error) => {
       const errorMessage =
@@ -353,6 +349,58 @@ export const useSendInvoice = (invoiceId: string, email?: string) => {
 
   return mutation;
 };
+
+// export const useSendInvoice = (invoiceId: string, email?: string) => {
+//   const toast = useToast();
+//   const logout = useLogout();
+//   const { get } = useAxiosAuth();
+//   const router = useRouter();
+//   const queryClient = useQueryClient();
+
+//   // Define the function to handle the send invoice API call
+//   const handleSendInvoice = async () => {
+//     // Build the URL conditionally based on whether email is provided
+//     const url = email
+//       ? `/invoice/send/${invoiceId}?email=${email}`
+//       : `/invoice/send/${invoiceId}`;
+
+//     const response = await get(url);
+//     // console.log(response);
+//     return response.data;
+//   };
+
+//   // Use React Query's useMutation hook
+//   const mutation = useMutation<
+//     InvoiceResponseType,
+//     AxiosError<InvoiceResponseType>,
+//     void // No parameters needed since we're using closure
+//   >({
+//     mutationFn: handleSendInvoice,
+//     onSuccess: (data: InvoiceResponseType) => {
+//       // console.log(data);
+//       toast.success(data.message);
+
+//       queryClient.invalidateQueries({ queryKey: ["invoice", "invoices"] });
+//       window.location.reload();
+//     },
+//     onError: (error) => {
+//       const errorMessage =
+//         axios.isAxiosError(error) && error?.response?.data?.message
+//           ? error?.response?.data?.message
+//           : "An unknown error occurred.";
+//       if (error.response?.status === 401) {
+//         toast.error("Unauthorized Access");
+//         router.push(authRoutes.LOGIN);
+//         logout();
+//       } else {
+//         toast.error(errorMessage);
+//       }
+//       console.log(error?.response);
+//     },
+//   });
+
+//   return mutation;
+// };
 
 export const useReviewInvoice = (invoiceId: string, approve: boolean) => {
   const queryClient = useQueryClient();
@@ -389,7 +437,6 @@ export const useReviewInvoice = (invoiceId: string, approve: boolean) => {
 
   return mutation;
 };
-
 
 export const useDeleteInvoice = (invoiceId: string) => {
   const toast = useToast();
