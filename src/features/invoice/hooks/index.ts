@@ -204,7 +204,7 @@ export const useCreateInvoice = () => {
 export const useGetInvoices = ({
   order_by = "desc",
   // page = 1,
-  page_count = 2,
+  page_count = 5,
   status = "all",
 }: {
   order_by?: string;
@@ -390,50 +390,6 @@ export const useReviewInvoice = (invoiceId: string, approve: boolean) => {
   return mutation;
 };
 
-// export const useReviewInvoice = (invoiceId: string, approve: boolean) => {
-//   // const router = useRouter();
-//   const queryClient = useQueryClient();
-
-//   // Define the function to handle the send invoice API call
-//   const handleSendInvoice = async () => {
-//     // Build the URL conditionally based on whether email is provided
-//     const url = `/invoice/review/${invoiceId}?approve=${approve}`;
-
-//     const response = await axiosInstance.get(url);
-//     // console.log(response);
-//     return response.data;
-//   };
-
-//   // console.log(invoiceId, approve);
-
-//   // Use React Query's useMutation hook
-//   const mutation = useMutation<
-//     InvoiceResponseType,
-//     AxiosError<InvoiceResponseType>,
-//     void // No parameters needed since we're using closure
-//   >({
-//     mutationFn: handleSendInvoice,
-//     onSuccess: (data: InvoiceResponseType) => {
-//       // console.log(data);
-//       toast.success(data.message);
-//       queryClient.invalidateQueries({
-//         queryKey: ["client_invoice"],
-//       });
-//       // window.location.reload();
-//     },
-//     onError: (error) => {
-//       const errorMessage =
-//         axios.isAxiosError(error) && error?.response?.data?.message
-//           ? error?.response?.data?.message
-//           : "An unknown error occurred.";
-
-//       toast.error(errorMessage);
-//       console.log(error?.response);
-//     },
-//   });
-
-//   return mutation;
-// };
 
 export const useDeleteInvoice = (invoiceId: string) => {
   const toast = useToast();

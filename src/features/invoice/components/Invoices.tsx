@@ -1,7 +1,7 @@
 import React from "react";
 import InvoiceCard from "../../../components/shared/MobileInvoiceList";
 import InvoiceFilter from "./InvoiceFilter";
-import { mockInvoices } from "../../overview/components/LatestInvoices";
+// import { mockInvoices } from "../../overview/components/LatestInvoices";
 import { DataTable } from "../../../components/shared/DesktopInvoiceList/data-table";
 import { columns } from "../../../components/shared/DesktopInvoiceList/columns";
 import { useInvoiceFilter } from "../../../store/useInvoiceStore";
@@ -20,17 +20,17 @@ const Invoices = () => {
   // console.log("Fetched Invoices:", data?.invoice);
   // console.log("Fetched Invoices:", invoiceMeta);
 
-  const filteredData = mockInvoices.filter((inv) => {
-    const matchesSearch =
-      !searchTerm ||
-      inv.invoice_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      inv.payer_name?.toLowerCase().includes(searchTerm.toLowerCase());
+  // const filteredData = mockInvoices.filter((inv) => {
+  //   const matchesSearch =
+  //     !searchTerm ||
+  //     inv.invoice_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     inv.payer_name?.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesStatus =
-      status === "all" || inv.status?.toLowerCase() === status.toLowerCase();
+  //   const matchesStatus =
+  //     status === "all" || inv.status?.toLowerCase() === status.toLowerCase();
 
-    return matchesSearch && matchesStatus;
-  });
+  //   return matchesSearch && matchesStatus;
+  // });
 
   const isEmpty = invoices?.length === 0;
 

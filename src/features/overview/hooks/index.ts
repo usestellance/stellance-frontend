@@ -1,0 +1,55 @@
+import { useQuery } from "@tanstack/react-query";
+import useAxiosAuth from "../../../hooks/useAxiosAuth";
+import { useAuthStore } from "../../../store/userAuthStore";
+
+export const useGetInvoiceOverview = (month?: string) => {
+  const { get } = useAxiosAuth();
+  const credentials = useAuthStore((s) => s.credentials);
+
+  return useQuery({
+    queryKey: ["invoice-overview", month],
+    queryFn: async () => {
+      const params = month ? `?month=${month}` : "";
+      const res = await get(`/invoice/overview${params}`);
+      return res.data.data;
+    },
+    enabled: !!credentials?.access_token,
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useGetCashInflow = ({
+  from,
+  to,
+}: {
+  from: string;
+  to: string;
+}) => {
+  const { get } = useAxiosAuth();
+  const credentials = useAuthStore((s) => s.credentials);
+
+  return useQuery({
+    queryKey: ["cash-inflow", from, to],
+    queryFn: async () => {
+      const res = await get(`/transaction/inflow?from=${from}&to=${to}`);
+      return res.data.data;
+    },
+    enabled: !!credentials?.access_token,
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useGetTransactionStats = () => {
+  const { get } = useAxiosAuth();
+  const credentials = useAuthStore((s) => s.credentials);
+
+  return useQuery({
+    queryKey: ["transaction-stats"],
+    queryFn: async () => {
+      const res = await get("/transaction/stats");
+      return res.data.data;
+    },
+    enabled: !!credentials?.access_token,
+    refetchOnWindowFocus: false,
+  });
+};

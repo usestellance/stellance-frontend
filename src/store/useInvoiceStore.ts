@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { InvoiceItemsTypes } from "../types/invoiceTypes";
-import { invoiceItems } from "../lib/utils";
+// import { invoiceItems } from "../lib/utils";
 
 export type InvoiceStatus =
   | "all"

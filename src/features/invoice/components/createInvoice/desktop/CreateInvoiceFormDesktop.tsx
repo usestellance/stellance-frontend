@@ -27,7 +27,7 @@ import { useFieldArray } from "react-hook-form";
 import InputField from "../../../../../components/ui/custom/InputField";
 import { Textarea } from "../../../../../components/ui/textarea";
 import { Button } from "../../../../../components/ui/button";
-import { invoiceItems } from "../../../../../lib/utils";
+// import { invoiceItems } from "../../../../../lib/utils";
 import { useRouter } from "next/navigation";
 import { invoiceRoutes } from "../../../../../config/routes";
 import { useToast } from "../../../../../hooks/useToast";

@@ -27,7 +27,7 @@ import InputField from "../../../../../components/ui/custom/InputField";
 import { Textarea } from "../../../../../components/ui/textarea";
 import { Button } from "../../../../../components/ui/button";
 import InvoiceItemsCard from "./InvoiceItemsCard";
-import { invoiceItems } from "../../../../../lib/utils";
+// import { invoiceItems } from "../../../../../lib/utils";
 import AddInvoiceItemDrawer from "./AddInvoiceItemDrawer";
 import { useRouter } from "next/navigation";
 import { invoiceRoutes } from "../../../../../config/routes";
