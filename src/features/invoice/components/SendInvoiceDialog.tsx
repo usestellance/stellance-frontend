@@ -224,7 +224,7 @@ const SendInvoiceDialog = ({
         <div className="p-4 space-y-4">{emailInputContent}</div>
 
         <DrawerFooter className="">
-          <div className="flex justify-center gap-6 pb-10">
+          <div className="flex justify-center gap-6 pb-20">
             <Button
               type="button"
               //   onClick={() => handleSubmit(true)}
