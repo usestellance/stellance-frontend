@@ -23,7 +23,7 @@ export default function Page() {
         {/* <Template02  /> */}
         {/* <Template03  /> */}
         {/* <Template04  /> */}
-        <Template05 />
+        {/* <Template05 /> */}
       </section>
     </div>
   );
