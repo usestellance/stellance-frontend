@@ -212,7 +212,7 @@ const SendInvoiceDialog = ({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent>
+      <DrawerContent className="pb-20">
         <DrawerHeader className="text-left">
           <DrawerTitle>Add members to this invoice</DrawerTitle>
           <DrawerDescription>
@@ -221,30 +221,34 @@ const SendInvoiceDialog = ({
           </DrawerDescription>
         </DrawerHeader>
 
-        <div className="p-4 space-y-4">{emailInputContent}</div>
-
-        <DrawerFooter className="">
-          <div className="flex justify-center gap-6 pb-20">
-            <Button
-              type="button"
-              //   onClick={() => handleSubmit(true)}
-              onClick={handleCancel}
-              variant="outline"
-              className="in-app-btn"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              onClick={() => handleSubmit(false)}
-              disabled={emails.length === 0}
-              className="in-app-btn"
-              isLoading={pending}
-            >
-              Add and Send
-            </Button>
+        {/* <div className="bg-red300"> */}
+          <div className="p-4 space-y-4 overflow-y-auto">
+            {emailInputContent}
           </div>
-        </DrawerFooter>
+
+          <DrawerFooter className="">
+            <div className="flex justify-center gap-6">
+              <Button
+                type="button"
+                //   onClick={() => handleSubmit(true)}
+                onClick={handleCancel}
+                variant="outline"
+                className="in-app-btn"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                onClick={() => handleSubmit(false)}
+                disabled={emails.length === 0}
+                className="in-app-btn"
+                isLoading={pending}
+              >
+                Add and Send
+              </Button>
+            </div>
+          </DrawerFooter>
+        {/* </div> */}
       </DrawerContent>
     </Drawer>
   );
