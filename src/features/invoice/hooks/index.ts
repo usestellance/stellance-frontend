@@ -329,7 +329,7 @@ export const useSendInvoice = (invoiceId: string) => {
       toast.success(data.message);
 
       queryClient.invalidateQueries({ queryKey: ["invoice", "invoices"] });
-      // window.location.reload();
+      window.location.reload();
     },
     onError: (error) => {
       const errorMessage =
@@ -343,7 +343,7 @@ export const useSendInvoice = (invoiceId: string) => {
       } else {
         toast.error(errorMessage);
       }
-      console.log(error?.response);
+      // console.log(error?.response);
     },
   });
 
