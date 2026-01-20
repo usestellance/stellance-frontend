@@ -212,7 +212,7 @@ const SendInvoiceDialog = ({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="">
+      <DrawerContent className="flex flex-col max-h-[90vh]">
         <DrawerHeader className="text-left">
           <DrawerTitle>Add members to this invoice</DrawerTitle>
           <DrawerDescription>
@@ -221,32 +221,32 @@ const SendInvoiceDialog = ({
           </DrawerDescription>
         </DrawerHeader>
 
-        <div className="bg-red-300 min-h-fit overflow-y-auto ">
-          <div className="p-4 space-y-4">{emailInputContent}</div>
-
-          <DrawerFooter className="pb-20">
-            <div className="flex justify-center gap-6">
-              <Button
-                type="button"
-                //   onClick={() => handleSubmit(true)}
-                onClick={handleCancel}
-                variant="outline"
-                className="in-app-btn"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="button"
-                onClick={() => handleSubmit(false)}
-                disabled={emails.length === 0}
-                className="in-app-btn"
-                isLoading={pending}
-              >
-                Add and Send
-              </Button>
-            </div>
-          </DrawerFooter>
+        {/* Scrollable email list */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 ">
+          {emailInputContent}
         </div>
+
+        <DrawerFooter className="mt-2 pb-10">
+          <div className="flex justify-center gap-6">
+            <Button
+              type="button"
+              onClick={handleCancel}
+              variant="outline"
+              className="in-app-btn"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              onClick={() => handleSubmit(false)}
+              disabled={emails.length === 0}
+              className="in-app-btn"
+              isLoading={pending}
+            >
+              Add and Send
+            </Button>
+          </div>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );
