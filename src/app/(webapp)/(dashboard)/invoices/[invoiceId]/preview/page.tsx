@@ -10,6 +10,7 @@ import Template02 from "../../../../../../features/invoice/components/templates/
 import Template04 from "../../../../../../features/invoice/components/templates/Template04";
 import Template03 from "../../../../../../features/invoice/components/templates/Template03";
 import {
+  useDeleteInvoice,
   useGetInvoice,
   useSendInvoice,
 } from "../../../../../../features/invoice/hooks";
@@ -17,11 +18,16 @@ import { Button } from "../../../../../../components/ui/button";
 import SendInvoiceDialog from "../../../../../../features/invoice/components/SendInvoiceDialog";
 import { getDueStatus } from "../../../../../../lib/utils/helpers";
 import { InvoiceType } from "../../../../../../types/invoiceTypes";
+import { FiEdit } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
+import { invoiceRoutes } from "../../../../../../config/routes";
+import DeleteInvoiceModal from "../../../../../../features/invoice/components/DeleteInvoiceModal";
 
 export default function Page() {
   const router = useRouter();
   const params = useParams();
   const [openSendDialog, setOpenSendDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   const id = Array.isArray(params.invoiceId)
     ? params.invoiceId[0]
@@ -29,8 +35,10 @@ export default function Page() {
 
   const { data } = useGetInvoice({ invoice_id: id || "" });
   const invoice: InvoiceType = data;
-  console.log(invoice);
+  // console.log(invoice);
   const sendInvoiceMutation = useSendInvoice(id || "");
+
+  const deleteInvoiceMutation = useDeleteInvoice(id || "");
 
   const getTemplate = () => {
     switch (invoice?.template_id) {
@@ -49,14 +57,16 @@ export default function Page() {
 
   const handleSendInvoice = ({ emails }: { emails: string[] }) => {
     const recipients = emails;
-
-    // console.log("Sending invoice:", {
-    //   invoiceId: invoice?.id,
-    //   recipients,
-    // });
-
     // 🔥 call API here
     sendInvoiceMutation.mutate({ emails: recipients });
+  };
+
+  const gotoEditInvoice = () => {
+    router.push(invoiceRoutes.EDIT_INVOICE(id || ""));
+  };
+
+  const handleDeleteInvoice = () => {
+    deleteInvoiceMutation.mutate();
   };
 
   return (
@@ -68,12 +78,38 @@ export default function Page() {
           <StatusBadge status={invoice?.status || "draft"} variant="filled" />
 
           <div className="bg-orange-500 text-neutral-500 font-bold text-sm md:text-base px-[15px] py-1 md:px-[26.5px] md:py-1 rounded-[20px]">
-            {getDueStatus(invoice?.due_date || "")}
+            {getDueStatus(invoice?.due_date || "") || ""}
           </div>
         </div>
 
         <section className="mt-8 flex justify-between">
-          <h3>{invoice?.invoice_number}</h3>
+          <h3 className="">{invoice?.invoice_number}</h3>
+
+          <div className="flex font-medium gap-2.5">
+            {invoice?.status === "draft" && (
+              <div
+                className="flex items-center gap-1 text-primary-500 cursor-pointer"
+                onClick={gotoEditInvoice}
+              >
+                <FiEdit className="text-[16px]" />
+
+                <span className="underline underline-offset-4 text-lg">
+                  Edit
+                </span>
+              </div>
+            )}
+
+            <div
+              onClick={() => setOpenDeleteDialog(true)}
+              className="flex items-center cursor-pointer gap-1 text-error-400"
+            >
+              <AiOutlineDelete className="text-[16px]" />
+
+              <span className="underline underline-offset-4 text-lg">
+                Delete
+              </span>
+            </div>
+          </div>
         </section>
 
         <section className="mt-8 px-2 min-w-[270px]">{getTemplate()}</section>
@@ -105,6 +141,13 @@ export default function Page() {
         onOpenChange={setOpenSendDialog}
         onSend={handleSendInvoice}
         pending={sendInvoiceMutation.isPending}
+      />
+      {/* ✅ Delete Invoice Dialog */}
+      <DeleteInvoiceModal
+        open={openDeleteDialog}
+        onOpenChange={setOpenDeleteDialog}
+        onDelete={handleDeleteInvoice}
+        pending={deleteInvoiceMutation.isPending}
       />
     </>
   );

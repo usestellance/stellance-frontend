@@ -14,6 +14,7 @@ import {
   calculateNetTotal,
   calculateTotal,
   formatCurrency,
+  formatDateForInput,
 } from "../../../../../lib/utils/helpers";
 import {
   Form,
@@ -31,34 +32,48 @@ import { Button } from "../../../../../components/ui/button";
 import { useRouter } from "next/navigation";
 import { invoiceRoutes } from "../../../../../config/routes";
 import { useToast } from "../../../../../hooks/useToast";
-import { InvoiceItemsTypes } from "../../../../../types/invoiceTypes";
+import {
+  InvoiceItemsTypes,
+  InvoiceType,
+} from "../../../../../types/invoiceTypes";
 import { FiTrash } from "react-icons/fi";
 import SelectField from "../../../../../components/ui/custom/SelectField";
-import { useCreateInvoice } from "../../../hooks";
+import { useCreateInvoice, useUpdateInvoice } from "../../../hooks";
 import { Label } from "../../../../../components/ui/label";
 import { Checkbox } from "../../../../../components/ui/checkbox";
 
-export default function CreateInvoiceFormDesktop() {
+export default function CreateInvoiceFormDesktop({
+  invoice,
+  edit,
+}: {
+  invoice?: InvoiceType;
+  edit?: boolean;
+}) {
   const toast = useToast();
   const createInvoice = useCreateInvoice();
+  const updateInvoice = useUpdateInvoice({ invoiceId: invoice?.id || "" });
   const [make_default, setMake_default] = useState(true);
   const router = useRouter();
+
+  const isEdit = invoice?.id && edit;
+
+  // console.log(isEdit);
 
   const form = useForm<InvoiceFormValues>({
     resolver: zodResolver(invoiceSchema),
     defaultValues: {
       logo: undefined,
-      title: "",
-      clientName: "",
-      email: "",
-      address: "",
-      dueDate: "",
-      notes: "",
-      items: [],
-      subtotal: 0,
+      title:  "",
+      clientName:  "",
+      email:  "",
+      address:  "",
+      dueDate:  "",
+      notes:  "",
+      items:  [],
+      subtotal:  0,
       charge: SERVICE_CHARGE,
       // discount: 0,
-      total: 0,
+      total:  0,
     },
   });
   const {
@@ -80,9 +95,11 @@ export default function CreateInvoiceFormDesktop() {
     }
 
     const stored = localStorage.getItem("invoice-template");
-    const template_id = stored
-      ? JSON.parse(stored).state.selectedTemplate
-      : "template_001";
+    const template_id = invoice?.template_id
+      ? invoice?.template_id
+      : stored
+        ? JSON.parse(stored).state.selectedTemplate
+        : "template_001";
 
     const payload = {
       title: values.title,
@@ -98,7 +115,12 @@ export default function CreateInvoiceFormDesktop() {
       note: values.notes,
     };
 
-    createInvoice.mutate(payload);
+    if (isEdit) {
+      updateInvoice.mutate(payload);
+      // console.log('edit mode')
+    } else {
+      createInvoice.mutate(payload);
+    }
     clearItems();
   }
 
@@ -118,6 +140,7 @@ export default function CreateInvoiceFormDesktop() {
         form.setValue(`items.${index}.amount`, amount, {
           shouldDirty: false,
           shouldTouch: false,
+          shouldValidate: false,
         });
       }
     });
@@ -138,6 +161,24 @@ export default function CreateInvoiceFormDesktop() {
   const clearItems = () => {
     form.setValue("items", []);
   };
+
+  useEffect(() => {
+    if (isEdit && invoice) {
+      form.reset({
+        // logo: undefined,
+        title: invoice.title ?? "",
+        clientName: invoice.payer_name ?? "",
+        email: invoice.payer_email ?? "",
+        address: invoice.country ?? "",
+        dueDate: formatDateForInput(invoice.due_date ?? ""),
+        notes: invoice.note ?? "",
+        items: (invoice?.items as InvoiceFormValues["items"]) ?? [],
+        subtotal: invoice.sub_total ?? 0,
+        charge: SERVICE_CHARGE,
+        total: invoice.total ?? 0,
+      });
+    }
+  }, [isEdit, invoice, form]);
 
   return (
     <div className="max-w-[2000px] mx-auto">
@@ -191,7 +232,13 @@ export default function CreateInvoiceFormDesktop() {
                             preview ? "bg-transparent" : "bg-primary-20"
                           }`}
                         >
-                          {preview ? (
+                          {isEdit && !preview ? (
+                            <img
+                              src={invoice?.logo_url}
+                              alt="logo"
+                              className="w-full h-full object-contain"
+                            />
+                          ) : preview ? (
                             <img
                               src={preview}
                               alt="logo"
@@ -566,11 +613,11 @@ export default function CreateInvoiceFormDesktop() {
               className="in-app-btn"
               variant="outline"
             >
-              Preview
+             Cancel
             </Button>
             <Button
               type="submit"
-              isLoading={createInvoice.isPending}
+              isLoading={createInvoice.isPending || updateInvoice.isPending}
               className="in-app-btn"
             >
               Proceed

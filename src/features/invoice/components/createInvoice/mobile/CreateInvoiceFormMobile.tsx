@@ -14,6 +14,7 @@ import {
   calculateNetTotal,
   calculateTotal,
   formatCurrency,
+  formatDateForInput,
 } from "../../../../../lib/utils/helpers";
 import {
   Form,
@@ -32,11 +33,18 @@ import AddInvoiceItemDrawer from "./AddInvoiceItemDrawer";
 import { useRouter } from "next/navigation";
 import { invoiceRoutes } from "../../../../../config/routes";
 import { useToast } from "../../../../../hooks/useToast";
-import { useCreateInvoice } from "../../../hooks";
+import { useCreateInvoice, useUpdateInvoice } from "../../../hooks";
 import { Checkbox } from "../../../../../components/ui/checkbox";
 import { Label } from "../../../../../components/ui/label";
+import { InvoiceType } from "../../../../../types/invoiceTypes";
 
-export default function CreateInvoiceFormMobile() {
+export default function CreateInvoiceFormMobile({
+  invoice,
+  edit,
+}: {
+  invoice?: InvoiceType;
+  edit?: boolean;
+}) {
   const {
     items,
     openDrawer,
@@ -44,11 +52,14 @@ export default function CreateInvoiceFormMobile() {
     setEditingIndex,
     removeItem,
     clearItems,
+    addItems,
   } = useInvoiceItems();
   const toast = useToast();
-  // const [loading, setLoading] = useState(false);
+  const isEdit = invoice?.id && edit;
   const router = useRouter();
   const createInvoice = useCreateInvoice();
+  const updateInvoice = useUpdateInvoice({ invoiceId: invoice?.id || "" });
+
   const total = calculateTotal(items);
   const serviceFee = (total * SERVICE_CHARGE) / 100;
   const [make_default, setMake_default] = useState(true);
@@ -64,9 +75,9 @@ export default function CreateInvoiceFormMobile() {
       address: "",
       dueDate: "",
       notes: "",
+      charge: SERVICE_CHARGE,
       items: [],
       subtotal: 0,
-      charge: SERVICE_CHARGE,
       // discount: 0,
       total: 0,
     },
@@ -76,9 +87,9 @@ export default function CreateInvoiceFormMobile() {
   // console.log("RHF ITEMS:", form.watch("items"));
 
   // 🔁 Sync Zustand items → RHF
-  useEffect(() => {
-    form.setValue("items", items as InvoiceFormValues["items"]);
-  }, [items]);
+  // useEffect(() => {
+  //   form.setValue("items", items as InvoiceFormValues["items"]);
+  // }, [items]);
 
   // function onSubmit(values: InvoiceFormValues) {
   //   console.log("Items from Zustand:", items);
@@ -116,10 +127,6 @@ export default function CreateInvoiceFormMobile() {
 
   // console.log("FORM VALUES:", form.getValues());
   function onSubmit(values: InvoiceFormValues) {
-    // console.log("Items from Zustand:", items);
-    // console.log("Items length:", items.length);
-    // console.log("Form values:", values);
-
     if (items.length === 0) {
       toast.error("Please add at least one invoice item");
       return;
@@ -130,30 +137,72 @@ export default function CreateInvoiceFormMobile() {
       ? JSON.parse(stored).state.selectedTemplate
       : "template_001";
 
+    // const payload = {
+    //   title: values.title,
+    //   payer_name: values.clientName,
+    //   payer_email: values.email,
+    //   country: values.address,
+    //   due_date: values.dueDate,
+    //   invoice_items: items,
+    //   service_fee: serviceFee,
+    //   template_id,
+    //   logo: values.logo,
+    //   make_default,
+    //   note: values.notes,
+    // };
     const payload = {
       title: values.title,
       payer_name: values.clientName,
       payer_email: values.email,
       country: values.address,
       due_date: values.dueDate,
-      invoice_items: items,
+      invoice_items: items, // ✅ Zustand owns this
       service_fee: serviceFee,
       template_id,
       logo: values.logo,
       make_default,
       note: values.notes,
     };
-
-    // console.log("temp", template_id);
-    // console.log("Invoice items being sent:", JSON.stringify(items));
+    if (isEdit) {
+      updateInvoice.mutate(payload);
+      console.log("edit mode");
+    } else {
+      createInvoice.mutate(payload);
+    }
+    console.log(payload);
     clearItems();
-    createInvoice.mutate(payload);
   }
+
+  useEffect(() => {
+    if (isEdit && invoice) {
+      form.reset({
+        // logo: undefined,
+        title: invoice.title ?? "",
+        clientName: invoice.payer_name ?? "",
+        email: invoice.payer_email ?? "",
+        address: invoice.country ?? "",
+        dueDate: formatDateForInput(invoice.due_date ?? ""),
+        notes: invoice.note ?? "",
+        charge: SERVICE_CHARGE,
+        items: (invoice?.items as InvoiceFormValues["items"]) ?? [],
+        subtotal: invoice.sub_total ?? 0,
+        total: invoice.total ?? 0,
+      });
+
+      clearItems(); // ⬅️ VERY IMPORTANT
+      addItems(invoice.items ?? []);
+    }
+  }, [isEdit, invoice]);
 
   return (
     <div className="max-w-[1200px] mx-auto">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <form
+          onSubmit={form.handleSubmit(onSubmit, (errors) =>
+            console.log("FORM ERRORS:", errors),
+          )}
+          className="space-y-5"
+        >
           {/* HEADER */}
           <div className="flex justify-between gap-5 custom-container">
             <h2 className="text-lg sm:text-2xl lg:text-[36px]">
@@ -194,7 +243,13 @@ export default function CreateInvoiceFormMobile() {
                             preview ? "bg-transparent" : "bg-primary-20"
                           }`}
                         >
-                          {preview ? (
+                          {isEdit && !preview ? (
+                            <img
+                              src={invoice?.logo_url}
+                              alt="logo"
+                              className="w-full h-full object-contain"
+                            />
+                          ) : preview ? (
                             <img
                               src={preview}
                               alt="logo"
@@ -420,7 +475,11 @@ export default function CreateInvoiceFormMobile() {
                 <FormItem>
                   <FormLabel>Add Note</FormLabel>
                   <FormControl>
-                    <Textarea {...field} placeholder="Add additional note of max 150 characters" maxLength={150} />
+                    <Textarea
+                      {...field}
+                      placeholder="Add additional note of max 150 characters"
+                      maxLength={150}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -437,7 +496,7 @@ export default function CreateInvoiceFormMobile() {
             </Button>
             <Button
               type="submit"
-              isLoading={createInvoice.isPending}
+              isLoading={createInvoice.isPending || updateInvoice.isPending}
               className="in-app-btn"
             >
               Proceed

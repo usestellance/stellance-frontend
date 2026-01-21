@@ -202,6 +202,74 @@ export const useCreateInvoice = () => {
   });
 };
 
+export const useUpdateInvoice = ({ invoiceId }: { invoiceId: string }) => {
+  const toast = useToast();
+  const credentials = useAuthStore((state) => state.credentials);
+  const logout = useLogout();
+  const axiosAuth = useAxiosAuth();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const is_profile_complete = credentials?.user?.profile_complete;
+
+  const handleCreateInvoice = async (data: InvoiceType) => {
+    const formData = new FormData();
+
+    formData.append("title", data.title || "");
+    formData.append("payer_name", data.payer_name || "");
+    formData.append("payer_email", data.payer_email || "");
+    formData.append("country", data.country || "");
+    formData.append("due_date", data.due_date || "");
+    formData.append("template_id", data.template_id || ""); // REQUIRED - only once, as string
+    formData.append("service_fee", String(data.service_fee));
+    formData.append("make_default", String(data.make_default));
+    formData.append("note", String(data.note));
+
+    // ✅ Stringify invoice_items properly
+    formData.append(
+      "invoice_items",
+      data.invoice_items ? JSON.stringify(data.invoice_items) : "[]",
+    );
+
+    // ✅ Handle logo file correctly
+    if (data.logo && data.logo instanceof File) {
+      formData.append("logo", data.logo, data.filename); // File object with filename
+    }
+
+    const response = await axiosAuth.put(`/invoice/${invoiceId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    console.log("updated INVOICE RESPONSE:", response.data);
+    return response.data;
+  };
+
+  return useMutation({
+    mutationFn: handleCreateInvoice,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["invoice", "invoices"] });
+      toast.success(data.message || "Invoice Updated successfully");
+      router.replace(invoiceRoutes.PREVIEW_INVOICE(invoiceId));
+    },
+    onError: (error: any) => {
+      const errorMessage =
+        error?.response?.data?.message ?? "An unknown error occurred.";
+
+      if (error.response?.status === 401) {
+        toast.error("Unauthorized Access");
+        logout();
+        router.push(authRoutes.LOGIN);
+      } else if (is_profile_complete) {
+        toast.error(errorMessage);
+      }
+
+      // Log the error for debugging
+      console.error("Invoice creation error:", error.response?.data);
+    },
+  });
+};
+
 export const useGetInvoices = ({
   order_by = "desc",
   // page = 1,
@@ -232,7 +300,7 @@ export const useGetInvoices = ({
     const url = `/invoice?${params.toString()}`;
     // const url = `/invoice`;
     const res = await get(url);
-    console.log(res);
+    // console.log(res);
     return res.data.data;
   };
 
@@ -465,9 +533,9 @@ export const useDeleteInvoice = (invoiceId: string) => {
     onSuccess: (data: InvoiceResponseType) => {
       // console.log(data);
       toast.success(data.message);
-      router.push(invoiceRoutes.INVOICES);
+      router.replace(invoiceRoutes.INVOICES);
 
-      queryClient.invalidateQueries({ queryKey: ["invoices"] });
+      queryClient.invalidateQueries({ queryKey: ["invoices", "invoice"] });
     },
     onError: (error) => {
       const errorMessage =

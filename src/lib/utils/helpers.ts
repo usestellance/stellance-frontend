@@ -250,3 +250,7 @@ export function getDueStatus(dueAt: string | Date) {
   return `Overdue by ${format(months, "month")}`;
 }
 
+export const formatDateForInput = (date?: string) => {
+  if (!date) return "";
+  return new Date(date).toISOString().split("T")[0];
+};

@@ -69,6 +69,7 @@ export const useReceiptFilter = create<InvoiceFilterState>((set) => ({
 interface InvoiceItemsStore {
   items: InvoiceItemsTypes[];
   editingIndex: number | null;
+  addItems: (item: InvoiceItemsTypes[]) => void;
   addItem: (item: InvoiceItemsTypes) => void;
   updateItem: (item: InvoiceItemsTypes) => void;
   setEditingIndex: (index: number | null) => void;
@@ -81,6 +82,11 @@ interface InvoiceItemsStore {
 export const useInvoiceItems = create<InvoiceItemsStore>((set) => ({
   items: [],
   editingIndex: null,
+
+  addItems: (items) =>
+    set((state) => ({
+      items: [...state.items, ...items],
+    })),
 
   addItem: (item) =>
     set((state) => ({

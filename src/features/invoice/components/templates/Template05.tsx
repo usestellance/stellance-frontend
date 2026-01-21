@@ -8,7 +8,7 @@ import { SERVICE_CHARGE } from "../../../../config/constants";
 import { InvoiceType } from "../../../../types/invoiceTypes";
 
 const Template05 = ({ invoice }: { invoice: InvoiceType }) => {
-  console.log(invoice);
+  // console.log(invoice);
 
   return (
     <div className=" rounded-[5px]  pt-1.5 pb-10 sm:pt-4 lg:pt-6 invoice-shadow mx-auto md:rounded-[10px] lg:rounded-[20px] ">
@@ -44,7 +44,7 @@ const Template05 = ({ invoice }: { invoice: InvoiceType }) => {
         </div>
       </section>
 
-      <section className="flex flex-col gap-1 px-2.5 sm:px-4 lg:px-5 max-w-1/2 md:max-w-2/3">
+      <section className="flex flex-col gap-1 px-2.5 sm:px-4 lg:px-5 max-w-2/3">
         <p className="flex justify-between text-[10px] sm:text-sm lg:text-base">
           <span className="whitespace-nowrap">Invoice No:</span>
           <span className="whitespace-nowrap">

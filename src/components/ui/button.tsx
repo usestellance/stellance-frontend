@@ -12,7 +12,7 @@ const buttonVariants = cva(
       variant: {
         default: "bg-primary-500 text-neutral-comment hover:bg-primary-500/90",
         destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "bg-error-500 text-white hover:bg-error-500/80 focus-visible:ring-destructive/20",
         outline: "border border-primary-500",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
@@ -32,7 +32,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 function Button({
@@ -55,7 +55,7 @@ function Button({
       data-slot="button"
       className={cn(
         buttonVariants({ variant, size, className }),
-        isLoading && "opacity-90 cursor-not-allowed"
+        isLoading && "opacity-90 cursor-not-allowed",
       )}
       disabled={isLoading || props.disabled}
       {...props}
