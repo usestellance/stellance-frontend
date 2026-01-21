@@ -275,11 +275,12 @@ export const useGetInvoices = ({
   // page = 1,
   page_count = 5,
   // status = "",
+  paid = false,
 }: {
   order_by?: string;
   page?: number;
   page_count?: number;
-  status?: string;
+  paid?: boolean;
 }) => {
   // const router = useRouter();
   const credentials = useAuthStore((state) => state.credentials);
@@ -294,7 +295,8 @@ export const useGetInvoices = ({
     if (user_id) params.append("user_id", user_id);
     if (order_by) params.append("order_by", order_by);
     if (page_count) params.append("page_count", page_count.toString());
-    if (status && status !== "all") params.append("status", status);
+    if (status && status !== "all" && !paid) params.append("status", status);
+    if (paid) params.append("status", "paid");
     if (page) params.append("page", page.toString());
 
     const url = `/invoice?${params.toString()}`;

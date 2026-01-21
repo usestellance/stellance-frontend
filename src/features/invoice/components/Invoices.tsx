@@ -12,9 +12,9 @@ import { InvoiceType } from "../../../types/invoiceTypes";
 
 const Invoices = () => {
   const { searchTerm, status } = useInvoiceFilter();
-  const { data, isLoading, isError, error } = useGetInvoices({ status });
+  const { data, isLoading, isError } = useGetInvoices({});
   const invoices = data?.invoice || [];
-  const invoiceMeta = data?.meta;
+  // const invoiceMeta = data?.meta;
   const totalPages = data?.meta?.total_pages || 1;
 
   // console.log("Fetched Invoices:", data?.invoice);

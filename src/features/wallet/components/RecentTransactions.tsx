@@ -1,52 +1,39 @@
 import React, { FC } from "react";
 import TransactionCards from "./TransactionCards";
 import { ITransaction } from "../../../types/transactionTypes";
-
-const transactions: ITransaction[] = [
-  {
-    id: 1,
-    type: "sent",
-    amount: 100,
-    currency: "USDC",
-    date: "2023-05-15",
-    status: "completed",
-  },
-  {
-    id: 2,
-    type: "received",
-    amount: 200,
-    currency: "XLM",
-    date: "2023-05-14",
-    status: "completed",
-  },
-  {
-    id: 3,
-    type: "sent",
-    amount: 50,
-    currency: "USDC",
-    date: "2023-05-13",
-    status: "completed",
-  },
-  {
-    id: 4,
-    type: "received",
-    amount: 75,
-    currency: "XLM",
-    date: "2023-05-12",
-    status: "completed",
-  },
-];
+import { useGetInvoices } from "../../invoice/hooks";
+import { InvoiceType } from "../../../types/invoiceTypes";
+import InvoicePagination from "../../invoice/components/InvoicePagination";
 
 const RecentTransactions = () => {
+  const { data, isLoading, isError, error } = useGetInvoices({ paid: true });
+  const invoices = data?.invoice || [];
+  // const invoiceMeta = data?.meta;
+  const totalPages = data?.meta?.total_pages || 1;
+
+  // console.log(invoices);
+
   return (
     <div>
-      <h5 className="text-sm font-medium lg:text-2xl">Recent Transactions</h5>
+      <h5 className="text-sm font-medium lg:text-2xl">Recent Payments</h5>
+
+      {invoices?.length === 0 && (
+        <div className="text-center mt-20 lg:text-xl">
+          No Recent Teansactions
+        </div>
+      )}
 
       <div className="space-y-[15px] mt-2.5 lg:mt-7">
-        {transactions.map((transaction: ITransaction) => (
+        {invoices?.map((transaction: InvoiceType) => (
           <TransactionCards key={transaction.id} {...transaction} />
         ))}
       </div>
+
+      {totalPages > 1 && (
+        <div className="mt-10 lg:mt-[60px]">
+          <InvoicePagination pageNumber={totalPages || 1} />
+        </div>
+      )}
     </div>
   );
 };
