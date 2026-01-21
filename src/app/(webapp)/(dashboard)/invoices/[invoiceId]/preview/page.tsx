@@ -15,6 +15,8 @@ import {
 } from "../../../../../../features/invoice/hooks";
 import { Button } from "../../../../../../components/ui/button";
 import SendInvoiceDialog from "../../../../../../features/invoice/components/SendInvoiceDialog";
+import { getDueStatus } from "../../../../../../lib/utils/helpers";
+import { InvoiceType } from "../../../../../../types/invoiceTypes";
 
 export default function Page() {
   const router = useRouter();
@@ -26,8 +28,8 @@ export default function Page() {
     : params.invoiceId;
 
   const { data } = useGetInvoice({ invoice_id: id || "" });
-  const invoice = data;
-
+  const invoice: InvoiceType = data;
+  console.log(invoice);
   const sendInvoiceMutation = useSendInvoice(id || "");
 
   const getTemplate = () => {
@@ -48,10 +50,10 @@ export default function Page() {
   const handleSendInvoice = ({ emails }: { emails: string[] }) => {
     const recipients = emails;
 
-    console.log("Sending invoice:", {
-      invoiceId: invoice?.id,
-      recipients,
-    });
+    // console.log("Sending invoice:", {
+    //   invoiceId: invoice?.id,
+    //   recipients,
+    // });
 
     // 🔥 call API here
     sendInvoiceMutation.mutate({ emails: recipients });
@@ -62,8 +64,12 @@ export default function Page() {
       <div className="pt-5 px-4 sm:px-[30px] lg:px-10 md:max-w-[500px] lg:max-w-[650px] xl:max-w-[800px] mx-auto pb-20 overflow-x-auto">
         <GoBack />
 
-        <div className="mt-5 flex place-self-start md:mt-10">
+        <div className="mt-5 flex place-selfstart md:mt-10 w-full justify-between items-center">
           <StatusBadge status={invoice?.status || "draft"} variant="filled" />
+
+          <div className="bg-orange-500 text-neutral-500 font-bold text-sm md:text-base px-[15px] py-1 md:px-[26.5px] md:py-1 rounded-[20px]">
+            {getDueStatus(invoice?.due_date || "")}
+          </div>
         </div>
 
         <section className="mt-8 flex justify-between">

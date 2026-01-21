@@ -7,7 +7,7 @@ const GoBack = () => {
 
   return (
     <BiArrowBack
-      className="text-[24px] md:text-[36px]"
+      className="text-[24px] md:text-[36px] cursor-pointer"
       onClick={() => router.back()}
     />
   );

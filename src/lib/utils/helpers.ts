@@ -213,3 +213,40 @@ export const capitalizeWords = (text: string) => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 };
+
+export function getDueStatus(dueAt: string | Date) {
+  const today = new Date();
+  const due = new Date(dueAt);
+
+  // Normalize time to avoid timezone issues
+  today.setHours(0, 0, 0, 0);
+  due.setHours(0, 0, 0, 0);
+
+  const diffMs = due.getTime() - today.getTime();
+  const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+  const absDays = Math.abs(diffDays);
+  const weeks = Math.floor(absDays / 7);
+  const months = Math.floor(absDays / 30);
+
+  const format = (value: number, unit: string) =>
+    `${value} ${unit}${value > 1 ? "s" : ""}`;
+
+  // ---- Future ----
+  if (diffDays > 0) {
+    if (diffDays === 1) return "Due tomorrow";
+    if (diffDays < 7) return `Due in ${format(diffDays, "day")}`;
+    if (diffDays < 30) return `Due in ${format(weeks, "week")}`;
+    return `Due in ${format(months, "month")}`;
+  }
+
+  // ---- Today ----
+  if (diffDays === 0) return "Due today";
+
+  // ---- Overdue ----
+  if (absDays === 1) return "Overdue by 1 day";
+  if (absDays < 7) return `Overdue by ${format(absDays, "day")}`;
+  if (absDays < 30) return `Overdue by ${format(weeks, "week")}`;
+  return `Overdue by ${format(months, "month")}`;
+}
+

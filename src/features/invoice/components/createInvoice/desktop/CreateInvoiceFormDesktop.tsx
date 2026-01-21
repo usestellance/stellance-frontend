@@ -42,6 +42,7 @@ export default function CreateInvoiceFormDesktop() {
   const toast = useToast();
   const createInvoice = useCreateInvoice();
   const [make_default, setMake_default] = useState(true);
+  const router = useRouter();
 
   const form = useForm<InvoiceFormValues>({
     resolver: zodResolver(invoiceSchema),
@@ -94,6 +95,7 @@ export default function CreateInvoiceFormDesktop() {
       template_id,
       logo: values.logo,
       make_default,
+      note: values.notes,
     };
 
     createInvoice.mutate(payload);
@@ -491,8 +493,8 @@ export default function CreateInvoiceFormDesktop() {
           <hr className="border-neutral-600 w-1/2 place-self-end" />
 
           {/* DISCOUNT */}
-          <div className="place-self-end px-4 sm:px-[30px] md:px-10 text-xl py-5 flex justify-between w-1/2">
-            <div className="flex gap-2 items-center ">
+          <div className="place-self-end px-4 sm:px-[30px] md:px-10 text-xl py-5 flex justify-between items-center gap-10 lg:w-1/2">
+            <div className="flex gap-2 items-center">
               <span className="inline-block">Charge (%)</span>
               <FormField
                 control={form.control}
@@ -547,7 +549,11 @@ export default function CreateInvoiceFormDesktop() {
                 <FormItem>
                   <FormLabel>Add Note</FormLabel>
                   <FormControl>
-                    <Textarea {...field} placeholder="Add additional note" />
+                    <Textarea
+                      {...field}
+                      placeholder="Add additional note of max 150 characters"
+                      maxLength={150}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -556,7 +562,7 @@ export default function CreateInvoiceFormDesktop() {
 
           <div className="flex max-w-full gap-[30px]  justify-center mt-10 lg:mt-[60px]">
             <Button
-              onClick={() => console.log("hello")}
+              onClick={() => router.back()}
               className="in-app-btn"
               variant="outline"
             >

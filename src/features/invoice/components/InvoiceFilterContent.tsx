@@ -24,7 +24,8 @@ import {
 } from "../../../components/ui/tabs";
 
 const InvoiceFilterContent = () => {
-  const { searchTerm, setSearchTerm, status, setStatus } = useInvoiceFilter();
+  const { searchTerm, setSearchTerm, status, setStatus, setPage } =
+    useInvoiceFilter();
 
   return (
     <div>
@@ -34,7 +35,10 @@ const InvoiceFilterContent = () => {
           type="text"
           name="search"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setPage(1);
+          }}
           className="border-0 bg-primary-20 lg:h-12 placeholder:text-neutral-900 placeholder:font-normal pl-7 lg:pl-9 placeholder:text-xs lg:placeholder:text-base"
           placeholder="Search by payer name or  invoice number..."
         />
@@ -45,7 +49,7 @@ const InvoiceFilterContent = () => {
       <div className="mt-5 xl:hidden">
         <Select
           value={status}
-          onValueChange={(val: InvoiceStatus) => setStatus(val)}
+          onValueChange={(val: InvoiceStatus) => {setStatus(val); setPage(1);}}
         >
           <SelectTrigger className="h-[30px] rounded-[6px] min-w-[100px] md:min-w-[200px] max-w-[150px] shadow-none border-neutral-800 text-xs font-medium bg-white px-2.5 md:text-base">
             <SelectValue />
@@ -67,12 +71,15 @@ const InvoiceFilterContent = () => {
 
       {/* Tabs for desktop */}
       <div className="max-xl:hidden mt-[30px]">
-        <Tabs defaultValue="all" className="w-full h-[54px]">
+        <Tabs value={status} className="w-full h-[54px]">
           <TabsList className="w-full h-full bg-primary-20">
             {invoiceStatusOptions.map((opt, i) => (
               <TabsTrigger
                 key={i}
-                onClick={() => setStatus(opt.value)}
+                onClick={() => {
+                  setStatus(opt.value);
+                  setPage(1);
+                }}
                 value={opt.value}
                 className="text-[20px] data-[state=active]:bg-primary-50   rounded-[10px] cursor-pointer"
               >

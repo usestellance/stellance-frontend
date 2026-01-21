@@ -47,7 +47,7 @@ export default function CreateInvoiceFormMobile() {
   } = useInvoiceItems();
   const toast = useToast();
   // const [loading, setLoading] = useState(false);
-  // const router = useRouter();
+  const router = useRouter();
   const createInvoice = useCreateInvoice();
   const total = calculateTotal(items);
   const serviceFee = (total * SERVICE_CHARGE) / 100;
@@ -141,11 +141,12 @@ export default function CreateInvoiceFormMobile() {
       template_id,
       logo: values.logo,
       make_default,
+      note: values.notes,
     };
 
     // console.log("temp", template_id);
     // console.log("Invoice items being sent:", JSON.stringify(items));
-
+    clearItems();
     createInvoice.mutate(payload);
   }
 
@@ -419,7 +420,7 @@ export default function CreateInvoiceFormMobile() {
                 <FormItem>
                   <FormLabel>Add Note</FormLabel>
                   <FormControl>
-                    <Textarea {...field} placeholder="Add additional note" />
+                    <Textarea {...field} placeholder="Add additional note of max 150 characters" maxLength={150} />
                   </FormControl>
                 </FormItem>
               )}
@@ -428,11 +429,11 @@ export default function CreateInvoiceFormMobile() {
 
           <div className="flex max-w-full gap-[30px]  justify-center mt-10 lg:mt-[60px]">
             <Button
-              onClick={() => "hello"}
+              onClick={() => router.back()}
               className="in-app-btn"
               variant="outline"
             >
-              Preview
+              Cancel
             </Button>
             <Button
               type="submit"

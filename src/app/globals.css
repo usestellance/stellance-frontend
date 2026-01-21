@@ -5,7 +5,8 @@
 
 @font-face {
   font-family: "Satoshi-Variable";
-  src: url("/fonts/Satoshi-Variable.woff2") format("woff2"),
+  src:
+    url("/fonts/Satoshi-Variable.woff2") format("woff2"),
     url("/fonts/Satoshi-Variable.woff") format("woff"),
     url("/fonts/Satoshi-Variable.ttf") format("truetype");
   font-weight: 300 900;
@@ -15,7 +16,8 @@
 
 @font-face {
   font-family: "Satoshi-VariableItalic";
-  src: url("/fonts/Satoshi-VariableItalic.woff2") format("woff2"),
+  src:
+    url("/fonts/Satoshi-VariableItalic.woff2") format("woff2"),
     url("/fonts/Satoshi-VariableItalic.woff") format("woff"),
     url("/fonts/Satoshi-VariableItalic.ttf") format("truetype");
   font-weight: 300 900;
@@ -76,6 +78,10 @@
   --color-warning-200: #ffecb5;
   --color-warning-100: #fff3cd;
   --color-warning-50: #fff9e6;
+
+  /* orange */
+  --color--orange-500: #ff8d28;
+
   /* Black */
   --color-black-500: #14171f;
   --color-black-400: #23252c;
@@ -301,12 +307,18 @@ body {
 }
 @keyframes l16 {
   0% {
-    background-position: -150% 0, -150% 0;
+    background-position:
+      -150% 0,
+      -150% 0;
   }
   66% {
-    background-position: 250% 0, -150% 0;
+    background-position:
+      250% 0,
+      -150% 0;
   }
   100% {
-    background-position: 250% 0, 250% 0;
+    background-position:
+      250% 0,
+      250% 0;
   }
 }

@@ -160,72 +160,120 @@ export function ChartPieInteractive() {
             </div>
           </div>
         ) : (
-          <ChartContainer
-            id={id}
-            config={chartConfig}
-            className="mx-auto aspect-square w-full max-w-[300px]"
-          >
-            <PieChart>
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel />}
-              />
+          <div className="flex flex-col w-full h-full items-center justify-center">
+            <ChartContainer
+              id={id}
+              config={chartConfig}
+              className="mx-auto aspect-square w-full max-w-[300px] bgred-300"
+            >
+              <PieChart>
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
 
-              <Pie
-                data={chartData}
-                dataKey="value"
-                nameKey="status"
-                innerRadius={60}
-                strokeWidth={5}
-                activeIndex={activeIndex}
-                activeShape={({
-                  outerRadius = 0,
-                  ...props
-                }: PieSectorDataItem) => (
-                  <g>
-                    <Sector {...props} outerRadius={outerRadius + 10} />
-                    <Sector
-                      {...props}
-                      outerRadius={outerRadius + 25}
-                      innerRadius={outerRadius + 12}
-                    />
-                  </g>
-                )}
-              >
-                <Label
-                  content={({ viewBox }) => {
-                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                      return (
-                        <text
-                          x={viewBox.cx}
-                          y={viewBox.cy}
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                        >
-                          <tspan
+                <Pie
+                  data={chartData}
+                  dataKey="value"
+                  nameKey="status"
+                  innerRadius={60}
+                  strokeWidth={5}
+                  activeIndex={activeIndex}
+                  activeShape={({
+                    outerRadius = 0,
+                    ...props
+                  }: PieSectorDataItem) => (
+                    <g>
+                      <Sector {...props} outerRadius={outerRadius + 10} />
+                      <Sector
+                        {...props}
+                        outerRadius={outerRadius + 25}
+                        innerRadius={outerRadius + 12}
+                      />
+                    </g>
+                  )}
+                >
+                  <Label
+                    content={({ viewBox }) => {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                        return (
+                          <text
                             x={viewBox.cx}
                             y={viewBox.cy}
-                            className="fill-foreground text-3xl font-bold"
+                            textAnchor="middle"
+                            dominantBaseline="middle"
                           >
-                            {chartData[activeIndex]?.value ?? 0}
-                          </tspan>
-                          <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) + 24}
-                            className="fill-muted-foreground"
-                          >
-                            Invoices
-                          </tspan>
-                        </text>
-                      );
-                    }
-                  }}
-                />
-              </Pie>
-            </PieChart>
-          </ChartContainer>
+                            <tspan
+                              x={viewBox.cx}
+                              y={viewBox.cy}
+                              className="fill-foreground text-3xl font-bold"
+                            >
+                              {chartData[activeIndex]?.value ?? 0}
+                            </tspan>
+                            <tspan
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0) + 24}
+                              className="fill-muted-foreground"
+                            >
+                              Invoices
+                            </tspan>
+                          </text>
+                        );
+                      }
+                    }}
+                  />
+                </Pie>
+              </PieChart>
+            </ChartContainer>
+
+            <PieLegend
+              data={chartData}
+              activeStatus={activeStatus}
+              onSelect={setActiveStatus}
+            />
+          </div>
         )}
       </CardContent>
     </Card>
+  );
+}
+
+function PieLegend({
+  data,
+  activeStatus,
+  onSelect,
+}: {
+  data: {
+    status: string;
+    label: string;
+    value: number;
+    fill: string;
+  }[];
+  activeStatus?: string;
+  onSelect: (status: string) => void;
+}) {
+  return (
+    <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2">
+      {data.map((item) => {
+        const isActive = item.status === activeStatus;
+
+        return (
+          <button
+            key={item.status}
+            onClick={() => onSelect(item.status)}
+            className={`flex items-center gap-2 text-left text-sm transition-opacity ${
+              isActive ? "opacity-100" : "opacity-60 hover:opacity-100"
+            }`}
+          >
+            <span
+              className="h-3 w-3 rounded-full"
+              style={{ backgroundColor: item.fill }}
+            />
+            <span className="capitalize">{item.label}</span>
+            <span className="font-medium">{item.value}</span>
+          </button>
+        );
+      })}
+    </div>
   );
 }

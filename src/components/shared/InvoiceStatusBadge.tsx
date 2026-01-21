@@ -45,7 +45,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   variant = "filled",
   className,
 }) => {
-  const baseStyles = `px-2.5 font-medium xl:mx-auto rounded-[5px] flex justify-center items-center  font-medium ${
+  const baseStyles = `px-2.5 font-medium rounded-[5px] flex justify-center items-center  font-medium ${
     variant === "filled"
       ? "min-w-[80px] w-fit h-10 text-sm text-neutral-comment"
       : "text-xs h-7 min-w-[60px] w-fit"

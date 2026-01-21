@@ -154,6 +154,7 @@ export const useCreateInvoice = () => {
     formData.append("template_id", data.template_id || ""); // REQUIRED - only once, as string
     formData.append("service_fee", String(data.service_fee));
     formData.append("make_default", String(data.make_default));
+    formData.append("note", String(data.note));
 
     // ✅ Stringify invoice_items properly
     formData.append(
@@ -205,7 +206,7 @@ export const useGetInvoices = ({
   order_by = "desc",
   // page = 1,
   page_count = 5,
-  status = "all",
+  // status = "",
 }: {
   order_by?: string;
   page?: number;
@@ -215,7 +216,7 @@ export const useGetInvoices = ({
   // const router = useRouter();
   const credentials = useAuthStore((state) => state.credentials);
   const { get } = useAxiosAuth();
-  const { page } = useInvoiceFilter();
+  const { page, status } = useInvoiceFilter();
   // const { order_by, page, page_count, status } = useFetchInvoiceParams();
 
   const user_id = credentials?.user?.profile?.id;
@@ -225,7 +226,7 @@ export const useGetInvoices = ({
     if (user_id) params.append("user_id", user_id);
     if (order_by) params.append("order_by", order_by);
     if (page_count) params.append("page_count", page_count.toString());
-    // if (status) params.append("status", status);
+    if (status && status !== "all") params.append("status", status);
     if (page) params.append("page", page.toString());
 
     const url = `/invoice?${params.toString()}`;

@@ -44,10 +44,12 @@ const Template05 = ({ invoice }: { invoice: InvoiceType }) => {
         </div>
       </section>
 
-      <section className="flex flex-col gap-1 px-2.5 sm:px-4 lg:px-5 max-w-1/2">
+      <section className="flex flex-col gap-1 px-2.5 sm:px-4 lg:px-5 max-w-1/2 md:max-w-2/3">
         <p className="flex justify-between text-[10px] sm:text-sm lg:text-base">
-          <span>Invoice No:</span>
-          <span>{invoice?.invoice_number || "#####"} </span>
+          <span className="whitespace-nowrap">Invoice No:</span>
+          <span className="whitespace-nowrap">
+            {invoice?.invoice_number || "#####"}{" "}
+          </span>
         </p>
         <p className="flex justify-between text-[10px] sm:text-sm lg:text-base">
           <span>Issued Date:</span>
