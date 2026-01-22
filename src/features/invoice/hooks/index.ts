@@ -250,7 +250,7 @@ export const useUpdateInvoice = ({ invoiceId }: { invoiceId: string }) => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["invoice", "invoices"] });
       toast.success(data.message || "Invoice Updated successfully");
-      router.replace(invoiceRoutes.PREVIEW_INVOICE(invoiceId));
+      router.replace(invoiceRoutes.PREVIEW_INVOICE({ invoice_id: invoiceId }));
     },
     onError: (error: any) => {
       const errorMessage =

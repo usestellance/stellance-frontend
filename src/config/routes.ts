@@ -16,7 +16,13 @@ export const invoiceRoutes = {
   INVOICES: "/invoices",
   CREATE: "/invoices/create",
   CHOOSE_TEMPLATE: "/invoices/create/choose-template",
-  PREVIEW_INVOICE: (invoice_id: string) => `/invoices/${invoice_id}/preview`,
+  PREVIEW_INVOICE: ({
+    invoice_id,
+    tab = "invoice",
+  }: {
+    invoice_id: string;
+    tab?: 'invoice' | 'comment';
+  }) => `/invoices/${invoice_id}/preview?tab=${tab}`,
   EDIT_INVOICE: (invoice_id: string) => `/invoices/${invoice_id}/edit`,
 };
 export const profileRoutes = {
@@ -47,8 +53,8 @@ export const backendRoutes = {
     VALIDATE_TOKEN: (token: string) => `/auth/validate?token=${token}`,
     RESET_PASSWORD_EMAIL: (email: string) => `/auth/reset?email=${email}`,
   },
-  PROFILE_ROUTES:{
-    UPDATE_PROFILE: '/profile',
-    GET_USER: '/profile/me'
-  }
+  PROFILE_ROUTES: {
+    UPDATE_PROFILE: "/profile",
+    GET_USER: "/profile/me",
+  },
 };

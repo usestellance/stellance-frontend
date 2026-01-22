@@ -51,7 +51,7 @@ export function DataTable<TData, TValue>({
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </TableHead>
                 );
@@ -68,7 +68,9 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
                 onClick={() =>
-                  router.push(invoiceRoutes.PREVIEW_INVOICE(row.id || ""))
+                  router.push(
+                    invoiceRoutes.PREVIEW_INVOICE({ invoice_id: row.id || "" }),
+                  )
                 }
               >
                 {row.getVisibleCells().map((cell) => (

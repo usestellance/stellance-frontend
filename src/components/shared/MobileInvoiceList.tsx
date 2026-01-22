@@ -17,7 +17,9 @@ const InvoiceList = ({ invoice }: InvoiceCardProps) => {
     if (invoice.status === "paid") {
       router.push(receiptRoutes.PREVIEW_RECEIPT(invoice.id || ""));
     } else {
-      router.push(invoiceRoutes.PREVIEW_INVOICE(invoice.id || ""));
+      router.push(
+        invoiceRoutes.PREVIEW_INVOICE({ invoice_id: invoice.id || "" }),
+      );
     }
   };
 

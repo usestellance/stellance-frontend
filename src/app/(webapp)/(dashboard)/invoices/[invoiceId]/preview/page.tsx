@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import Template05 from "../../../../../../features/invoice/components/templates/Template05";
 import GoBack from "../../../../../../components/ui/custom/GoBack";
@@ -26,8 +26,12 @@ import DeleteInvoiceModal from "../../../../../../features/invoice/components/De
 export default function Page() {
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("tab");
   const [openSendDialog, setOpenSendDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+
+  // console.log(tab);
 
   const id = Array.isArray(params.invoiceId)
     ? params.invoiceId[0]
@@ -67,6 +71,16 @@ export default function Page() {
 
   const handleDeleteInvoice = () => {
     deleteInvoiceMutation.mutate();
+  };
+
+  const handleSwitchTabs = (activeTab: "invoice" | "comment") => {
+    router.push(
+      invoiceRoutes.PREVIEW_INVOICE({
+        invoice_id: id || "",
+        tab: activeTab,
+        // tab: tab === "invoice" ? "comment" : "invoice",
+      }),
+    );
   };
 
   return (
@@ -112,6 +126,24 @@ export default function Page() {
           </div>
         </section>
 
+        <div className="flex justify-center my-[30px] lg:my-[60px]">
+          <div className="h-10 bg-primary-50 w-full max-w-[180px] lg:h-12 lg:max-w-[400px] flex items-center rounded-[5px] overflow-hidden text-sm font-medium lg:text-xl">
+            <button
+              onClick={() => handleSwitchTabs("invoice")}
+              className={`flex-1 h-full duration-150 transition-all ${tab === "invoice" && "bg-primary-500 text-white"} `}
+            >
+              Invoice
+            </button>
+            <button
+              onClick={() => handleSwitchTabs("comment")}
+              className={`flex-1 h-full duration-150 transition-all ${tab === "comment" && "bg-primary-500 text-white"} `}
+            >
+              Comments
+            </button>
+          </div>
+        </div>
+
+        <section className="mt-8 px-2 min-w-[270px]">{getTemplate()}</section>
         <section className="mt-8 px-2 min-w-[270px]">{getTemplate()}</section>
 
         {invoice?.status === "draft" && (
