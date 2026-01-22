@@ -55,3 +55,80 @@ export interface InvoiceResponseType {
   message: string;
   data: InvoiceType;
 }
+
+export type CreateCommentPayload = {
+  user_id?: string;
+  invoice_id: string;
+  commenter_name?: string;
+  comment_text: string;
+
+  // optional (guest comment)
+  commenter_email?: string;
+
+  // optional (reply)
+  parent_id?: string;
+};
+
+export type NullableString = {
+  String: string;
+  Valid: boolean;
+};
+
+export type NullableTime = {
+  Time: string;
+  Valid: boolean;
+};
+
+export type Comment = {
+  id: string;
+  invoice_id: string;
+
+  user_id: NullableString;
+
+  commenter_name: string;
+  commenter_email: string;
+  comment_text: string;
+
+  is_verified: boolean;
+  is_guest: boolean;
+
+  parent_comment_id: NullableString;
+
+  edited: boolean;
+  edited_at: NullableTime;
+
+  created_at: string;
+  updated_at: string;
+
+  can_edit: boolean;
+  can_delete: boolean;
+};
+
+export type CommentStats = {
+  invoice_id: string;
+  total_comments: number;
+  verified_comments: number;
+  guest_comments: number;
+  top_level_comments: number;
+  reply_comments: number;
+  latest_comment_at: string;
+};
+
+export type GetCommentsResponse = {
+  comments: Comment[] | null;
+  stats: CommentStats;
+  total: number;
+  page: number;
+  limit: number;
+  total_pages: number;
+};
+
+
+export type PaginatedCommentsResponse = {
+  comments: Comment[] | null;
+  stats: CommentStats;
+  total: number;
+  page: number;
+  limit: number;
+  total_pages: number;
+};

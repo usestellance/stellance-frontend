@@ -254,3 +254,21 @@ export const formatDateForInput = (date?: string) => {
   if (!date) return "";
   return new Date(date).toISOString().split("T")[0];
 };
+
+export const formatTimeAgo = (date: string) => {
+  const now = new Date();
+  const then = new Date(date);
+
+  const diffInSeconds = Math.floor((now.getTime() - then.getTime()) / 1000);
+
+  if (diffInSeconds < 60) return "just now";
+
+  const minutes = Math.floor(diffInSeconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+};

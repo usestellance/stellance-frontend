@@ -87,7 +87,7 @@ export default function Page() {
   return (
     <>
       <div
-        className={`pt-5 px-4 sm:px-[30px] lg:px-10  mx-auto pb-20 overflow-x-auto ${tab === 'invoice' ? 'md:max-w-[500px] lg:max-w-[650px] xl:max-w-[800px]' : ''} `}
+        className={`pt-5 px-4 sm:px-[30px] lg:px-10  mx-auto pb-20 overflow-x-auto ${tab === "invoice" ? "md:max-w-[500px] lg:max-w-[650px] xl:max-w-[800px]" : ""} `}
       >
         <GoBack />
 
@@ -150,7 +150,7 @@ export default function Page() {
           <section className="mt-8 px-2 min-w-[270px]">{getTemplate()}</section>
         ) : (
           <section className="mt-8 px-2 min-w-[270px]">
-            <CommentsPreview />
+            <CommentsPreview invoice_id={id || ""} />
           </section>
         )}
 

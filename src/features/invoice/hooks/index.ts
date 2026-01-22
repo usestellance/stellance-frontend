@@ -4,11 +4,19 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useAuthStore, useLogout } from "../../../store/userAuthStore";
 import useAxiosAuth from "../../../hooks/useAxiosAuth";
-import { InvoiceResponseType, InvoiceType } from "../../../types/invoiceTypes";
+import {
+  CreateCommentPayload,
+  InvoiceResponseType,
+  InvoiceType,
+  PaginatedCommentsResponse,
+} from "../../../types/invoiceTypes";
 import { useToast } from "../../../hooks/useToast";
 import { authRoutes, invoiceRoutes } from "../../../config/routes";
 import { axiosInstance } from "../../../config/axios";
-import { useInvoiceFilter } from "../../../store/useInvoiceStore";
+import {
+  useCommentFilter,
+  useInvoiceFilter,
+} from "../../../store/useInvoiceStore";
 
 // export const useCreateInvoice = () => {
 //   const toast = useToast();
@@ -556,4 +564,98 @@ export const useDeleteInvoice = (invoiceId: string) => {
   });
 
   return mutation;
+};
+
+////////////////////////// COMMENTS //////////////////////////
+export const useCreateComment = () => {
+  const toast = useToast();
+  const credentials = useAuthStore((state) => state.credentials);
+  const logout = useLogout();
+  const axiosAuth = useAxiosAuth();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const is_profile_complete = credentials?.user?.profile_complete;
+
+  // Define the function to handle the registration API call
+
+  const handleCreateComment = async (data: CreateCommentPayload) => {
+    // const response = await get('/auth/clear')
+    const response = await axiosAuth.post("/comments", {
+      user_id: credentials?.user?.profile?.id,
+      invoice_id: data.invoice_id,
+      commenter_name: credentials?.user?.profile.first_name,
+      comment_text: data.comment_text,
+      commenter_email: credentials?.user?.profile.email,
+    });
+    // console.log(response);
+    return response.data;
+  };
+
+  // Use React Query's useMutation hook with additional configurations
+  const mutation = useMutation<
+    PaginatedCommentsResponse,
+    AxiosError<PaginatedCommentsResponse>,
+    CreateCommentPayload
+  >({
+    mutationFn: handleCreateComment,
+    onSuccess: (data: PaginatedCommentsResponse) => {
+      // console.log(data);
+
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+      toast.success("Comment Successful");
+      // router.push(invoiceRoutes.INVOICES);
+      // window.location.reload()
+    },
+    onError: (error) => {
+      const errorMessage =
+        axios.isAxiosError(error) &&
+        error?.response?.data &&
+        "message" in error.response.data
+          ? (error.response.data as any).message
+          : "An unknown error occurred.";
+      if (error.response?.status === 401) {
+        toast.error("Unauthorized Access");
+        router.push(authRoutes.LOGIN);
+        logout();
+      } else {
+        if (is_profile_complete) {
+          toast.error(errorMessage);
+        }
+      }
+      // console.log(error?.response);
+    },
+  });
+
+  // Return the mutation object to use in components
+  return mutation;
+};
+
+export const useGetComments = (invoice_id: string) => {
+  // const router = useRouter();
+  const credentials = useAuthStore((state) => state.credentials);
+  const { get } = useAxiosAuth();
+  const { page, limit, sort_order } = useCommentFilter();
+
+  const handleGetComments = async () => {
+    const params = new URLSearchParams();
+
+    if (invoice_id) params.append("invoice_id", invoice_id);
+    if (sort_order) params.append("sort_order", sort_order);
+    if (limit) params.append("limit", limit.toString());
+    if (page) params.append("page", page.toString());
+
+    const url = `/comments?${params.toString()}`;
+    // const url = `/invoice`;
+    const res = await get(url);
+    console.log(res);
+    return res.data.data;
+  };
+
+  return useQuery({
+    queryKey: ["comments", page, limit, sort_order, invoice_id],
+    queryFn: handleGetComments,
+    enabled: !!credentials?.access_token,
+    retry: 2,
+    refetchOnWindowFocus: false,
+  });
 };

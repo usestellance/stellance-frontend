@@ -26,6 +26,16 @@ interface InvoiceFilterState {
   resetFilters: () => void;
 }
 
+interface CommentFilterState {
+  page: number;
+  sort_order: "desc" | "asc";
+  limit: number;
+  setPage: (page: number) => void;
+  // setOrderBy: (order: "asc" | "dsc") => void;
+  //   setPageCount: (count: number) => void;
+  resetFilters: () => void;
+}
+
 export const useInvoiceFilter = create<InvoiceFilterState>((set) => ({
   page: 1,
   order_by: "desc",
@@ -116,4 +126,19 @@ export const useInvoiceItems = create<InvoiceItemsStore>((set) => ({
 
   openDrawer: false,
   setOpenDrawer: (open) => set({ openDrawer: open }),
+}));
+
+export const useCommentFilter = create<CommentFilterState>((set) => ({
+  page: 1,
+  sort_order: "asc",
+  limit: 100,
+
+  setPage: (page) => set({ page }),
+  //   setOrderBy: (order_by) => set({ order_by }),
+  //   setPageCount: (page_count) => set({ page_count }),
+
+  resetFilters: () =>
+    set({
+      page: 1,
+    }),
 }));
