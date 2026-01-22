@@ -22,6 +22,7 @@ import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { invoiceRoutes } from "../../../../../../config/routes";
 import DeleteInvoiceModal from "../../../../../../features/invoice/components/DeleteInvoiceModal";
+import CommentsPreview from "../../../../../../features/invoice/components/comments/CommentsPreview";
 
 export default function Page() {
   const router = useRouter();
@@ -85,7 +86,9 @@ export default function Page() {
 
   return (
     <>
-      <div className="pt-5 px-4 sm:px-[30px] lg:px-10 md:max-w-[500px] lg:max-w-[650px] xl:max-w-[800px] mx-auto pb-20 overflow-x-auto">
+      <div
+        className={`pt-5 px-4 sm:px-[30px] lg:px-10  mx-auto pb-20 overflow-x-auto ${tab === 'invoice' ? 'md:max-w-[500px] lg:max-w-[650px] xl:max-w-[800px]' : ''} `}
+      >
         <GoBack />
 
         <div className="mt-5 flex place-selfstart md:mt-10 w-full justify-between items-center">
@@ -127,7 +130,7 @@ export default function Page() {
         </section>
 
         <div className="flex justify-center my-[30px] lg:my-[60px]">
-          <div className="h-10 bg-primary-50 w-full max-w-[180px] lg:h-12 lg:max-w-[400px] flex items-center rounded-[5px] overflow-hidden text-sm font-medium lg:text-xl">
+          <div className="h-10 bg-primary-50 w-full max-w-[180px] lg:h-12 lg:max-w-[400px] flex items-center rounded-[5px] overflow-hidden text-sm font-medium lg:text-xl cursor-pointer">
             <button
               onClick={() => handleSwitchTabs("invoice")}
               className={`flex-1 h-full duration-150 transition-all ${tab === "invoice" && "bg-primary-500 text-white"} `}
@@ -143,8 +146,13 @@ export default function Page() {
           </div>
         </div>
 
-        <section className="mt-8 px-2 min-w-[270px]">{getTemplate()}</section>
-        <section className="mt-8 px-2 min-w-[270px]">{getTemplate()}</section>
+        {tab === "invoice" ? (
+          <section className="mt-8 px-2 min-w-[270px]">{getTemplate()}</section>
+        ) : (
+          <section className="mt-8 px-2 min-w-[270px]">
+            <CommentsPreview />
+          </section>
+        )}
 
         {invoice?.status === "draft" && (
           <div className="flex gap-[30px] justify-center mt-10 lg:mt-[60px]">
