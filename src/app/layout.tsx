@@ -13,6 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script src="https://accounts.google.com/gsi/client" async defer />
+      </head>
       <body className={`antialiased`}>{children}</body>
     </html>
   );

@@ -20,6 +20,7 @@ import { SignUpSchema } from "../../../lib/validations/authValidations";
 import { getPasswordStrength } from "../../../lib/utils";
 import { FcGoogle } from "react-icons/fc";
 import { useRegister } from "../hooks";
+import GoogleAuthBtn from "./GoogleAuthBtn";
 
 type SignUpValues = z.infer<typeof SignUpSchema>;
 
@@ -175,14 +176,14 @@ export default function SignUpForm() {
         </form>
       </Form>
       <p className="mt-2.5 mb-[15px] text-sm text-center">OR</p>
-
-      <Button
+      <GoogleAuthBtn />
+      {/* <Button
         type="submit"
         className="w-full bg-white text-black-500 font-normal hover:bg-neutral-100 border border-black-300"
       >
         <FcGoogle size={22} />
         <span>Continue with Google</span>
-      </Button>
+      </Button> */}
     </div>
   );
 }

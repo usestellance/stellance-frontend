@@ -20,6 +20,7 @@ import { authRoutes } from "../../../config/routes";
 import { SignInSchema } from "../../../lib/validations/authValidations";
 import Link from "next/link";
 import { useLogin } from "../hooks";
+import GoogleAuthBtn from "./GoogleAuthBtn";
 
 type SignInValues = z.infer<typeof SignInSchema>;
 
@@ -35,8 +36,8 @@ export default function SignInForm() {
   });
 
   const onSubmit = (values: SignInValues) => {
-   const { email, password } = values;
-   mutate({ email, password });
+    const { email, password } = values;
+    mutate({ email, password });
   };
 
   return (
@@ -111,13 +112,14 @@ export default function SignInForm() {
       </Form>
       <p className="mt-2.5 mb-[15px] text-sm text-center">OR</p>
 
-      <Button
+      <GoogleAuthBtn />
+      {/* <Button
         type="submit"
         className="w-full bg-white text-black-500 font-normal hover:bg-neutral-100 border border-black-300"
       >
         <FcGoogle size={22} />
         <span>Continue with Google</span>
-      </Button>
+      </Button> */}
     </div>
   );
 }

@@ -32,7 +32,7 @@ export const walletRoutes = {
   WALLET: "/wallet",
 };
 export const receiptRoutes = {
-  RECEIPTS: "/receipts",
+  ACCOUNT_STATEMENT: "/account-statement",
   PREVIEW_RECEIPT: (receipt_id: string) => `/receipts/${receipt_id}`,
 };
 export const notificationRoutes = {

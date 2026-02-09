@@ -40,11 +40,11 @@ const items = [
     url: walletRoutes.WALLET,
     icon: Calendar,
   },
-  // {
-  //   title: "Receipt",
-  //   url: receiptRoutes.RECEIPTS,
-  //   icon: Search,
-  // },
+  {
+    title: "Account Statement",
+    url: receiptRoutes.ACCOUNT_STATEMENT,
+    icon: Search,
+  },
 ];
 
 export function AppSidebar() {
