@@ -14,7 +14,7 @@ const AboutCard = ({
 }) => {
   return (
     <div
-      className={`${className} border border-primary-500/50 px-5 py-[30px] rounded-[10px] flex flex-col gap-[30px] md:gap-[50px]`}
+      className={`${className} hover:shadow-lg duration-150 hover:border-neutral-500 transition-all border border-primary-500/50 px-5 py-[30px] rounded-[10px] flex flex-col gap-[30px] md:gap-[50px]`}
     >
       <div className="rounded-[15px] overflow-hidden h-[323px]">
         <Image

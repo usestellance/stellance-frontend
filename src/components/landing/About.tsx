@@ -7,25 +7,25 @@ const About = () => {
       title: "Stable Coin Security",
       img: "/images/about-img-1.png",
       text: "Enables real-time, low-cost transactions across borders, so freelancers can get paid faster, no matter where they or their clients are.",
-      class: "flex-col-reverse col-span-3",
+      class: "md:flex-col-reverse md:col-span-3",
     },
     {
       title: "Fast, Global Payments",
       img: "/images/about-img-2.png",
       text: "Enables real-time, low-cost transactions across borders, so freelancers can get paid faster, no matter where they or their clients are.",
-      class: "col-span-4",
+      class: "md:col-span-4",
     },
     {
       title: "Stable Coin Security",
       img: "/images/about-img-3.png",
       text: "Enables real-time, low-cost transactions across borders, so freelancers can get paid faster, no matter where they or their clients are.",
-      class: "col-span-4",
+      class: "md:col-span-4",
     },
     {
       title: "Fast, Global Payments",
       img: "/images/about-img-4.png",
       text: "Enables real-time, low-cost transactions across borders, so freelancers can get paid faster, no matter where they or their clients are.",
-      class: "col-span-3 flex-col-reverse",
+      class: "md:col-span-3 md:flex-col-reverse",
     },
   ];
 
