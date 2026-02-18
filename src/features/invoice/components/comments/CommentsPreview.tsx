@@ -10,7 +10,7 @@ const CommentsPreview = ({ invoice_id }: { invoice_id: string }) => {
   const { mutate, isPending, isSuccess } = useCreateComment();
   const [commentText, setCommentText] = useState("");
   const comments: Comment[] = data?.comments;
-//   console.log(data, commentText);
+  //   console.log(data, commentText);
 
   const handleCreateComment = () => {
     mutate({
@@ -23,14 +23,14 @@ const CommentsPreview = ({ invoice_id }: { invoice_id: string }) => {
     if (isSuccess) {
       setCommentText("");
     }
-  },[isSuccess]);
+  }, [isSuccess]);
 
   return (
     <div>
       <section className="flex justify-between">
         <h3 className="text-lg sm:text-3xl">Team Comments</h3>
         <div className="min-h-[30px] min-w-[30px] sm:min-w-10 sm:min-h-10 rounded-full flex justify-center items-center bg-primary-50 font-bold text-xs sm:text-base p-2 aspect-square">
-          {data?.stats?.total_comments}
+          {data?.stats?.total_comments || 0}
         </div>
       </section>
 

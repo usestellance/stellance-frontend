@@ -87,7 +87,7 @@ export default function Page() {
   return (
     <>
       <div
-        className={`pt-5 px-4 sm:px-[30px] lg:px-10  mx-auto pb-20 overflow-x-auto ${tab === "invoice" ? "md:max-w-[500px] lg:max-w-[650px] xl:max-w-[800px]" : ""} `}
+        className={`pt-5 px-4 sm:px-[30px] lg:px-10  mx-auto pb-20 overflow-x-auto `}
       >
         <GoBack />
 
@@ -95,7 +95,7 @@ export default function Page() {
           <StatusBadge status={invoice?.status || "draft"} variant="filled" />
 
           <div className="bg-orange-500 text-neutral-500 font-bold text-sm md:text-base px-[15px] py-1 md:px-[26.5px] md:py-1 rounded-[20px]">
-            {getDueStatus(invoice?.due_date || "") || ""}
+            {getDueStatus(invoice?.due_date || "") || "No due date"}
           </div>
         </div>
 
@@ -147,9 +147,13 @@ export default function Page() {
         </div>
 
         {tab === "invoice" ? (
-          <section className="mt-8 px-2 min-w-[270px]">{getTemplate()}</section>
+          <section
+            className={`mt-8 px-2 min-w-[270px] ${tab === "invoice" ? "mx-auto md:max-w-[500px] lg:max-w-[650px] xl:max-w-[800px]" : ""}  `}
+          >
+            {getTemplate()}
+          </section>
         ) : (
-          <section className="mt-8 px-2 min-w-[270px]">
+          <section className="mt-8 px-2 min-w-[270px] mx-auto max-w-[1000px]">
             <CommentsPreview invoice_id={id || ""} />
           </section>
         )}

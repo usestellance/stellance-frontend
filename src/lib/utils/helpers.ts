@@ -214,11 +214,16 @@ export const capitalizeWords = (text: string) => {
     .join(" ");
 };
 
-export function getDueStatus(dueAt: string | Date) {
-  const today = new Date();
-  const due = new Date(dueAt);
+export function getDueStatus(dueAt: string | Date | null | undefined) {
+  if (!dueAt) return ""; // or "No due date"
 
-  // Normalize time to avoid timezone issues
+  const due = new Date(dueAt);
+  const today = new Date();
+
+  // ❗ Check if date is invalid
+  if (isNaN(due.getTime())) return "";
+
+  // Normalize time
   today.setHours(0, 0, 0, 0);
   due.setHours(0, 0, 0, 0);
 
@@ -249,6 +254,7 @@ export function getDueStatus(dueAt: string | Date) {
   if (absDays < 30) return `Overdue by ${format(weeks, "week")}`;
   return `Overdue by ${format(months, "month")}`;
 }
+
 
 export const formatDateForInput = (date?: string) => {
   if (!date) return "";
