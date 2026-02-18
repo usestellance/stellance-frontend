@@ -14,27 +14,33 @@ const RecentTransactions = () => {
   // console.log(invoices);
 
   return (
-    <div>
+    <div className="">
       <h5 className="text-sm font-medium lg:text-2xl">Recent Payments</h5>
-
-      {invoices?.length === 0 && (
-        <div className="text-center mt-20 lg:text-xl">
-          No Recent Teansactions
-        </div>
-      )}
-
-      <div className="space-y-[15px] mt-2.5 lg:mt-7">
-        {invoices?.map((transaction: InvoiceType) => (
-          <TransactionCards key={transaction.id} {...transaction} />
-        ))}
-      </div>
-
-      {totalPages > 1 && (
-        <div className="mt-10 lg:mt-[60px]">
-          <InvoicePagination pageNumber={totalPages || 1} />
-        </div>
-      )}
+      <p className="text-center mt-20 text-xl lg:mt-32 lg:text-4xl animate-pulse">
+        Coming soon...
+      </p>
     </div>
+    // <div>
+    //   <h5 className="text-sm font-medium lg:text-2xl">Recent Payments</h5>
+
+    //   {invoices?.length === 0 && (
+    //     <div className="text-center mt-20 lg:text-xl">
+    //       No Recent Transactions
+    //     </div>
+    //   )}
+
+    //   <div className="space-y-[15px] mt-2.5 lg:mt-7">
+    //     {invoices?.map((transaction: InvoiceType) => (
+    //       <TransactionCards key={transaction.id} {...transaction} />
+    //     ))}
+    //   </div>
+
+    //   {totalPages > 1 && (
+    //     <div className="mt-10 lg:mt-[60px]">
+    //       <InvoicePagination pageNumber={totalPages || 1} />
+    //     </div>
+    //   )}
+    // </div>
   );
 };
 

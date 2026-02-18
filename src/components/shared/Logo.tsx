@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { overviewRoutes } from "../../config/routes";
 
 const Logo = ({ height = "h-[30px]" }: { height?: string }) => {
   return (
-    <Link href="/dashboard">
+    <Link href={overviewRoutes.OVERVIEW}>
       <div className={`${height} w-fit bgred-400`}>
         <Image
           src="/images/logo-primary.svg"
