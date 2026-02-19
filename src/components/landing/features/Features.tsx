@@ -23,7 +23,7 @@ const Features = () => {
     },
   ];
   return (
-    <section className="pb-20 md:pt-10 lg:pb-[200px]">
+    <section id="features" className="pb-20 md:pt-10 lg:pb-[200px]">
       <div className="landing-container">
         <h2 className="text-2xl text-center font-bold md:text-[32px]">
           FEATURES

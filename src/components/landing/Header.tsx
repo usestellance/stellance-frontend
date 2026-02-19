@@ -77,18 +77,18 @@ const Header = () => {
           <nav className="bg-neutral-500/50 rounded-full px-8">
             <ul className="flex gap-6 items-center text-lg">
               <li className="p-2.5 font-medium hover:text-primary-500 duration-150">
-                <Link href="#" className=" w-full h-fit inline-block">
+                <Link href="#home" className=" w-full h-fit inline-block">
                   Home
                 </Link>
               </li>
               <li className="p-2.5 font-medium hover:text-primary-500 duration-150">
-                <Link href="#">About</Link>
+                <Link href="/#about">About</Link>
               </li>
               <li className="p-2.5 font-medium hover:text-primary-500 duration-150">
-                <Link href="#">Features</Link>
+                <Link href="/#features">Features</Link>
               </li>
               <li className="p-2.5 font-medium hover:text-primary-500 duration-150">
-                <Link href="#">Portfolio</Link>
+                <Link href="/#solutions">Solutions</Link>
               </li>
             </ul>
           </nav>

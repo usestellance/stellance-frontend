@@ -7,7 +7,7 @@ const Benefits = () => {
   const [activeTab, setActiveTab] = useState<"client" | "business">("client");
 
   return (
-    <section className="bg-primary-500 py[30px] overflow-hidden ">
+    <section id="solution" className="bg-primary-500 py[30px] overflow-hidden ">
       <div className=" max-w-6xl mx-auto md:flex relative px-4 sm:px-8 lg:px-10">
         <div className="max-md:hidden h-[400px] lg:h-[500px] absolute left-0 lg:left-10 -bottom-1">
           <Image

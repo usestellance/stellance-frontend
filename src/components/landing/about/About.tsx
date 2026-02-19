@@ -30,7 +30,7 @@ const About = () => {
   ];
 
   return (
-    <div className="py-[60px] md:pt-[100px] lg:pb-[200px]">
+    <section id="about" className="py-[60px] md:pt-[100px] lg:pb-[200px]">
       <div className="landing-container">
         <h2 className="max-md:hidden text-center font-medium text-[32px]">
           COMPREHENSIVE <br /> INVOICING PLATFORM
@@ -57,7 +57,7 @@ const About = () => {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

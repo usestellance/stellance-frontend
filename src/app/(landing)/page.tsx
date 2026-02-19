@@ -14,7 +14,7 @@ import Footer from "../../components/landing/Footer";
 export default function Home() {
   return (
     <main className="bg-neutral-500">
-      <div className="hero-bg bg-primary-500">
+      <div id="home" className="hero-bg bg-primary-500">
         <Header />
         <Hero />
       </div>

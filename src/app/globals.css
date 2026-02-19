@@ -87,6 +87,10 @@
   --color-black-400: #23252c;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Satoshi-Variable", sans-serif;
   /* font-family: Helvetica, sans-serif, sans-serif; */
