@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <footer className="bg-primary-500 py-12 text-neutral-500">
       <div className="landing-container flex flex-col gap-16 sm:flex-row sm:items-start">
-        <div className="flex gap-5 items-start sm:justify-between bg-re-400">
+        <div className="flex gap-6 items-start sm:justify-between bg-re-400">
           <Link
             href="/"
             className={`min-w-16 sm:min-h-16 md:h-20  w-fit inline-block`}
