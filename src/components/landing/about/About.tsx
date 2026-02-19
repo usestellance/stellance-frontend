@@ -30,7 +30,7 @@ const About = () => {
   ];
 
   return (
-    <div className="py-[60px] md:pt-[100px]">
+    <div className="py-[60px] md:pt-[100px] lg:pb-[200px]">
       <div className="landing-container">
         <h2 className="max-md:hidden text-center font-medium text-[32px]">
           COMPREHENSIVE <br /> INVOICING PLATFORM
@@ -47,7 +47,13 @@ const About = () => {
 
         <div className="mt-[30px] md:mt-[60px] grid grid-cols-1 gap-[30px] md:grid-cols-7 md:gap-x-5 md:gap-y-[60px]">
           {aboutDetails.map((d, i) => (
-            <AboutCard key={i} img={d.img} text={d.text} title={d.title} className={d.class} />
+            <AboutCard
+              key={i}
+              img={d.img}
+              text={d.text}
+              title={d.title}
+              className={d.class}
+            />
           ))}
         </div>
       </div>

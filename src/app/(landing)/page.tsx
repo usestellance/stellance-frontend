@@ -3,7 +3,8 @@ import Link from "next/link";
 import { authRoutes } from "../../config/routes";
 import Header from "../../components/landing/Header";
 import Hero from "../../components/landing/Hero";
-import About from "../../components/landing/About";
+import About from "../../components/landing/about/About";
+import EveryPayment from "../../components/landing/EveryPayment";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
         <Hero />
       </div>
       <About />
+      <EveryPayment />
     </main>
     // <div className="flex min-h-screen flex-col items-center justify-center py-2">
     //   <Image
