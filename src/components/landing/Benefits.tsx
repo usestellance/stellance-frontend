@@ -9,7 +9,7 @@ const Benefits = () => {
   return (
     <section className="bg-primary-500 py[30px] overflow-hidden ">
       <div className=" max-w-6xl mx-auto md:flex relative px-4 sm:px-8 lg:px-10">
-        <div className="max-md:hidden h-[400px] lg:h-[500px] absolute left-0 xl:left-10 -bottom-1">
+        <div className="max-md:hidden h-[400px] lg:h-[500px] absolute left-0 lg:left-10 -bottom-1">
           <Image
             src="/images/phone_hand.png"
             alt="Stellance Logo"
