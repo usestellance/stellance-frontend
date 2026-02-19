@@ -24,7 +24,7 @@ export default function Home() {
       <Features />
       <Benefits />
       <YourWork />
-      {/* <Footer /> */}
+      <Footer />
     </main>
     // <div className="flex min-h-screen flex-col items-center justify-center py-2">
     //   <Image
