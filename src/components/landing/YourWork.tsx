@@ -16,7 +16,7 @@ const YourWork = () => {
             conversion.
           </p>
         </div>
-        <div className="w-full mx-auto mt-[30px] sm:w-1/2 max-w-[601px]">
+        <div className="w-full mt-[30px] sm:w-1/2 max-w-[550px]">
           <Image
             alt="Guy on a laptop with a dog"
             height={500}
