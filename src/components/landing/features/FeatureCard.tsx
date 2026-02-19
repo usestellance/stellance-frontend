@@ -14,7 +14,7 @@ const FeatureCard = ({
 }) => {
   return (
     <div
-      className={`${className} border border-primary-500/50 px-6 lg:p-[60px] py-[30px] rounded-[15px] flex flex-col gap-[30px] md:gap-[50px] max-md:bg-linear-to-tr max-md:from-[#dee4fa] max-md:to-neutral-500 max-md:min-h-[490px] max-md:-mt-10 md:rounded-none md:border-none`}
+      className={`${className} border border-primary-500/50 px-6 lg:p-[60px] py-[30px] rounded-tl-[15px] rounded-tr-[15px] flex flex-col gap-[30px] md:gap-[50px] max-md:bg-linear-to-tr max-md:from-[#dee4fa] max-md:to-neutral-500 max-md:min-h-[490px] max-md:-mt-10 md:rounded-none md:border-none`}
     >
       <div className="">
         <h4 className="font-bold lg:text-[32px] ">{title.toUpperCase()}</h4>
