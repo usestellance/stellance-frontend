@@ -5,6 +5,7 @@ import Header from "../../components/landing/Header";
 import Hero from "../../components/landing/Hero";
 import About from "../../components/landing/about/About";
 import EveryPayment from "../../components/landing/EveryPayment";
+import Among from "../../components/landing/Among";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       </div>
       <About />
       <EveryPayment />
+      <Among />
     </main>
     // <div className="flex min-h-screen flex-col items-center justify-center py-2">
     //   <Image
