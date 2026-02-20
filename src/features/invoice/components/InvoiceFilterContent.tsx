@@ -24,7 +24,7 @@ import {
 } from "../../../components/ui/tabs";
 
 const InvoiceFilterContent = () => {
-  const { searchTerm, setSearchTerm, status, setStatus, setPage } =
+  const { search, setSearchTerm, status, setStatus, setPage } =
     useInvoiceFilter();
 
   return (
@@ -34,7 +34,7 @@ const InvoiceFilterContent = () => {
         <InputField
           type="text"
           name="search"
-          value={searchTerm}
+          value={search}
           onChange={(e) => {
             setSearchTerm(e.target.value);
             setPage(1);
@@ -49,7 +49,10 @@ const InvoiceFilterContent = () => {
       <div className="mt-5 xl:hidden">
         <Select
           value={status}
-          onValueChange={(val: InvoiceStatus) => {setStatus(val); setPage(1);}}
+          onValueChange={(val: InvoiceStatus) => {
+            setStatus(val);
+            setPage(1);
+          }}
         >
           <SelectTrigger className="h-[30px] rounded-[6px] min-w-[100px] md:min-w-[200px] max-w-[150px] shadow-none border-neutral-800 text-xs font-medium bg-white px-2.5 md:text-base">
             <SelectValue />

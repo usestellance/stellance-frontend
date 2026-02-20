@@ -282,7 +282,6 @@ export const useGetInvoices = ({
   order_by = "desc",
   // page = 1,
   page_count = 5,
-  // status = "",
   paid = false,
 }: {
   order_by?: string;
@@ -293,7 +292,7 @@ export const useGetInvoices = ({
   // const router = useRouter();
   const credentials = useAuthStore((state) => state.credentials);
   const { get } = useAxiosAuth();
-  const { page, status } = useInvoiceFilter();
+  const { page, status, search } = useInvoiceFilter();
   // const { order_by, page, page_count, status } = useFetchInvoiceParams();
 
   const user_id = credentials?.user?.profile?.id;
@@ -302,10 +301,12 @@ export const useGetInvoices = ({
 
     if (user_id) params.append("user_id", user_id);
     if (order_by) params.append("order_by", order_by);
+    if (order_by) params.append("order_by", order_by);
     if (page_count) params.append("page_count", page_count.toString());
     if (status && status !== "all" && !paid) params.append("status", status);
     if (paid) params.append("status", "paid");
     if (page) params.append("page", page.toString());
+    if (search) params.append("search", search);
 
     const url = `/invoice?${params.toString()}`;
     // const url = `/invoice`;
@@ -315,7 +316,7 @@ export const useGetInvoices = ({
   };
 
   return useQuery({
-    queryKey: ["invoices", page, page_count, status, order_by, user_id],
+    queryKey: ["invoices", page, page_count, status, order_by, user_id, search],
     queryFn: handleGetInvoices,
     enabled: !!credentials?.access_token,
     retry: 2,

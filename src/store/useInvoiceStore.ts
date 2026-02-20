@@ -13,7 +13,7 @@ export type InvoiceStatus =
   | "pending";
 
 interface InvoiceFilterState {
-  searchTerm: string;
+  search: string;
   status: InvoiceStatus;
   page: number;
   order_by: "desc" | "asc";
@@ -40,10 +40,10 @@ export const useInvoiceFilter = create<InvoiceFilterState>((set) => ({
   page: 1,
   order_by: "desc",
   size: 10,
-  searchTerm: "",
+  search: "",
   status: "all",
 
-  setSearchTerm: (value) => set({ searchTerm: value }),
+  setSearchTerm: (value) => set({ search: value }),
   setStatus: (value) => set({ status: value }),
   setPage: (page) => set({ page }),
   //   setOrderBy: (order_by) => set({ order_by }),
@@ -51,7 +51,7 @@ export const useInvoiceFilter = create<InvoiceFilterState>((set) => ({
 
   resetFilters: () =>
     set({
-      searchTerm: "",
+      search: "",
       status: "all",
     }),
 }));
@@ -60,10 +60,10 @@ export const useReceiptFilter = create<InvoiceFilterState>((set) => ({
   page: 1,
   size: 10,
   order_by: "desc",
-  searchTerm: "",
+  search: "",
   status: "paid",
 
-  setSearchTerm: (value) => set({ searchTerm: value }),
+  setSearchTerm: (value) => set({ search: value }),
   setStatus: (value) => set({ status: value }),
   setPage: (page) => set({ page }),
   // setOrderBy: (order_by) => set({ order_by }),
@@ -71,7 +71,7 @@ export const useReceiptFilter = create<InvoiceFilterState>((set) => ({
 
   resetFilters: () =>
     set({
-      searchTerm: "",
+      search: "",
       status: "paid",
     }),
 }));

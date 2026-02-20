@@ -8,13 +8,18 @@ import { notificationRoutes, profileRoutes } from "../../config/routes";
 import { useAuthStore } from "../../store/userAuthStore";
 import { mockNotifications } from "../../features/notifications/components/Notifications";
 import { IoIosNotifications } from "react-icons/io";
+import { useGetNotifications } from "../../features/notifications/hooks";
 
 export default function DashboardHeader() {
   const credentials = useAuthStore((state) => state.credentials);
+  const { data } = useGetNotifications();
+  const unread = data?.unread_count || 0;
 
-  const isUnRead = mockNotifications.filter((n) => !n.isRead);
+  console.log(data);
 
-  // console.log(isUnRead.length);
+  // const isUnRead = mockNotifications.filter((n) => !n.isRead);
+
+  // // console.log(isUnRead.length);
 
   const iconBg =
     "bg-primary-50/40 rounded-full flex justify-center items-center w-10 h-10 lg:w-[50px] lg:h-[50px] text-primary-500 duration-150 md:hover:text-white md:hover:bg-primary-500 cursor-pointer";
@@ -29,14 +34,14 @@ export default function DashboardHeader() {
             href={notificationRoutes.NOTIFICATIONS}
             className={`relative  ${iconBg}`}
           >
-            {isUnRead.length > 0 ? (
+            {unread > 0 ? (
               <IoIosNotifications className="text-[24px] lg:text-3xl" />
             ) : (
               <IoNotificationsOutline className="text-[22px] lg:text-3xl" />
             )}
-            {isUnRead.length > 0 && (
+            {unread > 0 && (
               <div className="absolute bg-error-500 rounded-full w-[15px] h-[15px] flex justify-center items-center text-neutral-500 font-bold text-[10px] top-1 right-1 lg:top-1.5 lg:right-2.5">
-                {isUnRead.length}
+                {unread}
               </div>
             )}
           </Link>

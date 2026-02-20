@@ -35,17 +35,17 @@ const Footer = () => {
           <div className="text-sm sm:text-base md:text-lg">
             <h4 className="whitespace-nowrap">QUICK LINKS</h4>
             <div className="mt-4 flex flex-col gap-3">
-              <Link href="#" className="">
+              <Link href="/#home" className="">
                 Home
               </Link>
-              <Link href="#" className="">
+              <Link href="/#about" className="">
                 About
               </Link>
-              <Link href="#" className="">
+              <Link href="/#features" className="">
                 Features
               </Link>
-              <Link href="#" className="">
-                Contact Us
+              <Link href="/#solution" className="">
+                Solutions
               </Link>
             </div>
           </div>
