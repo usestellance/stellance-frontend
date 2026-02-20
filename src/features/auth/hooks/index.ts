@@ -27,7 +27,7 @@ export const useRegister = () => {
   const handleRegister = async (data: UserFormValues) => {
     const response = await axiosInstance.post(
       backendRoutes.AUTH_ROUTES.SIGN_UP,
-      data
+      data,
     );
     return response.data;
   };
@@ -70,7 +70,7 @@ export const useLogin = () => {
   const handleLogin = async (data: UserFormValues) => {
     const response = await axiosInstance.post(
       backendRoutes.AUTH_ROUTES.SIGN_IN,
-      data
+      data,
     );
     return response.data;
   };
@@ -185,7 +185,7 @@ export const useUpdateProfile = () => {
         phone_number: data.phone_number,
         business_name: data.business_name,
         country: data.country,
-      }
+      },
     );
     // console.log(response);
     return response.data;
@@ -264,4 +264,44 @@ export const useGetUser = (enabled = true) => {
   //   }, [query.isSuccess, query.isError, query.data]);
 
   return query;
+};
+
+export const useChangePassword = () => {
+  // const router = useRouter();
+  const toast = useToast();
+  const axiosAuth = useAxiosAuth();
+
+  // Define the function to handle the registration API call
+  const handleChangePassword = async (data: UserFormValues) => {
+    const response = await axiosAuth.post("/auth/change-password", {
+      old_password: data.old_password,
+      new_password: data.new_password,
+    });
+    console.log(data);
+    return response.data;
+  };
+
+  // Use React Query's useMutation hook with additional configurations
+  const mutation = useMutation<
+    ILoginResponse,
+    AxiosError<ILoginResponse>,
+    UserFormValues
+  >({
+    mutationFn: handleChangePassword,
+    onSuccess: (data: ILoginResponse) => {
+      toast.success(data.message);
+      // router.push(authRoutes.VERIFICATION_SENT(user?.email || ""));
+    },
+    onError: (error) => {
+      const errorMessage =
+        axios.isAxiosError(error) && error?.response?.data?.message
+          ? error?.response?.data?.message
+          : "An unknown error occurred.";
+      toast.error(errorMessage);
+        console.log(error?.response?.data);
+    },
+  });
+
+  // Return the mutation object to use in components
+  return mutation;
 };

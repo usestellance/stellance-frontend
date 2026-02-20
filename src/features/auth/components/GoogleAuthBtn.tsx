@@ -1,34 +1,65 @@
 "use client";
 
-import React from "react";
+import { useGoogleLogin } from "@react-oauth/google";
+import Cookies from "js-cookie";
 import { Button } from "../../../components/ui/button";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
 import { useToast } from "../../../hooks/useToast";
-import { authClient } from "../../../lib/authClient";
-import { overviewRoutes } from "../../../config/routes";
+import { authRoutes, overviewRoutes } from "../../../config/routes";
+import { axiosInstance } from "../../../config/axios";
 
-const GoogleAuthBtn = () => {
+export default function GoogleAuthBtn() {
   const router = useRouter();
   const toast = useToast();
 
-  const handleClick = async () => {
-    try {
-      const res = await authClient.signIn.social({
-        provider: "google",
-        // callbackURL: overviewRoutes.OVERVIEW, // where to redirect after login
-      });
+  const login = useGoogleLogin({
+    scope: "openid email profile",
+    onSuccess: async (tokenResponse) => {
+      try {
+        const userInfoRes = await fetch(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+          },
+        );
+        const user = await userInfoRes.json(); // has `email` and `sub`
 
-      console.log(res);
-    } catch (e) {
-      console.error(e);
-      toast.error("Google authentication failed");
-    }
-  };
+        console.log(user);
+
+        const res = await axiosInstance.post("/auth/social", {
+          email: user.email,
+          provider_id: user.sub, // Google unique user id
+        });
+
+        const data = res.data;
+        const expiryDate = new Date(data.data.expires_in * 1000);
+
+        Cookies.set("access_token", data.data.access_token, {
+          expires: expiryDate,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "Lax",
+          path: "/",
+        });
+
+        toast.success(data.message || "Login Successful");
+        router.push(
+          data.data.profile_complete
+            ? overviewRoutes.OVERVIEW
+            : authRoutes.COMPLETE_PROFILE,
+        );
+      } catch (e: any) {
+        toast.error(
+          e?.response?.data?.message || "Google authentication failed",
+        );
+      }
+    },
+    onError: () => toast.error("Google authentication failed"),
+  });
 
   return (
     <Button
-      onClick={handleClick}
+      onClick={() => login()}
       type="button"
       className="w-full bg-white text-black-500 font-normal hover:bg-neutral-100 border border-black-300"
     >
@@ -36,6 +67,4 @@ const GoogleAuthBtn = () => {
       <span>Continue with Google</span>
     </Button>
   );
-};
-
-export default GoogleAuthBtn;
+}

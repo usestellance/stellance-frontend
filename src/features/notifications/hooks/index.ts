@@ -14,7 +14,7 @@ export const useGetNotifications = () => {
   const handleGetNotifications = async () => {
     const url = `/notification`;
     const res = await get(url);
-    console.log(res);
+    // console.log(res);
     return res.data.data;
   };
 

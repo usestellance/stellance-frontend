@@ -50,5 +50,7 @@ export interface UserFormValues {
   wallet_address?: string;
   password?: string;
   confirm_password?: string;
+  new_password?: string;
+  old_password?: string;
   otp?: string;
 }

@@ -25,7 +25,6 @@ import {
   DrawerTitle,
   DrawerDescription,
   DrawerFooter,
-  DrawerClose,
 } from "@/components/ui/drawer";
 
 import { Button } from "@/components/ui/button";
@@ -40,6 +39,7 @@ import {
 
 import InputField from "@/components/ui/custom/InputField";
 import { useMediaQuery } from "../../../hooks/use-media-query";
+import { useChangePassword } from "../hooks";
 
 const ChangePasswordSchema = z
   .object({
@@ -55,6 +55,7 @@ const ChangePasswordSchema = z
 type ChangePasswordValues = z.infer<typeof ChangePasswordSchema>;
 
 export default function ChangePasswordModal() {
+  const { mutate, isPending } = useChangePassword();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [open, setOpen] = useState(false);
 
@@ -67,9 +68,13 @@ export default function ChangePasswordModal() {
     },
   });
 
-  const onSubmit = (data: ChangePasswordValues) => {
-    console.log("Password Updated:", data);
-    setOpen(false);
+  const onSubmit = (values: ChangePasswordValues) => {
+    mutate(values, {
+      onSuccess: () => {
+        form.reset();
+        setOpen(false);
+      },
+    });
   };
 
   const TriggerElement = (
@@ -78,9 +83,7 @@ export default function ChangePasswordModal() {
     </div>
   );
 
-  // ----------------------------
-  // DESKTOP → DIALOG
-  // ----------------------------
+  // DESKTOP -> DIALOG
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
@@ -96,7 +99,6 @@ export default function ChangePasswordModal() {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              {/* OLD PASSWORD */}
               <FormField
                 control={form.control}
                 name="old_password"
@@ -116,7 +118,6 @@ export default function ChangePasswordModal() {
                 )}
               />
 
-              {/* NEW PASSWORD */}
               <FormField
                 control={form.control}
                 name="new_password"
@@ -136,7 +137,6 @@ export default function ChangePasswordModal() {
                 )}
               />
 
-              {/* CONFIRM PASSWORD */}
               <FormField
                 control={form.control}
                 name="confirm_password"
@@ -157,7 +157,11 @@ export default function ChangePasswordModal() {
               />
 
               <DialogFooter>
-                <Button type="submit" className="w-full max-w-60 mx-auto mt-5">
+                <Button
+                  type="submit"
+                  isLoading={isPending}
+                  className="w-full max-w-60 mx-auto mt-5"
+                >
                   Update
                 </Button>
               </DialogFooter>
@@ -168,9 +172,7 @@ export default function ChangePasswordModal() {
     );
   }
 
-  // ----------------------------
-  // MOBILE → DRAWER
-  // ----------------------------
+  // MOBILE -> DRAWER
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>{TriggerElement}</DrawerTrigger>
@@ -186,7 +188,6 @@ export default function ChangePasswordModal() {
         <div className="p-4">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              {/* OLD PASSWORD */}
               <FormField
                 control={form.control}
                 name="old_password"
@@ -206,7 +207,6 @@ export default function ChangePasswordModal() {
                 )}
               />
 
-              {/* NEW PASSWORD */}
               <FormField
                 control={form.control}
                 name="new_password"
@@ -226,7 +226,6 @@ export default function ChangePasswordModal() {
                 )}
               />
 
-              {/* CONFIRM PASSWORD */}
               <FormField
                 control={form.control}
                 name="confirm_password"
@@ -247,14 +246,13 @@ export default function ChangePasswordModal() {
               />
 
               <DrawerFooter className="flex flex-col gap-3">
-                <Button type="submit" className="max-w-[120px] mx-auto">
+                <Button
+                  type="submit"
+                  isLoading={isPending}
+                  className="max-w-[120px] mx-auto"
+                >
                   Update
                 </Button>
-                {/* <DrawerClose asChild>
-                  <Button variant="outline" className="w-full">
-                    Cancel
-                  </Button>
-                </DrawerClose> */}
               </DrawerFooter>
             </form>
           </Form>

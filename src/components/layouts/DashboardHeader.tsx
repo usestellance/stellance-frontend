@@ -6,7 +6,6 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import Link from "next/link";
 import { notificationRoutes, profileRoutes } from "../../config/routes";
 import { useAuthStore } from "../../store/userAuthStore";
-import { mockNotifications } from "../../features/notifications/components/Notifications";
 import { IoIosNotifications } from "react-icons/io";
 import { useGetNotifications } from "../../features/notifications/hooks";
 
@@ -15,11 +14,7 @@ export default function DashboardHeader() {
   const { data } = useGetNotifications();
   const unread = data?.unread_count || 0;
 
-  console.log(data);
-
-  // const isUnRead = mockNotifications.filter((n) => !n.isRead);
-
-  // // console.log(isUnRead.length);
+  // console.log(data);
 
   const iconBg =
     "bg-primary-50/40 rounded-full flex justify-center items-center w-10 h-10 lg:w-[50px] lg:h-[50px] text-primary-500 duration-150 md:hover:text-white md:hover:bg-primary-500 cursor-pointer";
