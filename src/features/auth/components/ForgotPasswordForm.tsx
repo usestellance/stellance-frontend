@@ -29,7 +29,7 @@ type ForgotPasswordValues = z.infer<typeof ForgotPasswordSchema>;
 export default function ForgotPasswordForm() {
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
-    const router = useRouter();
+  const router = useRouter();
   const toast = useToast();
 
   const form = useForm<ForgotPasswordValues>({
@@ -54,13 +54,13 @@ export default function ForgotPasswordForm() {
     setLoading(true);
     try {
       const res = await axiosInstance.get(
-        backendRoutes.AUTH_ROUTES.RESET_PASSWORD_EMAIL(values.email)
+        backendRoutes.AUTH_ROUTES.RESET_PASSWORD_EMAIL(values.email),
       );
 
       if (res.data) {
         setLoading(false);
         toast.success(res?.data?.message);
-        router.push(authRoutes.RESET_PASSWORD);
+        router.push(authRoutes.RESET_PASSWORD(values.email));
       }
       // console.log(res);
     } catch (error) {

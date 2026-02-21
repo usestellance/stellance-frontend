@@ -4,7 +4,7 @@ export const authRoutes = {
   VERIFICATION_SENT: (email: string) =>
     `/auth/sign-up/verification-sent?email=${email}`,
   FORGOT_PASSWORD: "/auth/forgot-password",
-  RESET_PASSWORD: "/auth/reset-password",
+  RESET_PASSWORD: (email: string) => `/auth/reset-password?email=${email}`,
   CREATE_FIRST_INVOICE: "/auth/create-first-invoice",
   COMPLETE_PROFILE: "/auth/setup-account",
 };
@@ -21,7 +21,7 @@ export const invoiceRoutes = {
     tab = "invoice",
   }: {
     invoice_id: string;
-    tab?: 'invoice' | 'comment';
+    tab?: "invoice" | "comment";
   }) => `/invoices/${invoice_id}/preview?tab=${tab}`,
   EDIT_INVOICE: (invoice_id: string) => `/invoices/${invoice_id}/edit`,
 };
@@ -52,6 +52,7 @@ export const backendRoutes = {
       `/auth/resend-email?email=${email}`,
     VALIDATE_TOKEN: (token: string) => `/auth/validate?token=${token}`,
     RESET_PASSWORD_EMAIL: (email: string) => `/auth/reset?email=${email}`,
+    RESET_PASSWORD: `/auth/reset-password`,
   },
   PROFILE_ROUTES: {
     UPDATE_PROFILE: "/profile",

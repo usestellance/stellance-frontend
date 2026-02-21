@@ -298,7 +298,7 @@ export const useChangePassword = () => {
           ? error?.response?.data?.message
           : "An unknown error occurred.";
       toast.error(errorMessage);
-        console.log(error?.response?.data);
+      console.log(error?.response?.data);
     },
   });
 

@@ -16,17 +16,21 @@ import {
 
 import { Button } from "@/components/ui/button";
 import InputField from "@/components/ui/custom/InputField";
-import { authRoutes } from "../../../config/routes";
-import { useRouter } from "next/navigation";
+import { authRoutes, backendRoutes } from "../../../config/routes";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "../../../hooks/useToast";
 import { ResetPasswordSchema } from "../../../lib/validations/authValidations";
 import { getPasswordStrength } from "../../../lib/utils";
+import { axiosInstance } from "../../../config/axios";
+import axios from "axios";
 
 type ResetPasswordValues = z.infer<typeof ResetPasswordSchema>;
 
 export default function ResetPasswordForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
   const toast = useToast();
 
   const form = useForm<ResetPasswordValues>({
@@ -38,14 +42,34 @@ export default function ResetPasswordForm() {
     },
   });
 
-  const onSubmit = (values: ResetPasswordValues) => {
+  const onSubmit = async (values: ResetPasswordValues) => {
     setLoading(true);
-    console.log("Submitted:", values);
-    setTimeout(() => {
+    try {
+      const res = await axiosInstance.post(
+        backendRoutes.AUTH_ROUTES.RESET_PASSWORD,
+        {
+          email,
+          password: values.password,
+          confirm_password: values.confirmPassword,
+          otp: values.otp,
+        },
+      );
+
+      if (res.data) {
+        setLoading(false);
+        toast.success(res?.data?.message);
+        router.push(authRoutes.LOGIN);
+      }
+      // console.log(res);
+    } catch (error) {
       setLoading(false);
-      toast.success("Password reset successful!");
-      router.push(authRoutes.LOGIN);
-    }, 1000);
+      const errorMessage =
+        axios.isAxiosError(error) && error?.response?.data?.message
+          ? error?.response?.data?.message
+          : "An unknown error occurred.";
+      toast.error(errorMessage);
+      //   console.log(error?.response?.data);
+    }
   };
 
   // Watch password value from RHF
