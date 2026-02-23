@@ -91,8 +91,6 @@ export default function CreateInvoiceFormMobile({
   //   form.setValue("items", items as InvoiceFormValues["items"]);
   // }, [items]);
 
-
-
   // function onSubmit(values: InvoiceFormValues) {
   //   console.log("Items from Zustand:", items);
   //   console.log("Items length:", items.length);
@@ -157,6 +155,9 @@ export default function CreateInvoiceFormMobile({
       console.log("edit mode");
     } else {
       createInvoice.mutate(payload);
+    }
+
+    if (createInvoice.isSuccess) {
       clearItems();
     }
     console.log(payload);
