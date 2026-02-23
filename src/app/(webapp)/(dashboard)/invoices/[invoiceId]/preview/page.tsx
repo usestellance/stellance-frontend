@@ -111,33 +111,33 @@ export default function Page() {
               <h3 className="">{invoice?.invoice_number}</h3>
 
               <div className="flex font-medium gap-2.5">
-                {invoice?.status === "draft" ||
-                  (invoice?.status === "sent" && (
-                    <div
-                      className="flex items-center gap-1 text-primary-500 cursor-pointer"
-                      onClick={gotoEditInvoice}
-                    >
-                      <FiEdit className="text-[16px]" />
+                {(invoice?.status === "draft" ||
+                  invoice?.status === "sent") && (
+                  <div
+                    className="flex items-center gap-1 text-primary-500 cursor-pointer"
+                    onClick={gotoEditInvoice}
+                  >
+                    <FiEdit className="text-[16px]" />
 
-                      <span className="underline underline-offset-4 text-lg">
-                        Edit
-                      </span>
-                    </div>
-                  ))}
+                    <span className="underline underline-offset-4 text-lg">
+                      Edit
+                    </span>
+                  </div>
+                )}
 
-                {invoice?.status === "sent" ||
-                  (invoice?.status === "draft" && (
-                    <div
-                      onClick={() => setOpenDeleteDialog(true)}
-                      className="flex items-center cursor-pointer gap-1 text-error-400"
-                    >
-                      <AiOutlineDelete className="text-[16px]" />
+                {(invoice?.status === "sent" ||
+                  invoice?.status === "draft") && (
+                  <div
+                    onClick={() => setOpenDeleteDialog(true)}
+                    className="flex items-center cursor-pointer gap-1 text-error-400"
+                  >
+                    <AiOutlineDelete className="text-[16px]" />
 
-                      <span className="underline underline-offset-4 text-lg">
-                        Delete
-                      </span>
-                    </div>
-                  ))}
+                    <span className="underline underline-offset-4 text-lg">
+                      Delete
+                    </span>
+                  </div>
+                )}
               </div>
             </section>
           </>
