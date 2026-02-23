@@ -16,6 +16,7 @@ import { StatusBadge } from "../../../../components/shared/InvoiceStatusBadge";
 import { getDueStatus } from "../../../../lib/utils/helpers";
 import { Button } from "../../../../components/ui/button";
 import { clientRoutes } from "../../../../config/routes";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 export default function Page() {
   const router = useRouter();
@@ -41,7 +42,7 @@ export default function Page() {
     }
   };
 
-  console.log(id);
+  //   console.log(id);
   console.log(data);
   return (
     <div className="pt-5 pb-20 lg:pt-10">
@@ -111,35 +112,41 @@ export default function Page() {
               {getTemplate()}
             </section>
             <section className="mt-10 sm:mt-16 lg:mt-[60px]">
-              {/* {invoice?.status === "sent" && (
-      <div className="flex gap-[30px] justify-center">
-        <Button
-          //   onClick={() => router.back()}
-          variant="outline"
-          className="in-app-btn"
-        >
-          Declined
-        </Button>
+              {invoice?.status === "sent" && (
+                <div className="flex gap-[30px] justify-center">
+                  <Button
+                    //   onClick={() => router.back()}
+                    variant="outline"
+                    className="in-app-btn"
+                  >
+                    Declined
+                  </Button>
 
-        <Button
-          type="button"
-          className="in-app-btn"
-          //   onClick={() => setOpenSendDialog(true)}
-        >
-          Approve
-        </Button>
-      </div>
-    )} */}
-              {/* {invoice?.status === "viewed" && invoice?.approved && ( */}
-              <div className="flex justify-center mt-14">
-                <Link
-                  href={clientRoutes.MAKE_PAYMENT(id?.toString() || "")}
-                  className="font-bold text-primary-500"
-                >
-                  CLICK HERE TO PAY THIS INVOICE
-                </Link>
-              </div>
-              {/* )} */}
+                  <Button
+                    type="button"
+                    className="in-app-btn"
+                    //   onClick={() => setOpenSendDialog(true)}
+                  >
+                    Approve
+                  </Button>
+                </div>
+              )}
+              {invoice?.status === "viewed" && invoice?.approved && (
+                <div className="flex justify-center mt-14">
+                  <Link
+                    href={clientRoutes.MAKE_PAYMENT(id?.toString() || "")}
+                    className="font-bold text-primary-500"
+                  >
+                    CLICK HERE TO PAY THIS INVOICE
+                  </Link>
+                </div>
+              )}
+              {invoice?.status === "viewed" && !invoice?.approved && (
+                <div className="flex flex-col items-center gap-3">
+                  <IoIosCloseCircleOutline className="text-3xl text-error-500" />
+                  <span className="text-sm font-bold">INVOICE DECLINED</span>
+                </div>
+              )}
             </section>
           </>
         </div>
