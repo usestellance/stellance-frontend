@@ -20,6 +20,7 @@ import { getDueStatus } from "../../../../lib/utils/helpers";
 import { Button } from "../../../../components/ui/button";
 import { clientRoutes } from "../../../../config/routes";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import InvoiceSkeletonLoader from "../../../../components/shared/InvoiceSkeletonLoader";
 
 export default function Page() {
   const router = useRouter();
@@ -60,7 +61,23 @@ export default function Page() {
   console.log(data);
   return (
     <div className="pt-5 pb-20 lg:pt-10">
-      {isLoading && <PageLoading />}
+      {isLoading && (
+        <div className="landing-container">
+          <Link href="/" className="mb-10 inline-block">
+            <div className="w-14 lg:w-20">
+              <Image
+                src="/images/logo-primary-header.svg"
+                alt="Stellance Logo"
+                width={100}
+                loading="eager"
+                height={100}
+                className="h-full w-full object-contain"
+              />
+            </div>
+          </Link>
+          <InvoiceSkeletonLoader />
+        </div>
+      )}
       {isError && (
         <div className="landing-container">
           <Link href="/">

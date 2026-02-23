@@ -23,6 +23,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { invoiceRoutes } from "../../../../../../config/routes";
 import DeleteInvoiceModal from "../../../../../../features/invoice/components/DeleteInvoiceModal";
 import CommentsPreview from "../../../../../../features/invoice/components/comments/CommentsPreview";
+import InvoiceSkeletonLoader from "../../../../../../components/shared/InvoiceSkeletonLoader";
 
 export default function Page() {
   const router = useRouter();
@@ -38,7 +39,7 @@ export default function Page() {
     ? params.invoiceId[0]
     : params.invoiceId;
 
-  const { data } = useGetInvoice({ invoice_id: id || "" });
+  const { data, isLoading, isError } = useGetInvoice({ invoice_id: id || "" });
   const invoice: InvoiceType = data;
   console.log(invoice);
   const sendInvoiceMutation = useSendInvoice(id || "");
@@ -91,77 +92,92 @@ export default function Page() {
       >
         <GoBack />
 
-        <div className="mt-5 flex place-selfstart md:mt-10 w-full justify-between items-center">
-          <StatusBadge
-            status={invoice?.status || "draft"}
-            variant="filled"
-            role="freelancer"
-          />
+        {!isError && !isLoading && (
+          <>
+            <div className="mt-5 flex place-selfstart md:mt-10 w-full justify-between items-center">
+              <StatusBadge
+                status={invoice?.status || "draft"}
+                variant="filled"
+                role="freelancer"
+              />
 
-          <div className="bg-orange-500 text-neutral-500 font-bold text-sm md:text-base px-[15px] py-1 md:px-[26.5px] md:py-1 rounded-[20px]">
-            {invoice?.status === "cancelled"
-              ? "No due date"
-              : getDueStatus(invoice?.due_date || "No due date")}
+              <div className="bg-orange-500 text-neutral-500 font-bold text-sm md:text-base px-[15px] py-1 md:px-[26.5px] md:py-1 rounded-[20px]">
+                {invoice?.status === "cancelled"
+                  ? "No due date"
+                  : getDueStatus(invoice?.due_date || "No due date")}
+              </div>
+            </div>
+            <section className="mt-8 flex justify-between">
+              <h3 className="">{invoice?.invoice_number}</h3>
+
+              <div className="flex font-medium gap-2.5">
+                {invoice?.status === "draft" ||
+                  (invoice?.status === "sent" && (
+                    <div
+                      className="flex items-center gap-1 text-primary-500 cursor-pointer"
+                      onClick={gotoEditInvoice}
+                    >
+                      <FiEdit className="text-[16px]" />
+
+                      <span className="underline underline-offset-4 text-lg">
+                        Edit
+                      </span>
+                    </div>
+                  ))}
+
+                {invoice?.status === "sent" ||
+                  (invoice?.status === "draft" && (
+                    <div
+                      onClick={() => setOpenDeleteDialog(true)}
+                      className="flex items-center cursor-pointer gap-1 text-error-400"
+                    >
+                      <AiOutlineDelete className="text-[16px]" />
+
+                      <span className="underline underline-offset-4 text-lg">
+                        Delete
+                      </span>
+                    </div>
+                  ))}
+              </div>
+            </section>
+          </>
+        )}
+
+        {!isError && !isLoading && (
+          <div className="flex justify-center my-[30px] lg:my-[60px]">
+            <div className="h-10 bg-primary-50 w-full max-w-[180px] lg:h-12 lg:max-w-[400px] flex items-center rounded-[5px] overflow-hidden text-sm font-medium lg:text-xl cursor-pointer">
+              <button
+                onClick={() => handleSwitchTabs("invoice")}
+                className={`flex-1 h-full duration-150 transition-all ${tab === "invoice" && "bg-primary-500 text-white"} `}
+              >
+                Invoice
+              </button>
+              <button
+                onClick={() => handleSwitchTabs("comment")}
+                className={`flex-1 h-full duration-150 transition-all ${tab === "comment" && "bg-primary-500 text-white"} `}
+              >
+                Comments
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
-        <section className="mt-8 flex justify-between">
-          <h3 className="">{invoice?.invoice_number}</h3>
-
-          <div className="flex font-medium gap-2.5">
-            {invoice?.status === "draft" ||
-              (invoice?.status === "sent" && (
-                <div
-                  className="flex items-center gap-1 text-primary-500 cursor-pointer"
-                  onClick={gotoEditInvoice}
-                >
-                  <FiEdit className="text-[16px]" />
-
-                  <span className="underline underline-offset-4 text-lg">
-                    Edit
-                  </span>
-                </div>
-              ))}
-
-            {invoice?.status === "sent" ||
-              (invoice?.status === "draft" && (
-                <div
-                  onClick={() => setOpenDeleteDialog(true)}
-                  className="flex items-center cursor-pointer gap-1 text-error-400"
-                >
-                  <AiOutlineDelete className="text-[16px]" />
-
-                  <span className="underline underline-offset-4 text-lg">
-                    Delete
-                  </span>
-                </div>
-              ))}
+        {isError && (
+          <div className="text-center my-20 sm:text-lg">
+            Unable to load invoice
           </div>
-        </section>
-
-        <div className="flex justify-center my-[30px] lg:my-[60px]">
-          <div className="h-10 bg-primary-50 w-full max-w-[180px] lg:h-12 lg:max-w-[400px] flex items-center rounded-[5px] overflow-hidden text-sm font-medium lg:text-xl cursor-pointer">
-            <button
-              onClick={() => handleSwitchTabs("invoice")}
-              className={`flex-1 h-full duration-150 transition-all ${tab === "invoice" && "bg-primary-500 text-white"} `}
-            >
-              Invoice
-            </button>
-            <button
-              onClick={() => handleSwitchTabs("comment")}
-              className={`flex-1 h-full duration-150 transition-all ${tab === "comment" && "bg-primary-500 text-white"} `}
-            >
-              Comments
-            </button>
-          </div>
-        </div>
+        )}
 
         {tab === "invoice" ? (
-          <section
-            className={`mt-8 px-2 min-w-[270px] ${tab === "invoice" ? "mx-auto md:max-w-[500px] lg:max-w-[650px] xl:max-w-[800px]" : ""}  `}
-          >
-            {getTemplate()}
-          </section>
+          isLoading ? (
+            <InvoiceSkeletonLoader />
+          ) : (
+            <section
+              className={`mt-8 px-2 min-w-[270px] ${tab === "invoice" ? "mx-auto md:max-w-[500px] lg:max-w-[650px] xl:max-w-[800px]" : ""}  `}
+            >
+              {getTemplate()}
+            </section>
+          )
         ) : (
           <section className="mt-8 px-2 min-w-[270px] mx-auto max-w-[1000px]">
             <CommentsPreview invoice_id={id || ""} />
