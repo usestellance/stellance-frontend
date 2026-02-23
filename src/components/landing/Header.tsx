@@ -6,9 +6,11 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { authRoutes } from "../../config/routes";
 import { useEffect, useState } from "react";
+import { IoClose } from "react-icons/io5";
 
 const Header = () => {
   const router = useRouter();
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -39,6 +41,18 @@ const Header = () => {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (isNavOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isNavOpen]);
 
   return (
     // <header className="text-neutral-500 py-4 md:py-5 fixed inset-x-0 top-0">
@@ -73,6 +87,74 @@ const Header = () => {
           </div>
         </Link>
 
+        {/* MOBILE NAV */}
+        <div
+          className={`fixed inset-0 text-black-500 bg-neutral-50 h-screen pt-4 md:pt-6 lg:hidden ${isNavOpen ? "translate-y-0" : "-translate-y-[200%]"} transition-all duration-300`}
+        >
+          <div className="flex items-center justify-between landing-container">
+            <div className={`h-12 sm:h-16 md:h-20  w-fit bgred-400`}>
+              <Image
+                src="/images/logo-primary-header.svg"
+                alt="Stellance Logo"
+                width={100}
+                loading="eager"
+                height={100}
+                className="h-full w-full object-contain"
+              />
+            </div>
+            <IoClose
+              className="text-3xl sm:text-5xl"
+              onClick={() => setIsNavOpen(false)}
+            />
+          </div>
+          <nav className="mt-[72px] sm:mt-24">
+            <ul className="flex flex-col gap-6 items-center text-lg font-light sm:text-normal sm:gap-10 sm:text-2xl">
+              <li className="p-2.5">
+                <Link
+                  href="/#home"
+                  className=""
+                  onClick={() => setIsNavOpen(false)}
+                >
+                  Home
+                </Link>
+              </li>
+              <li className="p-2.5">
+                <Link href="/#about" onClick={() => setIsNavOpen(false)}>
+                  About
+                </Link>
+              </li>
+              <li className="p-2.5">
+                <Link href="/#features" onClick={() => setIsNavOpen(false)}>
+                  Features
+                </Link>
+              </li>
+              <li className="p-2.5">
+                <Link href="/#solutions" onClick={() => setIsNavOpen(false)}>
+                  Solutions
+                </Link>
+              </li>
+            </ul>
+
+            <div className="flex gap-[30px] flex-col items-center mt-[30px]">
+              <Button
+                variant="outline"
+                onClick={gotoLogin}
+                className={`w-fit min-w-44 border-primary-500 hover:bg-neutral-500/50`}
+              >
+                Login
+              </Button>
+              <Button
+                onClick={gotoSignUp}
+                variant="default"
+                className="w-fit min-w-44"
+              >
+                Sign up for free
+              </Button>
+            </div>
+          </nav>
+        </div>
+
+        {/* DESKTOP NAV */}
         <div className="flex items-center justify-between gap-[60px] max-lg:hidden max-xl:gap-6">
           <nav className="bg-neutral-500/50 rounded-full px-8">
             <ul className="flex gap-6 items-center text-lg">
@@ -110,7 +192,10 @@ const Header = () => {
             </Button>
           </div>
         </div>
-        <IoIosMenu className="text-4xl lg:hidden cursor-pointer" />
+        <IoIosMenu
+          className="text-4xl lg:hidden cursor-pointer"
+          onClick={() => setIsNavOpen(true)}
+        />
       </div>
     </header>
   );
