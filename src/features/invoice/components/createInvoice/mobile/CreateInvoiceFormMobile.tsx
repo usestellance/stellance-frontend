@@ -91,6 +91,8 @@ export default function CreateInvoiceFormMobile({
   //   form.setValue("items", items as InvoiceFormValues["items"]);
   // }, [items]);
 
+
+
   // function onSubmit(values: InvoiceFormValues) {
   //   console.log("Items from Zustand:", items);
   //   console.log("Items length:", items.length);
@@ -137,19 +139,6 @@ export default function CreateInvoiceFormMobile({
       ? JSON.parse(stored).state.selectedTemplate
       : "template_001";
 
-    // const payload = {
-    //   title: values.title,
-    //   payer_name: values.clientName,
-    //   payer_email: values.email,
-    //   country: values.address,
-    //   due_date: values.dueDate,
-    //   invoice_items: items,
-    //   service_fee: serviceFee,
-    //   template_id,
-    //   logo: values.logo,
-    //   make_default,
-    //   note: values.notes,
-    // };
     const payload = {
       title: values.title,
       payer_name: values.clientName,
@@ -168,9 +157,9 @@ export default function CreateInvoiceFormMobile({
       console.log("edit mode");
     } else {
       createInvoice.mutate(payload);
+      clearItems();
     }
     console.log(payload);
-    clearItems();
   }
 
   useEffect(() => {

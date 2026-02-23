@@ -52,8 +52,8 @@ export const invoiceSchema = z.object({
         discount: z.number(),
         amount: z.number(),
       }),
-    )
-    .min(1, "At least one item is required"),
+    ),
+    // .min(1, "At least one item is required"),
 
   // // Totals
   subtotal: z.number(),

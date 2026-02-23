@@ -16,7 +16,7 @@ export default function Page() {
 
   const { data } = useGetInvoice({ invoice_id: id || "" });
   const invoice: InvoiceType = data;
-  console.log(invoice);
+  // console.log(invoice);
 
   return (
     <div className="pt-8 pb-20">
