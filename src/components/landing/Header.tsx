@@ -14,9 +14,15 @@ const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const gotoLogin = () => router.push(authRoutes.LOGIN);
+  const gotoLogin = () => {
+    router.push(authRoutes.LOGIN);
+    setIsNavOpen(false);
+  };
 
-  const gotoSignUp = () => router.push(authRoutes.SIGN_UP);
+  const gotoSignUp = () => {
+    router.push(authRoutes.SIGN_UP);
+    setIsNavOpen(false);
+  };
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
