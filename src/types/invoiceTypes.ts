@@ -42,7 +42,7 @@ export interface InvoiceType {
   items?: InvoiceItemsTypes[];
   createdBy?: {
     business_name: string;
-    // wallet_address: string;
+    wallet_address: string;
     email: string;
     location: string;
     name: string;

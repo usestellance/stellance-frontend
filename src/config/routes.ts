@@ -40,8 +40,8 @@ export const notificationRoutes = {
 };
 
 export const clientRoutes = {
-  PREVIEW_RECEIPT: (id: string) => `/client/${id}/receipt`,
-  PREVIEW_INVOICE: (id: string) => `/client/${id}/invoice`,
+  PREVIEW_INVOICE: (id: string) => `/client/${id}`,
+  MAKE_PAYMENT: (id: string) => `/client/${id}/make-payment`,
 };
 
 export const backendRoutes = {

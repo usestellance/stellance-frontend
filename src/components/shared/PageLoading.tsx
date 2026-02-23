@@ -6,7 +6,7 @@ export default function PageLoading({
   showLogo?: boolean;
 }) {
   return (
-    <div className="absolute inset-0 z-10 px-4 sm:px-[30px] md:px-10 xl:px-[60px]">
+    <div className="absolute inset-0 z-10 px-4 sm:px-[30px] md:px-10 xl:px-[60px] bg-white">
       <div className="h-[10%] flex items-center py-5">
         {showLogo && <Logo />}
       </div>

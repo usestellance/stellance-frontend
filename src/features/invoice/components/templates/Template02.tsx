@@ -37,12 +37,16 @@ const Template02 = ({ invoice }: { invoice: InvoiceType }) => {
           >
             <img
               src={invoice?.logo_url || "/images/logo-primary.svg"}
-              alt={invoice?.title || ""}
+              alt={capitalizeWords(invoice?.title || "")}
               className="h-full w-full object-contain"
             />
           </div>
           <p className="text-[8px] sm:text-xs lg:text-sm mt-1.5 line-clamp-1">
-            {capitalizeWords(invoice?.createdBy?.business_name || "")}
+            {capitalizeWords(
+              invoice?.createdBy?.business_name ||
+                invoice?.createdBy?.name ||
+                "",
+            )}
           </p>
           <p className="text-[8px] sm:text-xs lg:text-sm md:mt-1">
             {capitalizeWords(invoice?.title || "")}
@@ -70,9 +74,11 @@ const Template02 = ({ invoice }: { invoice: InvoiceType }) => {
         {/*  */}
         <div className="text-[10px] sm:text-sm lg:text-base font-light flex flex-col">
           <p>Billed To:</p>
-          <p className="font-medium">{invoice?.payer_name || ""}</p>
+          <p className="font-medium">
+            {capitalizeWords(invoice?.payer_name || "")}
+          </p>
           <p>{invoice?.payer_email || ""}</p>
-          <p>{invoice?.country}</p>
+          <p>{capitalizeWords(invoice?.country || "")}</p>
           <p className="mt-4 md:mt-10">
             Due Date:{" "}
             <span className="font-medium">

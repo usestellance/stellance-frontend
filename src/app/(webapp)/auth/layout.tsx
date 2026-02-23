@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "../../../components/shared/Logo";
-import Image from "next/image";
+// import Image from "next/image";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

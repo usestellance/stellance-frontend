@@ -68,7 +68,7 @@ const Template01 = ({ invoice }: { invoice: InvoiceType }) => {
             {capitalizeWords(invoice?.createdBy?.name || "")}
           </p>
           <p>{invoice?.createdBy?.email || ""}</p>
-          <p>{invoice?.createdBy?.location || ""}</p>
+          <p>{capitalizeWords(invoice?.createdBy?.location || "")}</p>
           <p className="mt-4 md:mt-10">
             Date Issued: <br />{" "}
             <span className="font-medium">
@@ -81,7 +81,7 @@ const Template01 = ({ invoice }: { invoice: InvoiceType }) => {
           <p>Billed To:</p>
           <p className="font-medium">{invoice?.payer_name || ""}</p>
           <p>{invoice?.payer_email || ""}</p>
-          <p>{invoice?.country}</p>
+          <p>{capitalizeWords(invoice?.country || '')}</p>
           <p className="mt-4 md:mt-10">
             Due Date: <br />{" "}
             <span className="font-medium">

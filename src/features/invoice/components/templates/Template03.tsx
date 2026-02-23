@@ -32,7 +32,7 @@ const Template03 = ({ invoice }: { invoice: InvoiceType }) => {
               Invoice No: {invoice?.invoice_number || ""}
             </p>
             <p className="text-[10px] sm:text-xs lg:text-sm mt-1 font-light">
-              {capitalizeWords(invoice?.title || '')}
+              {capitalizeWords(invoice?.title || "")}
             </p>
             {/* <p className="text-[10px] sm:text-xs lg:text-sm mt-1 font-light text-neutral-900">
                Wallet Address:{" "}
@@ -88,7 +88,7 @@ const Template03 = ({ invoice }: { invoice: InvoiceType }) => {
             {capitalizeWords(invoice?.payer_name || "")}
           </p>
           <p>{invoice?.payer_email || ""}</p>
-          <p>{invoice?.country || ""}</p>
+          <p>{capitalizeWords(invoice?.country || "")}</p>
         </div>
       </section>
 

@@ -1,5 +1,6 @@
 import Logo from "../../../../components/shared/Logo";
 import {
+  capitalizeWords,
   formatCurrency,
   formatDate,
   numberToWordsUSD,
@@ -37,9 +38,11 @@ const Template04 = ({ invoice }: { invoice: InvoiceType }) => {
             />
           </div>
           <p className="text-[8px] sm:text-xs lg:text-sm mt-1.5 line-clamp-1">
-            {invoice?.createdBy?.business_name ||
-              invoice?.createdBy?.name ||
-              ""}
+            {capitalizeWords(
+              invoice?.createdBy?.business_name ||
+                invoice?.createdBy?.name ||
+                "",
+            )}
           </p>
         </div>
       </section>
@@ -49,9 +52,11 @@ const Template04 = ({ invoice }: { invoice: InvoiceType }) => {
         <div className="flex justify-between">
           <div className="text-[10px] sm:text-sm lg:text-base font-light">
             <p>From:</p>
-            <p className="font-medium">{invoice?.createdBy?.name || ""}</p>
+            <p className="font-medium">
+              {capitalizeWords(invoice?.createdBy?.name || "")}
+            </p>
             <p>{invoice?.createdBy?.email || ""}</p>
-            <p>{invoice?.createdBy?.location || ""}</p>
+            <p>{capitalizeWords(invoice?.createdBy?.location || "")}</p>
           </div>
           <div className="flex flex-col gap-1">
             <p className="flex justify-between text-[10px] sm:text-sm lg:text-base gap-1">
@@ -78,9 +83,11 @@ const Template04 = ({ invoice }: { invoice: InvoiceType }) => {
         {/*  */}
         <div className="mt-4 text-[10px] sm:text-sm lg:text-base font-light flex flex-col">
           <p>Billed To:</p>
-          <p className="font-medium">{invoice?.payer_name || ""}</p>
+          <p className="font-medium">
+            {capitalizeWords(invoice?.payer_name || "")}
+          </p>
           <p>{invoice?.payer_email || ""}</p>
-          <p>{invoice?.country || ""}</p>
+          <p>{capitalizeWords(invoice?.country || "")}</p>
         </div>
       </section>
 

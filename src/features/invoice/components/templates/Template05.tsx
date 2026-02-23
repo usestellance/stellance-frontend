@@ -1,5 +1,6 @@
 import Logo from "../../../../components/shared/Logo";
 import {
+  capitalizeWords,
   formatCurrency,
   formatDate,
   numberToWordsUSD,
@@ -37,9 +38,11 @@ const Template05 = ({ invoice }: { invoice: InvoiceType }) => {
             />
           </div>
           <p className="text-[8px] sm:text-xs lg:text-sm mt-1.5 line-clamp-1">
-            {invoice?.createdBy?.business_name ||
-              invoice?.createdBy?.name ||
-              ""}
+            {capitalizeWords(
+              invoice?.createdBy?.business_name ||
+                invoice?.createdBy?.name ||
+                "",
+            )}
           </p>
         </div>
       </section>
@@ -66,7 +69,7 @@ const Template05 = ({ invoice }: { invoice: InvoiceType }) => {
           </span>{" "}
         </p>
         <p className="text-[8px] sm:text-xs lg:text-sm md:mt-1">
-          {invoice?.title || ""}
+          {capitalizeWords(invoice?.title || "")}
         </p>
       </section>
 
@@ -76,18 +79,20 @@ const Template05 = ({ invoice }: { invoice: InvoiceType }) => {
           <div className="text-[10px] sm:text-sm lg:text-base font-light">
             <p>From:</p>
             <p className="font-medium">
-              {invoice?.createdBy?.name || "John Doe"}
+              {capitalizeWords(invoice?.createdBy?.name || "")}
             </p>
-            <p>{invoice?.createdBy?.email || "johndoe@gmail.com"}</p>
-            <p>{invoice?.createdBy?.location || "United States"}</p>
+            <p>{invoice?.createdBy?.email || ""}</p>
+            <p>{capitalizeWords(invoice?.createdBy?.location || "")}</p>
           </div>
         </div>
         {/*  */}
         <div className="text-[10px] sm:text-sm lg:text-base font-light flex flex-col">
           <p>Billed To:</p>
-          <p className="font-medium">{invoice?.payer_name || ""}</p>
+          <p className="font-medium">
+            {capitalizeWords(invoice?.payer_name || "")}
+          </p>
           <p>{invoice?.payer_email || ""}</p>
-          <p>{invoice?.country || ""}</p>
+          <p>{capitalizeWords(invoice?.country || "")}</p>
         </div>
       </section>
 
