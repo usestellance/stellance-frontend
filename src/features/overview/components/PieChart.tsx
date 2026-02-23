@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 
 import { useGetInvoiceOverview } from "../hooks";
+import { months } from "../../../config/constants";
 
 /* ---------------------------------- */
 /* Status → color mapping (scales well) */
@@ -29,7 +30,9 @@ const STATUS_COLORS: Record<string, string> = {
   draft: "var(--color-info-300)",
   sent: "var(--color-info-600)",
   paid: "var(--color-success-500)",
-  overdue: "var(--color-danger-500)",
+  overdue: "var(--color-orange-500)",
+  cancelled: "var(--color-error-500)",
+  viewed: "var(--color-warning-500)",
 };
 
 const getStatusColor = (status: string) =>
@@ -53,16 +56,29 @@ const MONTHS = [
   { value: "december", label: "December" },
 ];
 
+type StatusItem = {
+  status: string;
+  value: number;
+};
+
 /* ---------------------------------- */
 
 export function ChartPieInteractive() {
   const id = "pie-interactive";
-
-  const [activeMonth, setActiveMonth] = React.useState<string>("january");
+  const currentMonthIndex = new Date().getMonth();
+  const currentMonth = months[currentMonthIndex];
+  const [activeMonth, setActiveMonth] = React.useState<string>(currentMonth);
   const [activeStatus, setActiveStatus] = React.useState<string>();
 
   const { data, isPending } = useGetInvoiceOverview(activeMonth);
 
+  // console.log(data);
+
+  const sumValues = (data: StatusItem[]): number => {
+    return data?.reduce((total, item) => total + item.value, 0);
+  };
+
+  const total = sumValues(data);
   /* ---------------------------------- */
   /* Transform backend data → chart data */
   /* ---------------------------------- */
@@ -208,7 +224,7 @@ export function ChartPieInteractive() {
                               y={viewBox.cy}
                               className="fill-foreground text-3xl font-bold"
                             >
-                              {chartData[activeIndex]?.value ?? 0}
+                              {chartData[activeIndex]?.value ?? total ?? 0}
                             </tspan>
                             <tspan
                               x={viewBox.cx}
@@ -269,7 +285,9 @@ function PieLegend({
               className="h-3 w-3 rounded-full"
               style={{ backgroundColor: item.fill }}
             />
-            <span className="capitalize">{item.label}</span>
+            <span className="capitalize">
+              {item.label === "Viewed" ? "Pending" : item.label}
+            </span>
             <span className="font-medium">{item.value}</span>
           </button>
         );

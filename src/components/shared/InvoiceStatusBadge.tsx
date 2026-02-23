@@ -28,7 +28,7 @@ const statusStyles: Record<
     sent: "bg-info-500",
     paid: "bg-success-500",
     cancelled: "bg-error-400",
-    viewed: "bg-accent-600",
+    viewed: "bg-primary-600",
     overdue: "bg-error-300",
     pending: "bg-warning-500",
   },
@@ -44,14 +44,16 @@ const statusStyles: Record<
 };
 
 /**
- * Role-based display mapping
- * This changes ONLY what is displayed, not the real status.
+ * Only changes what is DISPLAYED
+ * Does NOT mutate the real status
  */
 const statusLabelMap: Record<
   UserRole,
   Partial<Record<StatusType, StatusType>>
 > = {
-  freelancer: {},
+  freelancer: {
+    viewed: "pending",
+  },
   client: {
     sent: "pending",
   },
@@ -63,11 +65,9 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   variant = "filled",
   className,
 }) => {
-  // Determine display status based on role
-  const displayStatus =
-    role && statusLabelMap[role][status]
-      ? statusLabelMap[role][status]!
-      : status;
+  const displayStatus = role
+    ? (statusLabelMap[role][status] ?? status)
+    : status;
 
   const baseStyles = `px-2.5 font-medium rounded-[5px] flex justify-center items-center ${
     variant === "filled"

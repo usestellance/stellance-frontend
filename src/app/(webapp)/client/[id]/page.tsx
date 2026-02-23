@@ -1,7 +1,10 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import React from "react";
-import { useGetInvoiceForClient } from "../../../../features/invoice/hooks";
+import React, { useState } from "react";
+import {
+  useGetInvoiceForClient,
+  useReviewInvoice,
+} from "../../../../features/invoice/hooks";
 import Logo from "../../../../components/shared/Logo";
 import Link from "next/link";
 import Image from "next/image";
@@ -24,8 +27,19 @@ export default function Page() {
   const { data, isLoading, isError } = useGetInvoiceForClient({
     invoice_url: id?.toString() || "",
   });
-
+  const [approve, setApprove] = useState<boolean>(true);
   const invoice: InvoiceType = data;
+
+  const { mutate, isPending } = useReviewInvoice(
+    invoice?.id?.toString() || "",
+    approve,
+  );
+
+  const handleReviewInvoice = (status: boolean) => {
+    setApprove(status);
+    mutate();
+    // window.location.reload();
+  };
 
   const getTemplate = () => {
     switch (invoice?.template_id) {
@@ -103,7 +117,9 @@ export default function Page() {
               />
 
               <div className="bg-orange-500 text-neutral-500 font-bold text-sm md:text-base px-[15px] py-1 md:px-[26.5px] md:py-1 rounded-[20px]">
-                {getDueStatus(invoice?.due_date || "") || "No due date"}
+                {invoice?.status === "cancelled"
+                  ? "No due date"
+                  : getDueStatus(invoice?.due_date || "No due date")}
               </div>
             </section>
             <section
@@ -115,7 +131,8 @@ export default function Page() {
               {invoice?.status === "sent" && (
                 <div className="flex gap-[30px] justify-center">
                   <Button
-                    //   onClick={() => router.back()}
+                    onClick={() => handleReviewInvoice(false)}
+                    disabled={isPending}
                     variant="outline"
                     className="in-app-btn"
                   >
@@ -125,7 +142,8 @@ export default function Page() {
                   <Button
                     type="button"
                     className="in-app-btn"
-                    //   onClick={() => setOpenSendDialog(true)}
+                    onClick={() => handleReviewInvoice(true)}
+                    disabled={isPending}
                   >
                     Approve
                   </Button>
@@ -141,7 +159,7 @@ export default function Page() {
                   </Link>
                 </div>
               )}
-              {invoice?.status === "viewed" && !invoice?.approved && (
+              {invoice?.status === "cancelled" && !invoice?.approved && (
                 <div className="flex flex-col items-center gap-3">
                   <IoIosCloseCircleOutline className="text-3xl text-error-500" />
                   <span className="text-sm font-bold">INVOICE DECLINED</span>

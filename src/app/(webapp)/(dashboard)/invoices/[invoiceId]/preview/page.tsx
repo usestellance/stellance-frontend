@@ -40,7 +40,7 @@ export default function Page() {
 
   const { data } = useGetInvoice({ invoice_id: id || "" });
   const invoice: InvoiceType = data;
-  // console.log(invoice);
+  console.log(invoice);
   const sendInvoiceMutation = useSendInvoice(id || "");
 
   const deleteInvoiceMutation = useDeleteInvoice(id || "");
@@ -92,10 +92,16 @@ export default function Page() {
         <GoBack />
 
         <div className="mt-5 flex place-selfstart md:mt-10 w-full justify-between items-center">
-          <StatusBadge status={invoice?.status || "draft"} variant="filled" />
+          <StatusBadge
+            status={invoice?.status || "draft"}
+            variant="filled"
+            role="freelancer"
+          />
 
           <div className="bg-orange-500 text-neutral-500 font-bold text-sm md:text-base px-[15px] py-1 md:px-[26.5px] md:py-1 rounded-[20px]">
-            {getDueStatus(invoice?.due_date || "") || "No due date"}
+            {invoice?.status === "cancelled"
+              ? "No due date"
+              : getDueStatus(invoice?.due_date || "No due date")}
           </div>
         </div>
 
@@ -103,29 +109,33 @@ export default function Page() {
           <h3 className="">{invoice?.invoice_number}</h3>
 
           <div className="flex font-medium gap-2.5">
-            {invoice?.status === "draft" && (
-              <div
-                className="flex items-center gap-1 text-primary-500 cursor-pointer"
-                onClick={gotoEditInvoice}
-              >
-                <FiEdit className="text-[16px]" />
+            {invoice?.status === "draft" ||
+              (invoice?.status === "sent" && (
+                <div
+                  className="flex items-center gap-1 text-primary-500 cursor-pointer"
+                  onClick={gotoEditInvoice}
+                >
+                  <FiEdit className="text-[16px]" />
 
-                <span className="underline underline-offset-4 text-lg">
-                  Edit
-                </span>
-              </div>
-            )}
+                  <span className="underline underline-offset-4 text-lg">
+                    Edit
+                  </span>
+                </div>
+              ))}
 
-            <div
-              onClick={() => setOpenDeleteDialog(true)}
-              className="flex items-center cursor-pointer gap-1 text-error-400"
-            >
-              <AiOutlineDelete className="text-[16px]" />
+            {invoice?.status === "sent" ||
+              (invoice?.status === "draft" && (
+                <div
+                  onClick={() => setOpenDeleteDialog(true)}
+                  className="flex items-center cursor-pointer gap-1 text-error-400"
+                >
+                  <AiOutlineDelete className="text-[16px]" />
 
-              <span className="underline underline-offset-4 text-lg">
-                Delete
-              </span>
-            </div>
+                  <span className="underline underline-offset-4 text-lg">
+                    Delete
+                  </span>
+                </div>
+              ))}
           </div>
         </section>
 

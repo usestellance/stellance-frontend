@@ -70,7 +70,7 @@ export const columns: ColumnDef<InvoiceType>[] = [
     header: "Status",
     cell: ({ row }) => {
       const status = row.getValue("status") as StatusType;
-      return <StatusBadge status={status} variant="outlined" />;
+      return <StatusBadge status={status} variant="outlined" role="freelancer" />;
     },
   },
 ];

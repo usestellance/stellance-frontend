@@ -12,3 +12,18 @@ export const invoiceStatusOptions: { label: string; value: InvoiceStatus }[] = [
 ];
 
 export const SERVICE_CHARGE = 10;
+
+export const months = [
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
+];

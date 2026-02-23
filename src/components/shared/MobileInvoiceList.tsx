@@ -30,7 +30,7 @@ const InvoiceList = ({ invoice }: InvoiceCardProps) => {
     >
       <div className="flex flex-col justify-between">
         <p className="text-xs leading-[25px] mt-1">{invoice.invoice_number}</p>
-        <StatusBadge status={invoice.status || "pending"} variant="outlined" />
+        <StatusBadge status={invoice.status || "pending"} variant="outlined" role="freelancer" />
         <p className="text-xs max-[350px]:mt-2">
           Date Issued: <br className="min-[350px]:hidden" />{" "}
           {formatDate(invoice.created_at)}
