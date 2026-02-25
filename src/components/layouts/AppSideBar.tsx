@@ -74,7 +74,10 @@ export function AppSidebar() {
     >
       <SidebarHeader className="bg-neutral-500">
         <div className="flex justify-center my-10 flex-col items-center">
-          <Logo height="h-[30px] md:h-[40px] lg:h-[72px]" />
+          <Logo
+            link={overviewRoutes.OVERVIEW}
+            height="h-[30px] md:h-[40px] lg:h-[72px]"
+          />
           <p className="font-bold max-md:hidden lg:text-lg lg:-ml-2">
             Stellance
           </p>

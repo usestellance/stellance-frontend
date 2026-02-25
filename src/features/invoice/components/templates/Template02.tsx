@@ -9,6 +9,7 @@ import {
 } from "../../../../lib/utils/helpers";
 import { SERVICE_CHARGE } from "../../../../config/constants";
 import { InvoiceType } from "../../../../types/invoiceTypes";
+import { overviewRoutes } from "../../../../config/routes";
 
 const Template02 = ({ invoice }: { invoice: InvoiceType }) => {
   // console.log(invoice);
@@ -16,7 +17,7 @@ const Template02 = ({ invoice }: { invoice: InvoiceType }) => {
   return (
     <div className="rounded-[5px]  pt-1.5 pb-10 sm:pt-4 lg:pt-6 invoice-shadow mx-auto md:rounded-[10px] lg:rounded-[20px] ">
       <div className="flex justify-between items-center px-2.5 md:px-4 lg:px-5">
-        <Logo height="h-[18px]  sm:h-[24px] lg:h-[28px]" />
+        <Logo link={overviewRoutes.OVERVIEW} height="h-[18px]  sm:h-[24px] lg:h-[28px]" />
         <p className="font-bold text-lg lg:text-2xl text-primary-500">
           Stellance
         </p>

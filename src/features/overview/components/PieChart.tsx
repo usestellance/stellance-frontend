@@ -224,7 +224,8 @@ export function ChartPieInteractive() {
                               y={viewBox.cy}
                               className="fill-foreground text-3xl font-bold"
                             >
-                              {chartData[activeIndex]?.value ?? total ?? 0}
+                              {/* {chartData[activeIndex]?.value ?? total ?? 0} */}
+                              {total ?? 0}
                             </tspan>
                             <tspan
                               x={viewBox.cx}

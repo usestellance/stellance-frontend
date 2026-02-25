@@ -18,7 +18,7 @@ import PageLoading from "../../../../components/shared/PageLoading";
 import { StatusBadge } from "../../../../components/shared/InvoiceStatusBadge";
 import { getDueStatus } from "../../../../lib/utils/helpers";
 import { Button } from "../../../../components/ui/button";
-import { clientRoutes } from "../../../../config/routes";
+import { clientRoutes, overviewRoutes } from "../../../../config/routes";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import InvoiceSkeletonLoader from "../../../../components/shared/InvoiceSkeletonLoader";
 
@@ -63,7 +63,7 @@ export default function Page() {
     <div className="pt-5 pb-20 lg:pt-10">
       {isLoading && (
         <div className="landing-container">
-          <Link href="/" className="mb-10 inline-block">
+          <Link href={overviewRoutes.OVERVIEW} className="mb-10 inline-block">
             <div className="w-14 lg:w-20">
               <Image
                 src="/images/logo-primary-header.svg"

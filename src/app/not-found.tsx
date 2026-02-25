@@ -2,6 +2,7 @@
 import Logo from "../components/shared/Logo";
 import { Button } from "../components/ui/button";
 import { useRouter } from "next/navigation";
+import { overviewRoutes } from "../config/routes";
 
 export default function Notfound() {
   const router = useRouter();
@@ -9,7 +10,7 @@ export default function Notfound() {
     <div>
       <div className="custom-container">
         <div className="flex justify-center pt-5 md:pt-10 flex-col">
-          <Logo height="h-[30px] md:h-[40px] lg:h-[72px]" />
+          <Logo link='#'height="h-[30px] md:h-[40px] lg:h-[72px]" />
           <p className="font-bold max-md:hidden lg:text-lg">Stellance</p>
         </div>
         <div className=" flex flex-col items-center mt-20 lg:mt-10 justify-center">

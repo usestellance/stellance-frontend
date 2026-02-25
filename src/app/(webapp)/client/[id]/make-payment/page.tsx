@@ -10,6 +10,7 @@ import { AiFillCopy } from "react-icons/ai";
 import { useToast } from "../../../../../hooks/useToast";
 import { Button } from "../../../../../components/ui/button";
 import PageLoading from "../../../../../components/shared/PageLoading";
+import { overviewRoutes } from "../../../../../config/routes";
 
 export default function Page() {
   const router = useRouter();
@@ -45,7 +46,7 @@ export default function Page() {
       {isLoading && <PageLoading />}
       {isError && (
         <div className="landing-container">
-          <Link href="/">
+          <Link href={overviewRoutes.OVERVIEW}>
             <div className="w-14 lg:w-20">
               <Image
                 src="/images/logo-primary-header.svg"

@@ -4,7 +4,7 @@ import Logo from "../shared/Logo";
 import { PiUserCircleThin } from "react-icons/pi";
 import { IoNotificationsOutline } from "react-icons/io5";
 import Link from "next/link";
-import { notificationRoutes, profileRoutes } from "../../config/routes";
+import { notificationRoutes, overviewRoutes, profileRoutes } from "../../config/routes";
 import { useAuthStore } from "../../store/userAuthStore";
 import { IoIosNotifications } from "react-icons/io";
 import { useGetNotifications } from "../../features/notifications/hooks";
@@ -22,7 +22,7 @@ export default function DashboardHeader() {
     <header className="py-5 bg-green-00 w-full bg-neutral-500">
       <div className="ml-auto px-4 sm:px-[30px] md:px-10 flex justify-between items-center bg-red300 w-full md:justify-between">
         <div className="mdhidden">
-          <Logo />
+          <Logo link={overviewRoutes.OVERVIEW} />
         </div>
         <div className="flex items-center gap-2.5 md:gap-5">
           <Link
