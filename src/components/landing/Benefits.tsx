@@ -7,7 +7,10 @@ const Benefits = () => {
   const [activeTab, setActiveTab] = useState<"client" | "business">("client");
 
   return (
-    <section id="solutions" className="bg-primary-500 py[30px] overflow-hidden ">
+    <section
+      id="solutions"
+      className="bg-primary-500 py[30px] overflow-hidden "
+    >
       <div className=" max-w-6xl mx-auto md:flex relative px-4 sm:px-8 lg:px-10">
         <div className="max-md:hidden h-[400px] lg:h-[500px] absolute left-0 lg:left-10 -bottom-1">
           <Image
@@ -40,19 +43,51 @@ const Benefits = () => {
 
             {activeTab === "client" ? (
               <ul className="list-disc mt-4 ml-4">
-                <li>Lorem ipsum dolor sit amet. ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet. ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet. ipsum dolor sit amet.</li>
+                <li>
+                  <strong>Faster Payments:</strong> Receive services or products
+                  without delays caused by slow international bank transfers.
+                </li>
+                <li>
+                  <strong>Lower Transaction Fees:</strong> Pay less in fees
+                  compared to traditional cross-border payment methods.
+                </li>
+                <li>
+                  <strong>Simple, Seamless Checkout:</strong> A smooth,
+                  user-friendly payment experience without complicated banking
+                  steps.
+                </li>
+                <li>
+                  <strong>Greater Transparency:</strong> Clear visibility into
+                  payment status and transaction confirmations.
+                </li>
+                <li>
+                  <strong>Access From Anywhere:</strong> Make payments globally
+                  without needing a specific bank or payment provider.
+                </li>
               </ul>
             ) : (
               <ul className="list-disc mt-4 ml-4">
-                <li>Business dolor sit amet. ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet. ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet.</li>
-                <li>Lorem ipsum dolor sit amet. ipsum dolor sit amet.</li>
+                <li>
+                  <strong>Faster Cash Flow:</strong> No more waiting 3-5
+                  business days for international wire transfers.
+                </li>
+                <li>
+                  <strong>Reduced Payment Costs:</strong> Avoid high remittance
+                  fees and poor exchange rates.
+                </li>
+                <li>
+                  <strong>Global Reach:</strong> Serve clients anywhere in the
+                  world without banking limitations.
+                </li>
+                <li>
+                  <strong>Improved Financial Transparency:</strong> Clear
+                  transaction tracking and automated record-keeping simplify
+                  accounting.
+                </li>
+                <li>
+                  <strong>Scalable Infrastructure:</strong> Built on blockchain
+                  technology, Stellance grows with your business.
+                </li>
               </ul>
             )}
           </div>
