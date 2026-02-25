@@ -52,19 +52,23 @@ const Footer = () => {
           <div className="text-sm sm:text-base md:text-lg">
             <h4 className="">CONTACT US</h4>
             <div className="mt-4 flex flex-col gap-3">
-              <Link href="mailto:info@usestellance.com" className="">
-                info@usestellance.com
+              <Link href="mailto:support@usestellance.com" className="">
+                support@usestellance.com
               </Link>
-              <div className="text-2xl flex gap-3">
-                <Link href="#" className="">
+              <div className="text-3xl flex gap-3">
+                {/* <Link href="#" className="">
                   <RxInstagramLogo />
-                </Link>
-                <Link href="#" className="">
+                </Link> */}
+                <Link
+                  href="https://x.com/stellancehq?s=11"
+                  target="_blank"
+                  className=""
+                >
                   <BsTwitterX />
                 </Link>
-                <Link href="#" className="">
+                {/* <Link href="#" className="">
                   <CiLinkedin />
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>

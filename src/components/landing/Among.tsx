@@ -20,9 +20,12 @@ const Among = () => {
               1% of the 1 %
             </h4>
             <p className="text-center text-sm w-4/5 max-sm:mx-auto mt-2.5 sm:text-start sm:w-full lg:mt-4 lg:text-2xl">
-              Create, send, and manage professional invoices in just a few
-              clicks. Stellance&apos;s intuitive invoicing system is designed
-              for freelancers — with smart templates, <br />
+              Get Started Today Invoice smarter. Get paid faster. Scale
+              globally. <br /> <br />
+              <strong>
+                Stellance, where Business Meets Borderless Payments.
+              </strong>
+              <br />
               <br /> Sign up today and experience the freedom of Stellar-powered
               freelance finance.
             </p>

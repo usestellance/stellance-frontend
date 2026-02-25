@@ -43,6 +43,11 @@ const About = () => {
           Bridging Web3 innovation with real-world needs across industries like
           agriculture, healthcare, tech, and more. Stellance offers stablecoin
           payments simple invoicing, and optional local fiat conversion.
+          <br />
+          <br />
+          Who Stellance Is For Freelancers working with international clients,
+          Remote teams & digital agencies, SMEs engaged in cross-border trade,
+          Web3 builders & startups, African businesses serving global markets.
         </p>
 
         <div className="mt-[30px] md:mt-[60px] grid grid-cols-1 gap-[30px] md:grid-cols-7 md:gap-x-5 md:gap-y-[60px]">

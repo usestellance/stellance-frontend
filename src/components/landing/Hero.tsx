@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
@@ -14,12 +14,16 @@ const Hero = () => {
       <div className="landing-container flex justify-between h-full gap-20">
         <div className="w-full xl:w-1/2 flex flex-col justify-center text-neutral-500">
           <h1 className="font-medium text-[32px] sm:text-[48px] leading-10 md:text-[64px] md:font-normal sm:leading-[120%]">
-            Do business worldwide, receive money without restrictions
+            Seamless Invoicing for a Borderless World. <br /> Designed for
+            Speed.
           </h1>
           <p className="text-sm sm:text-2xl my-[15px] md:my-[30px] text-neutral-comment leading-6 sm:leading-[150%]">
-            A simple payment process helps you get paid on time. Provide
-            multiple payment options that your customers can choose from to make
-            their payment securely.
+            Stellance is a next-generation invoicing and payment platform built
+            on the Stellar network. We help businesses, freelancers, and digital
+            entrepreneurs send invoices, receive cross-border payments, and
+            manage settlements instantly , without the friction of traditional
+            banking systems. Whether you're serving clients locally or globally,
+            Stellance makes getting paid simple, fast, and cost-effective.
           </p>
           <Button
             onClick={gotoSignUp}
