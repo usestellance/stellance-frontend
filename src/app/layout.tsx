@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     template: "%s | Stellance",
   },
   description:
-    "Do business worldwide, receive money without restrictions. A simple payment process helps you get paid on time. Provide multiple payment options that your customers can choose from to make their payment securely. Stellance partners with trusted payment networks to offer fiat off-ramps in supported regions",
+    "Stellance is a next-generation invoicing and payment platform built on the Stellar network. We help businesses, freelancers, and digital entrepreneurs send invoices, receive cross-border payments, and manage settlements instantly , without the friction of traditional banking systems. Whether you're serving clients locally or globally, Stellance makes getting paid simple, fast, and cost-effective.",
   keywords: [
     "global payments",
     "international business",
@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     "online payments",
     "payment gateway",
     "Stellance",
+    "Stellar",
   ],
   authors: [{ name: "Stellance" }],
   creator: "Stellance",
@@ -69,9 +70,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* <head>
-        <script src="https://accounts.google.com/gsi/client" async defer />
-      </head> */}
       <body className={`antialiased`}>{children}</body>
     </html>
   );
