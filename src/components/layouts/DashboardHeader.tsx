@@ -4,7 +4,11 @@ import Logo from "../shared/Logo";
 import { PiUserCircleThin } from "react-icons/pi";
 import { IoNotificationsOutline } from "react-icons/io5";
 import Link from "next/link";
-import { notificationRoutes, overviewRoutes, profileRoutes } from "../../config/routes";
+import {
+  notificationRoutes,
+  overviewRoutes,
+  profileRoutes,
+} from "../../config/routes";
 import { useAuthStore } from "../../store/userAuthStore";
 import { IoIosNotifications } from "react-icons/io";
 import { useGetNotifications } from "../../features/notifications/hooks";
@@ -12,9 +16,9 @@ import { useGetNotifications } from "../../features/notifications/hooks";
 export default function DashboardHeader() {
   const credentials = useAuthStore((state) => state.credentials);
   const { data } = useGetNotifications();
-  const unread = data?.unread_count || 0;
+  const unread = data?.meta?.unread_count || 0;
 
-  // console.log(data);
+  console.log(unread);
 
   const iconBg =
     "bg-primary-50/40 rounded-full flex justify-center items-center w-10 h-10 lg:w-[50px] lg:h-[50px] text-primary-500 duration-150 md:hover:text-white md:hover:bg-primary-500 cursor-pointer";

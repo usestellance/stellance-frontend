@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { useGetNotifications, useUpdateNotification } from "../hooks";
 import { NotificationItem } from "../../../types/notificationTypes";
+import NotificationPagination from "./NotificationPagination";
 
 // --------------------------
 // Notification Card
@@ -76,7 +77,7 @@ const NotificationCard = ({ n }: { n: NotificationItem }) => {
 // Notification List
 // --------------------------
 const NotificationList = () => {
-  const { data } = useGetNotifications();
+  const { data, isLoading } = useGetNotifications();
   const notifications = data?.notifications;
   console.log(data);
 
@@ -99,6 +100,20 @@ const NotificationList = () => {
           <p className="text-lg">No notifications yet</p>
           <p className="text-sm mt-2">
             We'll notify you when something important happens
+          </p>
+        </div>
+      )}
+
+      {data?.meta?.total_pages && data?.meta?.total_pages > 1 && (
+        <div className="mt-12">
+          <NotificationPagination pageNumber={data?.meta?.total_pages || 1} />
+        </div>
+      )}
+
+      {isLoading && (
+        <div className="text-center py-12 mt-40">
+          <p className="text-lg italic animate-pulse">
+            Loading notifications...
           </p>
         </div>
       )}

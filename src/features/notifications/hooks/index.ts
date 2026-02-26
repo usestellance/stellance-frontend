@@ -6,20 +6,33 @@ import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { authRoutes } from "../../../config/routes";
 import { NotificationsItem } from "../../../types/notificationTypes";
+import { useVariableStore } from "../../../store/useVariableStore";
 
 export const useGetNotifications = () => {
   const credentials = useAuthStore((state) => state.credentials);
   const { get } = useAxiosAuth();
+  const { notificationsCount, notificationsOrder, notificationsPage } =
+    useVariableStore();
 
   const handleGetNotifications = async () => {
-    const url = `/notification`;
+    const params = new URLSearchParams();
+    params.append("count", notificationsCount.toString());
+    params.append("page", notificationsPage.toString());
+    params.append("order_by", notificationsOrder);
+
+    const url = `/notification?${params.toString()}`;
     const res = await get(url);
     // console.log(res);
     return res.data.data;
   };
 
   return useQuery({
-    queryKey: ["notifications"],
+    queryKey: [
+      "notifications",
+      notificationsCount,
+      notificationsPage,
+      notificationsOrder,
+    ],
     queryFn: handleGetNotifications,
     enabled: !!credentials?.access_token,
     retry: 2,
@@ -104,8 +117,7 @@ export const useDeleteNotification = () => {
   const handleDeleteNotification = async (notificationId?: string) => {
     const params = new URLSearchParams();
 
-
-    const url = `/notification/${notificationId}`
+    const url = `/notification/${notificationId}`;
 
     const res = await patch(url);
     // console.log(res);
