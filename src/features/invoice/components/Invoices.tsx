@@ -1,7 +1,6 @@
 import React from "react";
 import InvoiceCard from "../../../components/shared/MobileInvoiceList";
 import InvoiceFilter from "./InvoiceFilter";
-// import { mockInvoices } from "../../overview/components/LatestInvoices";
 import { DataTable } from "../../../components/shared/DesktopInvoiceList/data-table";
 import { columns } from "../../../components/shared/DesktopInvoiceList/columns";
 import { useInvoiceFilter } from "../../../store/useInvoiceStore";
@@ -14,7 +13,6 @@ const Invoices = () => {
   const { search, status } = useInvoiceFilter();
   const { data, isLoading, isError } = useGetInvoices({});
   const invoices = data?.invoice || [];
-  // const invoiceMeta = data?.meta;
   const totalPages = data?.meta?.total_pages || 1;
   const isEmpty = invoices?.length === 0;
 
@@ -43,7 +41,7 @@ const Invoices = () => {
               {/* DESKTOP TABLE */}
               <div className="max-xl:hidden overflow-x-auto">
                 {/* <DataTable data={filteredData} columns={columns} /> */}
-                <DataTable data={invoices} columns={columns} />
+                <DataTable<InvoiceType, InvoiceType> columns={columns} data={invoices} />
               </div>
 
               {totalPages > 1 && (

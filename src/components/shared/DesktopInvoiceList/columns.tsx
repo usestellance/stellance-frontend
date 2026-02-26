@@ -42,7 +42,7 @@ export const columns: ColumnDef<InvoiceType>[] = [
     accessorKey: "due_date",
     header: "Due Date",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("created_at"));
+      const date = new Date(row.getValue("due_date"));
       return date.toLocaleDateString("en-US", {
         month: "short",
         day: "2-digit",

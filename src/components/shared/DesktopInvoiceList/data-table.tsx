@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/table";
 import { invoiceRoutes } from "../../../config/routes";
 import { useRouter } from "next/navigation";
+import { InvoiceType } from "../../../types/invoiceTypes";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -33,6 +34,7 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+  // console.log("table", data);
   const router = useRouter();
 
   return (
@@ -67,11 +69,20 @@ export function DataTable<TData, TValue>({
                [&>td:first-child]:rounded-bl-xl [&>td:first-child]:rounded-tl-xl [&>td:last-child]:rounded-br-xl [&>td:last-child]:rounded-tr-xl [&>td:first-child]:font-bold"
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                onClick={() =>
+                onClick={() => {
+                  const getInvoice = data?.find(
+                    (_, i) => row.id === i.toString(),
+                  ) as InvoiceType | undefined;
+
+                  const invoiceId = getInvoice?.id ?? "";
+                  // console.log("invoiceId:", invoiceId);
+
                   router.push(
-                    invoiceRoutes.PREVIEW_INVOICE({ invoice_id: row.id || "" }),
-                  )
-                }
+                    invoiceRoutes.PREVIEW_INVOICE({
+                      invoice_id: invoiceId,
+                    }),
+                  );
+                }}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell className=" bg-primary-20" key={cell.id}>

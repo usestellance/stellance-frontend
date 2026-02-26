@@ -41,7 +41,7 @@ export default function Page() {
 
   const { data, isLoading, isError } = useGetInvoice({ invoice_id: id || "" });
   const invoice: InvoiceType = data;
-  console.log(invoice);
+  // console.log(invoice);
   const sendInvoiceMutation = useSendInvoice(id || "");
 
   const deleteInvoiceMutation = useDeleteInvoice(id || "");
