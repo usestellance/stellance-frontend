@@ -47,6 +47,7 @@ export const useGetTransactionStats = () => {
     queryKey: ["transaction-stats"],
     queryFn: async () => {
       const res = await get("/transaction/stats");
+      console.log("Transaction Stats Response:", res);
       return res.data.data;
     },
     enabled: !!credentials?.access_token,

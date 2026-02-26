@@ -10,7 +10,7 @@ const CommentsPreview = ({ invoice_id }: { invoice_id: string }) => {
   const { mutate, isPending, isSuccess } = useCreateComment();
   const [commentText, setCommentText] = useState("");
   const comments: Comment[] = data?.comments;
-  //   console.log(data, commentText);
+    // console.log(data, commentText);
 
   const handleCreateComment = () => {
     mutate({

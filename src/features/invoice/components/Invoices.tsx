@@ -18,7 +18,7 @@ const Invoices = () => {
   const totalPages = data?.meta?.total_pages || 1;
   const isEmpty = invoices?.length === 0;
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div>

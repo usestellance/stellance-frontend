@@ -18,7 +18,7 @@ export default function DashboardHeader() {
   const { data } = useGetNotifications();
   const unread = data?.meta?.unread_count || 0;
 
-  console.log(unread);
+  // console.log(unread);
 
   const iconBg =
     "bg-primary-50/40 rounded-full flex justify-center items-center w-10 h-10 lg:w-[50px] lg:h-[50px] text-primary-500 duration-150 md:hover:text-white md:hover:bg-primary-500 cursor-pointer";
