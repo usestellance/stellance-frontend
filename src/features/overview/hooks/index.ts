@@ -32,6 +32,7 @@ export const useGetCashInflow = ({
     queryKey: ["cash-inflow", from, to],
     queryFn: async () => {
       const res = await get(`/transaction/inflow?from=${from}&to=${to}`);
+      console.log("Cash Inflow Response:", res);
       return res.data.data;
     },
     enabled: !!credentials?.access_token,
@@ -47,7 +48,7 @@ export const useGetTransactionStats = () => {
     queryKey: ["transaction-stats"],
     queryFn: async () => {
       const res = await get("/transaction/stats");
-      console.log("Transaction Stats Response:", res);
+      // console.log("Transaction Stats Response:", res);
       return res.data.data;
     },
     enabled: !!credentials?.access_token,

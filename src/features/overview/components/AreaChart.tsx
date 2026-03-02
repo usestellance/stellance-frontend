@@ -50,6 +50,8 @@ export function ChartAreaInteractive() {
     }));
   }, [data]);
 
+  console.log(data);
+
   return (
     <Card className="pt-0">
       <CardHeader className="flex flex-col gap-4 border-b py-5">
