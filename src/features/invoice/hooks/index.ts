@@ -281,7 +281,7 @@ export const useUpdateInvoice = ({ invoiceId }: { invoiceId: string }) => {
 export const useGetInvoices = ({
   order_by = "desc",
   // page = 1,
-  page_count = 5,
+  page_count = 10,
   paid = false,
 }: {
   order_by?: string;
