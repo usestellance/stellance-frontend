@@ -79,7 +79,7 @@ const NotificationCard = ({ n }: { n: NotificationItem }) => {
 const NotificationList = () => {
   const { data, isLoading } = useGetNotifications();
   const notifications = data?.notifications;
-  console.log(data);
+  // console.log(notifications);
 
   return (
     <div className="max-w-[1000px] mx-auto">
@@ -95,20 +95,22 @@ const NotificationList = () => {
       </div>
 
       {/* Empty State */}
-      {notifications?.length === 0 && (
-        <div className="text-center py-12 text-neutral-500">
-          <p className="text-lg">No notifications yet</p>
-          <p className="text-sm mt-2">
+      {!notifications && (
+        <div className="text-center py-12 mt-20">
+          <p className="text-lg md:text-2xl">No notifications yet</p>
+          <p className="text-sm mt-2 md:text-base text-neutral-900">
             We'll notify you when something important happens
           </p>
         </div>
       )}
 
-      {data?.meta?.total_pages && data?.meta?.total_pages > 1 && (
-        <div className="mt-12">
-          <NotificationPagination pageNumber={data?.meta?.total_pages || 1} />
-        </div>
-      )}
+      {notifications &&
+        data?.meta?.total_pages &&
+        data?.meta?.total_pages > 1 && (
+          <div className="mt-12">
+            <NotificationPagination pageNumber={data?.meta?.total_pages || 1} />
+          </div>
+        )}
 
       {isLoading && (
         <div className="text-center py-12 mt-40">

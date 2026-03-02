@@ -25,7 +25,7 @@ export default function GoogleAuthBtn() {
         );
         const user = await userInfoRes.json(); // has `email` and `sub`
 
-        console.log(user);
+        // console.log(user);
 
         const res = await axiosInstance.post("/auth/social", {
           email: user.email,
@@ -41,6 +41,8 @@ export default function GoogleAuthBtn() {
           sameSite: "Lax",
           path: "/",
         });
+
+        // console.log("Google auth successful, token stored in cookie", data.data.profile_complete);
 
         toast.success(data.message || "Login Successful");
         router.push(
