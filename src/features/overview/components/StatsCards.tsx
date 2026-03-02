@@ -11,7 +11,7 @@ const Card = ({
   amount: string;
   count: number;
 }) => {
-  console.log(count, amount);
+  // console.log(count, amount);
   return (
     <div className="h-[110px] sm:h-[140px] w-full border-[0.5px] border-primary-500/15 bg-neutral-500 rounded-[5px] shadow-lg shadow-[#8392cd]/30 px-2.5 py-3 flex flex-col gap-2.5 sm:justify-between sm:py-5 sm:rounded-[10px] sm:px-3 hover:-translate-y-1 duration-150">
       <h6 className="text-[10px] sm:text-sm">{title.toUpperCase()}</h6>
