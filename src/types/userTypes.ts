@@ -53,4 +53,5 @@ export interface UserFormValues {
   new_password?: string;
   old_password?: string;
   otp?: string;
+  currency?: string;
 }

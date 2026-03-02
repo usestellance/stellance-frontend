@@ -20,7 +20,7 @@ import InputField from "@/components/ui/custom/InputField";
 import { useToast } from "../../../hooks/useToast";
 import { UpdateUserSchema } from "../../../lib/validations/authValidations";
 import { Combobox } from "../../../components/ui/custom/ComboBox";
-import { countryCodes } from "../../../config/constants/countries";
+import { countryCodes, CURRENCIES } from "../../../config/constants/countries";
 import { authRoutes } from "../../../config/routes";
 import ChangePasswordDialog from "./ChangePasswordDialog";
 import { maskMiddle } from "../../../lib/utils/helpers";
@@ -34,6 +34,14 @@ const countryOptions = countryCodes.map((country) => ({
   label: country.country,
   code: country.code,
   abb: country.abb,
+}));
+const currencyOptions = CURRENCIES.map((currency) => ({
+  value: currency.code,
+  label: currency.name,
+  code: currency.code,
+  name: currency.name,
+  symbol: currency.symbol,
+  subunit: currency.subunit, // kobo
 }));
 
 export default function UpdateUserForm() {
@@ -52,18 +60,26 @@ export default function UpdateUserForm() {
       phone_number: "",
       country: "",
       wallet_address: "",
+      currency: "",
     },
   });
 
   const onSubmit = (values: SetUpAccountValues) => {
-    const { business_name, country, first_name, last_name, phone_number } =
-      values;
+    const {
+      business_name,
+      country,
+      first_name,
+      last_name,
+      phone_number,
+      currency,
+    } = values;
     mutate({
       business_name,
       country,
       first_name,
       last_name,
       phone_number,
+      currency,
     });
   };
 
@@ -142,7 +158,7 @@ export default function UpdateUserForm() {
             />
           </div>
 
-          <div className="space-y-7 lg:grid lg:grid-cols-2 gap-x-5">
+          <div className="space-y-5 lg:grid lg:grid-cols-2 gap-x-5">
             {/* --------------------------------
               BUSINESS NAME FIELD
           -------------------------------- */}
@@ -258,6 +274,42 @@ export default function UpdateUserForm() {
             />
 
             {/* --------------------------------
+              Currency FIELD
+          -------------------------------- */}
+            {/* <FormField
+              control={form.control}
+              name="currency"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Currency</FormLabel>
+
+                  <FormControl>
+                    <Combobox
+                      className="mt-2"
+                      options={currencyOptions}
+                      value={field.value}
+                      onChange={(val) => field.onChange(val)} // val is full object
+                      placeholder="Select currency..."
+                      renderOption={(option) => (
+                        <span className="flex items-center gap-2">
+                          <span className="text-xs text-muted-foreground w-8">
+                            {option.symbol}
+                          </span>
+                          <span>{option.name}</span>
+                          <span className="text-xs text-muted-foreground">
+                            {option.code}
+                          </span>
+                        </span>
+                      )}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
+
+            {/* --------------------------------
               Wallet address FIELD
           -------------------------------- */}
             <FormField
@@ -265,7 +317,9 @@ export default function UpdateUserForm() {
               name="wallet_address"
               render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel>Stellar Wallet Address</FormLabel>
+                  <FormLabel className="-mt2">
+                    Stellar Wallet Address
+                  </FormLabel>
 
                   <FormControl>
                     <InputField
@@ -274,6 +328,7 @@ export default function UpdateUserForm() {
                       label=""
                       disabled
                       placeholder=""
+                      className="-mt6"
                       type="text"
                       error={fieldState.error?.message ?? null}
                     />

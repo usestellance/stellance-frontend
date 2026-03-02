@@ -278,3 +278,10 @@ export const formatTimeAgo = (date: string) => {
   const days = Math.floor(hours / 24);
   return `${days}d ago`;
 };
+
+export function formatCentsToDollars(cents: number): string {
+  return (cents / 100).toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+}

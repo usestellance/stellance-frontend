@@ -155,6 +155,8 @@ export const UpdateUserSchema = z.object({
 
   country: z.string().min(2, "Country is required"),
 
+  currency: z.string().min(2, "Currency is required"),
+
   wallet_address: z
     .string()
     // .nonempty("Wallet address is required")

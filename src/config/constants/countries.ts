@@ -186,3 +186,30 @@ export const countryCodes = [
   { country: "Zambia", code: "+260", abb: "ZM" },
   { country: "Zimbabwe", code: "+263", abb: "ZW" },
 ];
+
+export const CURRENCIES = [
+  {
+    code: "NGN",
+    name: "Nigerian Naira",
+    symbol: "₦",
+    subunit: 100, // kobo
+  },
+  {
+    code: "USD",
+    name: "US Dollar",
+    symbol: "$",
+    subunit: 100, // cents
+  },
+  {
+    code: "GBP",
+    name: "British Pound",
+    symbol: "£",
+    subunit: 100, // pence
+  },
+  {
+    code: "EUR",
+    name: "Euro",
+    symbol: "€",
+    subunit: 100, // cents
+  },
+];
