@@ -285,3 +285,7 @@ export function formatCentsToDollars(cents: number): string {
     currency: "USD",
   });
 }
+
+export function centsToDollars(cents: number): number {
+  return cents / 100;
+}

@@ -232,7 +232,7 @@ export function ChartPieInteractive() {
                               y={(viewBox.cy || 0) + 24}
                               className="fill-muted-foreground"
                             >
-                              Invoices
+                              Invoice{total > 1 ? "s" : ""}
                             </tspan>
                           </text>
                         );

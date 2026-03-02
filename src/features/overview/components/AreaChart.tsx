@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { useGetCashInflow } from "../hooks";
+import { centsToDollars } from "../../../lib/utils/helpers";
 
 /* ---------------------------------- */
 /* Chart config                        */
@@ -31,10 +32,12 @@ const chartConfig = {
 export function ChartAreaInteractive() {
   const today = new Date().toISOString().split("T")[0];
 
-  const [from, setFrom] = React.useState("2024-01-01");
+  const [from, setFrom] = React.useState("2026-01-01");
   const [to, setTo] = React.useState(today);
 
   const { data } = useGetCashInflow({ from, to });
+
+  // console.log("Cash Inflow Data:", data);
 
   /* ---------------------------------- */
   /* Normalize backend data             */
@@ -46,11 +49,11 @@ export function ChartAreaInteractive() {
 
     return data.map((item: { date: string; amount: number }) => ({
       date: item.date,
-      amount: item.amount,
+      amount: centsToDollars(item.amount),
     }));
   }, [data]);
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <Card className="pt-0">
@@ -108,18 +111,18 @@ export function ChartAreaInteractive() {
               </linearGradient>
             </defs>
 
-            <CartesianGrid vertical={false} />
+            <CartesianGrid vertical={true} />
 
             <XAxis
               dataKey="date"
-              tickLine={false}
-              axisLine={false}
+              tickLine={true}
+              axisLine={true}
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) =>
-                new Date(value).toLocaleDateString("en-US", {
+                new Date(value).toLocaleString("en-US", {
                   month: "short",
-                  day: "numeric",
+                  year: "numeric",
                 })
               }
             />
@@ -128,11 +131,11 @@ export function ChartAreaInteractive() {
               cursor={false}
               content={
                 <ChartTooltipContent
-                  indicator="dot"
+                  indicator="line"
                   labelFormatter={(value) =>
                     new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
                     })
                   }
                 />
