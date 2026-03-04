@@ -58,7 +58,7 @@ export default function Page() {
   };
 
   //   console.log(id);
-//   console.log(data);
+  // console.log(data);
   return (
     <div className="pt-5 pb-20 lg:pt-10">
       {isLoading && (
