@@ -10,12 +10,11 @@ const CommentsPreview = ({ invoice_id }: { invoice_id: string }) => {
   const { data, error, isLoading } = useGetComments(invoice_id);
   const params = useSearchParams();
   const token = params.get("token");
-  console.log(params);
   const { mutate, isPending, isSuccess } = useCreateComment(token || "");
   const [commentText, setCommentText] = useState("");
   const comments: Comment[] = data?.comments;
 
-  // console.log(data, error, isLoading);
+  // console.log(name, error, isLoading);
 
   const handleCreateComment = () => {
     // console.log(invoice_id)

@@ -20,7 +20,6 @@ import { getDueStatus } from "../../../../lib/utils/helpers";
 import { Button } from "../../../../components/ui/button";
 import {
   clientRoutes,
-  invoiceRoutes,
   overviewRoutes,
 } from "../../../../config/routes";
 import { IoIosCloseCircleOutline } from "react-icons/io";
@@ -31,30 +30,22 @@ export default function Page() {
   const router = useRouter();
   const { id } = useParams();
   const searchParams = useSearchParams();
+  const name = searchParams.get("name");
   const [activeTab, setActiveTab] = useState<"invoice" | "comment">("invoice");
-  // const tab = searchParams.get("tab");
   const { data, isLoading, isError } = useGetInvoiceForClient({
     invoice_url: id?.toString() || "",
   });
   const [approve, setApprove] = useState<boolean>(true);
   const invoice: InvoiceType = data;
 
-  // console.log('invoice id', data?.id);
+  // console.log("invoice", name, data?.payer_email?.split("@")[0] === name);
+
+  const isPayer = data?.payer_email?.split("@")[0] === name;
 
   const { mutate, isPending } = useReviewInvoice(
     invoice?.id?.toString() || "",
     approve,
   );
-
-  // const handleSwitchTabs = (activeTab: "invoice" | "comment") => {
-  //   router.push(
-  //     clientRoutes.PREVIEW_INVOICE({
-  //       invoice_id: (id as string) || "",
-  //       tab: activeTab,
-  //       // tab: tab === "invoice" ? "comment" : "invoice",
-  //     }),
-  //   );
-  // };
 
   const handleReviewInvoice = (status: boolean) => {
     setApprove(status);
@@ -188,45 +179,47 @@ export default function Page() {
                 <CommentsPreview invoice_id={data?.id || ""} />
               </section>
             )}
-            <section className="mt-10 sm:mt-16 lg:mt-[60px]">
-              {invoice?.status === "sent" && (
-                <div className="flex gap-[30px] justify-center">
-                  <Button
-                    onClick={() => handleReviewInvoice(false)}
-                    disabled={isPending}
-                    variant="outline"
-                    className="in-app-btn"
-                  >
-                    Declined
-                  </Button>
+            {isPayer && (
+              <section className="mt-10 sm:mt-16 lg:mt-[60px]">
+                {invoice?.status === "sent" && (
+                  <div className="flex gap-[30px] justify-center">
+                    <Button
+                      onClick={() => handleReviewInvoice(false)}
+                      disabled={isPending}
+                      variant="outline"
+                      className="in-app-btn"
+                    >
+                      Declined
+                    </Button>
 
-                  <Button
-                    type="button"
-                    className="in-app-btn"
-                    onClick={() => handleReviewInvoice(true)}
-                    disabled={isPending}
-                  >
-                    Approve
-                  </Button>
-                </div>
-              )}
-              {invoice?.status === "viewed" && invoice?.approved && (
-                <div className="flex justify-center mt-14">
-                  <Link
-                    href={clientRoutes.MAKE_PAYMENT(id?.toString() || "")}
-                    className="font-bold text-primary-500"
-                  >
-                    CLICK HERE TO PAY THIS INVOICE
-                  </Link>
-                </div>
-              )}
-              {invoice?.status === "cancelled" && !invoice?.approved && (
-                <div className="flex flex-col items-center gap-3">
-                  <IoIosCloseCircleOutline className="text-3xl text-error-500" />
-                  <span className="text-sm font-bold">INVOICE DECLINED</span>
-                </div>
-              )}
-            </section>
+                    <Button
+                      type="button"
+                      className="in-app-btn"
+                      onClick={() => handleReviewInvoice(true)}
+                      disabled={isPending}
+                    >
+                      Approve
+                    </Button>
+                  </div>
+                )}
+                {invoice?.status === "viewed" && invoice?.approved && (
+                  <div className="flex justify-center mt-14">
+                    <Link
+                      href={clientRoutes.MAKE_PAYMENT(id?.toString() || "")}
+                      className="font-bold text-primary-500"
+                    >
+                      CLICK HERE TO PAY THIS INVOICE
+                    </Link>
+                  </div>
+                )}
+                {invoice?.status === "cancelled" && !invoice?.approved && (
+                  <div className="flex flex-col items-center gap-3">
+                    <IoIosCloseCircleOutline className="text-3xl text-error-500" />
+                    <span className="text-sm font-bold">INVOICE DECLINED</span>
+                  </div>
+                )}
+              </section>
+            )}
           </>
         </div>
       )}

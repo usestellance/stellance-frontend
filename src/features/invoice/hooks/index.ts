@@ -654,7 +654,7 @@ export const useGetComments = (invoice_id: string) => {
     const url = `/comments?${params.toString()}`;
     // const url = `/invoice`;
     const res = await axiosInstance.get(url);
-    console.log(res);
+    // console.log(res);
     return res.data.data;
   };
 
