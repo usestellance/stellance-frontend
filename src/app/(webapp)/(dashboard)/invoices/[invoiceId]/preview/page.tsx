@@ -107,7 +107,7 @@ export default function Page() {
                   : getDueStatus(invoice?.due_date || "No due date")}
               </div>
             </div>
-            <section className="mt-8 flex justify-between">
+            <section className="mt-8 flex justify-between sm:text-lg font-semibold">
               <h3 className="">{invoice?.invoice_number}</h3>
 
               <div className="flex font-medium gap-2.5">
@@ -211,6 +211,7 @@ export default function Page() {
         onOpenChange={setOpenSendDialog}
         onSend={handleSendInvoice}
         pending={sendInvoiceMutation.isPending}
+        defaultEmail={invoice?.payer_email ?? ""}
       />
       {/* ✅ Delete Invoice Dialog */}
       <DeleteInvoiceModal

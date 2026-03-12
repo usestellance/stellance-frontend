@@ -4,15 +4,21 @@ import { Textarea } from "../../../../components/ui/textarea";
 import { Button } from "../../../../components/ui/button";
 import { useCreateComment, useGetComments } from "../../hooks";
 import { Comment } from "../../../../types/invoiceTypes";
+import { useSearchParams } from "next/navigation";
 
 const CommentsPreview = ({ invoice_id }: { invoice_id: string }) => {
-  const { data } = useGetComments(invoice_id);
-  const { mutate, isPending, isSuccess } = useCreateComment();
+  const { data, error, isLoading } = useGetComments(invoice_id);
+  const params = useSearchParams();
+  const token = params.get("token");
+  console.log(params);
+  const { mutate, isPending, isSuccess } = useCreateComment(token || "");
   const [commentText, setCommentText] = useState("");
   const comments: Comment[] = data?.comments;
-    // console.log(data, commentText);
+
+  // console.log(data, error, isLoading);
 
   const handleCreateComment = () => {
+    // console.log(invoice_id)
     mutate({
       invoice_id,
       comment_text: commentText,

@@ -40,7 +40,13 @@ export const notificationRoutes = {
 };
 
 export const clientRoutes = {
-  PREVIEW_INVOICE: (id: string) => `/client/${id}`,
+  PREVIEW_INVOICE: ({
+    invoice_id,
+    tab = "invoice",
+  }: {
+    invoice_id: string;
+    tab: "invoice" | "comment";
+  }) => `/client/${invoice_id}?tab=${tab}`,
   MAKE_PAYMENT: (id: string) => `/client/${id}/make-payment`,
 };
 

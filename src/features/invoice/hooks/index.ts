@@ -568,7 +568,7 @@ export const useDeleteInvoice = (invoiceId: string) => {
 };
 
 ////////////////////////// COMMENTS //////////////////////////
-export const useCreateComment = () => {
+export const useCreateComment = (token: string) => {
   const toast = useToast();
   const credentials = useAuthStore((state) => state.credentials);
   const logout = useLogout();
@@ -587,8 +587,14 @@ export const useCreateComment = () => {
       commenter_name: credentials?.user?.profile.first_name,
       comment_text: data.comment_text,
       commenter_email: credentials?.user?.profile.email,
+      token,
+      parent_id: data.parent_id,
     });
-    // console.log(response);
+    //     {
+    //   "invoice_id": "{{invoiceId}}",
+    //   "comment_text": "I love this, we can pay now",
+    // }
+    console.log(token);
     return response.data;
   };
 
@@ -634,7 +640,7 @@ export const useCreateComment = () => {
 export const useGetComments = (invoice_id: string) => {
   // const router = useRouter();
   const credentials = useAuthStore((state) => state.credentials);
-  const { get } = useAxiosAuth();
+  // const { get } = useAxiosAuth();
   const { page, limit, sort_order } = useCommentFilter();
 
   const handleGetComments = async () => {
@@ -647,7 +653,7 @@ export const useGetComments = (invoice_id: string) => {
 
     const url = `/comments?${params.toString()}`;
     // const url = `/invoice`;
-    const res = await get(url);
+    const res = await axiosInstance.get(url);
     console.log(res);
     return res.data.data;
   };
@@ -655,7 +661,7 @@ export const useGetComments = (invoice_id: string) => {
   return useQuery({
     queryKey: ["comments", page, limit, sort_order, invoice_id],
     queryFn: handleGetComments,
-    enabled: !!credentials?.access_token,
+    // enabled: !!credentials?.access_token,
     retry: 2,
     refetchOnWindowFocus: false,
   });

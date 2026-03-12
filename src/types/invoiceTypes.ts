@@ -61,6 +61,7 @@ export type CreateCommentPayload = {
   invoice_id: string;
   commenter_name?: string;
   comment_text: string;
+  token?: string
 
   // optional (guest comment)
   commenter_email?: string;

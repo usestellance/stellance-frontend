@@ -1,5 +1,5 @@
 "use client";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import {
   useGetInvoiceForClient,
@@ -18,23 +18,43 @@ import PageLoading from "../../../../components/shared/PageLoading";
 import { StatusBadge } from "../../../../components/shared/InvoiceStatusBadge";
 import { getDueStatus } from "../../../../lib/utils/helpers";
 import { Button } from "../../../../components/ui/button";
-import { clientRoutes, overviewRoutes } from "../../../../config/routes";
+import {
+  clientRoutes,
+  invoiceRoutes,
+  overviewRoutes,
+} from "../../../../config/routes";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import InvoiceSkeletonLoader from "../../../../components/shared/InvoiceSkeletonLoader";
+import CommentsPreview from "../../../../features/invoice/components/comments/CommentsPreview";
 
 export default function Page() {
   const router = useRouter();
   const { id } = useParams();
+  const searchParams = useSearchParams();
+  const [activeTab, setActiveTab] = useState<"invoice" | "comment">("invoice");
+  // const tab = searchParams.get("tab");
   const { data, isLoading, isError } = useGetInvoiceForClient({
     invoice_url: id?.toString() || "",
   });
   const [approve, setApprove] = useState<boolean>(true);
   const invoice: InvoiceType = data;
 
+  // console.log('invoice id', data?.id);
+
   const { mutate, isPending } = useReviewInvoice(
     invoice?.id?.toString() || "",
     approve,
   );
+
+  // const handleSwitchTabs = (activeTab: "invoice" | "comment") => {
+  //   router.push(
+  //     clientRoutes.PREVIEW_INVOICE({
+  //       invoice_id: (id as string) || "",
+  //       tab: activeTab,
+  //       // tab: tab === "invoice" ? "comment" : "invoice",
+  //     }),
+  //   );
+  // };
 
   const handleReviewInvoice = (status: boolean) => {
     setApprove(status);
@@ -139,11 +159,35 @@ export default function Page() {
                   : getDueStatus(invoice?.due_date || "No due date")}
               </div>
             </section>
-            <section
-              className={`mt-10 sm:mt-16  px-2 min-w-[270px] mx-auto max-w-[800px] `}
-            >
-              {getTemplate()}
-            </section>
+            {!isError && !isLoading && (
+              <div className="flex justify-center my-[30px] lg:my-[60px]">
+                <div className="h-10 bg-primary-50 w-full max-w-[180px] lg:h-12 lg:max-w-[400px] flex items-center rounded-[5px] overflow-hidden text-sm font-medium lg:text-xl cursor-pointer">
+                  <button
+                    onClick={() => setActiveTab("invoice")}
+                    className={`flex-1 h-full duration-150 transition-all  ${activeTab === "invoice" && "bg-primary-500 text-white"} `}
+                  >
+                    Invoice
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("comment")}
+                    className={`flex-1 h-full duration-150 transition-all ${activeTab === "comment" && "bg-primary-500 text-white"} `}
+                  >
+                    Comments
+                  </button>
+                </div>
+              </div>
+            )}
+            {activeTab === "invoice" ? (
+              <section
+                className={`mt-10 sm:mt-16  px-2 min-w-[270px] mx-auto max-w-[800px] `}
+              >
+                {getTemplate()}
+              </section>
+            ) : (
+              <section className="mt-8 px-2 min-w-[270px] mx-auto max-w-[1000px]">
+                <CommentsPreview invoice_id={data?.id || ""} />
+              </section>
+            )}
             <section className="mt-10 sm:mt-16 lg:mt-[60px]">
               {invoice?.status === "sent" && (
                 <div className="flex gap-[30px] justify-center">
