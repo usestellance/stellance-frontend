@@ -1,11 +1,10 @@
 "use client";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   useGetInvoiceForClient,
   useReviewInvoice,
 } from "../../../../features/invoice/hooks";
-import Logo from "../../../../components/shared/Logo";
 import Link from "next/link";
 import Image from "next/image";
 import { InvoiceType } from "../../../../types/invoiceTypes";
@@ -18,10 +17,7 @@ import PageLoading from "../../../../components/shared/PageLoading";
 import { StatusBadge } from "../../../../components/shared/InvoiceStatusBadge";
 import { getDueStatus } from "../../../../lib/utils/helpers";
 import { Button } from "../../../../components/ui/button";
-import {
-  clientRoutes,
-  overviewRoutes,
-} from "../../../../config/routes";
+import { clientRoutes, overviewRoutes } from "../../../../config/routes";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import InvoiceSkeletonLoader from "../../../../components/shared/InvoiceSkeletonLoader";
 import CommentsPreview from "../../../../features/invoice/components/comments/CommentsPreview";
@@ -175,7 +171,7 @@ export default function Page() {
                 {getTemplate()}
               </section>
             ) : (
-              <section className="mt-8 px-2 min-w-[270px] mx-auto max-w-[1000px]">
+              <section className="mt-8 px-2 min-w-[270px] mx-auto max-w-[800px]">
                 <CommentsPreview invoice_id={data?.id || ""} />
               </section>
             )}
