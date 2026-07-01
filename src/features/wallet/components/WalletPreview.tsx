@@ -4,9 +4,9 @@ import { useAuthStore } from "../../../store/userAuthStore";
 // import { useGetWallet } from "../hooks";
 import { IWallet } from "../../../types/walletType";
 import { useToast } from "../../../hooks/useToast";
-import {  maskMiddle } from "../../../lib/utils/helpers";
+import {  formatWalletCurrency, maskMiddle } from "../../../lib/utils/helpers";
 import { RiFileCopyLine } from "react-icons/ri";
-// import WalletRadio from "./WalletRadio";
+import WalletRadio from "./WalletRadio";
 import { useWalletStore } from "../../../store/useWalletStore";
 import RecentTransactions from "./RecentTransactions";
 
@@ -43,7 +43,7 @@ const WalletPreview = () => {
     <div className="max-w[1200px] mx-auto">
       <h2 className="h2-app">Wallet</h2>
       <section>
-        {/* {walletDetails?.address && (
+        {walletDetails?.address && (
           <button
             onClick={handleCopy}
             className="cursor-pointer flex items-center gap-1 text-primary-500 hover:text-primary-300 mt-1 md:mt-3 duration-150  "
@@ -53,10 +53,10 @@ const WalletPreview = () => {
             </p>
             <RiFileCopyLine className="text-sm md:text-2xl" />
           </button>
-        )} */}
+        )}
       </section>
       {/* Wallet Balance */}
-      {/* <section className="bg-primary-20 rounded-[5px] px-4 pt-2.5 pb-6 lg:rounded-[10px] mt-[34px] lg:pt-5 lg:pb-[33px] lg:mt-10 ">
+      <section className="bg-primary-20 rounded-[5px] px-4 pt-2.5 pb-6 lg:rounded-[10px] mt-[34px] lg:pt-5 lg:pb-[33px] lg:mt-10 ">
         <div className="flex justify-end">
           <WalletRadio />
         </div>
@@ -68,8 +68,8 @@ const WalletPreview = () => {
             {formatWalletCurrency(balance() || 0, wallet) || "******"}
           </h5>
         </div>
-      </section> */}
-      <section className="bg-primary-20 rounded-[5px] px-4 py-6 lg:rounded-[10px] mt-[34px] lg:pt-5 md:py-[33px] lg:mt-10 ">
+      </section>
+      {/* <section className="bg-primary-20 rounded-[5px] px-4 py-6 lg:rounded-[10px] mt-[34px] lg:pt-5 md:py-[33px] lg:mt-10 ">
         <h4 className="text-sm text-center md:text-xl">Wallet Address</h4>
         {walletDetails?.address && (
           <button
@@ -82,7 +82,7 @@ const WalletPreview = () => {
             <RiFileCopyLine className="text-xl md:text-2xl" />
           </button>
         )}
-      </section>
+      </section> */}
 
       <section className="mt-10 lg:mt-20">
         <RecentTransactions />

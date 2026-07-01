@@ -1,47 +1,81 @@
-import React, { FC } from "react";
+import React from "react";
 import TransactionCards from "./TransactionCards";
-import { ITransaction } from "../../../types/transactionTypes";
-import { useGetInvoices } from "../../invoice/hooks";
-import { InvoiceType } from "../../../types/invoiceTypes";
 import InvoicePagination from "../../invoice/components/InvoicePagination";
+import { useGetTransactions } from "../hooks";
+import { ITransaction } from "../../../types/transactionTypes";
+import Link from "next/link";
+import { walletRoutes } from "../../../config/routes";
 
 const RecentTransactions = () => {
-  const { data, isLoading, isError, error } = useGetInvoices({ paid: true });
-  const invoices = data?.invoice || [];
-  // const invoiceMeta = data?.meta;
-  const totalPages = data?.meta?.total_pages || 1;
+	const { data, isLoading, isError, error } = useGetTransactions();
 
-  // console.log(invoices);
+	const transactions = data?.data || [];
+	const totalPages = data?.meta?.total_pages || 1;
 
-  return (
-    <div className="">
-      <h5 className="text-sm font-medium lg:text-2xl">Recent Payments</h5>
-      <p className="text-center mt-20 text-xl lg:mt-32 lg:text-4xl animate-pulse">
-        Coming soon...
-      </p>
-    </div>
-    // <div>
-    //   <h5 className="text-sm font-medium lg:text-2xl">Recent Payments</h5>
+	// Loading state
+	if (isLoading) {
+		return (
+			<div>
+				<h5 className="text-sm font-medium lg:text-2xl">Recent Transactions</h5>
 
-    //   {invoices?.length === 0 && (
-    //     <div className="text-center mt-20 lg:text-xl">
-    //       No Recent Transactions
-    //     </div>
-    //   )}
+				<div className="mt-10 text-center text-gray-500 animate-pulse">
+					Loading transactions...
+				</div>
+			</div>
+		);
+	}
 
-    //   <div className="space-y-[15px] mt-2.5 lg:mt-7">
-    //     {invoices?.map((transaction: InvoiceType) => (
-    //       <TransactionCards key={transaction.id} {...transaction} />
-    //     ))}
-    //   </div>
+	// Error state
+	if (isError) {
+		return (
+			<div>
+				<h5 className="text-sm font-medium lg:text-2xl">Recent Transactions</h5>
 
-    //   {totalPages > 1 && (
-    //     <div className="mt-10 lg:mt-[60px]">
-    //       <InvoicePagination pageNumber={totalPages || 1} />
-    //     </div>
-    //   )}
-    // </div>
-  );
+				<div className="mt-10 rounded-lg border border-red-200 bg-red-50 p-4 text-center">
+					<p className="font-medium text-red-600">
+						Failed to load transactions.
+					</p>
+
+					<p className="mt-2 text-sm text-red-500">
+						{error instanceof Error
+							? error.message
+							: "Something went wrong. Please try again."}
+					</p>
+				</div>
+			</div>
+		);
+	}
+
+	return (
+		<div>
+			<div className="flex items-center justify-between">
+				<h5 className="text-sm font-medium lg:text-2xl">Recent Transactions</h5>
+				<p className="text-xs sm:text-base font-semibold text-primary-500 underline underline-offset-2">
+					<Link href={walletRoutes.TRANSACTIONS}>See All</Link>
+				</p>
+			</div>
+
+			{transactions.length === 0 ? (
+				<div className="mt-20 text-center lg:text-xl">
+					No Recent Transactions
+				</div>
+			) : (
+				<>
+					<div className="mt-2.5 space-y-[15px] lg:mt-7">
+						{transactions.map((transaction: ITransaction) => (
+							<TransactionCards key={transaction.id} {...transaction} />
+						))}
+					</div>
+
+					{totalPages > 1 && (
+						<div className="mt-10 lg:mt-[60px]">
+							<InvoicePagination pageNumber={totalPages} />
+						</div>
+					)}
+				</>
+			)}
+		</div>
+	);
 };
 
 export default RecentTransactions;
