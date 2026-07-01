@@ -30,9 +30,12 @@ export const profileRoutes = {
 };
 export const walletRoutes = {
 	WALLET: "/wallet",
-	TRANSACTIONS: "/wallet/transactions",
-	TRANSACTION: (id: string) => `/wallet/transactions/${id}`,
 };
+export const transactionsRoutes = {
+	TRANSACTIONS: "/transactions",
+	TRANSACTION: (id: string) => `/transactions/${id}`,
+};
+
 export const receiptRoutes = {
 	ACCOUNT_STATEMENT: "/account-statement",
 	PREVIEW_RECEIPT: (receipt_id: string) => `/receipts/${receipt_id}`,

@@ -1,9 +1,9 @@
 "use client";
 import { Copy } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useGetTransaction } from "../../../../../../features/wallet/hooks";
-import GoBack from "../../../../../../components/ui/custom/GoBack";
-import { useToast } from "../../../../../../hooks/useToast";
+import GoBack from "../../../../../components/ui/custom/GoBack";
+import { useToast } from "../../../../../hooks/useToast";
+import { useGetTransaction } from "../../../../../features/transactions/hooks";
 
 const TransactionPreview = () => {
 	const { id } = useParams();

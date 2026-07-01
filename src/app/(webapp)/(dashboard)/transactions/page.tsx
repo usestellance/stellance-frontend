@@ -1,5 +1,5 @@
 import React from "react";
-import Transactions from "../../../../../features/wallet/components/Transactions";
+import Transactions from "../../../../features/transactions/components/Transactions";
 
 export default function Page() {
 	return (

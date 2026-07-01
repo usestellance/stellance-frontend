@@ -9,7 +9,7 @@ import { FC } from "react";
 import { ITransaction } from "../../../types/transactionTypes";
 import { formatCurrency } from "../../../lib/utils/helpers";
 import Link from "next/link";
-import { walletRoutes } from "../../../config/routes";
+import { transactionsRoutes } from "../../../config/routes";
 
 const TransactionCards: FC<ITransaction> = ({
 	amount,
@@ -51,7 +51,7 @@ const TransactionCards: FC<ITransaction> = ({
 
 	return (
 		<Link
-			href={walletRoutes.TRANSACTION(id)}
+			href={transactionsRoutes.TRANSACTION(id)}
 			className="block rounded-xl bg-primary-20 p-4 sm:p-5 lg:p-6 border border-primary-50/60 transition-colors hover:bg-primary-400 duration-150"
 		>
 			<div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">

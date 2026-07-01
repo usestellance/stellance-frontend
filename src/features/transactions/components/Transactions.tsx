@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import TransactionCards from "./TransactionCards";
-import { useGetTransactions } from "../hooks";
 import { ITransaction } from "../../../types/transactionTypes";
 import TransactionPagination from "./TransactionPagination";
 import GoBack from "../../../components/ui/custom/GoBack";
+import { useGetTransactions } from "../hooks";
 
 const Transactions = () => {
 	const { data, isLoading, isError, error } = useGetTransactions();
@@ -50,9 +50,8 @@ const Transactions = () => {
 
 	return (
 		<div className="max-w[1200px] mx-auto">
-			<GoBack />
-			<h2 className="h2-app mt-[34px]">Transactions</h2>
-			<section className="">
+			<h2 className="h2-app">Transactions</h2>
+			<section className="mt-10">
 				{transactions.length === 0 ? (
 					<div className="mt-20 text-center lg:text-xl">
 						No Recent Transactions

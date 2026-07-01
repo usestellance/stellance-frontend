@@ -1,10 +1,10 @@
 import React from "react";
 import TransactionCards from "./TransactionCards";
 import InvoicePagination from "../../invoice/components/InvoicePagination";
-import { useGetTransactions } from "../hooks";
 import { ITransaction } from "../../../types/transactionTypes";
 import Link from "next/link";
-import { walletRoutes } from "../../../config/routes";
+import { transactionsRoutes } from "../../../config/routes";
+import { useGetTransactions } from "../hooks";
 
 const RecentTransactions = () => {
 	const { data, isLoading, isError, error } = useGetTransactions();
@@ -51,7 +51,7 @@ const RecentTransactions = () => {
 			<div className="flex items-center justify-between">
 				<h5 className="text-sm font-medium lg:text-2xl">Recent Transactions</h5>
 				<p className="text-xs sm:text-base font-semibold text-primary-500 underline underline-offset-2">
-					<Link href={walletRoutes.TRANSACTIONS}>See All</Link>
+					<Link href={transactionsRoutes.TRANSACTIONS}>See All</Link>
 				</p>
 			</div>
 
