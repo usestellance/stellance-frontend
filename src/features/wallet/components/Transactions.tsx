@@ -4,6 +4,7 @@ import TransactionCards from "./TransactionCards";
 import { useGetTransactions } from "../hooks";
 import { ITransaction } from "../../../types/transactionTypes";
 import TransactionPagination from "./TransactionPagination";
+import GoBack from "../../../components/ui/custom/GoBack";
 
 const Transactions = () => {
 	const { data, isLoading, isError, error } = useGetTransactions();
@@ -11,7 +12,7 @@ const Transactions = () => {
 	const transactions = data?.data || [];
 	const totalPages = data?.totalPages || 1;
 
-	console.log(transactions);
+	// console.log(transactions);
 
 	// Loading state
 	if (isLoading) {
@@ -49,9 +50,9 @@ const Transactions = () => {
 
 	return (
 		<div className="max-w[1200px] mx-auto">
-			<h2 className="h2-app">Transactions</h2>
-
-			<section>
+			<GoBack />
+			<h2 className="h2-app mt-[34px]">Transactions</h2>
+			<section className="">
 				{transactions.length === 0 ? (
 					<div className="mt-20 text-center lg:text-xl">
 						No Recent Transactions

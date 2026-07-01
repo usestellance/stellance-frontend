@@ -3,9 +3,11 @@ import { Copy } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useGetTransaction } from "../../../../../../features/wallet/hooks";
 import GoBack from "../../../../../../components/ui/custom/GoBack";
+import { useToast } from "../../../../../../hooks/useToast";
 
 const TransactionPreview = () => {
 	const { id } = useParams();
+	const toast = useToast();
 
 	const { data, isLoading, isError } = useGetTransaction(id as string);
 
@@ -75,9 +77,10 @@ const TransactionPreview = () => {
 							</p>
 
 							<button
-								onClick={() =>
-									navigator.clipboard.writeText(data.transaction_hash)
-								}
+								onClick={() => {
+									toast.info("Transaction hash copied to clipboard");
+									navigator.clipboard.writeText(data.transaction_hash);
+								}}
 							>
 								<Copy size={18} />
 							</button>
