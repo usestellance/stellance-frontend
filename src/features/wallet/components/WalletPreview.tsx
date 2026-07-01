@@ -9,13 +9,21 @@ import { RiFileCopyLine } from "react-icons/ri";
 import WalletRadio from "./WalletRadio";
 import { useWalletStore } from "../../../store/useWalletStore";
 import RecentTransactions from "../../transactions/components/RecentTransactions";
+import WalletActions from "./WalletActions";
+import { useState } from "react";
+import CreatePinDialog from "./pin/CreatePinDialog";
+import ExportKeysDialog from "./ExportConfirmDialog";
 
 const WalletPreview = () => {
 	const toast = useToast();
 	const credentials = useAuthStore((state) => state.credentials);
 	// const { data } = useGetWallet();
+  const [showExportDialog, setShowExportDialog] = useState(false);
 	const { wallet } = useWalletStore();
 	const walletDetails: IWallet = credentials?.user?.wallet || {};
+	const [showCreatePin, setShowCreatePin] = useState(false);
+
+
 
 	const handleCopy = async () => {
 		try {
@@ -84,9 +92,23 @@ const WalletPreview = () => {
         )}
       </section> */}
 
+			<section className="mt-8">
+				<WalletActions
+					onCreatePin={() => setShowCreatePin(true)}
+					onExportKeys={() => setShowExportDialog(true)}
+				/>
+			</section>
+
 			<section className="mt-10 lg:mt-20">
 				<RecentTransactions />
 			</section>
+
+			<CreatePinDialog open={showCreatePin} onOpenChange={setShowCreatePin} />
+
+			<ExportKeysDialog
+				open={showExportDialog}
+				onOpenChange={setShowExportDialog}
+			/>
 		</div>
 	);
 };

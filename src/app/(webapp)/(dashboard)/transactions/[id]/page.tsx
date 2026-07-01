@@ -34,12 +34,12 @@ const TransactionPreview = () => {
 	}).format(new Date(data.confirmed_at || data.created_at));
 
 	return (
-		<div className="max-w-3xl mx-auto pt-10">
+		<div className="max-w-3xl mx-auto pt-10 custom-container pb-20">
 			<div>
 				<GoBack />
 			</div>
-			<div className="mt-10 rounded-xl bg-primary-20 border border-primary-50 p-8">
-				<div className="flex justify-between items-center mb-8">
+			<div className="mt-10 rounded-xl bg-primary-20 border border-primary-50 p-4 sm:p-8">
+				<div className="flex justify-between items-center mb-8 max-sm:flex-col max-sm:items-start gap-3">
 					<h2 className="text-2xl font-semibold">Transaction Details</h2>
 
 					<span className="rounded-full bg-success-50 text-success-600 px-4 py-1 text-sm capitalize">
@@ -102,9 +102,11 @@ interface DetailProps {
 }
 
 const Detail = ({ label, value }: DetailProps) => (
-	<div className="flex justify-between items-start border-b border-primary-50 pb-4 gap-5">
+	<div className="flex max-sm:flex-col justify-between items-start border-b border-primary-50 pb-4 gap-1 sm:gap-5">
 		<p className="text-neutral-900">{label}</p>
 
-		<p className="font-medium  text-right break-all">{value}</p>
+		<p className="font-medium  text-right max-sm:text-start break-all">
+			{value}
+		</p>
 	</div>
 );

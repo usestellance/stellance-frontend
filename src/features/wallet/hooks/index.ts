@@ -86,4 +86,74 @@ export const useGetWallet = () => {
 	});
 };
 
+// Create Pin Hook
+interface CreatePinPayload {
+	pin: string;
+}
 
+export const useCreatePin = () => {
+	const { post } = useAxiosAuth();
+	const queryClient = useQueryClient();
+	const credentials = useAuthStore((state) => state.credentials);
+
+	console.log(credentials, "credentials");
+
+	const walletId = useAuthStore((state) => state.credentials?.user?.wallet?.id);
+
+	return useMutation({
+		mutationFn: async (payload: CreatePinPayload) => {
+			if (!walletId) {
+				throw new Error("Wallet not found.");
+			}
+
+			const { data } = await post(`/wallet/${walletId}/pin`, payload);
+
+			return data;
+		},
+
+		onSuccess: () => {
+			// Refresh wallet details if needed
+			queryClient.invalidateQueries({
+				queryKey: ["wallet"],
+			});
+
+			// Refresh transactions if necessary
+			queryClient.invalidateQueries({
+				queryKey: ["transactions"],
+			});
+		},
+	});
+};
+
+export const useExportWalletKeys = () => {
+	const { get } = useAxiosAuth();
+
+	const walletId = useAuthStore((state) => state.credentials?.user?.wallet?.id);
+
+	return useMutation({
+		mutationFn: async () => {
+			const response = await get(`/wallet/${walletId}/export`, {
+				responseType: "blob",
+			});
+
+			const blob = new Blob([response.data], {
+				type: "application/pdf",
+			});
+
+			const url = window.URL.createObjectURL(blob);
+
+			const link = document.createElement("a");
+
+			link.href = url;
+			link.download = "wallet-keys.pdf";
+
+			document.body.appendChild(link);
+
+			link.click();
+
+			link.remove();
+
+			window.URL.revokeObjectURL(url);
+		},
+	});
+};
