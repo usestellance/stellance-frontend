@@ -13,17 +13,17 @@ import WalletActions from "./WalletActions";
 import { useState } from "react";
 import CreatePinDialog from "./pin/CreatePinDialog";
 import ExportKeysDialog from "./ExportConfirmDialog";
+import TransferFundsDialog from "./transfer/TransferFundsDialog";
 
 const WalletPreview = () => {
 	const toast = useToast();
 	const credentials = useAuthStore((state) => state.credentials);
 	// const { data } = useGetWallet();
-  const [showExportDialog, setShowExportDialog] = useState(false);
+	const [showTransferFunds, setShowTransferFunds] = useState(false);
+	const [showExportDialog, setShowExportDialog] = useState(false);
 	const { wallet } = useWalletStore();
 	const walletDetails: IWallet = credentials?.user?.wallet || {};
 	const [showCreatePin, setShowCreatePin] = useState(false);
-
-
 
 	const handleCopy = async () => {
 		try {
@@ -94,6 +94,7 @@ const WalletPreview = () => {
 
 			<section className="mt-8">
 				<WalletActions
+					onTransferFunds={() => setShowTransferFunds(true)}
 					onCreatePin={() => setShowCreatePin(true)}
 					onExportKeys={() => setShowExportDialog(true)}
 				/>
@@ -108,6 +109,11 @@ const WalletPreview = () => {
 			<ExportKeysDialog
 				open={showExportDialog}
 				onOpenChange={setShowExportDialog}
+			/>
+
+			<TransferFundsDialog
+				open={showTransferFunds}
+				onOpenChange={setShowTransferFunds}
 			/>
 		</div>
 	);

@@ -7,6 +7,14 @@ import { useAuthStore, useLogout } from "../../../store/userAuthStore";
 import { authRoutes } from "../../../config/routes";
 import { useTransactionFilter } from "../../../store/useTransactionStore";
 
+export interface TransferFundsPayload {
+  amount: string;
+  destination_address: string;
+  source_asset: "XLM" | "USDC";
+  dest_asset: "XLM" | "USDC";
+  pin: string;
+}
+
 interface WalletResponseType {
 	message: string;
 	data: {
@@ -154,6 +162,36 @@ export const useExportWalletKeys = () => {
 			link.remove();
 
 			window.URL.revokeObjectURL(url);
+		},
+	});
+};
+
+
+export const useTransferFunds = () => {
+	const { post } = useAxiosAuth();
+	const queryClient = useQueryClient();
+
+	const walletId = useAuthStore((state) => state.credentials?.user?.wallet?.id);
+
+	return useMutation({
+		mutationFn: async (payload: TransferFundsPayload) => {
+			if (!walletId) {
+				throw new Error("Wallet not found.");
+			}
+
+			const { data } = await post(`/wallet/${walletId}/pay/transfer`, payload);
+
+			return data;
+		},
+
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["wallet"],
+			});
+
+			queryClient.invalidateQueries({
+				queryKey: ["transactions"],
+			});
 		},
 	});
 };

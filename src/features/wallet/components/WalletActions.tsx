@@ -6,11 +6,16 @@ import {
 import { useRouter } from "next/navigation";
 
 interface Props {
+	onTransferFunds: () => void;
 	onCreatePin: () => void;
 	onExportKeys: () => void;
 }
 
-const WalletActions = ({ onCreatePin, onExportKeys }: Props) => {
+const WalletActions = ({
+	onTransferFunds,
+	onCreatePin,
+	onExportKeys,
+}: Props) => {
 	const router = useRouter();
 
 	const actions = [
@@ -18,7 +23,7 @@ const WalletActions = ({ onCreatePin, onExportKeys }: Props) => {
 			title: "Transfer Funds",
 			description: "Send crypto to another wallet",
 			icon: LucideArrowRightLeft,
-			onClick: () => router.push("/wallet/transfer"),
+			onClick: onTransferFunds,
 		},
 		{
 			title: "Export Keys",
